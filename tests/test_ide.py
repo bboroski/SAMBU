@@ -67,6 +67,8 @@ class Duck {
         ide = SambuIDE()
         self.assertIn("channel", ide.complete("chan"))
         self.assertIn("class", ide.complete("cl"))
+        self.assertIn("kg", ide.complete("kg"))
+        self.assertIn("voxel_grid", ide.complete("voxel"))
         self.assertEqual(len(ide.complete("", limit=3)), 3)
         with self.assertRaises(ValueError):
             ide.complete("", limit=0)
