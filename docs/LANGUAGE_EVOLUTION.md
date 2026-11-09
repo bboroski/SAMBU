@@ -43,7 +43,7 @@ Stack allocation is preferred when lifetime and size are known; heap allocation 
 
 ## 5. Stellar resource lifecycle
 
-**Main sequence — stable execution.** Use predictable allocation, bounded task pools, pooled network buffers, batched asynchronous storage and instrumentation. Pool sizes are configurable, not blindly equated to physical core count.
+**Main sequence — stable execution.** Use predictable allocation, bounded task pools, pooled network buffers, batched asynchronous storage and instrumentation. Pool sizes are configurable, not blindly equated to physical core count. NUMA placement, CPU affinity and priority inheritance are opt-in scheduler policies with target-specific semantics.
 
 **Red giant — controlled expansion.** Apply quotas, bounded actor mailboxes, backpressure, cache-aware data and contention profiling. AoS and SoA are chosen by measured access patterns; neither is universally superior. Lock-free structures are optional specialized implementations with documented memory ordering.
 
