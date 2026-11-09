@@ -610,15 +610,18 @@ class Interpreter:
                     raise SambuRuntimeError(f"cannot extend final class {base.name!r}")
 
                 trait_methods: dict[str, UserFunction] = {}
+                trait_conflicts: set[str] = set()
                 for trait_name in metadata.get("traits", []):
                     trait = env.get(trait_name)
                     if not isinstance(trait, SambuTrait):
                         raise SambuRuntimeError(f"{trait_name!r} is not a SAMBU trait")
                     for method_name, source_method in trait.methods.items():
+                        if method_name in trait_conflicts:
+                            continue
                         if method_name in trait_methods:
-                            raise SambuRuntimeError(
-                                f"trait method conflict for {method_name!r}; add an explicit class override"
-                            )
+                            del trait_methods[method_name]
+                            trait_conflicts.add(method_name)
+                            continue
                         trait_methods[method_name] = UserFunction(
                             source_method.name, source_method.params, source_method.body,
                             source_method.closure, self,
@@ -630,6 +633,15 @@ class Interpreter:
                             },
                         )
 
+                explicit_method_names = {
+                    method_node[1] for method_node in method_nodes
+                }
+                unresolved_trait_conflicts = trait_conflicts - explicit_method_names
+                if unresolved_trait_conflicts:
+                    names = ", ".join(sorted(unresolved_trait_conflicts))
+                    raise SambuRuntimeError(
+                        f"trait method conflict for {names}; provide an explicit class override"
+                    )
                 methods: dict[str, UserFunction] = dict(trait_methods)
                 explicit_names: set[str] = set()
                 for method_node in method_nodes:
