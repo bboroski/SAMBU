@@ -26,6 +26,7 @@ jobs:
       - run: sambu examples/neo_modern_blueprint.sambu
       - run: sambu examples/text_craft.sambu
       - run: sambu examples/workflows.sambu
+      - run: sambu examples/04coq_filtering.sambu
       - run: sambu-studio inspect examples/magento_reference
       - run: sambu-studio inspect examples/magento_reference --format json > /tmp/sambu-studio-report.json
       - run: python -c "import json; report=json.load(open('/tmp/sambu-studio-report.json', encoding='utf-8')); assert report['is_valid'] and report['summary']['plugins'] == 1"
