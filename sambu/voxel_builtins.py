@@ -6,14 +6,13 @@ the consuming game-engine adapter.
 """
 from __future__ import annotations
 
-import math
 from typing import Callable
 
 from .values import Record, number_value
 from .voxels import (
     SparseLaplacian, SparseVoxelGrid, SparseVoxelOctree,
     SpielmanSpectralSparsifier, engine_payload, graph_from_voxels,
-    plan_frame_updates,
+    plan_frame_updates, VoxelGraph,
 )
 
 
@@ -102,12 +101,6 @@ def _voxel_chunks(args: list[object]) -> list[Record]:
         })
         for chunk in _grid(args[0]).iter_chunks()
     ]
-
-
-def _voxel_frame_plan(args: list[object]) -> Record:
-    if len(args) != 5:
-        raise TypeError("voxel_frame_plan(frame, grid, camera_x, camera_y, camera_z, max_chunks) expects 6 arguments")
-    raise TypeError("voxel_frame_plan expects frame, grid, camera position array, max_chunks")
 
 
 def _frame_plan(args: list[object]) -> Record:
@@ -207,7 +200,7 @@ def _voxel_sparsify(args: list[object]) -> Record:
     if len(args) not in {1,2,3}:
         raise TypeError("voxel_sparsify(spectral_profile, epsilon=0.5, seed=0) expects 1 to 3 arguments")
     profile = args[0]
-    if not isinstance(profile,Record) or not isinstance(profile.get("graph"),object):
+    if not isinstance(profile,Record) or not isinstance(profile.get("graph"), VoxelGraph):
         raise TypeError("first argument must be a voxel_spectral_profile() result")
     epsilon = number_value(args[1],"epsilon") if len(args)>=2 else 0.5
     seed = _integer(args[2],"seed",0,(1 << 31)-1) if len(args)==3 else 0
