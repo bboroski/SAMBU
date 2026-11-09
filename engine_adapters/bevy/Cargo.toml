@@ -1,0 +1,9 @@
+[package]
+name = "sambu_voxel_bridge"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Bevy mesh bridge for SAMBU sparse voxel chunks"
+
+[dependencies]
+bevy = { version = "0.15", default-features = false, features = ["bevy_asset", "bevy_mesh"] }
