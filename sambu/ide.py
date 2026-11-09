@@ -230,7 +230,7 @@ class SambuIDE:
             token_count = len(tokenize(source))
             program = parse_ast(source)
             symbols = _nested_symbols(program.statements)
-        except (SambuSyntaxError, ValueError, TypeError) as exc:
+        except (SambuSyntaxError, ValueError, TypeError, RecursionError) as exc:
             diagnostics = (_diagnostic_from_error(exc),)
         self._documents[uri] = _OpenDocument(version, source_hash)
         return IDEInspection(
