@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sambu-language"
-version = "0.9.0"
+version = "0.10.0"
 description = "A scientific, systems, text-analysis, workflow and declarative filtering language"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,9 +20,16 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+flask = ["Flask>=3.0"]
+django = ["Django>=4.2"]
+fastapi = ["fastapi>=0.110"]
+web = ["Flask>=3.0", "Django>=4.2", "fastapi>=0.110"]
+
 [project.scripts]
 sambu = "sambu.cli:main"
 sambu-studio = "sambu_studio.cli:main"
+sambu-test = "sambu.testing:main"
 
 [tool.setuptools.packages.find]
 include = ["sambu*", "sambu_studio*"]
