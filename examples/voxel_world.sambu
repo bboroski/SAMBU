@@ -1,0 +1,28 @@
+# Build a tiny sparse voxel world using native SAMBU built-ins.
+let world = voxel_grid(16, 100000)
+voxel_set(world, 0, 0, 0, 2)
+voxel_set(world, 1, 0, 0, 2)
+voxel_set(world, 2, 0, 0, 3)
+voxel_set(world, 0, 1, 0, 4)
+
+let mesh = voxel_mesh(world)
+let tree = voxel_octree(world)
+let frame = voxel_frame_plan(1, world, [0, 0, 0], 4)
+let spectral = voxel_spectral_profile(world)
+let field = voxel_solve_field(spectral, [1, 0, 0, -1])
+let compact = voxel_sparsify(spectral, 50%, 7)
+
+print(voxel_count(world))
+print(mesh.face_count)
+print(mesh.triangle_count)
+print(tree.node_count)
+print(voxel_octree_get(tree, 2, 0, 0))
+print(count(frame.selected_chunks))
+print(spectral.matrix_nonzeros)
+print(field.solver)
+print(compact.method)
+
+# Portable JSON payloads can be consumed by Unity, Unreal, Godot,
+# Bevy, O3DE, or a project-specific renderer.
+let portable = voxel_export(world, "generic")
+print(len(portable))
