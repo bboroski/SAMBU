@@ -1,0 +1,34 @@
+# Experimental actor, supervisor and typed-channel runtime slice.
+
+fn accumulate(state, message) {
+  return state + message
+}
+
+let counter = actor(accumulate, 0, 16)
+actor_send(counter, 12)
+actor_send(counter, 30)
+let batch = actor_drain(counter, 8)
+print(batch.processed)
+print(actor_state(counter))
+
+fn guarded(state, message) {
+  if (message == 0) {
+    return 1 / 0
+  }
+  return state + message
+}
+
+let worker = actor(guarded, 5, 16)
+let command = supervisor("one_for_one", 3, 60)
+supervise(command, worker)
+
+actor_send(worker, 0)
+let failed_attempt = actor_drain(worker)
+print(failed_attempt.status)
+print(actor_state(worker))
+let health = supervisor_status(command)
+print(health.strategy)
+
+let telemetry = channel("text", 8)
+channel_send(telemetry, "runtime: healthy")
+print(channel_receive(telemetry))
