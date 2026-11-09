@@ -1,0 +1,19 @@
+# A first SAMBU program: thermal scales for an ideal gas.
+let particles = 1000
+let temperature = 300 * K
+let argon_mass = 6.6335209e-26 * kg
+
+let average_energy = thermal_energy(temperature)
+let velocity = maxwell(temperature, argon_mass)
+
+print("SAMBU / ideal-gas example")
+print("particle count:")
+print(particles)
+print("mean translational kinetic energy:")
+print(average_energy)
+print("most probable molecular speed:")
+print(velocity.most_probable)
+print("mean molecular speed:")
+print(velocity.mean)
+print("root-mean-square speed:")
+print(velocity.rms)

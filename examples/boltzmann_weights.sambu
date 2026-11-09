@@ -1,0 +1,13 @@
+# Boltzmann weights and a discrete partition function.
+let temperature = 300 * K
+let levels = [0 * eV, 0.025 * eV, 0.050 * eV, 0.100 * eV]
+
+print("Boltzmann weights at 300 K:")
+print(boltzmann(levels[0], temperature))
+print(boltzmann(levels[1], temperature))
+print(boltzmann(levels[2], temperature))
+print(boltzmann(levels[3], temperature))
+print("partition function:")
+print(partition(levels, temperature))
+print("entropy of a four-state probability distribution:")
+print(entropy([0.4, 0.3, 0.2, 0.1]))
