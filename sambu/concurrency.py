@@ -197,24 +197,27 @@ class FiberScheduler:
                 fiber = self._fibers[identifier]
                 if fiber.status != "ready":
                     continue
+                if fiber.steps >= fiber.step_limit:
+                    fiber.status = "failed"
+                    fiber.error = "per-fiber step budget exceeded"
+                    continue
                 fiber.status = "running"
             try:
                 yielded = next(fiber.iterator)
             except StopIteration as stop:
                 with self._lock:
+                    fiber.steps += 1
                     fiber.result = stop.value
                     fiber.status = "completed"
             except Exception as exc:
                 with self._lock:
+                    fiber.steps += 1
                     fiber.error = f"{type(exc).__name__}: {exc}"
                     fiber.status = "failed"
             else:
                 with self._lock:
                     fiber.steps += 1
-                    if fiber.steps > fiber.step_limit:
-                        fiber.status = "failed"
-                        fiber.error = "per-fiber step budget exceeded"
-                    elif yielded is None or isinstance(yielded, YieldNow):
+                    if yielded is None or isinstance(yielded, YieldNow):
                         fiber.status = "ready"
                         self._ready.append(identifier)
                     elif isinstance(yielded, SleepTicks):
@@ -393,46 +396,54 @@ class Actor:
 
     def drain(self, *, max_messages: int = 1) -> dict[str, object]:
         limit = _positive_int(max_messages, "max_messages", maximum=1_000_000)
+        with self._lock:
+            if self._processing:
+                raise ConcurrencyError(f"actor {self.name!r} cannot re-enter its own drain loop")
+            self._processing = True
         processed_before = self.processed
         failed_now = False
-        while self.processed - processed_before < limit:
-            with self._lock:
-                if self.status != "active" or not self._mailbox:
-                    break
-                message = self._mailbox.popleft()
-                working_state = _bounded_payload(
-                    self._state, max_bytes=self.max_payload_bytes
-                )
-                try:
-                    next_state = self.handler(working_state, message)
-                    committed = _bounded_payload(
-                        next_state, max_bytes=self.max_payload_bytes
+        try:
+            while self.processed - processed_before < limit:
+                with self._lock:
+                    if self.status != "active" or not self._mailbox:
+                        break
+                    message = self._mailbox.popleft()
+                    working_state = _bounded_payload(
+                        self._state, max_bytes=self.max_payload_bytes
                     )
-                except Exception as exc:
-                    self.failures += 1
-                    self.last_error = f"{type(exc).__name__}: {exc}"
-                    self._dead_letters.append({
-                        "message": message,
-                        "error": self.last_error,
-                        "generation": self.generation,
-                    })
-                    self.status = "failed"
-                    supervisor = self._supervisor
-                    failed_now = True
-                else:
-                    self._state = committed
-                    self.processed += 1
-                    supervisor = None
-            if failed_now:
-                if supervisor is not None:
-                    supervisor._child_failed(self, self.last_error or "actor failure")
-                break
-        return {
-            "processed": self.processed - processed_before,
-            "failures": self.failures,
-            "queued": self.queue_depth,
-            "status": self.status,
-        }
+                    try:
+                        next_state = self.handler(working_state, message)
+                        committed = _bounded_payload(
+                            next_state, max_bytes=self.max_payload_bytes
+                        )
+                    except Exception as exc:
+                        self.failures += 1
+                        self.last_error = f"{type(exc).__name__}: {exc}"
+                        self._dead_letters.append({
+                            "message": message,
+                            "error": self.last_error,
+                            "generation": self.generation,
+                        })
+                        self.status = "failed"
+                        supervisor = self._supervisor
+                        failed_now = True
+                    else:
+                        self._state = committed
+                        self.processed += 1
+                        supervisor = None
+                if failed_now:
+                    if supervisor is not None:
+                        supervisor._child_failed(self, self.last_error or "actor failure")
+                    break
+            return {
+                "processed": self.processed - processed_before,
+                "failures": self.failures,
+                "queued": self.queue_depth,
+                "status": self.status,
+            }
+        finally:
+            with self._lock:
+                self._processing = False
 
     @property
     def queue_depth(self) -> int:
