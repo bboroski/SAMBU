@@ -122,6 +122,10 @@ print(bound(3))
         with self.assertRaises(ValueError):
             biometric_taxonomy_sort([[["duck", 1]], ["webbed", "webbed"]])
 
+    def test_taxonomy_bounds_feature_count_to_exact_numeric_mask_range(self):
+        with self.assertRaises(ValueError):
+            biometric_taxonomy_sort([[["bird", 0]], [f"f{i}" for i in range(54)]])
+
     def test_wetland_loop_recommends_bounded_scale_up(self):
         plan = wetland_ecosystem_loop([900, 100, 4, 2, 12, 0.75])
         self.assertEqual(plan.get("desired_workers"), 12)
