@@ -1,14 +1,15 @@
 # SAMBU voxel engine adapters
 
-SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for five major engine families. These are integration source files, not prebuilt engine plugins: each engine SDK must be installed in the host project, and the bridge must be compiled there.
+SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for five major engine families. These are integration source files, not prebuilt engine plugins: each engine SDK must be installed in the host project, and the bridge must be compiled there. The current maintained starter bridges target five major engine families; additional registered profiles describe the common payload contract only.
 
 | Engine | Bridge | Geometry path | Compute path |
 |---|---|---|---|
 | Unity | unity/SambuVoxelBridge.cs | Mesh / MeshFilter | ComputeShader + GraphicsBuffer |
 | Unreal Engine | unreal/SambuVoxelBridge.h/.cpp | UProceduralMeshComponent | Host RDG / RHI compute shader |
 | Godot | godot/SambuVoxelBridge.gd | ArrayMesh / MeshInstance3D | RenderingDevice |
-| Bevy | bevy/ Rust crate | Assets<Mesh> / mesh attributes | Render-world wgpu pipeline |
+| Bevy 0.20.1 | bevy/ Rust crate | Assets<Mesh> / Mesh3d | Render-world wgpu pipeline |
 | Open 3D Engine | o3de/SambuVoxelMeshData.h | Atom RPI FeatureProcessor | Atom RHI / FrameGraph |
+| Flax, Stride, UNIGINE, OGRE, Source 2 | Generic payload profiles | Host-specific renderer integration | Host-selected compute API |
 
 An unlisted engine can consume engine_payload(grid, "generic"), the JSON voxel schema, triangle arrays, or MagicaVoxel .vox interchange. Generic is an extension contract, not an assertion that every engine has already been integrated.
 
@@ -49,7 +50,7 @@ Attach SambuVoxelBridge.gd to a node and assign a MeshInstance3D. RenderingDevic
 
 ### Bevy
 
-Add the local crate as a Cargo dependency and pin the Bevy version with the host app. The starter mesh builder targets Bevy 0.15. For compute, implement a render-world node using the Bevy render device and queue; do not perform blocking GPU readback in the frame loop.
+Add the local crate as a Cargo dependency and pin the Bevy version with the host app. The starter mesh builder targets Bevy 0.20.1 (current profile release at repository update). For compute, implement a render-world node using the Bevy render device and queue; do not perform blocking GPU readback in the frame loop.
 
 ### Open 3D Engine
 
@@ -61,3 +62,10 @@ Use the C++ mesh data contract inside a Gem. The Gem should own an Atom RPI Feat
 - unity/SambuVisibleFaces.compute: Unity HLSL compute equivalent.
 
 These passes write one six-bit face mask per occupied cell. A second prefix-sum/compaction pass is required to allocate exact vertex/index ranges.
+
+
+## Registered payload-only profiles
+
+The Python engine registry also knows the identifiers flax, stride, unigine, ogre and source2. For those targets, engine_payload() labels the engine family and returns the same portable chunk/frame/mesh data, but there is no SDK-specific implementation in this repository yet. A named profile is not a claim of a compiled or tested native plugin.
+
+The core cannot provide one universal native plugin for literally every game engine or SDK version: APIs, licensing, renderer backends, GPU resource lifetimes and supported platforms differ. The JSON/mesh interchange format is the stable boundary intended to make additional adapters small and testable.
