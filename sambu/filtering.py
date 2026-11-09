@@ -423,7 +423,7 @@ class FilteringEngine:
             raise FilterConfigurationError(f"coq_pipeline accepts at most {_MAX_ITEMS:,} input items")
         if not isinstance(stages, list) or not 1 <= len(stages) <= _MAX_STAGES:
             raise FilterConfigurationError(
-                f"coq_pipeline requires 1 to {_MAX_STAGES} stages"
+                f"coq_pipeline accepts 1 to {_MAX_STAGES} stages (at most {_MAX_STAGES})"
             )
         current = list(items)
         summaries: list[Record] = []
