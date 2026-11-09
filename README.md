@@ -431,6 +431,8 @@ SAMBU repository
 │   ├── aikido.py          Inference orchestration
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
+│   ├── machine.py         Layer checks, code sampling and failure memory
+│   ├── ide.py             Headless document and editor services
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
