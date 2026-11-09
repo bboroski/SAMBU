@@ -1,6 +1,6 @@
 """SAMBU language public API."""
 
-__version__ = "0.8.0"
+__version__ = "0.9.0"
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
@@ -25,4 +25,9 @@ from .jiu_jitsu import (  # noqa: F401
     AccessDenied, JiuJitsu, JiuJitsuApp, JiuJitsuError, ModalDefinition,
     ModalManager, Role, RoleManager, ViewController, ViewDefinition,
     ViewNode, ViewSnapshot,
+)
+
+from .filtering import (  # noqa: F401
+    FilterConfigurationError, FilterEvaluation, FilterRule,
+    FilteringEngine, RuleEvaluation,
 )
