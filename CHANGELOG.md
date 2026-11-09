@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0 — 2026-11-09
+
+- Added `audio_profile` to validate tempo, swing, snare timing, master ceiling and production-feature flags without rendering or mastering audio.
+- Added `order_pipeline` to check durable-outbox, persisted-idempotency, inventory-reservation, payment-authorization, post-commit acknowledgement, supervised-worker and DLQ invariants with at-least-once semantics.
+- Added `studio_offer` for configurable introductory-class conversion targets and multi-session package economics.
+- Added `capture_node` to model resistance depletion and ownership transfer only when a target reaches zero resistance.
+- Added a cross-domain runnable blueprint example, regression tests and operational boundary documentation.
+- Preserved the existing queue, schedule, funnel, network and `capture_tower` behavior.
+
+
 ## 0.4.0 — 2026-11-09
 
 - Added public immutable `SourcePosition` and end-exclusive `SourceSpan` primitives.

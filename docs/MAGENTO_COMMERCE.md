@@ -2,7 +2,7 @@
 
 ## Purpose and boundary
 
-This document defines a reference architecture that SAMBU can describe and validate. It is not executable Magento integration code. SAMBU 0.3.0 has no network, database, payment, or RabbitMQ transport; it cannot replace Magento's checkout service or guarantee that a remote side effect has completed.
+This document defines a reference architecture that SAMBU can describe and validate. It is not executable Magento integration code. SAMBU 0.5.0 has no network, database, payment, or RabbitMQ transport; it cannot replace Magento's checkout service or guarantee that a remote side effect has completed.
 
 Magento / Adobe Commerce should remain the system of record for carts, quotes, orders, inventory reservations, customers, tax, and payment state. SAMBU models orchestration policies and invariants around those systems. A future adapter must be a separate, version-pinned package with integration tests against the exact Commerce release and enabled modules.
 
@@ -101,6 +101,18 @@ print(delays)
 
 Here, four workers with prefetch eight allow at most 32 messages in flight by this simple model. Four total processing attempts mean three retries after the initial attempt. The schedule is capped exponential backoff in seconds. Actual broker policies, consumer declarations, and retry transport must be configured independently.
 
+The `order_pipeline` function packages the key checklist into one inspectable result:
+
+```sambu
+let queue = queue_profile("heavy_orders_queue", 4, 8, 3, true)
+let flow = order_pipeline(queue, true, true, true, true, true, true)
+print(flow.invariants_satisfied)
+print(flow.blockers)
+print(flow.steps)
+```
+
+The six flags assert that the adapter has a durable outbox, persisted idempotency, inventory reservation, payment authorization, acknowledgement only after order-state commit, and supervised workers. The queue profile must also enable dead-letter routing. A passing checklist is not evidence of deployed configuration or transaction success. The customer response remains a pending reference until the authoritative order state commits; broker acceptance alone is not order confirmation.
+
 ## Failure handling
 
 - Retry transient network, provider, and lock-contention failures with bounded exponential backoff and jitter.
@@ -128,7 +140,7 @@ A production adapter should be implemented as a conventional Magento module with
 
 Pin supported Adobe Commerce / Magento Open Source versions, PHP versions, RabbitMQ versions, and enabled modules. Treat Adobe Commerce Cloud deployment constraints separately from self-managed infrastructure. Verify queue transport settings, secrets management, TLS, least-privilege broker accounts, database capacity, and rollback behavior in each environment.
 
-## Non-goals in SAMBU 0.3
+## Non-goals in SAMBU 0.5
 
 - No Magento runtime, module generator, checkout replacement, or production connector.
 - No direct RabbitMQ publish / consume implementation.
