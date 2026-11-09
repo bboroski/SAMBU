@@ -38,7 +38,7 @@ encode_morton3 and decode_morton3 use a 63-bit Morton key with signed 21-bit coo
 - raycast() uses Amanatides–Woo 3D grid traversal in the configured voxel frame.
 - SparseVoxelOctree recursively stores occupied octants and represents empty regions through absent child bits.
 
-The CPU mesh builder is a reference exposed-face mesher. It is not yet a greedy mesher, transvoxel LOD implementation, dual contouring, or a GPU geometry emitter.
+The CPU mesh builder is a reference exposed-face mesher. It is not yet a greedy mesher, transvoxel LOD implementation, dual contouring, or a GPU geometry emitter. It also enforces a default one-million-visible-face allocation ceiling; callers can lower or raise the explicit max_faces bound up to the configured hard limit. Exceeding the ceiling fails before mesh arrays are allocated.
 
 ## Spielman spectral systems
 
