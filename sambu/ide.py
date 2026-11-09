@@ -16,6 +16,8 @@ from .machine import (
     MAX_SOURCE_BYTES,
 )
 from .parser import parse_ast
+from .runtime import _BUILTINS
+from .values import UNITS
 
 
 _KEYWORDS = (
@@ -30,7 +32,10 @@ _BUILTINS = (
     "percent_of", "range", "sample_maxwell", "sqrt", "sum", "supervise",
     "supervisor", "supervisor_status", "thermal_energy", "variance",
 )
-_COMPLETIONS = tuple(sorted(set(_KEYWORDS + _BUILTINS)))
+_PREDECLARED = (
+    "pi", "e", "k_B", "h", "hbar", "c", "N_A", "R", "G", "version",
+)
+_COMPLETIONS = tuple(sorted(set(_KEYWORDS) | set(_BUILTINS) | set(_BUILTINS.keys()) | set(UNITS) | set(_PREDECLARED)))
 
 
 class IDEError(RuntimeError):
