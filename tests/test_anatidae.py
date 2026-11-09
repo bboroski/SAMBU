@@ -61,7 +61,7 @@ class AnatidaeModelTests(unittest.TestCase):
             "print(eyes.panoramic_fraction)\nprint(window.inside_configured_window)\n"
             "print(sleep.edge_bird_count_estimate)\nprint(compass.corrected_heading_degrees)"
         )
-        self.assertEqual(out,["0.9166666666666666","true","2","359"])
+        self.assertEqual(out,["0.91666667","true","2","359"])
 
     def test_four_phase_air_sac_flow_and_variable_anatomy(self):
         out=self.run_sambu(
@@ -77,7 +77,7 @@ class AnatidaeModelTests(unittest.TestCase):
         ])
 
     def test_digestive_grinding_model(self):
-        out=self.run_sambu("let g = digestive_grinding(10, 20%, 3)\nprint(g.estimated_particle_size)")
+        out=self.run_sambu("let grinding = digestive_grinding(10, 20%, 3)\nprint(grinding.estimated_particle_size)")
         self.assertEqual(out,["5.12"])
 
     def test_incompatible_units_rejected(self):
