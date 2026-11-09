@@ -38,6 +38,14 @@ class Duck {
         self.assertEqual(report.diagnostics[0].severity, "error")
         self.assertEqual(report.diagnostics[0].code, "SAMBU-P001")
 
+    def test_reopening_document_requires_a_newer_version(self):
+        ide = SambuIDE()
+        uri = "file:///workspace/reopened.sambu"
+        ide.open_document(uri, "let a = 1", version=1)
+        with self.assertRaises(IDEError):
+            ide.open_document(uri, "let a = 2", version=1)
+        self.assertEqual(ide.document_version(uri), 1)
+
     def test_document_changes_reject_stale_versions(self):
         ide = SambuIDE()
         uri = "file:///workspace/main.sambu"
