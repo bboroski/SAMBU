@@ -1,0 +1,46 @@
+# 04coq: declarative filtering, trace and sequential stages.
+let people = [
+  ["Ada", 31, "active", ["python", "sambu"]],
+  ["Bo", 16, "pending", ["music"]],
+  ["Cy", 24, "review", ["python"]],
+  ["Dee", 42, "blocked", ["ops"]]
+]
+
+let adult = coq_rule("1", "gte", 18)
+let eligible = coq_filter(people, [
+  adult,
+  ["2", "in", ["active", "review"]]
+], "all")
+
+print("04coq accepted:")
+print(eligible.items)
+print("04coq rejected:")
+print(eligible.rejected)
+print("Counts:")
+print(eligible.input_count)
+print(eligible.matched_count)
+print(eligible.rejected_count)
+
+let report = coq_explain(
+  ["Bo", 16, "pending", ["music"]],
+  [
+    ["1", "gte", 18],
+    ["2", "eq", "active"],
+    ["4", "exists"]
+  ],
+  "all"
+)
+print("Decision trace:")
+print(report.matched)
+print(report.results[0].reason)
+print(report.results[1].reason)
+print(report.results[2].reason)
+
+let pipeline = coq_pipeline(people, [
+  ["all", [["1", "gte", 18]]],
+  ["any", [["2", "eq", "active"], ["2", "eq", "review"]]]
+])
+print("Pipeline survivors:")
+print(pipeline.items)
+print(pipeline.stages[0].output_count)
+print(pipeline.stages[1].output_count)
