@@ -222,3 +222,22 @@ No stage is considered complete because its syntax appears in a design document.
 - Reject changes that promise “race-free”, “panic-free”, “zero-cost”, “zero-migration” or “hardware-secure” behavior without a precise scope and reproducible evidence.
 
 **Final law:** make the safe path the easy path, the unsafe path visible, failures recoverable, and every performance promise measurable.
+
+## 8. Engineering control plane and five-letter doctrine
+
+The Cripple systems roadmap is governed by the [SAMBU Engineering Doctrine](SAMBU_ENGINEERING_DOCTRINE.md). Its second, engineering interpretation of SAMBU is:
+
+- **S — Safety and staged sovereignty:** explicit capability profiles and least privilege.
+- **A — Adaptive exploration:** reproducible 1:100 typed-AST sampling.
+- **M — Managed recovery and memory:** actors, supervisors and the bounded Ghost Ledger.
+- **B — Branchable, board-layered design:** the PlywoodDesign dependency/contract graph and reversible evolution.
+- **U — Unforced interoperability and user sovereignty:** stable public interfaces, adapters and compatibility gates.
+
+The current control-plane implementation is split into two modules:
+
+- `sambu.machine`: `SambuMachine`, `MachineProfile`, `PlywoodDesign`, `CodeSampler`, `GhostLedger`, `EffortAmplification` and workspace parsing checks.
+- `sambu.ide`: `SambuIDE`, versioned document snapshots, source diagnostics, syntax outline and bounded lexical completion.
+
+Both are experimental Python-hosted developer services. The IDE is headless; Machine parsing is not a semantic type checker. The capability levels `host` and `device` reserve future adapter boundaries and do not implement access to a shell, network, operating system or hardware.
+
+The [Mulberry Charlotte fixture](../examples/mulberry_charlotte.sambu) is the shared integration workload used to exercise source parsing, execution, deterministic arithmetic and the developer-tool chain. It is illustrative data, not a nutritional database.
