@@ -58,7 +58,7 @@ class AnatidaeModelTests(unittest.TestCase):
             "let window = imprinting_window(14, 12, 16)\n"
             "let sleep = hemispheric_sleep_budget(20, 10%, 100%)\n"
             "let compass = magnetic_heading(5, 12, 50%)\n"
-            "print(eyes.panoramaic_fraction)\nprint(window.inside_configured_window)\n"
+            "print(eyes.panoramic_fraction)\nprint(window.inside_configured_window)\n"
             "print(sleep.edge_bird_count_estimate)\nprint(compass.corrected_heading_degrees)"
         )
         self.assertEqual(out,["0.9166666666666666","true","2","359"])
