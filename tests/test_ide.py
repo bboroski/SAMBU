@@ -30,6 +30,11 @@ class Duck {
         self.assertEqual(report.symbols[1].children[0].name, "speak")
         self.assertEqual(ide.document_version("file:///workspace/duck.sambu"), 1)
 
+    def test_unencodable_document_text_is_rejected_cleanly(self):
+        ide = SambuIDE()
+        with self.assertRaisesRegex(ValueError, "UTF-8"):
+            ide.open_document("untitled:unicode", "\\ud800", version=1)
+
     def test_syntax_errors_become_source_diagnostics(self):
         ide = SambuIDE()
         report = ide.open_document("untitled:broken", "let invalid =\n", version=1)
