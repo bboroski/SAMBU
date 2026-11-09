@@ -5,6 +5,7 @@ import tempfile
 import unittest
 
 from sambu.machine import (
+    CapabilityDeniedError,
     CodeSampler,
     CodeSamplingError,
     EffortAmplification,
@@ -171,6 +172,21 @@ class SambuMachineTests(unittest.TestCase):
         with self.assertRaises(ZeroDivisionError):
             machine.run_source("let x = 1 / 0", context="broken.sambu")
         self.assertEqual(machine.ghosts.count, 1)
+
+    def test_restriction_levels_deny_capabilities_by_default(self):
+        sealed = SambuMachine(profile="sealed")
+        with self.assertRaises(CapabilityDeniedError):
+            sealed.run_source("print(42)", output=lambda _: None)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "main.sambu").write_text("let answer = 42\\n", encoding="utf-8")
+            self.assertTrue(sealed.check_workspace(root).valid)
+            self.assertEqual(sealed.sample_code(root).files_scanned, 1)
+
+        sandbox = SambuMachine(profile="sandbox")
+        self.assertEqual(sandbox.run_source("1 + 1"), 2)
+        with self.assertRaises(ValueError):
+            SambuMachine(profile="unsealed")
 
     def test_mulberry_charlotte_reference_workload_executes(self):
         example = Path(__file__).resolve().parents[1] / "examples" / "mulberry_charlotte.sambu"
