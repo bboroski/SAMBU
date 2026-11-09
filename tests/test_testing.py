@@ -10,7 +10,7 @@ class AutotestAutopsyTests(unittest.TestCase):
             flaky_tests=("tests.test_demo.Demo.test_value",),
         )
         result=autopsy(report)
-        self.assertEqual(result["status"],"passed")
+        self.assertEqual(result["status"],"needs_attention")
         self.assertEqual(result["failure_categories"]["assertion"],1)
         self.assertIn("tests.test_demo.Demo.test_value",result["flaky_tests"])
     def test_empty_run_is_not_a_pass(self):
