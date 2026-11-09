@@ -29,9 +29,9 @@ class AnatidaeModelTests(unittest.TestCase):
     def test_flight_energy_and_muscle_fuel_profile(self):
         out=self.run_sambu(
             "let f = flight_energy_budget((10 * J) / (1 * s), 5 * s, 60 * J)\n"
-            "let m = flight_muscle_profile((8 * J) / (1 * s), (2 * J) / (1 * s), 5 * s, 75%)\n"
+            "let muscles = flight_muscle_profile((8 * J) / (1 * s), (2 * J) / (1 * s), 5 * s, 75%)\n"
             "print(f.energy_required)\nprint(f.energy_remaining)\n"
-            "print(m.fat_oxidation_energy_estimate)\nprint(m.anaerobic_fraction)"
+            "print(muscles.fat_oxidation_energy_estimate)\nprint(muscles.anaerobic_fraction)"
         )
         self.assertEqual(out,["50 J","10 J","30 J","0.2"])
 
