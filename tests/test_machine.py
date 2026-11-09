@@ -45,6 +45,14 @@ class PlywoodDesignTests(unittest.TestCase):
         self.assertFalse(result.valid)
         self.assertTrue(any("cycle" in issue for issue in result.issues))
 
+    def test_unknown_layer_dependency_is_reported_without_exception(self):
+        design = PlywoodDesign((
+            PlywoodLayer("editor", "tooling", depends_on=("missing-runtime",)),
+        ))
+        result = design.validate()
+        self.assertFalse(result.valid)
+        self.assertTrue(any("unknown dependency" in issue for issue in result.issues))
+
 
 class CodeSamplerTests(unittest.TestCase):
     def test_one_in_one_hundred_ast_sampling_is_reproducible(self):
