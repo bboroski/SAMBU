@@ -509,7 +509,11 @@ def mimic_distance(args: list[object]) -> Record:
     """Compare a draft's structure with a previously extracted structural signature."""
     _arity(args, {2}, "mimic_distance(profile, draft)")
     profile, draft = args
-    if not isinstance(profile, Record) or profile.get("schema") != "sambu.structural_voice.v1":
+    if (
+        not isinstance(profile, Record)
+        or "schema" not in profile.fields
+        or profile.get("schema") != "sambu.structural_voice.v1"
+    ):
         raise TypeError("mimic_distance expects a profile from mimic_profile")
     if not isinstance(draft, str):
         raise TypeError("mimic_distance expects draft text as its second argument")
