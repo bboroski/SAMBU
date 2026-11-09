@@ -7,6 +7,7 @@ from typing import Callable
 
 from .domains import DOMAIN_BUILTINS
 from .filtering import FILTERING_BUILTINS
+from .percentages import PERCENTAGE_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 
@@ -257,6 +258,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     **FILTERING_BUILTINS,
     **WORKFLOW_BUILTINS,
     **DOMAIN_BUILTINS,
+    **PERCENTAGE_BUILTINS,
 }
 
 
@@ -818,6 +820,7 @@ class Interpreter:
             if op == "-": return -value  # type: ignore[operator]
             if op == "+": return +value  # type: ignore[operator]
             if op == "!": return not self._truthy(value)
+            if op == "percent": return number_value(value, "percentage") / 100.0
         if kind == "binary":
             op = node[1]
             left = self.evaluate(node[2], env)
@@ -830,6 +833,7 @@ class Interpreter:
             if op == "-": return left - right  # type: ignore[operator]
             if op == "*": return left * right  # type: ignore[operator]
             if op == "/": return left / right  # type: ignore[operator]
+            if op == "%": return number_value(left, "left modulo operand") % number_value(right, "right modulo operand")
             if op in ("^", "**"): return left ** right  # type: ignore[operator]
             if op == "==": return left == right
             if op == "!=": return left != right
