@@ -56,3 +56,8 @@ let clusters = cluster_glue([
 ])
 print("Connected clusters:")
 print(clusters.clusters)
+
+let reference = mimic_profile("Молчит мрачный мотор")
+let draft_check = mimic_distance(reference, "Молчит мрачный мотор")
+print("Vocabulary-free structural match:")
+print(draft_check.structural_similarity)
