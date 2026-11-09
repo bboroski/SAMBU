@@ -1,14 +1,10 @@
-# SAMBU Studio — IDE architecture
+# SAMBU Studio — IDE architecture and implementation status
 
 ## Product direction
 
-SAMBU Studio is the planned developer environment for the Neo-Modern Diplomat workflow. The interpreter and CLI remain the language's stable core; editor services should be separate processes or libraries so a missing IDE dependency never affects deterministic command-line execution.
+SAMBU Studio is a separate tooling package around the SAMBU language and Neo-Modern Developer workflow. The interpreter stays small and dependency-free. Studio services are delivered as Python packages and CLI tools first, then can be exposed through LSP or a graphical Electron/Tauri + Monaco shell.
 
-## Current language foundation (0.6.0)
-
-The parser supports immutable typed AST nodes and the runtime now includes classes, constructors, mutable instance fields, instance methods, single inheritance and method overriding. The language also exposes deterministic rock-paper-scissors and tic-tac-toe rule functions. These are CLI/runtime capabilities, not graphical IDE widgets. The object model is intentionally an initial slice: interfaces, traits, visibility modifiers, static members, generics and compile-time class typing are still planned.
-
-## Semantic language services
+“No intro build” means project inspection should return useful information without launching external services or heavyweight workspace bootstrapping. “Sharp transitions”, “layered slices” and “stereo mastering” translate into fast context navigation, code folding, structural views and consistent workspace organization—not literal audio effects.
 
 ### Typed AST and source ranges
 
@@ -16,45 +12,72 @@ The parser exposes immutable typed statement and expression nodes through `parse
 
 ### Dimensional semantic highlighting
 
-Tokenize identifiers, literals, units, constants, function names, record fields, and control-flow keywords into distinct semantic classes. Unit symbols such as `eV`, `K`, `kg`, and `m/s` should be highlighted only when the parser resolves them as known unit bindings, not by matching arbitrary text.
+Run:
 
-### Dimensional diagnostics
+~~~bash
+python -m pip install -e .
+sambu-studio inspect /path/to/magento/module
+sambu-studio inspect /path/to/magento/project --format json
+~~~
 
-The analyzer should infer dimensions through the expression tree and report incompatible operations before execution:
+The read-only inspector scans:
 
-- Addition / subtraction of incompatible dimensions.
-- Comparison of quantities with incompatible dimensions.
-- Invalid function arguments, such as a mass passed where a temperature is required.
-- Non-positive temperature and particle mass constraints where statically provable.
-- Unknown names, duplicate immutable bindings, and invalid field access.
+- etc/di.xml: preferences, observed types, plugin names/types, sortOrder and disabled state.
+- etc/communication.xml: topics, request/schema contracts and handlers.
+- etc/queue_consumer.xml: consumer names, queues, connection names and selected runtime settings.
+- etc/queue_topology.xml: exchange declarations and enabled bindings.
+- etc/queue_publisher.xml: publisher topics, enabled connections and exchanges.
 
-Diagnostics should carry file range, severity, stable code, and a short explanation. Runtime checks remain authoritative for values that cannot be known statically.
+It checks UTF-8, file-size limits, DTD/entity declarations, XML well-formedness, selected attributes and simple cross-file references. It emits stable diagnostic codes and JSON with schema_version 1. It skips common generated/dependency directories such as vendor, generated, var, pub and node_modules and does not follow symlinked configuration files.
 
-### Context-aware completion
+Limitations:
+- Not official Magento XSD validation.
+- Does not resolve merged DI configuration across modules, areas, scopes or module load order.
+- Does not confirm that referenced PHP classes/methods exist or that DI compilation succeeds.
+- Does not connect to Magento, database, Redis, OpenSearch, Varnish or RabbitMQ.
+- Does not run CLI commands, SSH/SFTP, purge queues, replay DLQ messages or mutate files.
+- Cross-file references absent from the inspected folder are warnings because dependencies can declare them elsewhere.
 
-Completion items should be derived from the parser, lexical scope, built-in signatures, record schemas, and imported adapter manifests. Examples include `maxwell(temperature, particle_mass)`, `boltzmann(energy, temperature)`, and Commerce planning functions. Completion must not invent Magento service methods that are absent from the selected version's adapter metadata.
+## AST refactoring engine
 
-## Interactive scientific REPL
+Target design:
+1. Introduce immutable typed AST nodes with source spans while preserving the legacy tuple AST during migration.
+2. Build a workspace symbol index for SAMBU and supported Magento PHP/XML constructs.
+3. Model references from PHP declarations, di.xml preferences/plugins, events.xml observers, layout XML, GraphQL schema/resolvers and selected service-contract metadata.
+4. Offer rename as a previewable change set with exact file ranges, collision checks, stale-file detection and explicit apply/revert.
+5. Never rewrite arbitrary matching text or mutate production projects from editor preview.
 
-The REPL should support incremental evaluation, retained session bindings, dimensional inspection, and opt-in plotting for arrays and distribution samples. Plotting belongs in an optional UI package; the base language remains dependency-free. Each cell should display source, result, elapsed time, and diagnostics.
+The initial Magento inspector is a foundation for this index, not a semantic refactoring engine yet.
 
-## Execution tracing and debugger
+## Static analysis and dependency graph
 
-A debugger should expose statement boundaries, lexical scopes, function call frames, evaluated values, and runtime errors. Scientific quantities should display both magnitude and dimensions. Stepping must not change program semantics; external side effects remain unavailable in the core runtime.
+The future analyzer should report type compatibility, nullable repository results, service-contract mismatches, invalid field access and dimensional inconsistencies before execution. Magento-aware checks must be pinned to the target Commerce version and installed module set.
+
+Dependency graph stages:
+- Local DI preferences and plugin declarations.
+- Module sequence and area-specific config.
+- Cross-module references and cycles.
+- Plugin sort order and disabled state.
+- Generated-code cache fingerprints, invalidated when composer.lock, module config, PHP version or target Commerce version changes.
+
+Do not treat generated/code as source of truth; it is a derived build artifact.
+
+## Magento operational tools
+
+Planned modules include GraphQL schema explorer, layout XML visualizer, service-contract completion, PHPUnit/MFTF test runner, local SQL profiling, read-only RabbitMQ queue telemetry and cache/indexer status.
+
+Queue actions are read-only initially. DLQ replay, purge, cache mutation, deployment, SSH/SFTP and arbitrary terminal commands require explicit authorization, audit logs, target environment identity, idempotency-aware safeguards and an operator confirmation step. No operational mutation tool is implemented in 0.6.0.
+
+## Language services
+
+- Typed AST and type inference: gradual annotations first; preserve runtime validation at dynamic boundaries.
+- Dimensional semantic analysis: infer SI dimensions and report incompatible operations before execution.
+- Semantic tokens: classify resolved units, constants, functions, fields, keywords and diagnostics.
+- Context completion: derive suggestions from lexical scope, builtin signatures, record schemas and versioned adapter metadata.
+- LSP: document lifecycle, diagnostics, hover, completion, symbols and versioned text edits.
+- REPL/debugger: incremental sessions, execution trace and optional plots, isolated from the core runtime.
 
 ## Diplomat Night theme
-
-A dark theme with restrained contrast, clear semantic differentiation, and accessible focus / selection states. The theme must be tested against WCAG contrast targets and should avoid relying on color alone to communicate errors or dimensional mismatches.
-
-## Delivery sequence
-
-1. Publish a stable parser / AST interface and source-span model.
-2. Implement diagnostics and semantic tokens.
-3. Add completion from lexical scopes and built-in signatures.
-4. Add an LSP server and editor extension.
-5. Implement REPL sessions and optional plots.
-6. Add deterministic execution tracing and debugger controls.
-7. Package the theme and accessibility tests.
 
 ## Current implementation status (0.5.1)
 

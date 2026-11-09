@@ -22,9 +22,10 @@ dependencies = []
 
 [project.scripts]
 sambu = "sambu.cli:main"
+sambu-studio = "sambu_studio.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["sambu*"]
+include = ["sambu*", "sambu_studio*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

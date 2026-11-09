@@ -2,12 +2,15 @@
 
 ## 0.6.0 — 2026-11-09
 
-- Added classes, object construction, init constructors, mutable instance fields, instance methods, single inheritance and method overriding while preserving the legacy parser AST API.
-- Added deterministic rock-paper-scissors and legal-state tic-tac-toe built-ins, including turn, occupancy, win/draw and unreachable-board validation.
-- Added typed AST spans and legacy conversion for class declarations and object-field assignments.
-- Added OOP/game regression tests, an executable example and an OOP/game language guide.
-- Clarified that interfaces, traits, access modifiers, generics, static members, explicit super dispatch and static class typing remain future work.
-
+- Added the separate sambu_studio package and sambu-studio inspect CLI.
+- Added read-only Magento XML inspection for DI preferences/plugins and message-queue topics, consumers, exchanges, bindings and publishers.
+- Added static cross-file queue reference checks and versioned JSON output.
+- Added XML size, UTF-8, DTD/entity and symlink-read guardrails with stable diagnostics.
+- Added an illustrative Magento module fixture and CI execution for text and JSON inspection.
+- Corrected MQ documentation: topics use exactly one request or schema contract; Magento topology uses topic exchanges; publishers and consumers have separate declarations.
+- Added the Neo-Modern Developer language strategy: typed AST, effect-aware async, generated-PHP interoperability, semantic refactoring and Magento dependency graph roadmap.
+- Updated package/runtime versions and added the sambu-studio console entry point.
+- Kept official XSD validation, merged runtime DI resolution, RabbitMQ access, SSH and mutating operations explicitly out of scope.
 ## 0.5.1 — 2026-11-09
 
 - Added an immutable typed AST with end-exclusive source spans for every expression and statement.
@@ -20,42 +23,24 @@
 
 ## 0.5.0 — 2026-11-09
 
-- Added `audio_profile` to validate tempo, swing, snare timing, master ceiling and production-feature flags without rendering or mastering audio.
-- Added `order_pipeline` to check durable-outbox, persisted-idempotency, inventory-reservation, payment-authorization, post-commit acknowledgement, supervised-worker and DLQ invariants with at-least-once semantics.
-- Added `studio_offer` for configurable introductory-class conversion targets and multi-session package economics.
-- Added `capture_node` to model resistance depletion and ownership transfer only when a target reaches zero resistance.
-- Added a cross-domain runnable blueprint example, regression tests and operational boundary documentation.
-- Preserved the existing queue, schedule, funnel, network and `capture_tower` behavior.
+## 0.5.0 — 2026-11-09
 
+- Added audio_profile, order_pipeline, studio_offer and capture_node planning models.
+- Added a cross-domain runnable blueprint example, regression tests and architecture documentation.
 
 ## 0.4.0 — 2026-11-09
 
-- Added public immutable `SourcePosition` and end-exclusive `SourceSpan` primitives.
-- Extended lexer tokens with source offsets, end positions, and a stable `span` property while preserving the original fields.
-- Added stable lexical and parser diagnostic codes with token-aligned ranges; retained legacy `line` / `column` attributes and message formatting.
-- Exported the source-location, token, lexer, parser, and syntax-diagnostic interfaces from the `sambu` package.
-- Kept the tuple-based parser AST and interpreter behavior backward-compatible; node-level AST spans remain a follow-up milestone.
-- Added regression tests for Unicode offsets, multiline positions, EOF spans, and diagnostic ranges.
-
+- Added SourcePosition, SourceSpan, token ranges and stable ranged syntax diagnostics.
+- Preserved the tuple-based parser AST and existing line/column API.
 
 ## 0.3.0 — 2026-11-09
 
-- Expanded SAMBU's systems-modeling scope with commerce queue-planning primitives.
-- Added `queue_profile` for bounded worker concurrency, prefetch, retry limits, and optional dead-letter routing.
-- Added `retry_schedule` for capped exponential backoff plans.
-- Added `idempotency_key` for stable namespaced request identifiers.
-- Added a runnable commerce queue example and regression tests for validation and edge cases.
-- Added Magento / Adobe Commerce architecture guidance covering checkout boundaries, durable messaging, idempotency, inventory reservations, payment orchestration, retries, dead letters, observability, and deployment.
-- Added an IDE architecture specification for semantic tokens, dimensional diagnostics, completion, REPL, tracing, and the Diplomat Night theme.
-- Clarified that these are language-level models and design specifications, not live Magento, RabbitMQ, or IDE integrations.
-- Preserved the scientific mechanics core and existing language behavior.
+- Added queue capacity, retry and idempotency planning models and Magento architecture guidance.
 
 ## 0.2.0 — 2026-11-09
 
-- Added user-defined functions, lexical scope, `return`, conditionals, and bounded loops.
-- Added networks, negotiation, resource allocation, funnels, A/B screening, schedules, and operational models.
-- Added Neo-Modern Diplomat examples and domain documentation.
+- Added user-defined functions, lexical scope, return, conditionals, bounded loops and systems models.
 
 ## 0.1.0 — 2026-11-09
 
-- Initial lexer, parser, evaluator, CLI, SI-aware quantities, statistical-mechanics helpers, examples, tests, and CI.
+- Initial lexer, parser, evaluator, CLI, SI-aware quantities, statistical-mechanics helpers, examples, tests and CI.
