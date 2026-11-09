@@ -98,12 +98,35 @@ class FunctionStatement:
     parameters: tuple[str, ...]
     body: tuple[Statement, ...]
     span: SourceSpan
+    visibility: str = "public"
+    is_static: bool = False
+    is_abstract: bool = False
+    is_final: bool = False
 
 
 @dataclass(frozen=True, slots=True)
 class ClassStatement:
     name: str
     base_name: str | None
+    methods: tuple[FunctionStatement, ...]
+    span: SourceSpan
+    is_abstract: bool = False
+    is_final: bool = False
+    interfaces: tuple[str, ...] = ()
+    traits: tuple[str, ...] = ()
+    static_fields: tuple[tuple[str, Expression], ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class InterfaceStatement:
+    name: str
+    methods: tuple[FunctionStatement, ...]
+    span: SourceSpan
+
+
+@dataclass(frozen=True, slots=True)
+class TraitStatement:
+    name: str
     methods: tuple[FunctionStatement, ...]
     span: SourceSpan
 
@@ -141,6 +164,8 @@ Statement: TypeAlias = (
     | SetFieldStatement
     | FunctionStatement
     | ClassStatement
+    | InterfaceStatement
+    | TraitStatement
     | ReturnStatement
     | IfStatement
     | ForStatement
@@ -197,20 +222,58 @@ def statement_to_legacy(statement: Statement) -> tuple:
     if isinstance(statement, LetStatement):
         return ("let", statement.name, expression_to_legacy(statement.value))
     if isinstance(statement, FunctionStatement):
-        return (
+        legacy = (
             "fn",
             statement.name,
             list(statement.parameters),
             [statement_to_legacy(item) for item in statement.body],
         )
+        if (
+            statement.visibility != "public"
+            or statement.is_static
+            or statement.is_abstract
+            or statement.is_final
+        ):
+            return legacy + ({
+                "visibility": statement.visibility,
+                "static": statement.is_static,
+                "abstract": statement.is_abstract,
+                "final": statement.is_final,
+            },)
+        return legacy
     if isinstance(statement, SetFieldStatement):
         return (
             "set_field", expression_to_legacy(statement.target), statement.name,
             expression_to_legacy(statement.value),
         )
     if isinstance(statement, ClassStatement):
-        return (
+        legacy = (
             "class", statement.name, statement.base_name,
+            [statement_to_legacy(method) for method in statement.methods],
+        )
+        if (
+            statement.is_abstract or statement.is_final or statement.interfaces
+            or statement.traits or statement.static_fields
+        ):
+            return legacy + ({
+                "abstract": statement.is_abstract,
+                "final": statement.is_final,
+                "interfaces": list(statement.interfaces),
+                "traits": list(statement.traits),
+                "static_fields": [
+                    (name, expression_to_legacy(value))
+                    for name, value in statement.static_fields
+                ],
+            },)
+        return legacy
+    if isinstance(statement, InterfaceStatement):
+        return (
+            "interface", statement.name,
+            [statement_to_legacy(method) for method in statement.methods],
+        )
+    if isinstance(statement, TraitStatement):
+        return (
+            "trait", statement.name,
             [statement_to_legacy(method) for method in statement.methods],
         )
     if isinstance(statement, ReturnStatement):

@@ -138,27 +138,16 @@ class Parser:
         token = self.peek()
         if token.kind == "IDENT":
             keyword = token.value
-            if keyword == "class":
-                start = self.advance()
-                name = self.consume_ident("Expected a class name after 'class'")
-                base_name: str | None = None
-                if self.peek().kind == "IDENT" and self.peek().value == "extends":
-                    self.advance()
-                    base_name = str(self.consume_ident("Expected a base class name after 'extends'").value)
-                body, _, closing = self.block()
-                methods: list[FunctionStatement] = []
-                method_names: set[str] = set()
-                for member in body:
-                    if not isinstance(member, FunctionStatement):
-                        raise self.syntax_error("Class bodies may contain method declarations only", token)
-                    if member.name in method_names:
-                        raise self.syntax_error(f"Duplicate method {member.name!r}", name)
-                    method_names.add(member.name)
-                    methods.append(member)
-                return ClassStatement(
-                    str(name.value), base_name, tuple(methods),
-                    _cover(start.span, closing.span),
-                )
+            if keyword == "class" or (
+                keyword in {"abstract", "final"}
+                and self.current + 1 < len(self.tokens)
+                and self.tokens[self.current + 1].value == "class"
+            ):
+                return self.class_declaration()
+            if keyword == "interface":
+                return self.interface_declaration()
+            if keyword == "trait":
+                return self.trait_declaration()
             if keyword == "let":
                 start = self.advance()
                 name = self.consume_ident("Expected a variable name after 'let'")
@@ -168,26 +157,7 @@ class Parser:
                     str(name.value), value, _cover(start.span, value.span)
                 )
             if keyword == "fn":
-                start = self.advance()
-                name = self.consume_ident("Expected a function name after 'fn'")
-                self.consume("(", "Expected '(' after function name")
-                params: list[str] = []
-                self.skip_separators()
-                if not self.check(")"):
-                    while True:
-                        params.append(str(self.consume_ident("Expected parameter name").value))
-                        self.skip_separators()
-                        if not self.match(","):
-                            break
-                        self.skip_separators()
-                self.consume(")", "Expected ')' after parameters")
-                if len(params) != len(set(params)):
-                    raise self.syntax_error("Function parameters must be unique", name)
-                body, _, closing = self.block()
-                return FunctionStatement(
-                    str(name.value), tuple(params), body,
-                    _cover(start.span, closing.span),
-                )
+                return self.function_declaration({})
             if keyword == "return":
                 start = self.advance()
                 if self.check(";") or self.check("}") or self.peek().kind == "EOF":
@@ -239,6 +209,204 @@ class Parser:
                 _cover(expression.span, value.span),
             )
         return ExpressionStatement(expression, expression.span)
+
+    def function_declaration(
+        self,
+        modifiers: set[str],
+        *,
+        allow_abstract: bool = False,
+    ) -> FunctionStatement:
+        start = self.consume("fn", "Expected 'fn' before method name")
+        name = self.consume_ident("Expected a function name after 'fn'")
+        self.consume("(", "Expected '(' after function name")
+        params: list[str] = []
+        self.skip_separators()
+        if not self.check(")"):
+            while True:
+                params.append(str(self.consume_ident("Expected parameter name").value))
+                self.skip_separators()
+                if not self.match(","):
+                    break
+                self.skip_separators()
+        closing_params = self.consume(")", "Expected ')' after parameters")
+        if len(params) != len(set(params)):
+            raise self.syntax_error("Function parameters must be unique", name)
+        is_abstract = "abstract" in modifiers
+        if self.check("{"):
+            if is_abstract:
+                raise self.syntax_error("Abstract methods cannot have a body", self.peek())
+            body, _, closing = self.block()
+            end_span = closing.span
+        else:
+            if not (allow_abstract or is_abstract):
+                raise self.syntax_error("Expected a method body", self.peek())
+            if not is_abstract:
+                raise self.syntax_error("A body-less method must be abstract", self.peek())
+            self.match(";")
+            body = ()
+            end_span = closing_params.span
+        visibility = next(
+            (item for item in ("private", "protected", "public") if item in modifiers),
+            "public",
+        )
+        return FunctionStatement(
+            str(name.value), tuple(params), body, _cover(start.span, end_span),
+            visibility=visibility,
+            is_static="static" in modifiers,
+            is_abstract=is_abstract,
+            is_final="final" in modifiers,
+        )
+
+    def _member_modifiers(self) -> set[str]:
+        allowed = {"public", "protected", "private", "static", "abstract", "final"}
+        modifiers: set[str] = set()
+        while self.peek().kind == "IDENT" and self.peek().value in allowed:
+            value = str(self.advance().value)
+            if value in modifiers:
+                raise self.syntax_error(f"Duplicate member modifier {value!r}", self.previous())
+            modifiers.add(value)
+        visibility = modifiers & {"public", "protected", "private"}
+        if len(visibility) > 1:
+            raise self.syntax_error("A member can have only one visibility modifier", self.previous())
+        if "abstract" in modifiers and "final" in modifiers:
+            raise self.syntax_error("A method cannot be both abstract and final", self.previous())
+        return modifiers
+
+    def class_declaration(self) -> ClassStatement:
+        modifiers: set[str] = set()
+        while self.peek().kind == "IDENT" and self.peek().value in {"abstract", "final"}:
+            value = str(self.advance().value)
+            if value in modifiers:
+                raise self.syntax_error(f"Duplicate class modifier {value!r}", self.previous())
+            modifiers.add(value)
+        start = self.consume("class", "Expected 'class' after class modifiers")
+        name = self.consume_ident("Expected a class name after 'class'")
+        base_name: str | None = None
+        interfaces: list[str] = []
+        traits: list[str] = []
+        while self.peek().kind == "IDENT" and self.peek().value in {"extends", "implements", "uses"}:
+            clause = str(self.advance().value)
+            if clause == "extends":
+                if base_name is not None:
+                    raise self.syntax_error("A class can extend only one base class", self.previous())
+                base_name = str(self.consume_ident("Expected a base class name after 'extends'").value)
+                continue
+            target = interfaces if clause == "implements" else traits
+            while True:
+                target.append(str(self.consume_ident(f"Expected a name after '{clause}'").value))
+                if not self.match(","):
+                    break
+        if len(interfaces) != len(set(interfaces)) or len(traits) != len(set(traits)):
+            raise self.syntax_error("Interface and trait names must be unique", name)
+        if "abstract" in modifiers and "final" in modifiers:
+            raise self.syntax_error("A class cannot be both abstract and final", name)
+        self.consume("{", "Expected '{' to begin class body")
+        methods: list[FunctionStatement] = []
+        method_names: set[str] = set()
+        static_fields: list[tuple[str, Expression]] = []
+        field_names: set[str] = set()
+        while not self.check("}"):
+            if self.peek().kind == "EOF":
+                raise self.syntax_error("Unterminated class body; expected '}'")
+            self.skip_separators()
+            if self.check("}"):
+                break
+            member_modifiers = self._member_modifiers()
+            if self.peek().kind == "IDENT" and self.peek().value == "fn":
+                method = self.function_declaration(member_modifiers, allow_abstract=True)
+                if method.name in method_names:
+                    raise self.syntax_error(f"Duplicate method {method.name!r}", name)
+                if method.is_static and method.parameters and method.parameters[0] == "self":
+                    raise self.syntax_error("Static methods do not receive an implicit 'self'", name)
+                if not method.is_static and not method.is_abstract and (
+                    not method.parameters or method.parameters[0] != "self"
+                ):
+                    raise self.syntax_error("Instance methods must declare 'self' as their first parameter", name)
+                method_names.add(method.name)
+                methods.append(method)
+                self.skip_separators()
+                continue
+            if (
+                "static" in member_modifiers
+                and self.peek().kind == "IDENT"
+                and self.peek().value == "let"
+            ):
+                self.advance()
+                field_name = self.consume_ident("Expected a static field name")
+                self.consume("=", "Expected '=' after static field name")
+                value = self.expression()
+                field_key = str(field_name.value)
+                if field_key in field_names:
+                    raise self.syntax_error(f"Duplicate static field {field_key!r}", field_name)
+                if field_key in method_names:
+                    raise self.syntax_error(f"Static field {field_key!r} conflicts with a method", field_name)
+                field_names.add(field_key)
+                static_fields.append((field_key, value))
+                self.skip_separators()
+                continue
+            raise self.syntax_error("Class bodies contain methods and 'static let' fields only")
+        closing = self.consume("}", "Expected '}' after class body")
+        return ClassStatement(
+            str(name.value), base_name, tuple(methods), _cover(start.span, closing.span),
+            is_abstract="abstract" in modifiers,
+            is_final="final" in modifiers,
+            interfaces=tuple(interfaces),
+            traits=tuple(traits),
+            static_fields=tuple(static_fields),
+        )
+
+    def interface_declaration(self) -> InterfaceStatement:
+        start = self.consume("interface", "Expected 'interface'")
+        name = self.consume_ident("Expected an interface name")
+        self.consume("{", "Expected '{' to begin interface body")
+        methods: list[FunctionStatement] = []
+        names: set[str] = set()
+        while not self.check("}"):
+            if self.peek().kind == "EOF":
+                raise self.syntax_error("Unterminated interface body; expected '}'")
+            self.skip_separators()
+            if self.check("}"):
+                break
+            modifiers = self._member_modifiers()
+            if modifiers - {"public", "abstract"}:
+                raise self.syntax_error("Interface methods support only public and abstract modifiers")
+            modifiers.update({"public", "abstract"})
+            method = self.function_declaration(modifiers, allow_abstract=True)
+            if method.is_static or method.name in names:
+                raise self.syntax_error("Interface method names must be unique and instance-based")
+            if method.parameters and method.parameters[0] != "self":
+                raise self.syntax_error("Interface methods must declare 'self' first")
+            names.add(method.name)
+            methods.append(method)
+            self.skip_separators()
+        closing = self.consume("}", "Expected '}' after interface body")
+        return InterfaceStatement(str(name.value), tuple(methods), _cover(start.span, closing.span))
+
+    def trait_declaration(self) -> TraitStatement:
+        start = self.consume("trait", "Expected 'trait'")
+        name = self.consume_ident("Expected a trait name")
+        self.consume("{", "Expected '{' to begin trait body")
+        methods: list[FunctionStatement] = []
+        names: set[str] = set()
+        while not self.check("}"):
+            if self.peek().kind == "EOF":
+                raise self.syntax_error("Unterminated trait body; expected '}'")
+            self.skip_separators()
+            if self.check("}"):
+                break
+            modifiers = self._member_modifiers()
+            if "static" in modifiers or "abstract" in modifiers:
+                raise self.syntax_error("Traits currently support concrete instance methods only")
+            method = self.function_declaration(modifiers)
+            if not method.parameters or method.parameters[0] != "self":
+                raise self.syntax_error("Trait methods must declare 'self' first")
+            if method.name in names:
+                raise self.syntax_error(f"Duplicate trait method {method.name!r}")
+            names.add(method.name)
+            methods.append(method)
+            self.skip_separators()
+        closing = self.consume("}", "Expected '}' after trait body")
+        return TraitStatement(str(name.value), tuple(methods), _cover(start.span, closing.span))
 
     def consume_ident(self, message: str) -> Token:
         if self.peek().kind == "IDENT":
