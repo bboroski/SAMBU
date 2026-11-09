@@ -554,29 +554,154 @@ class Interpreter:
                 _, name, params, body = statement
                 env.define(name, UserFunction(name, params, body, env, self))
                 result = env.get(name)
+            elif kind == "interface":
+                _, name, method_nodes = statement
+                methods: dict[str, UserFunction] = {}
+                for method_node in method_nodes:
+                    _, method_name, params, body = method_node[:4]
+                    if not params or params[0] != "self":
+                        raise SambuRuntimeError(
+                            f"interface method {method_name!r} must declare 'self' first"
+                        )
+                    if body:
+                        raise SambuRuntimeError("interface methods cannot contain implementations")
+                    methods[method_name] = UserFunction(
+                        method_name, params, body, env, self,
+                        {"visibility": "public", "abstract": True},
+                    )
+                env.define(name, SambuInterface(name, methods))
+                result = env.get(name)
+            elif kind == "trait":
+                _, name, method_nodes = statement
+                methods: dict[str, UserFunction] = {}
+                for method_node in method_nodes:
+                    _, method_name, params, body = method_node[:4]
+                    metadata = method_node[4] if len(method_node) > 4 else {}
+                    if not params or params[0] != "self":
+                        raise SambuRuntimeError(
+                            f"trait method {method_name!r} must declare 'self' first"
+                        )
+                    if metadata.get("static") or metadata.get("abstract"):
+                        raise SambuRuntimeError("traits support concrete instance methods only")
+                    methods[method_name] = UserFunction(
+                        method_name, params, body, env, self, metadata,
+                    )
+                env.define(name, SambuTrait(name, methods))
+                result = env.get(name)
             elif kind == "class":
-                _, name, base_name, method_nodes = statement
+                _, name, base_name, method_nodes = statement[:4]
+                metadata = statement[4] if len(statement) > 4 else {}
                 base = env.get(base_name) if base_name is not None else None
                 if base is not None and not isinstance(base, SambuClass):
                     raise SambuRuntimeError(f"base {base_name!r} is not a SAMBU class")
-                methods: dict[str, UserFunction] = {}
-                for method_node in method_nodes:
-                    _, method_name, params, body = method_node
-                    if not params or params[0] != "self":
-                        raise SambuRuntimeError(
-                            f"method {method_name!r} must declare 'self' as its first parameter"
+                if base is not None and base.is_final:
+                    raise SambuRuntimeError(f"cannot extend final class {base.name!r}")
+
+                trait_methods: dict[str, UserFunction] = {}
+                for trait_name in metadata.get("traits", []):
+                    trait = env.get(trait_name)
+                    if not isinstance(trait, SambuTrait):
+                        raise SambuRuntimeError(f"{trait_name!r} is not a SAMBU trait")
+                    for method_name, source_method in trait.methods.items():
+                        if method_name in trait_methods:
+                            raise SambuRuntimeError(
+                                f"trait method conflict for {method_name!r}; add an explicit class override"
+                            )
+                        trait_methods[method_name] = UserFunction(
+                            source_method.name, source_method.params, source_method.body,
+                            source_method.closure, self,
+                            {
+                                "visibility": source_method.visibility,
+                                "static": False,
+                                "abstract": False,
+                                "final": source_method.is_final,
+                            },
                         )
-                    methods[method_name] = UserFunction(method_name, params, body, env, self)
-                klass = SambuClass(name, base, methods)
+
+                methods: dict[str, UserFunction] = dict(trait_methods)
+                explicit_names: set[str] = set()
+                for method_node in method_nodes:
+                    _, method_name, params, body = method_node[:4]
+                    method_metadata = method_node[4] if len(method_node) > 4 else {}
+                    method = UserFunction(
+                        method_name, params, body, env, self, method_metadata,
+                    )
+                    inherited = base.find_method_with_owner(method_name) if base is not None else None
+                    if inherited is not None:
+                        inherited_method, _ = inherited
+                        if inherited_method.is_final:
+                            raise SambuRuntimeError(f"cannot override final method {method_name!r}")
+                        if inherited_method.is_static != method.is_static:
+                            raise SambuRuntimeError(
+                                f"method {method_name!r} cannot change between static and instance dispatch"
+                            )
+                        if len(inherited_method.params) != len(method.params):
+                            raise SambuRuntimeError(
+                                f"override {method_name!r} must preserve the inherited arity"
+                            )
+                    methods[method_name] = method
+                    explicit_names.add(method_name)
+
+                for field_name, expression in metadata.get("static_fields", []):
+                    if field_name in methods:
+                        raise SambuRuntimeError(
+                            f"static field {field_name!r} conflicts with a method"
+                        )
+                static_fields = {
+                    field_name: self.evaluate(expression, env)
+                    for field_name, expression in metadata.get("static_fields", [])
+                }
+                interface_values: list[SambuInterface] = []
+                for interface_name in metadata.get("interfaces", []):
+                    interface = env.get(interface_name)
+                    if not isinstance(interface, SambuInterface):
+                        raise SambuRuntimeError(f"{interface_name!r} is not a SAMBU interface")
+                    interface_values.append(interface)
+
+                klass = SambuClass(
+                    name, base, methods,
+                    is_abstract=bool(metadata.get("abstract", False)),
+                    is_final=bool(metadata.get("final", False)),
+                    interfaces=tuple(interface_values),
+                    static_fields=static_fields,
+                )
+                for interface in interface_values:
+                    for required_name, required in interface.methods.items():
+                        found = klass.find_method_with_owner(required_name)
+                        if found is None:
+                            if not klass.is_abstract:
+                                raise SambuRuntimeError(
+                                    f"class {name!r} does not implement {interface.name}.{required_name}()"
+                                )
+                            continue
+                        implementation, _ = found
+                        if implementation.is_static or implementation.is_abstract:
+                            if not klass.is_abstract:
+                                raise SambuRuntimeError(
+                                    f"{name}.{required_name} must be a concrete instance method"
+                                )
+                        if len(implementation.params) != len(required.params):
+                            raise SambuRuntimeError(
+                                f"{name}.{required_name} has an incompatible parameter count"
+                            )
+                unresolved = klass.unresolved_abstract_methods()
+                if unresolved and not klass.is_abstract:
+                    names = ", ".join(sorted(unresolved))
+                    raise SambuRuntimeError(
+                        f"class {name!r} must be abstract or implement: {names}"
+                    )
                 env.define(name, klass)
                 result = klass
             elif kind == "set_field":
                 _, target_expr, field_name, value_expr = statement
                 target = self.evaluate(target_expr, env)
-                if not isinstance(target, SambuInstance):
-                    raise TypeError("field assignment requires a SAMBU object instance")
                 value = self.evaluate(value_expr, env)
-                target.set(field_name, value)
+                if isinstance(target, SambuInstance):
+                    target.set(field_name, value)
+                elif isinstance(target, SambuClass):
+                    target.set(field_name, value)
+                else:
+                    raise TypeError("field assignment requires a SAMBU object or class")
                 result = value
             elif kind == "return":
                 raise _ReturnSignal(self.evaluate(statement[1], env))
@@ -619,9 +744,18 @@ class Interpreter:
         if kind == "array": return [self.evaluate(item, env) for item in node[1]]
         if kind == "field":
             target = self.evaluate(node[1], env)
+            requester = None
+            if env.contains("__class__"):
+                candidate = env.get("__class__")
+                if isinstance(candidate, SambuClass):
+                    requester = candidate
             if isinstance(target, Record):
                 return target.get(node[2])
             if isinstance(target, SambuInstance):
+                return target.get(node[2], requester)
+            if isinstance(target, SambuClass):
+                return target.get(node[2], requester)
+            if isinstance(target, SuperProxy):
                 return target.get(node[2])
             raise TypeError("field access is only available on records and SAMBU objects")
         if kind == "index":
@@ -660,6 +794,19 @@ class Interpreter:
             if op in ("^", "**"): return left ** right  # type: ignore[operator]
             if op == "==": return left == right
             if op == "!=": return left != right
+            if op == "is":
+                if not isinstance(right, (SambuClass, SambuInterface)):
+                    raise TypeError("right operand of 'is' must be a class or interface")
+                if isinstance(left, SambuInstance) and isinstance(right, SambuClass):
+                    return left.klass.is_subclass_of(right)
+                if isinstance(left, SambuInstance) and isinstance(right, SambuInterface):
+                    current: SambuClass | None = left.klass
+                    while current is not None:
+                        if any(item is right for item in current.interfaces):
+                            return True
+                        current = current.base
+                    return False
+                return False
             if op == "<": return left < right  # type: ignore[operator]
             if op == "<=": return left <= right  # type: ignore[operator]
             if op == ">": return left > right  # type: ignore[operator]
