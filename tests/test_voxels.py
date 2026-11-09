@@ -149,7 +149,7 @@ class SpielmanVoxelMatrixTests(unittest.TestCase):
 
 class EngineBridgeContractTests(unittest.TestCase):
     def test_engine_registry_and_payload_are_portable(self):
-        self.assertTrue({"unity","unreal","godot","bevy","o3de","generic"}.issubset(set(supported_engines())))
+        self.assertTrue({"unity","unreal","godot","bevy","o3de","flax","stride","unigine","ogre","source2","cryengine","roblox","babylonjs","threejs","playcanvas","cocos","defold","jmonkeyengine","panda3d","generic"}.issubset(set(supported_engines())))
         grid=SparseVoxelGrid(chunk_size=8)
         grid.set_voxel(0,0,0,513)
         payload=engine_payload(grid,"unity")
