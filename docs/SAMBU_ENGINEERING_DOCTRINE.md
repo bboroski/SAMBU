@@ -3,7 +3,7 @@
 **Baseline:** SAMBU 0.11.0  
 **Status:** Machine and headless IDE services are implemented as experimental Python APIs and CLI commands. This doctrine is the design contract; graphical editor, LSP transport, static type analysis and privileged host/device execution remain roadmap items.
 
-This document turns seven user-supplied concepts into implementable engineering rules. Character archetypes are design metaphors, not copied lore or claims about canon.
+This document turns eight user-supplied concepts into implementable engineering rules. Character archetypes are design metaphors, not copied lore or claims about canon.
 
 ## 1. The SAMBU five-letter engineering code
 
