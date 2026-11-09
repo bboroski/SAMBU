@@ -554,32 +554,6 @@ def order_pipeline(args: list[object]):
 
 
 
-DOMAIN_BUILTINS = {
-    "network": network,
-    "network_metrics": network_metrics,
-    "influence": influence,
-    "funnel": funnel,
-    "ab_test": ab_test,
-    "weekly_schedule": weekly_schedule,
-    "attendance": attendance,
-    "capture_tower": capture_tower,
-    "allocate": allocate,
-    "negotiate": negotiate,
-    "channel_metrics": channel_metrics,
-    "package_pricing": package_pricing,
-    "unit_economics": unit_economics,
-    "queue_profile": queue_profile,
-    "retry_schedule": retry_schedule,
-    "idempotency_key": idempotency_key,
-    "audio_profile": audio_profile,
-    "studio_offer": studio_offer,
-    "capture_node": capture_node,
-    "order_pipeline": order_pipeline,
-    "rps_round": rps_round,
-    "tic_tac_toe_state": tic_tac_toe_state,
-    "tic_tac_toe_move": tic_tac_toe_move,
-}
-
 
 _RPS_MOVES = {"rock", "paper", "scissors"}
 
@@ -710,3 +684,31 @@ def tic_tac_toe_move(args: list[object]):
         raise ValueError(f"board position {position} is already occupied")
     updated = board[:position] + player + board[position + 1:]
     return _ttt_state(updated)
+
+
+DOMAIN_BUILTINS = {
+    "network": network,
+    "network_metrics": network_metrics,
+    "influence": influence,
+    "funnel": funnel,
+    "ab_test": ab_test,
+    "weekly_schedule": weekly_schedule,
+    "attendance": attendance,
+    "capture_tower": capture_tower,
+    "allocate": allocate,
+    "negotiate": negotiate,
+    "channel_metrics": channel_metrics,
+    "package_pricing": package_pricing,
+    "unit_economics": unit_economics,
+    "queue_profile": queue_profile,
+    "retry_schedule": retry_schedule,
+    "idempotency_key": idempotency_key,
+    "audio_profile": audio_profile,
+    "studio_offer": studio_offer,
+    "capture_node": capture_node,
+    "order_pipeline": order_pipeline,
+    "rps_round": rps_round,
+    "tic_tac_toe_state": tic_tac_toe_state,
+    "tic_tac_toe_move": tic_tac_toe_move,
+}
+
