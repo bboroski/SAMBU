@@ -20,6 +20,13 @@ class Parser:
         self.tokens = tokens
         self.current = 0
 
+    def syntax_error(self, message: str, token: Token | None = None) -> SambuSyntaxError:
+        """Build a parser diagnostic anchored to the offending token."""
+        token = token or self.peek()
+        return SambuSyntaxError(
+            message, token.line, token.column, span=token.span, code="SAMBU-P001"
+        )
+
     def peek(self) -> Token:
         return self.tokens[self.current]
 
@@ -47,7 +54,7 @@ class Parser:
         if self.check(value):
             return self.advance()
         token = self.peek()
-        raise SambuSyntaxError(message, token.line, token.column)
+        raise self.syntax_error(message, token)
 
     def skip_separators(self) -> None:
         while self.match(";"):
@@ -62,7 +69,7 @@ class Parser:
         if self.peek().kind == kind:
             return self.advance()
         token = self.peek()
-        raise SambuSyntaxError(message, token.line, token.column)
+        raise self.syntax_error(message, token)
 
     def statements(self, terminator: str) -> list[tuple]:
         out: list[tuple] = []
@@ -70,7 +77,7 @@ class Parser:
             if self.peek().kind == "EOF":
                 if terminator != "EOF":
                     token = self.peek()
-                    raise SambuSyntaxError("Unterminated block; expected '}'", token.line, token.column)
+                    raise self.syntax_error("Unterminated block; expected '}'", token)
                 break
             if self.match(";"):
                 continue
@@ -79,7 +86,7 @@ class Parser:
                 self.skip_separators()
             elif self.peek().kind != terminator and not (terminator == "OP" and self.check("}")) and self.peek().kind != "EOF":
                 token = self.peek()
-                raise SambuSyntaxError("Expected a newline or ';' between statements", token.line, token.column)
+                raise self.syntax_error("Expected a newline or ';' between statements", token)
         return out
 
     def block(self) -> list[tuple]:
@@ -112,7 +119,7 @@ class Parser:
                         self.skip_separators()
                 self.consume(")", "Expected ')' after parameters")
                 if len(params) != len(set(params)):
-                    raise SambuSyntaxError("Function parameters must be unique", name.line, name.column)
+                    raise self.syntax_error("Function parameters must be unique", name)
                 return ("fn", str(name.value), params, self.block())
             if keyword == "return":
                 self.advance()
@@ -142,7 +149,7 @@ class Parser:
                 variable = self.consume_ident("Expected loop variable after 'for'")
                 if not (self.peek().kind == "IDENT" and self.peek().value == "in"):
                     bad = self.peek()
-                    raise SambuSyntaxError("Expected 'in' after loop variable", bad.line, bad.column)
+                    raise self.syntax_error("Expected 'in' after loop variable", bad)
                 self.advance()
                 iterable = self.expression()
                 return ("for", str(variable.value), iterable, self.block())
@@ -152,7 +159,7 @@ class Parser:
         if self.peek().kind == "IDENT":
             return self.advance()
         token = self.peek()
-        raise SambuSyntaxError(message, token.line, token.column)
+        raise self.syntax_error(message, token)
 
     def expression(self, min_precedence: int = 1) -> tuple:
         left = self.postfix(self.prefix())
@@ -197,7 +204,7 @@ class Parser:
                     self.skip_separators()
             self.consume("]", "Expected ']' after array elements")
             return ("array", items)
-        raise SambuSyntaxError("Expected an expression", token.line, token.column)
+        raise self.syntax_error("Expected an expression", token)
 
     def postfix(self, expr: tuple) -> tuple:
         while True:
