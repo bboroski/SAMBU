@@ -25,4 +25,4 @@ print(compact.method)
 # Portable JSON payloads can be consumed by Unity, Unreal, Godot,
 # Bevy, O3DE, or a project-specific renderer.
 let portable = voxel_export(world, "generic")
-print(len(portable))
+print(portable != "")
