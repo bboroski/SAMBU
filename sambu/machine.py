@@ -21,6 +21,7 @@ from .parser import parse_ast
 
 MAX_GHOSTS = 10_000
 MAX_SOURCE_BYTES = 2_000_000
+MAX_TOTAL_SOURCE_BYTES = 32_000_000
 MAX_WORKSPACE_FILES = 500
 _EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "build", "dist"}
 _SECRET_PATTERNS = (
@@ -357,9 +358,18 @@ class CodeSampler:
     file contributes at least one sample; selection is stable across runs.
     """
 
-    def __init__(self, *, max_files: int = MAX_WORKSPACE_FILES, max_source_bytes: int = MAX_SOURCE_BYTES):
+    def __init__(
+        self,
+        *,
+        max_files: int = MAX_WORKSPACE_FILES,
+        max_source_bytes: int = MAX_SOURCE_BYTES,
+        max_total_source_bytes: int = MAX_TOTAL_SOURCE_BYTES,
+    ):
         self.max_files = _bounded_int(max_files, "max_files", 1, 10_000)
         self.max_source_bytes = _bounded_int(max_source_bytes, "max_source_bytes", 1, 16_000_000)
+        self.max_total_source_bytes = _bounded_int(
+            max_total_source_bytes, "max_total_source_bytes", 1, 256_000_000
+        )
 
     def _source_files(self, path: str | Path) -> tuple[Path, ...]:
         target = Path(path).expanduser()
@@ -401,13 +411,20 @@ class CodeSampler:
         files = self._source_files(path)
         all_samples: list[CodeSample] = []
         statement_total = 0
+        total_source_bytes = 0
         base = Path(path).expanduser()
         base = base if base.is_dir() else base.parent
         for file_path in files:
             try:
-                if file_path.stat().st_size > self.max_source_bytes:
+                file_size = file_path.stat().st_size
+                if file_size > self.max_source_bytes:
                     raise CodeSamplingError(
                         f"{file_path}: source exceeds {self.max_source_bytes} bytes"
+                    )
+                total_source_bytes += file_size
+                if total_source_bytes > self.max_total_source_bytes:
+                    raise CodeSamplingError(
+                        f"workspace source exceeds {self.max_total_source_bytes} total bytes"
                     )
                 source = file_path.read_text(encoding="utf-8")
                 program = parse_ast(source)
@@ -781,11 +798,18 @@ class SambuMachine:
                 raise MachineError(f"workspace exceeds {MAX_WORKSPACE_FILES} source files")
         issues: list[WorkspaceIssue] = []
         valid_files = 0
+        total_source_bytes = 0
         for item in candidates:
             relative = item.relative_to(root).as_posix()
             try:
-                if item.stat().st_size > MAX_SOURCE_BYTES:
+                file_size = item.stat().st_size
+                if file_size > MAX_SOURCE_BYTES:
                     raise ValueError(f"source exceeds {MAX_SOURCE_BYTES} bytes")
+                total_source_bytes += file_size
+                if total_source_bytes > MAX_TOTAL_SOURCE_BYTES:
+                    raise MachineError(
+                        f"workspace source exceeds {MAX_TOTAL_SOURCE_BYTES} total bytes"
+                    )
                 source = item.read_text(encoding="utf-8")
                 parse_ast(source)
             except Exception as exc:
