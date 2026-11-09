@@ -1,0 +1,29 @@
+#pragma kernel BuildVisibleFaces
+// Unity compute equivalent of sambu_visible_faces.comp.
+// Cells use packed local xyz in uint and material ID in the second uint word.
+Texture3D<uint> _Occupancy;
+StructuredBuffer<uint2> _Cells;
+RWStructuredBuffer<uint> _FaceMasks;
+uint3 _Dimensions;
+uint _CellCount;
+bool IsEmpty(int3 p)
+{
+    if (any(p < 0) || any(p >= int3(_Dimensions))) return true;
+    return _Occupancy.Load(int4(p, 0)) == 0;
+}
+[numthreads(64, 1, 1)]
+void BuildVisibleFaces(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x;
+    if (index >= _CellCount) return;
+    uint packed = _Cells[index].x;
+    int3 p = int3(packed & 255, (packed >> 8) & 255, (packed >> 16) & 255);
+    uint mask = 0;
+    if (IsEmpty(p + int3( 1, 0, 0))) mask |= 1u << 0;
+    if (IsEmpty(p + int3(-1, 0, 0))) mask |= 1u << 1;
+    if (IsEmpty(p + int3( 0, 1, 0))) mask |= 1u << 2;
+    if (IsEmpty(p + int3( 0,-1, 0))) mask |= 1u << 3;
+    if (IsEmpty(p + int3( 0, 0, 1))) mask |= 1u << 4;
+    if (IsEmpty(p + int3( 0, 0,-1))) mask |= 1u << 5;
+    _FaceMasks[index] = mask;
+}
