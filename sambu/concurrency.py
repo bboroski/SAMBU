@@ -375,6 +375,7 @@ class Actor:
         self._mailbox: deque[object] = deque()
         self._dead_letters: deque[dict[str, object]] = deque(maxlen=dead_letter_capacity)
         self._lock = threading.RLock()
+        self._processing = False
         self._supervisor: Supervisor | None = None
         self.status = "active"
         self.processed = 0
