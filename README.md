@@ -6,7 +6,7 @@
 
 **A small language with a wide horizon.**
 
-[![Version](https://img.shields.io/badge/version-0.10.0--alpha-6D5DF9?style=for-the-badge)](https://github.com/bboroski/SAMBU)
+[![Version](https://img.shields.io/badge/version-0.11.0--alpha-6D5DF9?style=for-the-badge)](https://github.com/bboroski/SAMBU)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-208A69?style=for-the-badge)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/bboroski/SAMBU/tests.yml?branch=main&style=for-the-badge&label=checks)](https://github.com/bboroski/SAMBU/actions)
@@ -37,13 +37,14 @@ SAMBU is built around three principles:
 | 🧩 **Object-oriented programming** | Classes, constructors, inheritance, interfaces, traits, abstract/final contracts, visibility, static members and polymorphism |
 | 📐 **Scientific computing** | SI quantities, dimensional checks, statistical mechanics, Maxwell distribution, Boltzmann factors, partition functions and entropy |
 | 💯 **Percentage arithmetic** | Attached percentage literals, modulo, discounts, relative changes, percentage points, ratio conversion and clamping |
-| 🦆 **Anatidae models** | Parameterized counter-current heat exchange, plumage insulation index, flight-energy budgets, migration speed and pressure ratios |
+| 🦆 **Anatidae models** | Feather barrier, counter-current exchange, vision, gas exchange, bill filtering, salt balance, flight energetics, flocking and behaviour |
 | 🏗️ **Judo** | Architecture graphs, service contracts, dependency checks, fault-domain declarations and deployment-order planning |
 | 🥋 **Aikido** | Provider-neutral model routing, capability matching, budget preflight, fallback chains, bounded retries and telemetry |
 | 🖥️ **Jiu-Jitsu** | Serializable UI trees, MVC controllers, modal stacks, role-based access and dual-action buttons |
 | 🌐 **Web adapters** | Optional Django, Flask and FastAPI integration for host-authenticated Jiu-Jitsu applications |
 | 🛡️ **Trust & portfolio checks** | SHA-256 content integrity, trusted-issuer allow-lists, evidence dates, expiry checks and weighted verification coverage |
 | 🧱 **Chunking & patching** | Lazy bounded chunks, workload manifests, stale-edit detection, conflict checks and reversible text patches |
+| 🧊 **Voxel systems** | Affine frames, sparse chunks, Morton order, octree, surface meshing, DDA raycast, Spielman-style spectral graphs and engine payloads |
 | 🧪 **Autotest autopsy** | Repeatable test runs, flaky-test detection, failure categories and diagnostic recommendations |
 | 🔎 **Studio & analysis** | Magento XML inspection, declarative filtering, workflow previews, Unicode-aware text craft and prosody diagnostics |
 
@@ -61,6 +62,7 @@ sambu examples/ideal_gas.sambu
 sambu examples/oop_and_games.sambu
 sambu examples/percentages.sambu
 sambu examples/anatidae_biophysics.sambu
+sambu examples/voxel_world.sambu
 
 # Inspect a Magento module without launching Magento
 sambu-studio inspect examples/magento_reference
@@ -121,6 +123,31 @@ print(flight.is_sufficient)
 These are configurable teaching models, not claims that every duck shares identical physiology. Efficiency, insulation, wetness, flight power and energy reserves are inputs supplied by the researcher. Species-specific coefficients require species-specific evidence.
 
 📘 [Explore Anatidae models](docs/ANATIDAE_MODELS.md)
+
+## 🧊 Sparse voxels and engine bridges
+
+SAMBU 0.11 adds a renderer-neutral voxel core and native SAMBU built-ins:
+
+~~~sambu
+let world = voxel_grid(16)
+voxel_set(world, 0, 0, 0, 2)
+voxel_set(world, 1, 0, 0, 2)
+let mesh = voxel_mesh(world)
+let tree = voxel_octree(world)
+let graph = voxel_spectral_profile(world)
+let field = voxel_solve_field(graph, [1, -1])
+print(mesh.face_count)
+print(tree.node_count)
+print(graph.matrix_nonzeros)
+~~~
+
+The core provides affine spatial frames, signed Morton keys, sparse chunk storage, dirty-chunk frame budgets, exposed-face meshing, 3D DDA ray traversal, JSON interchange and a basic MagicaVoxel VOX importer/exporter. Sparse octrees skip empty regions; a graph layer exposes CSR Laplacians, preconditioned conjugate-gradient solves and a bounded Spielman–Srivastava-style effective-resistance sparsifier.
+
+Starter bridges are included for **Unity, Unreal Engine, Godot, Bevy and O3DE**. Unlisted engines consume the generic payload or implement a small adapter. The bridges are integration source—not prebuilt plugins or proof of production compatibility with every version.
+
+GPU kernels currently mark exposed voxel faces; a separate prefix-sum/compaction and geometry-emission stage is still required for a complete GPU mesher. CPU meshing is a reference face-culling path, not yet a greedy mesher. CPU spectral resistance sampling is intentionally size-limited and should not be mistaken for a GPU solver.
+
+📘 [Voxel architecture and engine integration](engine_adapters/README.md)
 
 ## 🖥️ Interfaces with two explicit actions
 
@@ -190,7 +217,8 @@ The runner records outcomes, flags tests that pass in one run and fail in anothe
 ~~~text
 sambu/
 ├── lexer.py · parser.py · ast.py · runtime.py
-├── values.py · percentages.py · anatidae.py
+├── values.py · percentages.py · anatidae.py · voxel_builtins.py
+├── voxels/  # Sparse grids, frames, octree, graph Laplacian and adapters
 ├── chunking.py · patching.py · trust.py · testing.py
 ├── judo.py · aikido.py · jiu_jitsu.py
 └── integrations/
@@ -211,6 +239,7 @@ tests/              # Regression and contract tests
 | [Language reference](docs/LANGUAGE.md) | Syntax, runtime, AST and OOP |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
+| [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
 | [Percentages](docs/PERCENTAGES.md) | Percentage syntax and arithmetic |
 | [Web integrations](docs/INTEGRATIONS.md) | Django, Flask and FastAPI |
 | [Trust & portfolios](docs/TRUST_AND_PORTFOLIOS.md) | Evidence and content integrity |
