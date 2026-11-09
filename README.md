@@ -1,8 +1,3 @@
-
-
----
-
-```markdown
 <div align="center">
 
 # SAMBU
@@ -18,7 +13,7 @@
 
 ---
 
-## Architectural Direction
+## 🧭 Architectural Direction
 
 **Neo-Modern Diplomat / Neo-Modern Developer** is the driving vision behind SAMBU: one coherent, elegant language bridging physical models, business processes, queue topologies, infrastructure plans, and domain-specific execution adapters. 
 
@@ -26,7 +21,7 @@
 
 ---
 
-## Core Capabilities
+## ⚡ Core Capabilities
 
 * **Foundational Runtime:** Immutable `let` bindings, lexical scopes, user-defined functions, control flow (`if`/`else`, bounded `for` loops), arrays, and records.
 * **Object-Oriented Programming:** Classes, constructors, mutable instance fields, methods, and single inheritance.
@@ -38,7 +33,7 @@
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Install package in editable mode
@@ -56,71 +51,3 @@ sambu-studio inspect examples/magento_reference --format json
 
 # Run the test suite
 python -m unittest discover -s tests -v
-
-```
-
----
-
-## Language Syntax Preview
-
-```sambu
-let temperature = 300 * K
-let argon_mass = 6.6335209e-26 * kg
-let speeds = maxwell(temperature, argon_mass)
-print(speeds.rms)
-
-let excitation = 0.025 * eV
-print(boltzmann(excitation, temperature))
-
-```
-
----
-
-## SAMBU Studio: Static Magento Inspector
-
-The optional `sambu_studio` package provides a read-only static analyzer for Magento architecture:
-
-* Inventories DI preferences, plugins, communication topics, queue consumers, topology exchanges, and publishers.
-* Validates XML well-formedness, attribute constraints, common connection names, and cross-file references.
-* **Safe by Design:** Reads files locally only. It does not execute `bin/magento`, establish SSH/SQL/RabbitMQ connections, or perform file mutations.
-
----
-
-## Project Layout
-
-```text
-sambu/              Lexer, typed AST, parser, OOP runtime, SI units & domain models
-sambu_studio/       Optional Studio inspection services and CLI
-examples/           Runable SAMBU programs and Magento XML fixtures
-tests/              Dependency-free unittest suite
-docs/               Language specifications, domains, commerce, IDE & roadmap
-.github/            GitHub Actions test matrix
-
-```
-
----
-
-## Roadmap
-
-1. **Static Analyzer:** Build a dimensional/type semantic analyzer over the typed AST with stable error codes and exact source spans.
-2. **LSP & Tokens:** Implement Language Server Protocol support and contextual semantic tokens.
-3. **Contextual Completion:** Add intelligent scope and version-aware adapter metadata completion.
-4. **Interactive Diagnostics:** Introduce REPL plotting and non-intrusive execution tracing.
-5. **Modular Adapters:** Package opt-in Magento integration adapters with strict version contracts.
-6. **Simulation Engine:** Expand queue, event, and workflow models with invariant checks.
-
----
-
-## License
-
-Distributed under the **MIT License**. See [LICENSE](https://www.google.com/search?q=LICENSE) for details.
-
-```
-
-<ElicitationsGroup message="Explore related aspects of the SAMBU architecture:">
-  <Elicitation label="Review the OOP and game rules documentation" query="Show me the details of the OOP class inheritance model and deterministic game rule functions in SAMBU."/>
-  <Elicitation label="Examine the Neo-Modern Developer manifesto" query="Explain the core principles of the Neo-Modern Developer and Neo-Modern Diplomat architectural framework."/>
-  <Elicitation label="Explore the SAMBU Studio Magento inspection schema" query="What are the specific XML structures and inspection rules supported by SAMBU Studio?"/>
-</ElicitationsGroup>
-
-```
