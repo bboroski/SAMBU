@@ -40,7 +40,7 @@ The result includes post-plan arrays, promoted/demoted elements, capacity status
 
 Canonical call: \`biometric_taxonomy_sort(entities, features)\`
 
-Each entity is \`[name, integer_mask]\`; each feature name corresponds to one bit, up to 64 features. The function builds a deterministic binary trait-classification tree, choosing the most balanced available split and breaking ties by feature input order. Names, masks, features and traversal order are stable.
+Each entity is \`[name, integer_mask]\`; each feature name corresponds to one bit, up to 53 features (the largest exact integer mask supported by the current numeric-literal representation). The function builds a deterministic binary trait-classification tree, choosing the most balanced available split and breaking ties by feature input order. Names, masks, features and traversal order are stable.
 
 This is a trait partition, not phylogenetic inference, DNA analysis or a dynamic type/inheritance system. The output explicitly sets \`phylogeny_inferred=false\`. Alias: \`BiometricTaxonomySort\`.
 
