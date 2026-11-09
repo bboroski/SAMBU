@@ -95,6 +95,15 @@ class CodeSamplerTests(unittest.TestCase):
             with self.assertRaises(CodeSamplingError):
                 CodeSampler().sample(link)
 
+    def test_sampler_enforces_aggregate_workspace_source_budget(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "first.sambu").write_text("1\\n", encoding="utf-8")
+            (root / "second.sambu").write_text("2\\n", encoding="utf-8")
+            sampler = CodeSampler(max_source_bytes=100, max_total_source_bytes=3)
+            with self.assertRaisesRegex(CodeSamplingError, "total bytes"):
+                sampler.sample(root, denominator=100)
+
 
 class GhostLedgerTests(unittest.TestCase):
     def test_ghosts_are_deduplicated_redacted_and_roundtrip(self):
