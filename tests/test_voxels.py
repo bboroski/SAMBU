@@ -82,6 +82,24 @@ class SparseVoxelGridTests(unittest.TestCase):
         self.assertEqual(restored.get_voxel(1,0,0),2)
         self.assertEqual(restored.bounds,((0,0,0),(1,0,0)))
 
+    def test_validation_rejects_lossy_coordinates_and_unbounded_cpu_mesh(self):
+        grid=SparseVoxelGrid()
+        grid.set_voxel(0,0,0,1)
+        with self.assertRaises(ValueError):
+            grid.build_surface_mesh(max_faces=5)
+        with self.assertRaises(TypeError):
+            plan_frame_updates(1,[(0,0,0)],(0.5,0,0),max_chunks=1)
+        with self.assertRaises(TypeError):
+            grid.acknowledge_chunks([(True,0,0)])
+        malformed={
+            "schema":"sambu.voxel_grid.v1",
+            "chunk_size":16,
+            "frame":{"origin":[0,0,0],"voxel_size":1,"axes":[[1,0,0],[0,1,0],[0,0,1]]},
+            "voxels":[{"x":0.5,"y":0,"z":0,"material":1}],
+        }
+        with self.assertRaises(TypeError):
+            SparseVoxelGrid.from_dict(malformed)
+
     def test_upload_frame_budget_is_nearest_first(self):
         plan=plan_frame_updates(12,[(3,0,0),(1,0,0),(2,0,0)],(0,0,0),max_chunks=2)
         self.assertEqual(plan.selected_chunks,((1,0,0),(2,0,0)))
