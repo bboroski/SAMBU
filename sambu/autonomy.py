@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from enum import Enum
 import hashlib
 import json
+import math
 import re
 from typing import Iterable
 from pathlib import PurePosixPath
@@ -79,15 +80,48 @@ def _risk(value: RiskTier | str) -> RiskTier:
         raise ValueError("risk tier must be low, medium, high, or critical") from exc
 
 
-def _canonical_json(value: object) -> str:
-    """Serialize JSON-shaped evidence with stable key ordering and finite numbers."""
+def _validate_json_shape(value: object, *, depth: int = 0, count: list[int] | None = None) -> None:
+    """Reject ambiguous, excessively deep or excessively broad JSON-shaped values."""
+    if count is None:
+        count = [0]
+    if depth > 64:
+        raise TypeError("evidence nesting exceeds the maximum depth of 64")
+    count[0] += 1
+    if count[0] > 100_000:
+        raise TypeError("evidence exceeds the maximum of 100,000 values")
+    if value is None or isinstance(value, (str, bool, int)):
+        return
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise TypeError("evidence numbers must be finite")
+        return
+    if isinstance(value, (list, tuple)):
+        for item in value:
+            _validate_json_shape(item, depth=depth + 1, count=count)
+        return
+    if isinstance(value, dict):
+        if any(not isinstance(key, str) for key in value):
+            raise TypeError("evidence object keys must be strings")
+        for item in value.values():
+            _validate_json_shape(item, depth=depth + 1, count=count)
+        return
+    raise TypeError(f"unsupported evidence value: {type(value).__name__}")
+
+
+def _canonical_json(value: object, *, max_bytes: int = 1_048_576) -> str:
+    """Serialize bounded JSON-shaped evidence with stable key ordering."""
+    _positive_int(max_bytes, "max_bytes", maximum=268_435_456)
+    _validate_json_shape(value)
     try:
-        return json.dumps(
+        encoded = json.dumps(
             value, sort_keys=True, separators=(",", ":"),
             ensure_ascii=False, allow_nan=False,
         )
-    except (TypeError, ValueError) as exc:
-        raise TypeError("evidence must contain only finite JSON-shaped values") from exc
+    except (TypeError, ValueError, RecursionError) as exc:
+        raise TypeError("evidence must contain bounded finite JSON-shaped values") from exc
+    if len(encoded.encode("utf-8")) > max_bytes:
+        raise ValueError(f"canonical JSON payload exceeds {max_bytes} bytes")
+    return encoded
 
 
 def fingerprint(value: object) -> str:
@@ -284,13 +318,23 @@ class ExperimentRecord:
 class ExperimentLedger:
     """Bounded append-only evidence ledger with deterministic hash chaining."""
 
-    def __init__(self, *, max_records: int = 10_000):
+    def __init__(
+        self, *, max_records: int = 10_000, max_total_bytes: int = 16_777_216,
+    ):
         self.max_records = _positive_int(max_records, "max_records", maximum=1_000_000)
+        self.max_total_bytes = _positive_int(
+            max_total_bytes, "max_total_bytes", maximum=1_073_741_824
+        )
         self._records: list[ExperimentRecord] = []
+        self._stored_bytes = 0
 
     @property
     def records(self) -> tuple[ExperimentRecord, ...]:
         return tuple(self._records)
+
+    @property
+    def stored_bytes(self) -> int:
+        return self._stored_bytes
 
     def find_by_input(self, input_digest: str) -> tuple[ExperimentRecord, ...]:
         """Return all observations made with one canonical input fingerprint."""
@@ -314,7 +358,7 @@ class ExperimentLedger:
         return _canonical_json({
             "format": "sambu.experiment-ledger/v1",
             "records": rows,
-        })
+        }, max_bytes=min(268_435_456, self.max_total_bytes * 2 + 1_048_576))
 
     def record(
         self,
@@ -334,7 +378,7 @@ class ExperimentLedger:
             raise ValueError("input_digest must be a lowercase SHA-256 hex digest")
         evidence = tuple(_names(evidence_refs, "evidence reference"))
         seed = _seed(seed)
-        outcome_json = _canonical_json(outcome)
+        outcome_json = _canonical_json(outcome, max_bytes=32_768)
         previous = self._records[-1].digest if self._records else _ZERO_DIGEST
         payload = {
             "sequence": len(self._records) + 1,
@@ -346,7 +390,11 @@ class ExperimentLedger:
             "seed": seed,
             "previous_digest": previous,
         }
-        digest = fingerprint(payload)
+        serialized_payload = _canonical_json(payload, max_bytes=65_536)
+        record_size = len(serialized_payload.encode("utf-8"))
+        if self._stored_bytes + record_size > self.max_total_bytes:
+            raise LedgerFull("experiment ledger byte capacity reached")
+        digest = hashlib.sha256(serialized_payload.encode("utf-8")).hexdigest()
         record = ExperimentRecord(
             sequence=payload["sequence"],
             hypothesis=hypothesis,
@@ -359,6 +407,7 @@ class ExperimentLedger:
             digest=digest,
         )
         self._records.append(record)
+        self._stored_bytes += record_size
         return record
 
     def verify(self) -> bool:
@@ -520,6 +569,7 @@ class SambuMachine:
     def audit(self) -> dict[str, object]:
         return {
             "ledger_records": len(self.ledger.records),
+            "ledger_bytes": self.ledger.stored_bytes,
             "ledger_valid": self.ledger.verify(),
             "policy_capabilities": tuple(sorted(self.policy.allowed_capabilities)),
             "maximum_autonomous_risk": self.policy.maximum_autonomous_risk.value,
