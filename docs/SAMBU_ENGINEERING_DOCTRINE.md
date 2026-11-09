@@ -115,7 +115,7 @@ The principle is not “read only one percent and trust the result.” It is a b
 
 1. Find source files in a file or workspace.
 2. Refuse symlink roots/files; skip hidden and generated dependency directories.
-3. Enforce file-count and source-byte budgets.
+3. Enforce file-count, per-file source-byte and aggregate workspace-byte budgets (2 MB per source by default, 32 MB across a workspace).
 4. Parse each source file. Invalid files fail the sampling operation instead of disappearing from the report.
 5. Rank AST statements by SHA-256 of `seed | relative path | source offset | node kind`.
 6. Select `ceil(statement_count / N)` statements per file, with at least one sample for every non-empty file.
