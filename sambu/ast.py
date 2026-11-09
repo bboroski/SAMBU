@@ -85,10 +85,26 @@ class LetStatement:
 
 
 @dataclass(frozen=True, slots=True)
+class SetFieldStatement:
+    target: Expression
+    name: str
+    value: Expression
+    span: SourceSpan
+
+
+@dataclass(frozen=True, slots=True)
 class FunctionStatement:
     name: str
     parameters: tuple[str, ...]
     body: tuple[Statement, ...]
+    span: SourceSpan
+
+
+@dataclass(frozen=True, slots=True)
+class ClassStatement:
+    name: str
+    base_name: str | None
+    methods: tuple[FunctionStatement, ...]
     span: SourceSpan
 
 
@@ -122,7 +138,9 @@ class ExpressionStatement:
 
 Statement: TypeAlias = (
     LetStatement
+    | SetFieldStatement
     | FunctionStatement
+    | ClassStatement
     | ReturnStatement
     | IfStatement
     | ForStatement
@@ -184,6 +202,16 @@ def statement_to_legacy(statement: Statement) -> tuple:
             statement.name,
             list(statement.parameters),
             [statement_to_legacy(item) for item in statement.body],
+        )
+    if isinstance(statement, SetFieldStatement):
+        return (
+            "set_field", expression_to_legacy(statement.target), statement.name,
+            expression_to_legacy(statement.value),
+        )
+    if isinstance(statement, ClassStatement):
+        return (
+            "class", statement.name, statement.base_name,
+            [statement_to_legacy(method) for method in statement.methods],
         )
     if isinstance(statement, ReturnStatement):
         return ("return", expression_to_legacy(statement.value))

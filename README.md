@@ -60,6 +60,12 @@ sambu-studio inspect /path/to/magento/project --format json
 - Ownership-aware territory rounds with `capture_node`, extending `capture_tower` resistance calculations.
 - Source-aware lexer and parser diagnostics with stable codes and end-exclusive token spans.
 - Public immutable typed AST nodes through `parse_ast()`, while `parse()` preserves the established tuple AST for existing clients.
+- Object-oriented classes, constructors, instance fields, methods, single inheritance and method overriding.
+- Deterministic game rules: `rps_round`, `tic_tac_toe_state` and `tic_tac_toe_move`.
+
+## Object-oriented programming and games
+
+SAMBU supports classes, constructors, mutable instance fields, methods and single inheritance. The first OOP slice deliberately excludes interfaces, traits, visibility modifiers, generics and static type checking. Built-in game functions implement rock-paper-scissors and legal tic-tac-toe state transitions. See [OOP and game rules](docs/GAMES_AND_OOP.md) and run `sambu examples/oop_and_games.sambu`.
 
 The scanner inventories DI preferences and plugins, communication topics and handlers, queue consumers, topology exchanges/bindings and publishers. It checks XML well-formedness, selected attribute constraints, common connection names and simple cross-file references. JSON output is versioned with schema_version 1.
 
@@ -102,7 +108,7 @@ The planned SAMBU Studio / Diplomat Night environment is specified separately fr
 ## Project layout
 
 ```text
-sambu/       lexer, typed AST, parser, interpreter, units and domain models
+sambu/       lexer, typed AST, parser, OOP runtime, units and domain models
 examples/    runnable SAMBU programs
 tests/       dependency-free unittest suite
 docs/        language, domain, commerce and IDE specifications

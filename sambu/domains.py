@@ -6,6 +6,7 @@ All percentages are represented as fractions in [0, 1].
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 import math
 import re
 
@@ -553,6 +554,138 @@ def order_pipeline(args: list[object]):
 
 
 
+
+_RPS_MOVES = {"rock", "paper", "scissors"}
+
+
+def rps_round(args: list[object]):
+    """Resolve one rock-paper-scissors round with canonical, deterministic rules."""
+    from .values import Record
+    _arity(args, {2}, "rps_round(player_move, opponent_move)")
+    if any(not isinstance(move, str) for move in args):
+        raise TypeError("rock-paper-scissors moves must be strings")
+    player, opponent = (move.strip().lower() for move in args)
+    if player not in _RPS_MOVES or opponent not in _RPS_MOVES:
+        raise ValueError("moves must be 'rock', 'paper', or 'scissors'")
+    if player == opponent:
+        outcome, winner = "draw", None
+    elif (player, opponent) in {
+        ("rock", "scissors"), ("paper", "rock"), ("scissors", "paper")
+    }:
+        outcome, winner = "win", "player"
+    else:
+        outcome, winner = "loss", "opponent"
+    return Record({
+        "player_move": player,
+        "opponent_move": opponent,
+        "outcome": outcome,
+        "winner": winner,
+    })
+
+
+_TTT_LINES = (
+    (0, 1, 2), (3, 4, 5), (6, 7, 8),
+    (0, 3, 6), (1, 4, 7), (2, 5, 8),
+    (0, 4, 8), (2, 4, 6),
+)
+
+
+def _ttt_winner(board: str) -> str | None:
+    winners = {
+        board[line[0]]
+        for line in _TTT_LINES
+        if board[line[0]] != " " and board[line[0]] == board[line[1]] == board[line[2]]
+    }
+    if len(winners) > 1:
+        return "invalid"
+    return next(iter(winners), None)
+
+
+@lru_cache(maxsize=1)
+def _reachable_ttt_boards() -> frozenset[str]:
+    """Generate every legal board, stopping play immediately after a win."""
+    seen: set[str] = set()
+
+    def visit(board: str, player: str) -> None:
+        if board in seen:
+            return
+        seen.add(board)
+        if _ttt_winner(board) is not None:
+            return
+        next_player = "O" if player == "X" else "X"
+        for index, cell in enumerate(board):
+            if cell == " ":
+                updated = board[:index] + player + board[index + 1:]
+                visit(updated, next_player)
+
+    visit(" " * 9, "X")
+    return frozenset(seen)
+
+
+def _normalize_ttt_board(value: object) -> str:
+    board = _array(value, "tic-tac-toe board")
+    if len(board) != 9:
+        raise ValueError("tic-tac-toe board must contain exactly 9 cells")
+    cells: list[str] = []
+    for cell in board:
+        if cell is None or cell == "" or cell == ".":
+            cells.append(" ")
+        elif isinstance(cell, str) and cell.upper() in {"X", "O"}:
+            cells.append(cell.upper())
+        else:
+            raise ValueError("tic-tac-toe cells must be 'X', 'O', '.', empty string, or null")
+    normalized = "".join(cells)
+    if normalized not in _reachable_ttt_boards():
+        raise ValueError("tic-tac-toe board is not reachable under legal alternating play")
+    return normalized
+
+
+def _ttt_state(board: str):
+    from .values import Record
+    winner = _ttt_winner(board)
+    remaining = board.count(" ")
+    if winner is not None:
+        status, next_player = "won", None
+    elif remaining == 0:
+        status, next_player = "draw", None
+    else:
+        status = "in_progress"
+        next_player = "X" if board.count("X") == board.count("O") else "O"
+    return Record({
+        "board": ["." if cell == " " else cell for cell in board],
+        "status": status,
+        "winner": winner,
+        "next_player": next_player,
+        "moves_remaining": remaining,
+    })
+
+
+def tic_tac_toe_state(args: list[object]):
+    """Validate a board and report winner, draw or the next legal player."""
+    _arity(args, {1}, "tic_tac_toe_state(board)")
+    return _ttt_state(_normalize_ttt_board(args[0]))
+
+
+def tic_tac_toe_move(args: list[object]):
+    """Apply one legal move and return a new state record."""
+    _arity(args, {3}, "tic_tac_toe_move(board, player, position)")
+    board = _normalize_ttt_board(args[0])
+    player = args[1]
+    if not isinstance(player, str) or player.upper() not in {"X", "O"}:
+        raise ValueError("player must be 'X' or 'O'")
+    player = player.upper()
+    state = _ttt_state(board)
+    if state.get("status") != "in_progress":
+        raise ValueError("cannot move after the game has ended")
+    if state.get("next_player") != player:
+        raise ValueError(f"it is {state.get('next_player')}'s turn, not {player}'s")
+    position = _integer(args[2], "board position", 0, 8)
+    if board[position] != " ":
+        raise ValueError(f"board position {position} is already occupied")
+    updated = board[:position] + player + board[position + 1:]
+    return _ttt_state(updated)
+
+
 DOMAIN_BUILTINS = {
     "network": network,
     "network_metrics": network_metrics,
@@ -574,4 +707,8 @@ DOMAIN_BUILTINS = {
     "studio_offer": studio_offer,
     "capture_node": capture_node,
     "order_pipeline": order_pipeline,
+    "rps_round": rps_round,
+    "tic_tac_toe_state": tic_tac_toe_state,
+    "tic_tac_toe_move": tic_tac_toe_move,
 }
+

@@ -1,0 +1,34 @@
+# Basic object-oriented programming
+class Animal {
+  fn init(self, name) {
+    self.name = name
+  }
+  fn speak(self) {
+    return self.name + " makes a sound"
+  }
+}
+
+class Dog extends Animal {
+  fn speak(self) {
+    return self.name + " barks"
+  }
+}
+
+let pet = Dog("Rex")
+print(pet.speak())
+
+# Rock-paper-scissors
+let round = rps_round("rock", "scissors")
+print(round.outcome)
+print(round.winner)
+
+# Tic-tac-toe: immutable board values make every move explicit
+let board0 = [".", ".", ".", ".", ".", ".", ".", ".", "."]
+let board1 = tic_tac_toe_move(board0, "X", 0)
+let board2 = tic_tac_toe_move(board1.board, "O", 4)
+let board3 = tic_tac_toe_move(board2.board, "X", 1)
+let board4 = tic_tac_toe_move(board3.board, "O", 5)
+let board5 = tic_tac_toe_move(board4.board, "X", 2)
+print(board5.status)
+print(board5.winner)
+print(board5.board)
