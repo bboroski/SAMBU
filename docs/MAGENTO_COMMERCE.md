@@ -2,13 +2,13 @@
 
 ## Purpose and boundary
 
-This document defines a reference architecture that SAMBU can describe and validate. It is not executable Magento integration code. SAMBU 0.5.0 has no network, database, payment, or RabbitMQ transport; it cannot replace Magento's checkout service or guarantee that a remote side effect has completed.
+SAMBU 0.6.0 provides planning models and a static XML inspector. It has no database, payment, network or RabbitMQ transport; it cannot replace Magento checkout or prove that a remote side effect completed.
 
-Magento / Adobe Commerce should remain the system of record for carts, quotes, orders, inventory reservations, customers, tax, and payment state. SAMBU models orchestration policies and invariants around those systems. A future adapter must be a separate, version-pinned package with integration tests against the exact Commerce release and enabled modules.
+Magento / Adobe Commerce remains the system of record for carts, quotes, orders, inventory reservations, customers, tax and payment state. A future adapter must be separate, version-pinned and tested against the exact Commerce release and enabled modules.
 
-## Recommended architecture
+## Recommended asynchronous order architecture
 
-```text
+~~~text
 Storefront
    |
 Magento Checkout / Quote validation
@@ -27,122 +27,87 @@ Outbox publisher -----> RabbitMQ exchange
                            |
                 Magento Order Management
                            |
-                Notification outbox
-                           |
-                 Email / SMS workers
+                 Notification outbox
 
 Failed or exhausted messages -----> Dead-letter queue
-```
+~~~
 
-### Important checkout rule
+### Checkout contract
 
-Do not acknowledge a successful order merely because a message was placed on a broker. The user-facing response must distinguish **request accepted** from **order confirmed**. If the business requires a confirmed order response, the synchronous boundary must wait until the authoritative order transaction has committed. If the business accepts asynchronous confirmation, persist a durable order-intent record first and return a truthful pending reference.
+Do not acknowledge a successful order merely because a message was placed on a broker. The customer response must distinguish request accepted from order confirmed. For asynchronous confirmation, persist a durable order-intent record first and return a pending reference. The order is confirmed only after authoritative Commerce state commits.
 
-Avoid replacing Magento's standard checkout with a controller that serializes arbitrary cart data and publishes it directly. Use supported service contracts and extension points, preserve quote validation, totals, customer context, stock checks, payment semantics, and the platform's order lifecycle.
-
-## Message contract
-
-Prefer a small, versioned message envelope over a serialized in-memory object or an unbounded cart dump:
-
-| Field | Purpose |
-|---|---|
-| `message_id` | Unique message identifier |
-| `schema_version` | Contract version for safe evolution |
-| `idempotency_key` | Stable business-operation key |
-| `quote_id` | Reference to the authoritative quote |
-| `store_id` | Store / website context |
-| `correlation_id` | Trace across checkout, broker, worker, and payment |
-| `occurred_at` | UTC event timestamp |
-| `trace_context` | Optional distributed-tracing context |
-
-Do not put card data, secrets, access tokens, or unnecessary personal data in queue payloads. The worker should reload authoritative state through supported service contracts and revalidate assumptions before committing side effects.
+Do not replace standard checkout with a controller that serializes arbitrary cart data and publishes it directly. Preserve quote validation, totals, customer context, stock checks, payment semantics and order lifecycle through supported service contracts. Queueing can move work off the synchronous path; it does not by itself remove database contention or guarantee higher throughput.
 
 ## Delivery semantics and idempotency
 
-Assume at-least-once delivery. A worker can crash after committing a database transaction but before acknowledging the message; the broker may deliver it again. Therefore:
+Assume at-least-once delivery. Persist idempotency under a unique database constraint; make state transitions conditional; use provider-supported payment idempotency keys where available; record outcomes so duplicate deliveries return prior results. SAMBU's idempotency_key only constructs a string and does not enforce uniqueness or prevent duplicate side effects.
 
-1. Persist an idempotency record under a unique database constraint before performing non-repeatable work.
-2. Associate the key with the operation type and stable quote / order reference.
-3. Make state transitions conditional and reject invalid repeats.
-4. Use provider-supported idempotency keys for payment operations where available.
-5. Record outcomes so a retry can return the prior result instead of creating a duplicate order or charge.
+Inventory reservation, payment authorization/capture and order persistence require an explicit state machine and compensation strategy for the selected inventory implementation and provider.
 
-SAMBU's `idempotency_key(scope, identifier)` only constructs a deterministic namespaced string. Uniqueness, persistence, race handling, retention, and replay policy belong to the adapter and database.
+## Message Queue Framework XML
 
-## Inventory and payment ordering
+Adobe Commerce uses distinct configuration files:
 
-Inventory reservation and payment authorization are not ordinary interchangeable steps. Define an explicit state machine and compensation policy for each payment provider and inventory implementation. A typical high-level sequence is:
+- communication.xml defines topic contracts and handlers.
+- queue_consumer.xml defines the relationship between a queue and its consumer.
+- queue_topology.xml declares exchanges, bindings and destinations.
+- queue_publisher.xml maps topics to publisher connections and exchanges.
 
-1. Validate the quote and calculate authoritative totals.
-2. Reserve inventory using the supported inventory service.
-3. Authorize payment using a provider idempotency key.
-4. Place / persist the order using supported Commerce services.
-5. Capture payment according to the merchant's payment policy.
-6. Commit the workflow outcome and publish notifications through a durable outbox.
-7. Release reservations or void authorizations when a later step fails, following provider-specific rules.
+A topic must define exactly one of request or schema. Use schema for a service-interface contract; use request for a data type. For synchronous request topics, also specify response. Do not use xsi:type="object" on topic elements. Magento documents topic as the supported exchange type in queue_topology.xml; do not assume arbitrary RabbitMQ exchange types are supported by Magento configuration.
 
-Do not assume every payment method supports separate authorization and capture. Do not perform irreversible payment capture before the order and inventory invariants are safely established.
+Example communication file:
 
-## RabbitMQ topology and worker operations
+~~~xml
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+    <topic name="heavy.order.place" request="string">
+        <handler name="heavyOrderProcessor"
+                 type="Vendor\HeavyOrderQueue\Model\Queue\Consumer"
+                 method="process"/>
+    </topic>
+</config>
+~~~
 
-Use a dedicated exchange and routing key for order-intent messages, with queue durability and message persistence configured consistently. Separate critical order processing from email, catalog indexing, and marketing workloads. Configure prefetch to bound in-flight work; size consumer concurrency against database connections, PHP-FPM / worker memory, payment-provider limits, and inventory contention.
+Example topology:
 
-The exact Magento XML declarations and CLI consumer name must be taken from the target Commerce version's official documentation and module conventions. In Magento Message Queue Framework, topic declarations, publisher configuration, topology bindings, consumer declarations, and queue connections have distinct roles. Do not assume a queue name is interchangeable with a consumer name. Validate the generated topology in the target environment.
+~~~xml
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
+    <exchange name="magento-heavy-orders" type="topic" connection="amqp">
+        <binding id="HeavyOrderBinding" topic="heavy.order.place"
+                 destinationType="queue" destination="heavy_orders_queue"/>
+    </exchange>
+</config>
+~~~
 
-SAMBU planning primitives:
+Also define queue_publisher.xml and queue_consumer.xml for the intended module architecture. A consumer's configured name is the identifier passed to the consumer-start CLI command; it is not automatically the queue name. Use the schema and configuration of the target release.
 
-```sambu
-let queue = queue_profile("heavy_orders", 4, 8, 3, true)
-let delays = retry_schedule(4, 2, 2, 30)
-print(queue.max_in_flight)
-print(queue.dead_letter_queue)
-print(delays)
-```
+## SAMBU Studio inspection
 
-Here, four workers with prefetch eight allow at most 32 messages in flight by this simple model. Four total processing attempts mean three retries after the initial attempt. The schedule is capped exponential backoff in seconds. Actual broker policies, consumer declarations, and retry transport must be configured independently.
+~~~bash
+sambu-studio inspect /path/to/magento/module
+sambu-studio inspect /path/to/magento/project --format json
+~~~
 
-The `order_pipeline` function packages the key checklist into one inspectable result:
+The inspector inventories preferences/plugins, communication topics/handlers, consumers, exchanges/bindings and publishers. It checks XML well-formedness, selected attributes and simple cross-file links. It is not an official XSD validator and does not resolve Magento's merged runtime config. A clean report does not prove referenced classes exist, DI compilation succeeds, RabbitMQ is reachable or an order is processed.
 
-```sambu
-let queue = queue_profile("heavy_orders_queue", 4, 8, 3, true)
-let flow = order_pipeline(queue, true, true, true, true, true, true)
-print(flow.invariants_satisfied)
-print(flow.blockers)
-print(flow.steps)
-```
+## Failure handling and operations
 
-The six flags assert that the adapter has a durable outbox, persisted idempotency, inventory reservation, payment authorization, acknowledgement only after order-state commit, and supervised workers. The queue profile must also enable dead-letter routing. A passing checklist is not evidence of deployed configuration or transaction success. The customer response remains a pending reference until the authoritative order state commits; broker acceptance alone is not order confirmation.
-
-## Failure handling
-
-- Retry transient network, provider, and lock-contention failures with bounded exponential backoff and jitter.
+- Retry only transient errors with bounded backoff and jitter.
 - Do not retry permanent validation failures indefinitely.
-- Route exhausted messages to a dead-letter queue with the original message, failure category, attempt count, and correlation ID.
-- Provide a controlled replay procedure that preserves idempotency and requires an operator-visible audit trail.
-- Alert on queue age, ready / unacked counts, consumer health, retry rate, DLQ growth, order-intent age, payment failures, and reservation compensation failures.
+- Route exhausted messages to a DLQ with failure category, attempt count and correlation ID.
+- Replay only through an audited operator workflow that preserves idempotency.
+- Monitor queue age, ready/unacked messages, consumer health, retry rate, DLQ growth, payment failures and inventory compensation failures.
+- Use a supervised process manager with bounded process lifetime, restart policy, resource limits and logs.
 
-A dead-letter queue is not a substitute for error classification or an operational replay process.
+## Version-aware Studio roadmap
 
-## Magento module integration plan
+1. Official XSD validation for the target module and Commerce version.
+2. DI config merging and plugin/preference inspection by area and module load order.
+3. PHP AST navigation and Service Contract symbol indexing.
+4. GraphQL schema explorer and query validation against the target schema.
+5. SQL profiling through explicitly enabled local development instrumentation.
+6. Read-only RabbitMQ telemetry using least-privilege credentials.
+7. Audited DLQ replay only after idempotency, permission and confirmation design.
 
-A production adapter should be implemented as a conventional Magento module with:
-
-- `registration.php`, `etc/module.xml`, and Composer package metadata.
-- Service-contract interfaces for publishing and handling order-intent messages.
-- Version-correct `communication.xml`, `queue_publisher.xml`, `queue_topology.xml`, and `queue_consumer.xml` declarations as required by the target Commerce release.
-- Dependency injection through `etc/di.xml`; no direct ObjectManager calls.
-- Plugins / observers only where supported extension points are appropriate; prefer service contracts.
-- Database schema for idempotency and outbox / inbox records, with transactional uniqueness constraints.
-- Integration tests for duplicate delivery, worker crash windows, payment timeouts, inventory contention, and replay.
-- Supervisor or the platform's supported process manager for long-running consumers, with bounded process lifetime and restart policy.
-
-## Deployment and compatibility
-
-Pin supported Adobe Commerce / Magento Open Source versions, PHP versions, RabbitMQ versions, and enabled modules. Treat Adobe Commerce Cloud deployment constraints separately from self-managed infrastructure. Verify queue transport settings, secrets management, TLS, least-privilege broker accounts, database capacity, and rollback behavior in each environment.
-
-## Non-goals in SAMBU 0.5
-
-- No Magento runtime, module generator, checkout replacement, or production connector.
-- No direct RabbitMQ publish / consume implementation.
-- No payment processing, inventory reservation, order persistence, or customer notification.
-- No claim that asynchronous acknowledgement equals a confirmed order.
+Do not embed credentials or issue destructive commands from editor preview. SSH/SFTP, cache clearing, deployment, queue purge and message replay are not implemented by the current inspector.

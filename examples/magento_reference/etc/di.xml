@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Vendor\HeavyOrderQueue\Api\OrderIntentInterface"
+                type="Vendor\HeavyOrderQueue\Model\OrderIntent"/>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="orderAudit" type="Vendor\HeavyOrderQueue\Plugin\OrderAudit" sortOrder="20"/>
+    </type>
+</config>
