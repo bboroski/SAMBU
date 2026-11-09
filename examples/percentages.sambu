@@ -1,0 +1,10 @@
+# Percentage literals, modulo, and checked percentage helpers.
+let price = 240
+let discount = 12.5%
+let savings = percent_of(price, ratio_to_percent(discount))
+let final_price = price - savings
+print(discount)
+print(savings)
+print(final_price)
+print(10 % 3)
+print(percent_change(80, 100))
