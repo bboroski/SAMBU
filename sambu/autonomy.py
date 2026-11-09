@@ -118,6 +118,8 @@ class ResourceBudget:
 
     def cap_to(self, maximum: "ResourceBudget") -> tuple["ResourceBudget", tuple[str, ...]]:
         """Return the component-wise minimum and the names of clipped limits."""
+        if not isinstance(maximum, ResourceBudget):
+            raise TypeError("maximum must be a ResourceBudget")
         clipped = []
         values = {}
         for name in ("max_steps", "max_messages", "max_payload_bytes", "max_retries"):
@@ -126,8 +128,6 @@ class ResourceBudget:
             values[name] = min(requested, allowed)
             if requested > allowed:
                 clipped.append(name)
-        if not isinstance(maximum, ResourceBudget):
-            raise TypeError("maximum must be a ResourceBudget")
         return ResourceBudget(**values), tuple(clipped)
 
 
@@ -172,8 +172,18 @@ class AutonomyPolicy:
     )
 
     def __post_init__(self) -> None:
-        caps = frozenset(_names(self.allowed_capabilities, "allowed capability"))
-        roots = _names(self.allowed_change_roots, "allowed change root")
+        if isinstance(self.allowed_capabilities, (str, bytes)):
+            raise TypeError("allowed_capabilities must be an iterable of names")
+        if isinstance(self.allowed_change_roots, (str, bytes)):
+            raise TypeError("allowed_change_roots must be an iterable of path prefixes")
+        caps = frozenset(
+            _non_empty(value, "allowed capability", limit=128)
+            for value in self.allowed_capabilities
+        )
+        roots = tuple(sorted({
+            _non_empty(value, "allowed change root", limit=256)
+            for value in self.allowed_change_roots
+        }))
         protected = tuple(_non_empty(p, "protected path", limit=256) for p in self.protected_paths)
         if not isinstance(self.maximum_budget, ResourceBudget):
             raise TypeError("maximum_budget must be a ResourceBudget")
