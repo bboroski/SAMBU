@@ -62,6 +62,9 @@ class ProjectGeneratorTests(unittest.TestCase):
             outside = Path(temporary) / "outside"
             create_project("blog_app", root)
             outside.mkdir()
+            placeholder = root / "app" / "models" / "application_record.sambu"
+            if placeholder.exists():
+                placeholder.unlink()
             (root / "app" / "models").rmdir()
             try:
                 (root / "app" / "models").symlink_to(outside, target_is_directory=True)

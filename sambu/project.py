@@ -57,14 +57,23 @@ def parse_field_specs(values: Iterable[str]) -> tuple[FieldSpec, ...]:
     return tuple(result)
 
 
-def _write(root: Path, files: dict[str, str], allow_empty: bool) -> list[Path]:
+def _write(root: Path, files: dict[str, str], *, allow_populated: bool) -> list[Path]:
+    """Write a generated file set without following links or overwriting files.
+
+    Project creation requires a missing or empty destination. Scaffold generation
+    is allowed inside an existing project, but every generated target must be new.
+    """
     root = root.expanduser()
     if root.is_symlink():
         raise ProjectGenerationError(f"destination {root} must not be a symbolic link")
     if root.exists():
-        if not root.is_dir() or (not allow_empty) or any(root.iterdir()):
-            raise ProjectGenerationError(f"destination {root} is not empty or is not a directory")
+        if not root.is_dir():
+            raise ProjectGenerationError(f"destination {root} is not a directory")
+        if not allow_populated and any(root.iterdir()):
+            raise ProjectGenerationError(f"destination {root} is not empty")
     else:
+        if allow_populated:
+            raise ProjectGenerationError(f"destination {root} must be an existing SAMBU project")
         root.mkdir(parents=True, exist_ok=True)
 
     targets: list[tuple[Path, str]] = []
@@ -160,7 +169,7 @@ main()
         "db/migrate/README.md": "Migration files are specifications until a database adapter and transactional runner exist.\n",
         "test/README.md": "Generated tests are starters; a framework-aware web test client is planned.\n",
     }
-    return _write(root, files, allow_empty=True)
+    return _write(root, files, allow_populated=False)
 
 
 def generate_scaffold(
@@ -221,4 +230,4 @@ def generate_scaffold(
             "# Actions: index, show, new, create, edit, update, destroy.\n"
         ),
     }
-    return _write(root, files, allow_empty=False)
+    return _write(root, files, allow_populated=True)

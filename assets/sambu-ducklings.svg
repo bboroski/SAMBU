@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">SAMBU duck family</title>
+  <desc id="desc">A calm pond scene with one parent duck and three ducklings, drawn in a clean editorial vector style.</desc>
+  <defs>
+    <linearGradient id="pond" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAF8F3"/>
+      <stop offset="1" stop-color="#CDECE6"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE99A"/>
+      <stop offset="1" stop-color="#F7C95F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="340" rx="28" fill="url(#pond)"/>
+  <circle cx="1040" cy="82" r="42" fill="url(#sun)" opacity=".95"/>
+  <path d="M0 245 C170 215 290 270 445 244 S745 215 900 246 S1080 264 1200 232 V340 H0Z" fill="#B7E2D9" opacity=".75"/>
+  <path d="M0 282 C185 252 310 303 490 277 S810 255 980 280 S1110 294 1200 270" fill="none" stroke="#83C7B9" stroke-width="4" stroke-linecap="round" opacity=".75"/>
+  <path d="M0 314 C190 292 320 326 500 307 S820 292 1000 311 S1120 321 1200 306" fill="none" stroke="#98D2C6" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+  <path d="M180 103c18-21 49-22 67-3 16-13 42-5 46 15H161c2-6 8-10 19-12Z" fill="#fff" opacity=".76"/>
+  <path d="M770 70c14-16 39-17 54-2 13-10 34-4 37 12H755c2-5 7-8 15-10Z" fill="#fff" opacity=".68"/>
+  <!-- parent duck -->
+  <g transform="translate(170 104)">
+    <ellipse cx="168" cy="134" rx="132" ry="76" fill="#FFFDF4"/>
+    <ellipse cx="190" cy="145" rx="69" ry="42" fill="#F2D77E"/>
+    <path d="M77 141c24-44 78-60 119-36-28 6-53 27-64 55-20 2-39-4-55-19Z" fill="#F3C95D"/>
+    <circle cx="89" cy="75" r="58" fill="#FFFDF4"/>
+    <path d="M42 57c13-39 57-55 91-29-13-3-26 1-36 10-19-4-38 4-55 19Z" fill="#F6E7B4"/>
+    <path d="M32 82 0 94 34 108c13-5 20-13 22-21Z" fill="#E98A42"/>
+    <circle cx="105" cy="72" r="7" fill="#19394A"/>
+    <circle cx="107" cy="70" r="2.3" fill="#fff"/>
+    <path d="M89 205l-8 18m8-18 10 17m83-14-5 16m5-16 10 15" fill="none" stroke="#E98A42" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <!-- duckling one -->
+  <g transform="translate(545 176) scale(.78)">
+    <ellipse cx="72" cy="72" rx="68" ry="42" fill="#F8D765"/>
+    <circle cx="35" cy="40" r="34" fill="#FFE58A"/>
+    <path d="M5 47 -20 57 7 67c9-3 15-9 15-15Z" fill="#E98A42"/>
+    <circle cx="47" cy="38" r="4.7" fill="#19394A"/>
+    <path d="M63 108l-5 12m5-12 8 10" fill="none" stroke="#E98A42" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <!-- duckling two -->
+  <g transform="translate(725 202) scale(.62)">
+    <ellipse cx="72" cy="72" rx="68" ry="42" fill="#F4C94F"/>
+    <circle cx="35" cy="40" r="34" fill="#FFE58A"/>
+    <path d="M5 47 -20 57 7 67c9-3 15-9 15-15Z" fill="#E98A42"/>
+    <circle cx="47" cy="38" r="4.7" fill="#19394A"/>
+    <path d="M63 108l-5 12m5-12 8 10" fill="none" stroke="#E98A42" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <!-- duckling three -->
+  <g transform="translate(865 220) scale(.5)">
+    <ellipse cx="72" cy="72" rx="68" ry="42" fill="#F8D765"/>
+    <circle cx="35" cy="40" r="34" fill="#FFE58A"/>
+    <path d="M5 47 -20 57 7 67c9-3 15-9 15-15Z" fill="#E98A42"/>
+    <circle cx="47" cy="38" r="4.7" fill="#19394A"/>
+    <path d="M63 108l-5 12m5-12 8 10" fill="none" stroke="#E98A42" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M1040 265c25-20 48-20 73 0-23 5-48 5-73 0Z" fill="#69B59F" opacity=".8"/>
+  <path d="M1080 263c-5-22 5-39 24-51" fill="none" stroke="#4C9A82" stroke-width="5" stroke-linecap="round"/>
+  <path d="M1104 212c-1 14-10 22-25 22 3-12 11-20 25-22Z" fill="#6DBBA1"/>
+  <path d="M1050 290c20-7 37-7 54 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+</svg>
