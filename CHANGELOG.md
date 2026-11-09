@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 — 2026-11-09
+
+- Added public immutable `SourcePosition` and end-exclusive `SourceSpan` primitives.
+- Extended lexer tokens with source offsets, end positions, and a stable `span` property while preserving the original fields.
+- Added stable lexical and parser diagnostic codes with token-aligned ranges; retained legacy `line` / `column` attributes and message formatting.
+- Exported the source-location, token, lexer, parser, and syntax-diagnostic interfaces from the `sambu` package.
+- Kept the tuple-based parser AST and interpreter behavior backward-compatible; node-level AST spans remain a follow-up milestone.
+- Added regression tests for Unicode offsets, multiline positions, EOF spans, and diagnostic ranges.
+
+
 ## 0.3.0 — 2026-11-09
 
 - Expanded SAMBU's systems-modeling scope with commerce queue-planning primitives.
