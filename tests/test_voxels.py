@@ -78,7 +78,8 @@ class SparseVoxelGridTests(unittest.TestCase):
         self.assertTrue(binary.startswith(b"VOX "))
         restored=SparseVoxelGrid.from_magica_vox(binary)
         self.assertEqual(restored.voxel_count,2)
-        self.assertEqual(restored.get_voxel(0,0,0),None)
+        self.assertEqual(restored.get_voxel(0,0,0),1)
+        self.assertEqual(restored.get_voxel(1,0,0),2)
         self.assertEqual(restored.bounds,((0,0,0),(1,0,0)))
 
     def test_upload_frame_budget_is_nearest_first(self):
