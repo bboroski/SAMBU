@@ -194,8 +194,11 @@ class SambuMachineTests(unittest.TestCase):
         execute(example.read_text(encoding="utf-8"), output=output.append)
         self.assertEqual(output[0], "SAMBU Mulberry Charlotte")
         self.assertEqual(output[1], "12")
-        self.assertGreater(float(output[-2]), 0.0)
-        self.assertGreater(float(output[-1]), 0.0)
+        self.assertEqual(
+            [float(value) for value in output[2:8]],
+            [270.0, 135.0, 4.5, 390.0, 270.0, 1305.0],
+        )
+        self.assertEqual(float(output[-1]), 108.75)
 
 
 if __name__ == "__main__":
