@@ -232,6 +232,10 @@ examples/           # Runnable language and Python examples
 tests/              # Regression and contract tests
 ~~~
 
+## 📚 SAMBU Encyclopedia
+
+A project-wide technical wiki is available in the repository: **[Open the SAMBU Wiki](wiki/README.md)**. It covers the language, syntax, runtime values, OOP, scientific and domain libraries, Judo/Aikido/Jiu-Jitsu, voxel systems, trust boundaries, Studio, integrations, tests and roadmap. The wiki labels implemented behavior separately from limitations and planned work.
+
 ## 📚 Documentation
 
 | Guide | Focus |
@@ -242,6 +246,7 @@ tests/              # Regression and contract tests
 | [Autonomy constitution](docs/AUTONOMY_CONSTITUTION.md) | 100 auditable rules, baseline status and acceptance gates |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
+| [Ecosystem primitives](docs/ECOSYSTEM_METHODS.md) | Five biology-inspired deterministic systems planners |
 | [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
 | [Percentages](docs/PERCENTAGES.md) | Percentage syntax and arithmetic |
 | [Web integrations](docs/INTEGRATIONS.md) | Django, Flask and FastAPI |

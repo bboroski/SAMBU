@@ -2,16 +2,9 @@
 
 ## Unreleased
 
-- Expanded the autonomy constitution from 50 to 100 rules across architecture, refactoring, performance, verification and developer infrastructure; added status/structure regression checks.
-- Added a convention-based project generator with `sambu new` and `sambu generate scaffold`, including collision-safe model/controller/view/migration/test starters.
-- Added the SAMBU Rails architecture proposal defining routes, request lifecycle, typed ORM, reversible migrations, template safety, security requirements and staged acceptance gates. The web server, router, ORM and migration runner remain planned.
-
-- Added a 50-rule autonomy constitution mapping compiler topology, syntax, isolation, toolchain closure and language sovereignty to verified baseline statuses and acceptance gates.
-- Added regression tests for stable AUT-01–AUT-50 identifiers, ten rules per block and truthful feature-status declarations.
-
-- Added the systems-language evolution architecture covering static types, algebraic errors, ownership, effects, native compilation, embedded/kernel profiles, distributed systems, reliability, security and observability.
-- Consolidated overlapping language requirements into 101 test-indexed contracts and staged implementation gates.
-- Clarified the implemented 0.11 interpreter baseline versus planned compiler/runtime capabilities.
+- Added five deterministic ecosystem-inspired SAMBU built-ins: imprint_closure, v_vector_stream, countercurrent_sync, biometric_taxonomy_sort and wetland_ecosystem_loop, plus exact-name aliases.
+- Added immutable context capture, deterministic worker partition plans, bounded tier-transfer planning, binary trait classification and capacity-based scaling recommendations.
+- Added runnable examples, implementation-boundary documentation and regression tests; actual threads, hardware cache I/O, phylogeny inference and cloud/GC control remain outside these pure planners.
 
 ## 0.11.0 — 2026-11-09
 

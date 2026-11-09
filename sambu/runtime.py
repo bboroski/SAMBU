@@ -12,6 +12,7 @@ from .anatidae import ANATIDAE_BUILTINS
 from .voxel_builtins import VOXEL_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
+from .ecosystems import ECOSYSTEM_BUILTINS
 
 from .values import (
     ENERGY, MASS, SPEED, TEMP, Quantity, Record, UNITS,
@@ -263,6 +264,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     **PERCENTAGE_BUILTINS,
     **ANATIDAE_BUILTINS,
     **VOXEL_BUILTINS,
+    **ECOSYSTEM_BUILTINS,
 }
 
 
