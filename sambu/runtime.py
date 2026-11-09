@@ -7,6 +7,7 @@ from typing import Callable
 
 from .domains import DOMAIN_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
+from .workflows import WORKFLOW_BUILTINS
 
 from .values import (
     ENERGY, MASS, SPEED, TEMP, Quantity, Record, UNITS,
@@ -252,6 +253,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "min": lambda args: _extreme(args, "min"),
     "max": lambda args: _extreme(args, "max"),
     **TEXTCRAFT_BUILTINS,
+    **WORKFLOW_BUILTINS,
     **DOMAIN_BUILTINS,
 }
 
