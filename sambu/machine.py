@@ -39,6 +39,55 @@ class MachineError(RuntimeError):
     """Base error for SAMBU Machine services."""
 
 
+class CapabilityDeniedError(MachineError):
+    """The selected Machine profile does not grant the requested capability."""
+
+
+@dataclass(frozen=True, slots=True)
+class MachineProfile:
+    """A named, explicit capability ceiling for SAMBU Machine operations."""
+
+    name: str
+    level: int
+    capabilities: frozenset[str]
+
+    LEVELS = {
+        "sealed": frozenset({"workspace.read", "source.sample", "architecture.inspect"}),
+        "sandbox": frozenset({
+            "workspace.read", "source.sample", "architecture.inspect", "source.execute",
+        }),
+        "host": frozenset({
+            "workspace.read", "source.sample", "architecture.inspect", "source.execute",
+            "host.adapter",
+        }),
+        "device": frozenset({
+            "workspace.read", "source.sample", "architecture.inspect", "source.execute",
+            "host.adapter", "device.adapter",
+        }),
+    }
+
+    @classmethod
+    def named(cls, name: str = "sandbox") -> "MachineProfile":
+        levels = {"sealed": 0, "sandbox": 1, "host": 2, "device": 3}
+        try:
+            level = levels[name]
+            capabilities = cls.LEVELS[name]
+        except KeyError as exc:
+            raise ValueError(
+                "Machine profile must be sealed, sandbox, host, or device"
+            ) from exc
+        return cls(name, level, capabilities)
+
+    def allows(self, capability: str) -> bool:
+        return capability in self.capabilities
+
+    def require(self, capability: str) -> None:
+        if not self.allows(capability):
+            raise CapabilityDeniedError(
+                f"profile {self.name!r} (level {self.level}) does not grant {capability!r}"
+            )
+
+
 class PlywoodDesignError(MachineError):
     """A layered design violates its declared dependencies or contracts."""
 
@@ -666,17 +715,22 @@ def _bounded_int(value: object, name: str, minimum: int, maximum: int) -> int:
 class SambuMachine:
     """Headless project control plane for sampling, checks and failure evidence."""
 
-    def __init__(self, *, ghost_capacity: int = MAX_GHOSTS):
+    def __init__(
+        self, *, ghost_capacity: int = MAX_GHOSTS, profile: str = "sandbox"
+    ):
         self.ghosts = GhostLedger(capacity=ghost_capacity)
         self.sampler = CodeSampler()
         self.design = default_plywood_design()
+        self.profile = MachineProfile.named(profile)
 
     def sample_code(
         self, path: str | Path, *, denominator: int = 100, seed: int = 0
     ) -> CodeSamplingReport:
+        self.profile.require("source.sample")
         return self.sampler.sample(path, denominator=denominator, seed=seed)
 
     def check_workspace(self, path: str | Path) -> WorkspaceCheckReport:
+        self.profile.require("workspace.read")
         root = Path(path).expanduser()
         if root.is_symlink() or not root.is_dir():
             raise MachineError("workspace must be an existing directory, not a symlink")
@@ -714,6 +768,7 @@ class SambuMachine:
         )
 
     def run_source(self, source: str, *, context: str = "<memory>", output=print) -> object:
+        self.profile.require("source.execute")
         from .interpreter import execute
         try:
             return execute(source, output=output)
