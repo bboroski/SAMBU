@@ -10,6 +10,7 @@ from sambu.ide import IDEError, SambuIDE
 class SambuIDEDocumentTests(unittest.TestCase):
     def test_inspect_builds_outline_and_token_snapshot(self):
         ide = SambuIDE()
+        self.assertEqual(ide.machine.profile.name, "sealed")
         report = ide.open_document(
             "file:///workspace/duck.sambu",
             """
