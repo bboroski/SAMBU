@@ -1,0 +1,58 @@
+# SAMBU workflow primitives: all operations below are deterministic previews.
+let gifts = gift_batch([
+  ["gift-001", "Ada", "Bo", 5],
+  ["gift-002", "Bo", "Cy", 2]
+], [["Ada", 20], ["Bo", 10], ["Cy", 0]])
+print("Gift preview:")
+print(gifts.balances)
+
+let accreditation = accreditation_record(
+  "SAMBU",
+  "internal-quality-v1",
+  "Example issuer",
+  "2026-01-01",
+  "2027-01-01",
+  ["evidence:build-42", "evidence:test-report-42"],
+  true
+)
+print("Accreditation status:")
+print(accreditation_status(accreditation, "2026-11-09").status)
+
+let relation = associate("parser", "AST", "produces", "sambu/parser.py", 0.99)
+print("Relationship status:")
+print(relation.status)
+
+let report = signal_report(
+  "ci",
+  "textcraft",
+  "regression",
+  "A test case failed",
+  ["actions:run-42"],
+  "high",
+  0.95
+)
+print("Report review status:")
+print(report.status)
+
+let batch = blast_plan(1000, 100, 4, 3)
+print("Batch plan:")
+print(batch.chunk_count)
+print(batch.estimated_wave_count)
+print(batch.execution)
+
+let syntax = parse_report("let total = 2 + 3")
+print("Parser inspection:")
+print(syntax.valid)
+print(syntax.statement_count)
+
+let mined = mine_patterns("ночь точь ночь прочь", 2)
+print("Mined repeated words:")
+print(mined.repeated_words)
+
+let clusters = cluster_glue([
+  ["lexer", ["source", "syntax"]],
+  ["parser", ["syntax", "AST"]],
+  ["runtime", ["AST", "execution"]]
+])
+print("Connected clusters:")
+print(clusters.clusters)
