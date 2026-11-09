@@ -222,3 +222,51 @@ No stage is considered complete because its syntax appears in a design document.
 - Reject changes that promise “race-free”, “panic-free”, “zero-cost”, “zero-migration” or “hardware-secure” behavior without a precise scope and reproducible evidence.
 
 **Final law:** make the safe path the easy path, the unsafe path visible, failures recoverable, and every performance promise measurable.
+
+
+## 8. Evidence-led autonomy: six archetype design lenses
+
+The six project archetypes are formalized one letter at a time in the
+[Cripple Archetype Engineering Charter](CRIPPLE_ARCHETYPE_CHARTER.md). Their
+purpose is to add engineering constraints, not fictional superpowers:
+
+- **ALUCARD:** adaptive quotas, leased capabilities, undoable transitions,
+  containment, auditable evidence, recovery ceilings and deterministic inputs.
+- **GING:** goal-bound inquiry, isolated trials, novelty memory and graduation gates.
+- **RAIDEN:** recovery tiers, controlled degradation, incident supervision,
+  deterministic restoration, escalation budgets and neutral telemetry.
+- **DJINN:** declared capabilities, immutable job capsules, isolation profiles,
+  narrow interfaces and non-interference verification.
+- **MADARA:** competing models, adversarial challenge, deterministic semantics,
+  architecture records, reversible changes and acceptance evidence.
+- **SHANKS:** scoped trust, explicit handoffs, authority separation, native
+  interoperability contracts, knowledge continuity and human stewardship.
+
+### 8.1. Current autonomy implementation
+
+The experimental Python-host API in `sambu.autonomy` implements:
+immutable task manifests, declared capability checks, component-wise resource
+capping, risk-ceiling review, deterministic plan fingerprints, a bounded
+append-only SHA-256 experiment ledger, and reversible/path/test/evidence
+preflight for proposed changes.
+
+It deliberately has no arbitrary-code executor, filesystem writer, policy
+self-modifier, repository merge function or deployment function. An accepted
+preflight means only that the proposal may proceed to independent tests and
+review. The module does not create an OS security boundary.
+
+### 8.2. Next engineering gates
+
+1. Add architecture decision records and a machine-readable feature maturity
+   registry, with promotion requiring linked tests and evidence.
+2. Build a subprocess/container experiment runner with enforceable CPU, memory,
+   output, process, filesystem and network quotas.
+3. Add baseline-versus-alternative benchmark plans and reproducible environment
+   fingerprints; never interpret a hash as proof that evidence is true.
+4. Surface plans, clipped budgets, capability grants and review reasons in
+   SAMBU Studio before allowing any IDE action.
+5. Add native ownership/effect analysis before considering automatic source
+   edits or a native self-hosting loop.
+
+Human review remains mandatory for high-impact policy, packaging, CI, secrets,
+release and deployment changes.
