@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sambu-language"
-version = "0.10.0"
-description = "A scientific, systems, text-analysis, workflow and declarative filtering language"
+version = "0.11.0"
+description = "An extensible scientific systems language with sparse voxels, spectral graph tools and engine bridges"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "SAMBU contributors" }]
-keywords = ["programming-language", "scientific-computing", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics", "text-analysis", "prosody", "rhetoric", "rhyme", "workflow-modeling", "accreditation-records", "batch-planning", "text-mining", "filtering", "rule-engine", "data-quality", "04coq"]
+keywords = ["programming-language", "scientific-computing", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics", "text-analysis", "prosody", "rhetoric", "rhyme", "workflow-modeling", "accreditation-records", "batch-planning", "text-mining", "filtering", "rule-engine", "data-quality", "04coq", "voxel-computing", "sparse-octree", "spectral-graph-theory", "game-engine-tools", "avian-physiology"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3",
