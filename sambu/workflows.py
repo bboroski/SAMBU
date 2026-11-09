@@ -15,7 +15,7 @@ from typing import Callable
 
 from .lexer import SambuSyntaxError, tokenize
 from .parser import parse_ast
-from .textcraft import _words, _rhyme_key
+from .textcraft import _words, _rhyme_key, text_profile, prosody_profile
 from .values import Record, number_value
 
 
@@ -486,6 +486,83 @@ WORKFLOW_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "pitch_score": pitch_score,
     "blast_plan": blast_plan,
     "parse_report": parse_report,
+
+
+def mimic_profile(args: list[object]) -> Record:
+    """Extract a vocabulary-free structural signature from a reference text."""
+    _arity(args, {1}, "mimic_profile(text)")
+    source = args[0]
+    if not isinstance(source, str):
+        raise TypeError("mimic_profile expects text")
+    words = text_profile([source])
+    prosody = prosody_profile([source])
+    word_count = int(words.get("word_count"))
+    punctuation = int(words.get("punctuation_count"))
+    signature = {
+        "line_count": int(prosody.get("line_count")),
+        "average_words_per_line": float(words.get("average_words_per_line")),
+        "average_syllables_per_line": float(prosody.get("average_syllables_per_line")),
+        "syllable_variance": float(prosody.get("syllable_variance")),
+        "rhyme_density": float(prosody.get("rhyme_density")),
+        "alliteration_density": float(prosody.get("alliteration_density")),
+        "lexical_diversity": float(words.get("lexical_diversity")),
+        "punctuation_per_100_words": 100.0 * punctuation / word_count if word_count else 0.0,
+    }
+    return Record({
+        "schema": "sambu.structural_voice.v1",
+        "signature": Record(signature),
+        "source_word_count": word_count,
+        "contains_source_text": False,
+        "method": "vocabulary_free_structural_signature",
+    })
+
+
+def mimic_distance(args: list[object]) -> Record:
+    """Compare a draft's structure with a previously extracted structural signature."""
+    _arity(args, {2}, "mimic_distance(profile, draft)")
+    profile, draft = args
+    if not isinstance(profile, Record) or profile.get("schema") != "sambu.structural_voice.v1":
+        raise TypeError("mimic_distance expects a profile from mimic_profile")
+    if not isinstance(draft, str):
+        raise TypeError("mimic_distance expects draft text as its second argument")
+    target = profile.get("signature")
+    if not isinstance(target, Record):
+        raise ValueError("structural profile has no signature record")
+    actual = mimic_profile([draft]).get("signature")
+    if not isinstance(actual, Record):
+        raise ValueError("could not derive draft signature")
+    metrics = (
+        "average_words_per_line",
+        "average_syllables_per_line",
+        "syllable_variance",
+        "rhyme_density",
+        "alliteration_density",
+        "lexical_diversity",
+        "punctuation_per_100_words",
+    )
+    distances: list[float] = []
+    comparisons: list[Record] = []
+    for name in metrics:
+        expected = float(target.get(name))
+        observed = float(actual.get(name))
+        distance = abs(expected - observed) / max(1.0, abs(expected), abs(observed))
+        distances.append(distance)
+        comparisons.append(Record({
+            "metric": name,
+            "reference": expected,
+            "draft": observed,
+            "normalized_distance": distance,
+        }))
+    average_distance = sum(distances) / len(distances)
+    return Record({
+        "distance": average_distance,
+        "structural_similarity": max(0.0, 1.0 - average_distance),
+        "comparisons": comparisons,
+        "vocabulary_compared": False,
+        "interpretation": "structural comparison only; not a literary quality score",
+    })
     "mine_patterns": mine_patterns,
     "cluster_glue": cluster_glue,
+    "mimic_profile": mimic_profile,
+    "mimic_distance": mimic_distance,
 }
