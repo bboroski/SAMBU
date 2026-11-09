@@ -40,7 +40,7 @@ class VoxelLanguageTests(unittest.TestCase):
             "voxel_set(world, 2, 0, 0, 9)\n"
             "let hit = voxel_raycast(world, [0.5, 0.5, 0.5], [1, 0, 0])\n"
             'let data = voxel_export(world, "unity")\n'
-            "print(hit.material)\nprint(hit.distance)\nprint(len(data) > 0)"
+            "print(hit.material)\nprint(hit.distance)\nprint(data != \"\")"
         )
         self.assertEqual(out,["9","1.5","true"])
 
