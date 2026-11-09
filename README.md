@@ -240,7 +240,10 @@ A project-wide technical wiki is available in the repository: **[Open the SAMBU 
 
 | Guide | Focus |
 |---|---|
-| [Language reference](docs/LANGUAGE.md) | Syntax, runtime, AST and OOP |
+| [Language reference](docs/LANGUAGE.md) | Implemented syntax, runtime, AST and OOP |
+| [Language evolution](docs/LANGUAGE_EVOLUTION.md) | Typed compiler, ownership, concurrency, native targets and 101 consolidated contracts |
+| [SAMBU Rails architecture](docs/SAMBU_RAILS.md) | Convention-driven MVC, routing, ORM, migrations, security and framework roadmap |
+| [Autonomy constitution](docs/AUTONOMY_CONSTITUTION.md) | 100 auditable rules, baseline status and acceptance gates |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
 | [Ecosystem primitives](docs/ECOSYSTEM_METHODS.md) | Five biology-inspired deterministic systems planners |
