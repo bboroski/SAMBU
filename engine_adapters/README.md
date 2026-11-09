@@ -1,6 +1,6 @@
 # SAMBU voxel engine adapters
 
-SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for five major engine families. These are integration source files, not prebuilt engine plugins: each engine SDK must be installed in the host project, and the bridge must be compiled there. The current maintained starter bridges target five major engine families; additional registered profiles describe the common payload contract only.
+SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for five major engine families. These are integration source files, not prebuilt engine plugins: each engine SDK must be installed in the host project, and the bridge must be compiled there. Maintained starter source bridges target five major engine families; the additional registered profiles describe the common payload contract only.
 
 | Engine | Bridge | Geometry path | Compute path |
 |---|---|---|---|
@@ -10,6 +10,7 @@ SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for f
 | Bevy 0.20.1 | bevy/ Rust crate | Assets<Mesh> / Mesh3d | Render-world wgpu pipeline |
 | Open 3D Engine | o3de/SambuVoxelMeshData.h | Atom RPI FeatureProcessor | Atom RHI / FrameGraph |
 | Flax, Stride, UNIGINE, OGRE, Source 2 | Generic payload profiles | Host-specific renderer integration | Host-selected compute API |
+| CRYENGINE, Roblox Studio, Babylon.js, Three.js, PlayCanvas, Cocos Creator, Defold, jMonkeyEngine, Panda3D | Generic payload profiles | Host-specific renderer integration | Host-selected compute API |
 
 An unlisted engine can consume engine_payload(grid, "generic"), the JSON voxel schema, triangle arrays, or MagicaVoxel .vox interchange. Generic is an extension contract, not an assertion that every engine has already been integrated.
 
@@ -21,7 +22,7 @@ engine_payload(grid, engine) exports:
 - 5-byte little-endian voxel records: local x/y/z as uint8, material as uint16;
 - uint32 triangle indices, grid-local vertices, normals and per-face material IDs.
 
-The C# bridge expands 5-byte transfer records to an 8-byte structured GPU record. GPU layouts must obey target API alignment; do not reinterpret transfer bytes as an arbitrary C++ or HLSL struct.
+The C# bridge expands 5-byte transfer records to an 8-byte structured GPU record. Its DispatchVisibleFaceMasks() helper runs the Unity visibility pass, and DispatchCompactVoxelMesher() follows with count, offset scan and mesh emission. GPU layouts must obey target API alignment; do not reinterpret transfer bytes as an arbitrary C++ or HLSL struct.
 
 ## Runtime strategy
 
