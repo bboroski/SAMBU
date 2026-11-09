@@ -68,7 +68,7 @@ def _machine(argv: list[str]) -> int:
     architecture = commands.add_parser("architecture", help="validate the reference plywood layer graph")
     architecture.add_argument("--json", action="store_true", dest="as_json")
     args = parser.parse_args(argv)
-    machine = SambuMachine()
+    machine = SambuMachine(profile="sealed")
     try:
         if args.action == "check":
             report = machine.check_workspace(args.path)
