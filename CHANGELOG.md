@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Expanded the autonomy constitution from 50 to 100 rules across architecture, refactoring, performance, verification and developer infrastructure; added status/structure regression checks.
+- Added a convention-based project generator with `sambu new` and `sambu generate scaffold`, including collision-safe model/controller/view/migration/test starters.
+- Added the SAMBU Rails architecture proposal defining routes, request lifecycle, typed ORM, reversible migrations, template safety, security requirements and staged acceptance gates. The web server, router, ORM and migration runner remain planned.
+
 - Added a 50-rule autonomy constitution mapping compiler topology, syntax, isolation, toolchain closure and language sovereignty to verified baseline statuses and acceptance gates.
 - Added regression tests for stable AUT-01–AUT-50 identifiers, ten rules per block and truthful feature-status declarations.
 
