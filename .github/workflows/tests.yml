@@ -20,6 +20,7 @@ jobs:
       - run: sambu-test tests --repeat 2
       - run: sambu examples/percentages.sambu
       - run: sambu examples/anatidae_biophysics.sambu
+      - run: sambu examples/voxel_world.sambu
       - run: sambu examples/ideal_gas.sambu
       - run: sambu examples/boltzmann_weights.sambu
       - run: sambu examples/neo_modern_diplomat.sambu
@@ -44,3 +45,10 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e ".[web]"
       - run: python -m unittest discover -s tests -p test_integrations.py -v
+
+  engine-bridges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo check --manifest-path engine_adapters/bevy/Cargo.toml
