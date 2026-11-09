@@ -1,6 +1,6 @@
 """SAMBU language public API."""
 
-__version__ = "0.10.0"
+__version__ = "0.11.0"
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
@@ -37,4 +37,14 @@ from .patching import PatchConflict, PatchReceipt, PatchSet, TextPatch  # noqa: 
 from .trust import (  # noqa: F401
     ArtifactVerification, PortfolioArtifact, PortfolioVerification,
     PortfolioVerifier, trust_dig,
+)
+
+from .anatidae import AnatidaeProfile  # noqa: F401
+from .voxels import (  # noqa: F401
+    ENGINE_PROFILES, EngineProfile, FramePlan, GraphEdge, OctreeNode,
+    SparseLaplacian, SparseVoxelGrid, SparseVoxelOctree,
+    SpectralSparsifierResult, SpielmanSpectralSparsifier, SurfaceMesh,
+    VoxelChunk, VoxelFrame, VoxelGraph, VoxelHit, decode_morton3,
+    encode_morton3, engine_payload, graph_from_voxels, plan_frame_updates,
+    supported_engines,
 )
