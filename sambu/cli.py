@@ -198,7 +198,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         execute(source)
-    except (SambuSyntaxError, SambuRuntimeError, ValueError, TypeError, ZeroDivisionError, IndexError, AttributeError) as exc:
+    except (SambuSyntaxError, SambuRuntimeError, RuntimeError, ValueError, TypeError, ZeroDivisionError, IndexError, AttributeError) as exc:
         print(f"{filename}: {exc}", file=sys.stderr)
         return 1
     return 0
