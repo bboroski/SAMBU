@@ -94,6 +94,17 @@ The Unity pass emits two triangles per visible voxel face. It is not a greedy me
 
 Do not read back every voxel or face mask to the CPU each frame. Keep chunk data resident on the GPU where the renderer permits it, and transfer only changed chunk payloads.
 
+## Benchmarks
+
+Run the reproducible CPU reference benchmark:
+
+~~~bash
+python benchmarks/benchmark_voxels.py --size 16 --repeats 3
+python benchmarks/benchmark_voxels.py --size 6 --include-spectral --json
+~~~
+
+The harness reports actual wall-clock measurements and workload counts for the host machine. It is not a GPU benchmark; compare identical sizes, chunk settings, hardware and Python builds. The optional graph-solver run is capped at a small grid.
+
 ## Security and safety limits
 
 Voxel JSON input is bounded by the caller's max_voxels argument. Coordinates, material IDs, chunk sizes, traversal step counts, and graph size have explicit validation. The package does not load native engine binaries, execute shaders itself, perform GPU work, contact a game engine over a network, or write project assets. Those operations remain host integration responsibilities.
