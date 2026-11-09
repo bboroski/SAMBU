@@ -22,3 +22,4 @@ jobs:
       - run: sambu examples/neo_modern_diplomat.sambu
       - run: sambu examples/community_hub.sambu
       - run: sambu examples/territory_control.sambu
+      - run: sambu examples/commerce_queue.sambu
