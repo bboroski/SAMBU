@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 — 2026-11-09
+
+- Added classes, object construction, init constructors, mutable instance fields, instance methods, single inheritance and method overriding while preserving the legacy parser AST API.
+- Added deterministic rock-paper-scissors and legal-state tic-tac-toe built-ins, including turn, occupancy, win/draw and unreachable-board validation.
+- Added typed AST spans and legacy conversion for class declarations and object-field assignments.
+- Added OOP/game regression tests, an executable example and an OOP/game language guide.
+- Clarified that interfaces, traits, access modifiers, generics, static members, explicit super dispatch and static class typing remain future work.
+
 ## 0.5.1 — 2026-11-09
 
 - Added an immutable typed AST with end-exclusive source spans for every expression and statement.

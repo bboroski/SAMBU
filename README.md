@@ -6,7 +6,7 @@ Its scientific core includes SI-aware quantities, dimensional validation, Maxwel
 
 **Neo-Modern Diplomat** is the architectural direction: one coherent language for physical models, business processes, infrastructure plans, and domain-specific execution adapters. Magento / Adobe Commerce is the first enterprise-commerce reference domain, not a hard-coded dependency of the language runtime.
 
-> **Status:** 0.5.1 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Domain functions validate production briefs, community offers, territory rounds and commerce architecture plans; they do not connect to external services or render audio.
+> **Status:** 0.6.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Domain functions validate production briefs, community offers, territory rounds and commerce architecture plans; they do not connect to external services or render audio.
 
 ## Quick start
 
@@ -58,6 +58,12 @@ These primitives help make worker concurrency, retry timing, dead-letter routing
 - Ownership-aware territory rounds with `capture_node`, extending `capture_tower` resistance calculations.
 - Source-aware lexer and parser diagnostics with stable codes and end-exclusive token spans.
 - Public immutable typed AST nodes through `parse_ast()`, while `parse()` preserves the established tuple AST for existing clients.
+- Object-oriented classes, constructors, instance fields, methods, single inheritance and method overriding.
+- Deterministic game rules: `rps_round`, `tic_tac_toe_state` and `tic_tac_toe_move`.
+
+## Object-oriented programming and games
+
+SAMBU supports classes, constructors, mutable instance fields, methods and single inheritance. The first OOP slice deliberately excludes interfaces, traits, visibility modifiers, generics and static type checking. Built-in game functions implement rock-paper-scissors and legal tic-tac-toe state transitions. See [OOP and game rules](docs/GAMES_AND_OOP.md) and run `sambu examples/oop_and_games.sambu`.
 
 ## Neo-Modern Diplomat blueprint
 
@@ -70,7 +76,7 @@ The planned SAMBU Studio / Diplomat Night environment is specified separately fr
 ## Project layout
 
 ```text
-sambu/       lexer, typed AST, parser, interpreter, units and domain models
+sambu/       lexer, typed AST, parser, OOP runtime, units and domain models
 examples/    runnable SAMBU programs
 tests/       dependency-free unittest suite
 docs/        language, domain, commerce and IDE specifications

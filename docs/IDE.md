@@ -4,6 +4,10 @@
 
 SAMBU Studio is the planned developer environment for the Neo-Modern Diplomat workflow. The interpreter and CLI remain the language's stable core; editor services should be separate processes or libraries so a missing IDE dependency never affects deterministic command-line execution.
 
+## Current language foundation (0.6.0)
+
+The parser supports immutable typed AST nodes and the runtime now includes classes, constructors, mutable instance fields, instance methods, single inheritance and method overriding. The language also exposes deterministic rock-paper-scissors and tic-tac-toe rule functions. These are CLI/runtime capabilities, not graphical IDE widgets. The object model is intentionally an initial slice: interfaces, traits, visibility modifiers, static members, generics and compile-time class typing are still planned.
+
 ## Semantic language services
 
 ### Typed AST and source ranges
