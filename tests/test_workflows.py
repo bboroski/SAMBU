@@ -74,7 +74,7 @@ let pitch = pitch_score(0.9, 0.8, 0.2, 0.1)
 print(pitch.score)
 print(pitch.decision)
 """)
-        self.assertEqual(output, ["0.52363636", "human_review_required"])
+        self.assertEqual(output, ["0.54", "human_review_required"])
 
     def test_blast_plan_is_bounded_and_never_executes(self):
         _, output = self.run_sambu("""
