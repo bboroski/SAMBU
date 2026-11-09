@@ -1,0 +1,43 @@
+# Weekly operating rhythm for a yoga / sound / tea community hub.
+let calendar = weekly_schedule([
+  ["Monday", "18:30", "Hatha yoga", 18],
+  ["Wednesday", "19:00", "Yoga and singing bowls", 16],
+  ["Friday", "19:30", "Tea ceremony and reflection", 14],
+  ["Sunday", "11:00", "Yin yoga and breathwork", 18]
+])
+print("Recurring sessions per week:")
+print(calendar.session_count)
+print("Active weekdays:")
+print(calendar.active_weekdays)
+
+let room = attendance(16, 11)
+print("Wednesday room utilization:")
+print(room.fill_rate)
+print("Places remaining:")
+print(room.remaining)
+
+# Example acquisition funnel: post views -> landing-page visits -> trial signups -> repeat visits.
+let acquisition = funnel([1200, 360, 72, 24])
+print("Overall conversion:")
+print(acquisition.overall_conversion)
+print("Step conversion rates:")
+print(acquisition.step_conversion)
+
+# Compare two free-trial offers with a simple two-proportion z-test.
+let experiment = ab_test(200, 42, 210, 56)
+print("Variant absolute lift:")
+print(experiment.absolute_lift)
+print("Approximate p-value:")
+print(experiment.p_value)
+
+# Compare a drop-in price with a prepaid eight-session plan.
+let package = package_pricing(30, 200, 8)
+print("Effective package price per session:")
+print(package.effective_session_price)
+print("Package discount rate:")
+print(package.discount_rate)
+
+# A channel snapshot: spend, impressions, qualified leads, paying customers.
+let instagram = channel_metrics(180, 12000, 240, 36)
+print("Instagram cost per customer:")
+print(instagram.cost_per_customer)

@@ -1,4 +1,4 @@
-# SAMBU 0.1 language guide
+# SAMBU 0.2 language guide
 
 ## Design goal
 
@@ -17,7 +17,7 @@ let stats = maxwell(temperature, mass)
 print(stats.mean)
 ```
 
-`let` creates an immutable name. Re-defining a name in the same program is an error. A program may contain comments beginning with `#`.
+`let` creates an immutable name. Re-defining a name in the same scope is an error. Built-in units and constants are predeclared (`kg`, `g`, `m`, `s`, `K`, `J`, `eV`, `k_B`, `h`, `c`, and others); top-level bindings cannot redefine those names. Nested blocks and functions have child scopes and may shadow an outer name. A program may contain comments beginning with `#`.
 
 ## Expressions
 
@@ -39,7 +39,7 @@ Use explicit multiplication for units: `300 * K`, not `300 K`.
 
 ## Physical quantities
 
-All quantities are stored internally in SI base units. Addition, subtraction, and comparison require matching dimensions. Multiplication and division combine dimensions. Integer powers preserve dimensional meaning. Fractional powers of dimensioned quantities are deliberately rejected in 0.1.
+All quantities are stored internally in SI base units. Addition, subtraction, and comparison require matching dimensions. Multiplication and division combine dimensions. Integer powers preserve dimensional meaning. Fractional powers of dimensioned quantities remain deliberately rejected in 0.2.
 
 ### Built-in units
 
@@ -84,8 +84,29 @@ All quantities are stored internally in SI base units. Addition, subtraction, an
 - `partition` is a finite discrete sum; it does not calculate a continuum density of states.
 - `sample_maxwell` draws three independent Gaussian velocity components and returns their speed magnitude. Its default seed is `0` for repeatability.
 - Unit conversion is implicit to SI at input; display formatting chooses a small set of common derived units.
-- No file I/O, network access, imports, user-defined functions, loops, or arbitrary Python evaluation are exposed to SAMBU programs.
+- User-defined functions and bounded loops are available in 0.2. No file I/O, network access, imports, mutable assignment, or arbitrary Python evaluation are exposed to SAMBU programs.
 
 ## Error model
 
 Lexical and parse errors include line/column information. Runtime errors are surfaced by the CLI with the source filename. Dimension mismatch, invalid temperatures, invalid probabilities, unknown names, and duplicate bindings fail explicitly instead of silently coercing values.
+
+## Control flow and functions (0.2)
+
+User-defined functions use lexical scope and return values:
+
+```sambu
+fn square(x) { return x * x }
+print(square(12))
+```
+
+Conditionals use `if` and optional `else`; conditions are evaluated as booleans/truthy values:
+
+```sambu
+if (temperature > 300 * K) {
+  print("above reference temperature")
+} else {
+  print("at or below reference temperature")
+}
+```
+
+Bounded iteration uses `for name in array_or_range { ... }`. The standard `range(stop)`, `range(start, stop)`, and `range(start, stop, step)` functions generate integer arrays. `sum`, `min`, `max`, and `len` are also available. Both `range` and `for` enforce a 100,000-item safety cap. Blocks create child scopes; `let` names are immutable. Local bindings can shadow standard-library names. See [Domain Models](DOMAINS.md) for the 0.2 application library.

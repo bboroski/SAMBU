@@ -1,0 +1,15 @@
+# Resource-flow strategy prototype inspired by tower-control gameplay.
+let reserves = [60, 40, 30]
+let priorities = [0.5, 0.3, 0.2]
+let outgoing = allocate(50, priorities)
+print("Resource allocation:")
+print(outgoing)
+
+let target = capture_tower(35, outgoing[0])
+if (target.captured) {
+  print("Target node captured.")
+  print(target.overflow)
+} else {
+  print("Target node resisted the attempt.")
+  print(target.remaining_defense)
+}

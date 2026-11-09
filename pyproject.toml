@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sambu-language"
-version = "0.1.0"
-description = "A compact scientific language for statistical mechanics and kinetic theory"
+version = "0.2.0"
+description = "A scientific and systems-modeling language for physics, networks, negotiation and operations"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
