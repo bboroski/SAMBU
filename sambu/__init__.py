@@ -61,7 +61,8 @@ from .concurrency import (  # noqa: F401
 from .machine import (  # noqa: F401
     AmplificationReport, CodeSample, CodeSampler, CodeSamplingError,
     CodeSamplingReport, EffortAmplification, GhostLedger, GhostRecord,
-    MachineError, MetricGain, PlywoodDesign, PlywoodDesignError,
+    CapabilityDeniedError, MachineError, MachineProfile, MetricGain,
+    PlywoodDesign, PlywoodDesignError,
     PlywoodLayer, PlywoodValidation, SambuMachine, WorkspaceCheckReport,
     WorkspaceIssue, default_plywood_design,
 )
