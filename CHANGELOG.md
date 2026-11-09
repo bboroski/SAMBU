@@ -11,6 +11,8 @@
 - Expanded the portable engine profile registry to CRYENGINE, Roblox Studio, Babylon.js, Three.js, PlayCanvas, Cocos Creator, Defold, jMonkeyEngine, Panda3D, Flax, Stride, UNIGINE, OGRE and Source 2 (payload-only profiles).
 - Expanded Anatidae models to cover feather barrier, visual profile, avian air-sac phases, gas exchange, bill filtration, salt balance, flight muscle energetics, flocking, imprinting, sleep vigilance and magnetic-heading assumptions.
 - Added scientific caveats, reference guides, runnable voxel-world example and regression tests.
+- Added a reproducible CPU voxel benchmark harness and a small spectral-solver benchmark mode.
+- Added strict non-lossy coordinate/JSON validation and a hard visible-face allocation guard for the CPU mesh reference.
 
 ## 0.10.0 — 2026-11-09
 
