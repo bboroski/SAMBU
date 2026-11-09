@@ -4,13 +4,13 @@
 **Status:** mixed — bounded autonomy policy core implemented as a Python-host API; native sandboxing, autonomous execution and self-modifying compilation remain planned.  
 **Purpose:** turn six fictional/philosophical archetypes supplied by the project author into concrete, testable engineering constraints. The names are mnemonic labels for design patterns, not software dependencies or claims about canonical lore.
 
-> **Constitutional boundary:** SAMBU may autonomously inspect declared inputs, construct plans, compare evidence and reject unsafe proposals. This layer does not execute arbitrary experiments, modify repository files, change its own policy, issue credentials, merge pull requests, deploy software or claim that a test passed without an external test result.
+> **Constitutional boundary:** SAMBU may inspect declared task metadata, construct bounded plans, record observations, verify journal integrity and preflight proposed changes. This layer does not execute arbitrary experiments, modify repository files, change its own policy, issue credentials, merge pull requests, deploy software or claim that a test passed without an external test result.
 
 ## 1. The six design lenses
 
 Each letter is a separate engineering rule. The mapping is intentionally literal so that every character in each name contributes one requirement.
 
-### 1.1 ALUCARD — power must remain bounded and inspectable
+### 1.1 ALUCARD (Alucard, Hellsing) — power must remain bounded and inspectable
 
 | Letter | Engineering rule | SAMBU mechanism | Acceptance condition |
 |---|---|---|---|
@@ -22,7 +22,7 @@ Each letter is a separate engineering rule. The mapping is intentionally literal
 | **R** | Recovery ceilings | Use bounded retry/restart windows and escalate to supervisors. | Restart limits are finite; exhaustion remains visible and is never treated as success. |
 | **D** | Deterministic replay inputs | Record canonical input fingerprints, seeds, method IDs and ordered observations. | Identical declared inputs produce identical fingerprints; full execution replay remains a later feature. |
 
-### 1.2 GING — discovery must be systematic, not magical
+### 1.2 GING (Ging Freecss, Hunter × Hunter) — discovery must be systematic, not magical
 
 | Letter | Engineering rule | SAMBU mechanism | Acceptance condition |
 |---|---|---|---|
@@ -31,7 +31,7 @@ Each letter is a separate engineering rule. The mapping is intentionally literal
 | **N** | Novelty and memory | Preserve discoveries, failed attempts, seeds and evidence references without storing raw secret inputs. | Duplicate experiment fingerprints can be detected; evidence is queryable and hash-verifiable. |
 | **G** | Graduation gates | Move ideas through proposal → prototype → tested → reviewed → stable. | A documentation label cannot promote a capability; promotion requires code, tests, review and compatibility evidence. |
 
-### 1.3 RAIDEN — reliability is a chain of accountable decisions
+### 1.3 RAIDEN (Raiden, Mortal Kombat) — reliability is a chain of accountable decisions
 
 | Letter | Engineering rule | SAMBU mechanism | Acceptance condition |
 |---|---|---|---|
@@ -42,7 +42,7 @@ Each letter is a separate engineering rule. The mapping is intentionally literal
 | **E** | Escalation budgets | Bound restarts, retries, elapsed logical work and incident history. | Exceeding a limit moves the component to an explicit failed state. |
 | **N** | Neutral telemetry | Record facts, timestamps supplied by the host, counters and error identifiers separately from interpretation. | Monitoring never rewrites state or hides a failure to make a dashboard look healthy. |
 
-### 1.4 DJINN — extension power is granted, never assumed
+### 1.4 DJINN (independent-agent archetype) — extension power is granted, never assumed
 
 This is a metaphor for a capable but independent agent with its own boundaries; it is not an assertion about religious doctrine or a supernatural execution model.
 
@@ -54,7 +54,7 @@ This is a metaphor for a capable but independent agent with its own boundaries; 
 | **N** | Narrow interfaces | Pass validated data-transfer objects through small versioned ports. | Extensions cannot reach unrelated interpreter internals through an implicit global object. |
 | **N** | Non-interference | Verify that a task cannot mutate another task's state or access undeclared resources. | Requires negative tests, OS-level enforcement and adversarial tests before being marked implemented. |
 
-### 1.5 MADARA — strategy must survive adversarial review
+### 1.5 MADARA (Uchiha Madara, Naruto) — strategy must survive adversarial review
 
 | Letter | Engineering rule | SAMBU mechanism | Acceptance condition |
 |---|---|---|---|
@@ -65,7 +65,7 @@ This is a metaphor for a capable but independent agent with its own boundaries; 
 | **R** | Reversible evolution | Prefer feature gates, migrations and rollbackable changes over destructive rewrites. | Rollback is testable, not merely promised in prose. |
 | **A** | Acceptance evidence | Require tests, benchmarks, diagnostics and compatibility evidence for promotion. | A claim changes status only after its acceptance gate passes. |
 
-### 1.6 SHANKS — strength includes knowing when to hand control over
+### 1.6 SHANKS (Red-Haired Shanks, One Piece) — strength includes knowing when to hand control over
 
 | Letter | Engineering rule | SAMBU mechanism | Acceptance condition |
 |---|---|---|---|
