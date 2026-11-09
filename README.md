@@ -147,7 +147,7 @@ Starter bridges are included for **Unity, Unreal Engine, Godot, Bevy and O3DE**.
 
 GPU kernels currently mark exposed voxel faces; a separate prefix-sum/compaction and geometry-emission stage is still required for a complete GPU mesher. CPU meshing is a reference face-culling path, not yet a greedy mesher. CPU spectral resistance sampling is intentionally size-limited and should not be mistaken for a GPU solver.
 
-📘 [Voxel architecture and engine integration](engine_adapters/README.md)
+📘 [Voxel architecture](docs/VOXELS.md) · [Engine integration matrix](engine_adapters/README.md)
 
 ## 🖥️ Interfaces with two explicit actions
 
