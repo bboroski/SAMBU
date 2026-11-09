@@ -79,13 +79,13 @@ Queue actions are read-only initially. DLQ replay, purge, cache mutation, deploy
 
 ## Diplomat Night theme
 
-## Current implementation status (0.5.1)
+## Historical typed-AST milestone (0.5.1)
 
-The core exposes immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
+The core introduced immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
 
-The parser reports incomplete expressions at the actual EOF token. Token and AST offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
+Token and AST offsets count Python Unicode code points; a future LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
 
-The repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, context completion provider, live plot panel, debugger UI, or Diplomat Night theme. This document is a target architecture, not a feature checklist claiming those components already exist.
+The current 0.11 headless IDE services are described above. The repository still does not ship a graphical editor, LSP server, semantic type/dimension analyzer, semantic tokens, scope-aware completion, hover/type inference, refactoring engine, live plot panel or debugger UI. This document distinguishes those roadmap targets from implemented services.
 
 ## Headless IDE services (0.11.0)
 
