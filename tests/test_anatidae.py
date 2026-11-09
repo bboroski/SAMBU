@@ -65,7 +65,7 @@ class AnatidaeModelTests(unittest.TestCase):
 
     def test_four_phase_air_sac_flow_and_variable_anatomy(self):
         out=self.run_sambu(
-            "let cycle = avian_air_sac_cycle(100, 9, 80%)\\n"
+            "let cycle = avian_air_sac_cycle(100, 9, 80%)\n"
             "print(cycle.air_sac_count_assumption)\\n"
             "print(cycle.phase_count)\\n"
             "print(cycle.modeled_parabronchial_transfer_volume)\\n"
