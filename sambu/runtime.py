@@ -292,6 +292,66 @@ class UserFunction:
         return None
 
 
+class SambuClass:
+    """Runtime class value with single inheritance and method overriding."""
+
+    def __init__(self, name: str, base: "SambuClass | None", methods: dict[str, UserFunction]):
+        self.name = name
+        self.base = base
+        self.methods = methods
+
+    def find_method(self, name: str) -> UserFunction | None:
+        method = self.methods.get(name)
+        if method is not None:
+            return method
+        return self.base.find_method(name) if self.base is not None else None
+
+    def __call__(self, args: list[object]) -> object:
+        instance = SambuInstance(self)
+        initializer = self.find_method("init")
+        if initializer is None:
+            if args:
+                raise TypeError(f"{self.name}() takes no constructor arguments")
+        else:
+            BoundMethod(instance, initializer)(args)
+        return instance
+
+    def __str__(self) -> str:
+        return f"<class {self.name}>"
+
+
+class SambuInstance:
+    """A mutable object instance; its fields are public in this first OOP release."""
+
+    def __init__(self, klass: SambuClass):
+        self.klass = klass
+        self.fields: dict[str, object] = {}
+
+    def get(self, name: str) -> object:
+        if name in self.fields:
+            return self.fields[name]
+        method = self.klass.find_method(name)
+        if method is not None:
+            return BoundMethod(self, method)
+        raise AttributeError(f"{self.klass.name} instance has no field or method {name!r}")
+
+    def set(self, name: str, value: object) -> None:
+        self.fields[name] = value
+
+    def __str__(self) -> str:
+        fields = ", ".join(f"{key}={_format(value)}" for key, value in self.fields.items())
+        return f"{self.klass.name}({fields})"
+
+
+class BoundMethod:
+    def __init__(self, instance: SambuInstance, function: UserFunction):
+        self.instance = instance
+        self.function = function
+
+    def __call__(self, args: list[object]) -> object:
+        return self.function([self.instance, *args])
+
+
 class Interpreter:
     def __init__(self, output: Callable[[str], None] = print):
         self.env = Environment()
@@ -334,6 +394,30 @@ class Interpreter:
                 _, name, params, body = statement
                 env.define(name, UserFunction(name, params, body, env, self))
                 result = env.get(name)
+            elif kind == "class":
+                _, name, base_name, method_nodes = statement
+                base = env.get(base_name) if base_name is not None else None
+                if base is not None and not isinstance(base, SambuClass):
+                    raise SambuRuntimeError(f"base {base_name!r} is not a SAMBU class")
+                methods: dict[str, UserFunction] = {}
+                for method_node in method_nodes:
+                    _, method_name, params, body = method_node
+                    if not params or params[0] != "self":
+                        raise SambuRuntimeError(
+                            f"method {method_name!r} must declare 'self' as its first parameter"
+                        )
+                    methods[method_name] = UserFunction(method_name, params, body, env, self)
+                klass = SambuClass(name, base, methods)
+                env.define(name, klass)
+                result = klass
+            elif kind == "set_field":
+                _, target_expr, field_name, value_expr = statement
+                target = self.evaluate(target_expr, env)
+                if not isinstance(target, SambuInstance):
+                    raise TypeError("field assignment requires a SAMBU object instance")
+                value = self.evaluate(value_expr, env)
+                target.set(field_name, value)
+                result = value
             elif kind == "return":
                 raise _ReturnSignal(self.evaluate(statement[1], env))
             elif kind == "if":
@@ -375,9 +459,11 @@ class Interpreter:
         if kind == "array": return [self.evaluate(item, env) for item in node[1]]
         if kind == "field":
             target = self.evaluate(node[1], env)
-            if not isinstance(target, Record):
-                raise TypeError("field access is only available on records")
-            return target.get(node[2])
+            if isinstance(target, Record):
+                return target.get(node[2])
+            if isinstance(target, SambuInstance):
+                return target.get(node[2])
+            raise TypeError("field access is only available on records and SAMBU objects")
         if kind == "index":
             target, index = self.evaluate(node[1], env), self.evaluate(node[2], env)
             if not isinstance(target, (list, tuple, str)):
@@ -426,5 +512,7 @@ def _format(value: object) -> str:
     if isinstance(value, list): return "[" + ", ".join(_format(v) for v in value) + "]"
     if isinstance(value, Quantity): return str(value)
     if isinstance(value, Record): return str(value)
+    if isinstance(value, SambuInstance): return str(value)
+    if isinstance(value, SambuClass): return str(value)
     if isinstance(value, float): return f"{value:.8g}"
     return str(value)

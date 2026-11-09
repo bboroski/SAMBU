@@ -7,6 +7,7 @@ from .ast import (
     ArrayExpr,
     BinaryExpr,
     CallExpr,
+    ClassStatement,
     Expression,
     ExpressionStatement,
     FieldExpr,
@@ -19,6 +20,7 @@ from .ast import (
     NameExpr,
     Program,
     ReturnStatement,
+    SetFieldStatement,
     Statement,
     UnaryExpr,
 )
@@ -136,6 +138,27 @@ class Parser:
         token = self.peek()
         if token.kind == "IDENT":
             keyword = token.value
+            if keyword == "class":
+                start = self.advance()
+                name = self.consume_ident("Expected a class name after 'class'")
+                base_name: str | None = None
+                if self.peek().kind == "IDENT" and self.peek().value == "extends":
+                    self.advance()
+                    base_name = str(self.consume_ident("Expected a base class name after 'extends'").value)
+                body, _, closing = self.block()
+                methods: list[FunctionStatement] = []
+                method_names: set[str] = set()
+                for member in body:
+                    if not isinstance(member, FunctionStatement):
+                        raise self.syntax_error("Class bodies may contain method declarations only", token)
+                    if member.name in method_names:
+                        raise self.syntax_error(f"Duplicate method {member.name!r}", name)
+                    method_names.add(member.name)
+                    methods.append(member)
+                return ClassStatement(
+                    str(name.value), base_name, tuple(methods),
+                    _cover(start.span, closing.span),
+                )
             if keyword == "let":
                 start = self.advance()
                 name = self.consume_ident("Expected a variable name after 'let'")
@@ -207,6 +230,14 @@ class Parser:
                     _cover(start.span, closing.span),
                 )
         expression = self.expression()
+        if self.match("="):
+            if not isinstance(expression, FieldExpr):
+                raise self.syntax_error("Only object fields can be assigned; local bindings are immutable")
+            value = self.expression()
+            return SetFieldStatement(
+                expression.target, expression.name, value,
+                _cover(expression.span, value.span),
+            )
         return ExpressionStatement(expression, expression.span)
 
     def consume_ident(self, message: str) -> Token:
