@@ -31,6 +31,8 @@ SAMBU brings a compact source language and a broader Python toolkit together und
 
 The language began as a scientific DSL for statistical mechanics and dimensional calculations. It has grown to include functions, bounded control flow, object-oriented constructs, percentage arithmetic, domain models and sparse voxel operations. Around the interpreter, the repository provides architecture models, workflow utilities, evidence-aware checks, project inspection and engine-bridge source.
 
+The next systems-language layer is developed under the **Cripple Systems Architecture**: safe-by-default memory and resource rules, bounded concurrency, actors, supervision, typed channels, then generics, compile-time semantics and a native toolchain. This is a staged C++-class capability target—not a claim of C++ source/ABI compatibility or a finished C++ replacement. The current implemented concurrency slice is documented below and in [the Cripple architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md).
+
 The project is guided by three simple ideas:
 
 | Principle | In practice |
@@ -62,6 +64,8 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 - Conditionals and bounded `for` loops.
 - Arrays, records, function calls, indexing and field access.
 - Classes, constructors, inheritance and the extended OOP slice.
+- Bounded actor mailboxes, sequential actor-state transitions, dead-letter capture and hierarchical restart supervision.
+- Typed, bounded, non-blocking software channels.
 - Explicit runtime diagnostics with source locations.
 
 ### Science and numeric modeling
@@ -114,6 +118,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu-studio` — read-only inspection of selected Magento / Adobe Commerce XML configuration.
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
 - Reproducible voxel benchmark scripts.
+- Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
 - Optional Flask, Django and FastAPI adapters for Jiu-Jitsu host applications.
 
 ## 🚀 Getting started
@@ -175,6 +180,7 @@ sambu examples/percentages.sambu
 sambu examples/oop_and_games.sambu
 sambu examples/anatidae_biophysics.sambu
 sambu examples/voxel_world.sambu
+sambu examples/supervised_runtime.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
@@ -222,6 +228,37 @@ for number in range(1, 5) {
 ```
 
 The documented `range` and `for` paths enforce a 100,000-item ceiling.
+
+### Actors, supervision and typed channels
+
+The runtime now exposes sequential actors and explicit supervision directly to SAMBU programs:
+
+```sambu
+fn accumulate(state, message) {
+  return state + message
+}
+
+let worker = actor(accumulate, 0, 32)
+let control = supervisor("one_for_one", 3, 60)
+supervise(control, worker)
+
+actor_send(worker, 4)
+actor_send(worker, 7)
+let batch = actor_drain(worker, 16)
+print(batch.processed)
+print(actor_state(worker)) // 11
+
+let telemetry = channel("text", 8)
+channel_send(telemetry, "runtime: healthy")
+print(channel_receive(telemetry))
+```
+
+Actors accept bounded JSON-shaped payloads, process messages in FIFO order and commit state only after a successful handler return. Supervisors support `one_for_one`, `one_for_all` and `rest_for_one` with rolling restart budgets. Failed messages are recorded in bounded dead-letter storage rather than silently retried.
+
+For Python applications, `FiberScheduler` adds deterministic cooperative generator tasks, `ResourceScope` provides reverse-order cleanup, `ModuleMetadata` validates descriptive module records, and `DualAuthorizationGate` requires two independent verification callbacks.
+
+**Concurrency boundary:** the generator scheduler is cooperative and runs on the calling Python thread; it is not native/preemptive/multicore threading. Actor state is serialized only through that actor's mailbox. Software channels are not hardware buses. The HSM verifier is a host adapter hook, not a bundled hardware security module. Static race/deadlock analysis, ownership checking and native fibers remain planned.
+
 
 ### Objects
 
@@ -348,6 +385,7 @@ SAMBU repository
 │   ├── judo.py            Architecture modeling
 │   ├── aikido.py          Inference orchestration
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
+│   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
@@ -370,6 +408,10 @@ SAMBU is deliberately honest about its current boundaries.
 | Interpreter, lexer, parser and source-aware AST | **Implemented · experimental** |
 | Functions, scopes, control flow, arrays and records | **Implemented** |
 | OOP, interfaces, traits and game-state helpers | **Implemented · alpha API** |
+| Actor mailbox, sequential state commit and supervision strategies | **Implemented · experimental runtime slice** |
+| Typed bounded software channels | **Implemented · experimental** |
+| Cooperative Python generator scheduler | **Implemented · Python host API; not native fibers** |
+| Reverse-order resource scope and dual-verifier gate | **Implemented · Python host APIs; HSM provider external** |
 | Runtime SI quantities and scientific helpers | **Implemented** |
 | Sparse voxel core and bounded CPU graph/mesh algorithms | **Implemented** |
 | Starter engine bridge source | **Included · host integration required** |
@@ -378,7 +420,8 @@ SAMBU is deliberately honest about its current boundaries.
 | Project/scaffold generator | **Implemented · generated framework files are starters** |
 | Native machine-code compiler and self-hosted runtime | **Planned** |
 | Full static type/effect/ownership checker | **Planned** |
-| Language-level async scheduler and native concurrency model | **Planned** |
+| Native green fibers, OS-thread scheduler and multicore parallelism | **Planned** |
+| Language-level borrow checking, RAII and static race/deadlock analysis | **Planned** |
 | Complete graphical IDE and LSP server | **Planned** |
 | Running Rails-style router, ORM, database and migration engine | **Planned** |
 
@@ -414,6 +457,7 @@ The future systems-language architecture and its acceptance criteria live in the
 ### Future architecture
 
 - [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md)
+- [Cripple Systems Architecture — C++-class capability roadmap](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md)
 - [SAMBU Rails proposal](docs/SAMBU_RAILS.md)
 - [Autonomy Constitution](docs/AUTONOMY_CONSTITUTION.md)
 

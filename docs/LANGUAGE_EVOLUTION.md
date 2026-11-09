@@ -9,6 +9,20 @@ This is a target architecture, not a claim that the current release already prov
 
 Status vocabulary is mandatory: **Implemented** means code and tests exist; **Experimental** means usable but not stable; **Planned** means design only; **Deferred** means dependent on a future backend, platform or validated provider. Roadmaps, names and examples do not change feature status.
 
+## 1.0.1 Current Cripple runtime slice
+
+The repository now includes the first bounded concurrency and safety primitives in `sambu.concurrency`:
+
+- FIFO cooperative Python-generator scheduler with logical-tick sleep and per-run/per-fiber step budgets;
+- actor mailboxes with payload bounds, defensive copies, sequential state commits and dead-letter records;
+- hierarchical `one_for_one`, `one_for_all` and `rest_for_one` supervisors with rolling restart budgets;
+- typed bounded software channels;
+- reverse-order resource scopes, descriptive module-metadata validation and a two-verifier authorization boundary.
+
+The language runtime exposes actors, supervision and typed-channel built-ins. The generator scheduler, resource scope and authorization helpers are Python host APIs. This is an experimental containment slice, not a native fiber scheduler or full parallel runtime. It does not add static race/deadlock analysis, RAII, ownership checking, HSM hardware access, device buses, native stacks or multicore execution.
+
+The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
+
 ## 1.1. Autonomy constitution and status audit
 
 The companion [50-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and sovereignty requirements to the 0.11 repository baseline. Each rule has a stable `AUT-01`–`AUT-50` ID, a truthful status, current evidence and an acceptance gate. The companion matrix is independently checked by `tests/test_autonomy_constitution.py`.

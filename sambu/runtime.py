@@ -13,6 +13,8 @@ from .voxel_builtins import VOXEL_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 from .ecosystems import ECOSYSTEM_BUILTINS
+from ._version import __version__
+from .concurrency import Actor, Supervisor, TypedChannel
 
 from .values import (
     ENERGY, MASS, SPEED, TEMP, Quantity, Record, UNITS,
@@ -238,6 +240,101 @@ def _extreme(args: list[object], operation: str) -> object:
     return min(args[0]) if operation == "min" else max(args[0])
 
 
+def _actor(args: list[object]) -> Actor:
+    if len(args) not in {2, 3}:
+        raise TypeError("actor(handler, initial_state, mailbox_capacity=256) expects 2 or 3 arguments")
+    function = args[0]
+    if isinstance(function, UserFunction):
+        if len(function.params) != 2:
+            raise TypeError("actor handler must accept exactly (state, message)")
+        handler = lambda state, message: function.invoke([state, message])
+    elif callable(function):
+        handler = function
+    else:
+        raise TypeError("actor handler must be a SAMBU function or Python callable")
+    capacity = _strict_int(args[2], "mailbox_capacity", minimum=1, maximum=1_000_000) if len(args) == 3 else 256
+    return Actor(handler, args[1], mailbox_capacity=capacity)
+
+
+def _as_actor(value: object) -> Actor:
+    if not isinstance(value, Actor):
+        raise TypeError("expected an actor created by actor()")
+    return value
+
+
+def _actor_send(args: list[object]) -> Record:
+    if len(args) != 2:
+        raise TypeError("actor_send(actor, message) expects 2 arguments")
+    actor_value = _as_actor(args[0])
+    depth = actor_value.send(args[1])
+    return Record({"accepted": True, "queued": depth})
+
+
+def _actor_drain(args: list[object]) -> Record:
+    if len(args) not in {1, 2}:
+        raise TypeError("actor_drain(actor, max_messages=1) expects 1 or 2 arguments")
+    maximum = _strict_int(args[1], "max_messages", minimum=1, maximum=1_000_000) if len(args) == 2 else 1
+    result = _as_actor(args[0]).drain(max_messages=maximum)
+    return Record(result)
+
+
+def _actor_state(args: list[object]) -> object:
+    if len(args) != 1:
+        raise TypeError("actor_state(actor) expects 1 argument")
+    return _as_actor(args[0]).snapshot().state
+
+
+def _supervisor(args: list[object]) -> Supervisor:
+    if not 1 <= len(args) <= 3:
+        raise TypeError("supervisor(strategy, max_restarts=3, window_seconds=60) expects 1 to 3 arguments")
+    strategy = args[0]
+    if not isinstance(strategy, str):
+        raise TypeError("supervisor strategy must be text")
+    restarts = _strict_int(args[1], "max_restarts", minimum=0, maximum=100_000) if len(args) >= 2 else 3
+    window = number_value(args[2], "restart window") if len(args) == 3 else 60.0
+    return Supervisor(strategy=strategy, max_restarts=restarts, window_seconds=window)
+
+
+def _supervise(args: list[object]) -> bool:
+    if len(args) != 2 or not isinstance(args[0], Supervisor):
+        raise TypeError("supervise(supervisor, actor_or_supervisor) expects 2 arguments")
+    args[0].supervise(args[1])  # type: ignore[arg-type]
+    return True
+
+
+def _supervisor_status(args: list[object]) -> Record:
+    if len(args) != 1 or not isinstance(args[0], Supervisor):
+        raise TypeError("supervisor_status(supervisor) expects 1 supervisor")
+    return Record(args[0].snapshot())
+
+
+def _channel(args: list[object]) -> TypedChannel:
+    if not 1 <= len(args) <= 2:
+        raise TypeError("channel(type_name, capacity=64) expects 1 or 2 arguments")
+    if not isinstance(args[0], str):
+        raise TypeError("channel type name must be text")
+    capacity = _strict_int(args[1], "channel capacity", minimum=1, maximum=1_000_000) if len(args) == 2 else 64
+    return TypedChannel(args[0], capacity=capacity)
+
+
+def _as_channel(value: object) -> TypedChannel:
+    if not isinstance(value, TypedChannel):
+        raise TypeError("expected a typed channel created by channel()")
+    return value
+
+
+def _channel_send(args: list[object]) -> int:
+    if len(args) != 2:
+        raise TypeError("channel_send(channel, value) expects 2 arguments")
+    return _as_channel(args[0]).send(args[1])
+
+
+def _channel_receive(args: list[object]) -> object:
+    if len(args) != 1:
+        raise TypeError("channel_receive(channel) expects 1 argument")
+    return _as_channel(args[0]).receive()
+
+
 _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "maxwell": _maxwell,
     "boltzmann": _boltzmann,
@@ -257,6 +354,16 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "sum": _sum,
     "min": lambda args: _extreme(args, "min"),
     "max": lambda args: _extreme(args, "max"),
+    "actor": _actor,
+    "actor_send": _actor_send,
+    "actor_drain": _actor_drain,
+    "actor_state": _actor_state,
+    "supervisor": _supervisor,
+    "supervise": _supervise,
+    "supervisor_status": _supervisor_status,
+    "channel": _channel,
+    "channel_send": _channel_send,
+    "channel_receive": _channel_receive,
     **TEXTCRAFT_BUILTINS,
     **FILTERING_BUILTINS,
     **WORKFLOW_BUILTINS,
@@ -557,7 +664,7 @@ class Interpreter:
         self.env.define("N_A", Quantity(6.02214076e23, (0, 0, 0, 0, -1)))
         self.env.define("R", Quantity(8.31446261815324, (1, 2, -2, -1, -1)))
         self.env.define("G", Quantity(6.67430e-11, (-1, 3, -2, 0, 0)))
-        self.env.define("version", "0.7.0")
+        self.env.define("version", __version__)
         self.env.define("print", _PRINT)
 
     def run(self, statements: list[tuple]) -> object:
