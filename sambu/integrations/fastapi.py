@@ -81,7 +81,7 @@ def create_router(app_for_principal: Callable[[str], JiuJitsuApp], principal_res
         except (JiuJitsuError, ValueError, TypeError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-@router.post("/modals/{modal_id}")
+    @router.post("/modals/{modal_id}")
     async def open_modal(modal_id: str, request: Request):
         app = await resolve_app(request)
         try:
