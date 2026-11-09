@@ -1,0 +1,18 @@
+# A compact demonstration of SAMBU's text-craft diagnostics.
+# Metrics describe the draft; they do not decide whether it is good.
+let draft = "Город хранит недосказанный разговор\nВетер разбудит забытый двор"
+let language = text_profile(draft)
+let sound = prosody_profile(draft)
+
+print("Words:")
+print(language.word_count)
+print("Lexical diversity:")
+print(language.lexical_diversity)
+print("Estimated syllables per line:")
+print(sound.syllable_counts)
+print("Detected end-rhyme families:")
+print(sound.rhyme_groups)
+print("Syllables in 'разговор':")
+print(syllables("разговор"))
+print("Approximate rhyme key:")
+print(rhyme_key("разговор"))

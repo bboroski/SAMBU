@@ -1,12 +1,12 @@
 """SAMBU language public API."""
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
     FieldExpr, ForStatement, FunctionStatement, IfStatement, IndexExpr,
-    LetStatement, LiteralExpr, NameExpr, Program, ReturnStatement,
-    SetFieldStatement, UnaryExpr,
+    InterfaceStatement, LetStatement, LiteralExpr, NameExpr, Program, ReturnStatement,
+    SetFieldStatement, TraitStatement, UnaryExpr,
 )
 from .interpreter import execute  # noqa: F401
 from .lexer import SambuSyntaxError, Token, tokenize  # noqa: F401
