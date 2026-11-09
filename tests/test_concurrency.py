@@ -115,6 +115,21 @@ class ActorTests(unittest.TestCase):
             actor.send(object())
 
 
+    def test_actor_drain_cannot_be_reentered_from_its_handler(self):
+        holder: dict[str, Actor] = {}
+
+        def reentrant(state, message):
+            holder["actor"].drain()
+            return state
+
+        actor = Actor(reentrant, 0)
+        holder["actor"] = actor
+        actor.send("trigger")
+        report = actor.drain()
+        self.assertEqual(report["status"], "failed")
+        self.assertIn("cannot re-enter", actor.snapshot().last_error or "")
+
+
 class SupervisorTests(unittest.TestCase):
     def test_one_for_one_restarts_only_failed_actor(self):
         def handler(state, message):
