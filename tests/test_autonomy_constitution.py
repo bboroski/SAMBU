@@ -58,8 +58,8 @@ class AutonomyConstitutionTests(unittest.TestCase):
 
     def test_self_hosting_linker_abi_and_concurrency_are_not_claimed(self):
         for phrase in (
-            "does not yet provide", "no SAMBU object format",
-            "no SAMBU calling convention", "cannot yet compile its compiler",
+            "not itself implement a feature", "object format",
+            "calling convention", "cannot yet compile its compiler",
             "no language-level task scheduler",
         ):
             self.assertIn(phrase, self.content)
