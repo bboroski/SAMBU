@@ -443,20 +443,33 @@ class SparseVoxelGrid:
             raise ValueError("invalid MagicaVoxel VOX header")
         if struct.unpack_from("<I",payload,4)[0] < 150:
             raise ValueError("only MagicaVoxel VOX version 150 or newer is supported")
-        cursor, end, size, points = 8, len(payload), None, None
-        while cursor + 12 <= end:
-            chunk_id=payload[cursor:cursor+4]
-            content_size,child_size=struct.unpack_from("<II",payload,cursor+4)
-            start=cursor+12; stop=start+content_size; next_cursor=stop+child_size
-            if stop>end or next_cursor>end: raise ValueError("truncated MagicaVoxel chunk")
-            content=payload[start:stop]
-            if chunk_id==b"SIZE" and content_size>=12:
-                size=struct.unpack_from("<III",content,0)
-            elif chunk_id==b"XYZI" and content_size>=4:
-                count=struct.unpack_from("<I",content,0)[0]
-                if count>max_voxels or 4+count*4>content_size: raise ValueError("MagicaVoxel voxel count exceeds limit or chunk is truncated")
-                points=[tuple(content[4+i*4:8+i*4]) for i in range(count)]
-            cursor=next_cursor
+        size, points = None, None
+
+        def visit(start: int, end: int) -> None:
+            nonlocal size, points
+            cursor = start
+            while cursor + 12 <= end:
+                chunk_id = payload[cursor:cursor+4]
+                content_size, child_size = struct.unpack_from("<II", payload, cursor+4)
+                content_start = cursor + 12
+                content_end = content_start + content_size
+                children_end = content_end + child_size
+                if content_end > end or children_end > end:
+                    raise ValueError("truncated MagicaVoxel chunk")
+                content = payload[content_start:content_end]
+                if chunk_id == b"SIZE" and content_size >= 12:
+                    size = struct.unpack_from("<III", content, 0)
+                elif chunk_id == b"XYZI" and content_size >= 4:
+                    count = struct.unpack_from("<I", content, 0)[0]
+                    if count > max_voxels or 4 + count * 4 > content_size:
+                        raise ValueError("MagicaVoxel voxel count exceeds limit or chunk is truncated")
+                    points = [tuple(content[4+i*4:8+i*4]) for i in range(count)]
+                if child_size:
+                    visit(content_end, children_end)
+                cursor = children_end
+
+        visit(8, len(payload))
+        
         if size is None or points is None: raise ValueError("MagicaVoxel file is missing SIZE or XYZI chunks")
         if any(axis<1 or axis>256 for axis in size): raise ValueError("invalid MagicaVoxel model dimensions")
         grid=cls(chunk_size=chunk_size,max_voxels=max_voxels)
