@@ -97,7 +97,7 @@ Default capabilities are intentionally narrow: compute, ledger.read and ledger.a
 
 ### 2.3 Evidence ledger
 
-ExperimentLedger stores bounded records containing a falsifiable hypothesis, method identifier, input fingerprint, JSON-shaped outcome, seed and evidence references. Every entry links to the previous entry's digest. Record count, per-outcome bytes, total ledger bytes, JSON depth and value count are capped. verify() recomputes the whole chain; find_by_input() locates prior observations; export_json() produces a deterministic portable snapshot. Raw input payloads are fingerprinted rather than retained. Persistence and protected storage remain the host application's responsibility.
+ExperimentLedger stores bounded records containing a falsifiable hypothesis, method identifier, input fingerprint, JSON-shaped outcome, seed and evidence references. Every entry links to the previous entry's digest. Record count, total serialized ledger bytes, per-outcome bytes, JSON depth/value count and manifest list lengths are capped. verify() recomputes the whole chain; find_by_input() locates prior observations; export_json() produces a deterministic portable snapshot. Raw input payloads are fingerprinted rather than retained. Persistence and protected storage remain the host application's responsibility.
 
 A valid hash chain proves only that the recorded sequence has not changed relative to its current contents. It does not prove that an experiment was honestly executed, that evidence is true, or that the host and its signing keys are trustworthy.
 
