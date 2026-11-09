@@ -6,7 +6,11 @@ SAMBU Studio is a separate tooling package around the SAMBU language and Neo-Mod
 
 “No intro build” means project inspection should return useful information without launching external services or heavyweight workspace bootstrapping. “Sharp transitions”, “layered slices” and “stereo mastering” translate into fast context navigation, code folding, structural views and consistent workspace organization—not literal audio effects.
 
-## Delivered in 0.6.0: Magento static XML inspector
+### Typed AST and source ranges
+
+The parser exposes immutable typed statement and expression nodes through `parse_ast()`. Each node carries an end-exclusive source span, while `parse()` continues to return the legacy tuple AST. This is the stable substrate for semantic analysis and editor services. AST offsets count Python Unicode code points; protocol adapters must translate them to the negotiated LSP encoding.
+
+### Dimensional semantic highlighting
 
 Run:
 
@@ -75,16 +79,10 @@ Queue actions are read-only initially. DLQ replay, purge, cache mutation, deploy
 
 ## Diplomat Night theme
 
-Target a restrained dark palette with accessible contrast, clear focus/selection states, reduced-motion support and status indicators that do not rely on color alone. An optional Philips Hue integration must be disabled by default and isolated behind explicit local-network permissions. Build status can first be surfaced through a provider-neutral event API.
+## Current implementation status (0.5.1)
 
-## Delivery order
+The core exposes immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
 
-1. Static read-only Magento XML inspector — implemented in 0.6.0.
-2. Official XSD validation with explicit Commerce-version/schema selection.
-3. DI merge and plugin/preference graph by area and module load order.
-4. PHP AST indexing and Service Contract navigation.
-5. Type-aware semantic analysis, typed AST and safe rename.
-6. GraphQL schema explorer and query validation.
-7. Read-only database profiling and queue telemetry adapters.
-8. Audited DLQ replay after security and idempotency design.
-9. Optional GUI shell, workspace management, keyboard maps and Diplomat Night theme.
+The parser reports incomplete expressions at the actual EOF token. Token and AST offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
+
+The repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, context completion provider, live plot panel, debugger UI, or Diplomat Night theme. This document is a target architecture, not a feature checklist claiming those components already exist.

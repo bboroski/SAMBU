@@ -11,6 +11,17 @@
 - Added the Neo-Modern Developer language strategy: typed AST, effect-aware async, generated-PHP interoperability, semantic refactoring and Magento dependency graph roadmap.
 - Updated package/runtime versions and added the sambu-studio console entry point.
 - Kept official XSD validation, merged runtime DI resolution, RabbitMQ access, SSH and mutating operations explicitly out of scope.
+## 0.5.1 — 2026-11-09
+
+- Added an immutable typed AST with end-exclusive source spans for every expression and statement.
+- Added `parse_ast()` while preserving the exact legacy tuple structure returned by `parse()`.
+- Added `Program.to_legacy()` for incremental migration by tooling and interpreter clients.
+- Corrected the public `__version__` value to match package release metadata.
+- Fixed parser EOF token handling so incomplete expressions report the actual EOF position.
+- Added AST span, nested-block, Unicode-offset, tuple-compatibility, and EOF-diagnostic regression coverage.
+
+
+## 0.5.0 — 2026-11-09
 
 ## 0.5.0 — 2026-11-09
 
