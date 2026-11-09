@@ -15,6 +15,7 @@ import re
 from typing import Iterable, Mapping
 
 from . import ast as language_ast
+from .lexer import SambuSyntaxError
 from .parser import parse_ast
 
 
@@ -410,7 +411,7 @@ class CodeSampler:
                     )
                 source = file_path.read_text(encoding="utf-8")
                 program = parse_ast(source)
-            except (OSError, UnicodeError, ValueError, TypeError) as exc:
+            except (OSError, UnicodeError, ValueError, TypeError, SambuSyntaxError, RecursionError) as exc:
                 raise CodeSamplingError(f"{file_path}: {exc}") from exc
             nodes = list(_statement_nodes(program))
             statement_total += len(nodes)
