@@ -306,13 +306,14 @@ class UserFunction:
         local = Environment(self.closure)
         for name, value in zip(self.params, args):
             local.define(name, value)
-        if bound_instance is not None and defining_class is not None:
-            if "this" not in self.params:
-                local.define("this", bound_instance)
+        if defining_class is not None:
+            if bound_instance is not None:
+                if "this" not in self.params:
+                    local.define("this", bound_instance)
+                if defining_class.base is not None and "super" not in self.params:
+                    local.define("super", SuperProxy(bound_instance, defining_class.base, defining_class))
             if "__class__" not in self.params:
                 local.define("__class__", defining_class)
-            if defining_class.base is not None and "super" not in self.params:
-                local.define("super", SuperProxy(bound_instance, defining_class.base, defining_class))
         self.interpreter.call_depth += 1
         try:
             self.interpreter.execute_statements(self.body, local)
@@ -426,7 +427,7 @@ class SambuClass:
             raise AttributeError(f"{name!r} is an instance method, not a static member")
         if not _can_access(method.visibility, owner, requester):
             raise SambuRuntimeError(f"cannot access {method.visibility} static method {name!r}")
-        return method
+        return BoundStaticMethod(method, owner)
 
     def set(self, name: str, value: object) -> None:
         if name not in self.static_fields:
@@ -500,6 +501,17 @@ class SuperProxy:
         if not _can_access(method.visibility, owner, self.requester):
             raise SambuRuntimeError(f"cannot access {method.visibility} parent method {name!r}")
         return BoundMethod(self.instance, method, owner)
+
+
+class BoundStaticMethod:
+    """Static method bound to its declaring class for access-control checks."""
+
+    def __init__(self, function: UserFunction, owner: SambuClass):
+        self.function = function
+        self.owner = owner
+
+    def __call__(self, args: list[object]) -> object:
+        return self.function.invoke(args, defining_class=self.owner)
 
 
 class BoundMethod:
@@ -602,15 +614,18 @@ class Interpreter:
                     raise SambuRuntimeError(f"cannot extend final class {base.name!r}")
 
                 trait_methods: dict[str, UserFunction] = {}
+                trait_conflicts: set[str] = set()
                 for trait_name in metadata.get("traits", []):
                     trait = env.get(trait_name)
                     if not isinstance(trait, SambuTrait):
                         raise SambuRuntimeError(f"{trait_name!r} is not a SAMBU trait")
                     for method_name, source_method in trait.methods.items():
+                        if method_name in trait_conflicts:
+                            continue
                         if method_name in trait_methods:
-                            raise SambuRuntimeError(
-                                f"trait method conflict for {method_name!r}; add an explicit class override"
-                            )
+                            del trait_methods[method_name]
+                            trait_conflicts.add(method_name)
+                            continue
                         trait_methods[method_name] = UserFunction(
                             source_method.name, source_method.params, source_method.body,
                             source_method.closure, self,
@@ -622,6 +637,15 @@ class Interpreter:
                             },
                         )
 
+                explicit_method_names = {
+                    method_node[1] for method_node in method_nodes
+                }
+                unresolved_trait_conflicts = trait_conflicts - explicit_method_names
+                if unresolved_trait_conflicts:
+                    names = ", ".join(sorted(unresolved_trait_conflicts))
+                    raise SambuRuntimeError(
+                        f"trait method conflict for {names}; provide an explicit class override"
+                    )
                 methods: dict[str, UserFunction] = dict(trait_methods)
                 explicit_names: set[str] = set()
                 for method_node in method_nodes:

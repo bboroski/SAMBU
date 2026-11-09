@@ -686,6 +686,56 @@ def tic_tac_toe_move(args: list[object]):
     return _ttt_state(updated)
 
 
+def tic_tac_toe_best_move(args: list[object]):
+    """Return a deterministic minimax-optimal move for the requested player."""
+    from .values import Record
+    _arity(args, {2}, "tic_tac_toe_best_move(board, player)")
+    board = _normalize_ttt_board(args[0])
+    player = args[1]
+    if not isinstance(player, str) or player.upper() not in {"X", "O"}:
+        raise ValueError("player must be 'X' or 'O'")
+    player = player.upper()
+    state = _ttt_state(board)
+    if state.get("status") != "in_progress":
+        raise ValueError("cannot choose a move after the game has ended")
+    if state.get("next_player") != player:
+        raise ValueError(f"it is {state.get('next_player')}'s turn, not {player}'s")
+
+    opponent = "O" if player == "X" else "X"
+    preference = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+
+    @lru_cache(maxsize=None)
+    def score(position: str, side: str, depth: int) -> int:
+        winner = _ttt_winner(position)
+        if winner == player:
+            return 10 - depth
+        if winner == opponent:
+            return depth - 10
+        if " " not in position:
+            return 0
+        next_side = opponent if side == player else player
+        results = [
+            score(position[:index] + side + position[index + 1:], next_side, depth + 1)
+            for index, cell in enumerate(position) if cell == " "
+        ]
+        return max(results) if side == player else min(results)
+
+    candidates: list[tuple[int, int]] = []
+    for index in preference:
+        if board[index] == " ":
+            updated = board[:index] + player + board[index + 1:]
+            candidates.append((score(updated, opponent, 1), index))
+    best_score = max(value for value, _ in candidates)
+    best_position = next(index for value, index in candidates if value == best_score)
+    updated_board = board[:best_position] + player + board[best_position + 1:]
+    return Record({
+        "position": best_position,
+        "score": best_score,
+        "outcome": "win" if best_score > 0 else "draw" if best_score == 0 else "loss",
+        "state": _ttt_state(updated_board),
+    })
+
+
 DOMAIN_BUILTINS = {
     "network": network,
     "network_metrics": network_metrics,
@@ -710,5 +760,6 @@ DOMAIN_BUILTINS = {
     "rps_round": rps_round,
     "tic_tac_toe_state": tic_tac_toe_state,
     "tic_tac_toe_move": tic_tac_toe_move,
+    "tic_tac_toe_best_move": tic_tac_toe_best_move,
 }
 

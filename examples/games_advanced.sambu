@@ -1,0 +1,13 @@
+# Rock-paper-scissors.
+let round = rps_round("rock", "scissors")
+print(round.outcome)
+print(round.winner)
+
+# Tic-tac-toe: immutable, validated moves.
+let board0 = [".", ".", ".", ".", ".", ".", ".", ".", "."]
+let state1 = tic_tac_toe_move(board0, "X", 0)
+let state2 = tic_tac_toe_move(state1.board, "O", 4)
+let suggestion = tic_tac_toe_best_move(state2.board, "X")
+print(suggestion.position)
+print(suggestion.outcome)
+print(suggestion.state.board)
