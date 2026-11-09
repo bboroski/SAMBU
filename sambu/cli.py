@@ -94,7 +94,7 @@ def _machine(argv: list[str]) -> int:
                     print(f"\n{item.path}:{item.start_line}-{item.end_line} [{item.statement_type}]")
                     print(item.excerpt)
             return 0
-        result = machine.design.to_dict()
+        result = machine.inspect_architecture()
         if args.as_json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
