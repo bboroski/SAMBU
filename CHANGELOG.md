@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added the systems-language evolution architecture covering static types, algebraic errors, ownership, effects, native compilation, embedded/kernel profiles, distributed systems, reliability, security and observability.
+- Consolidated overlapping language requirements into 101 test-indexed contracts and staged implementation gates.
+- Clarified the implemented 0.11 interpreter baseline versus planned compiler/runtime capabilities.
+
 ## 0.11.0 — 2026-11-09
 
 - Added sparse voxel grids, affine frames, signed Morton ordering, dirty chunks and per-frame upload planning.
