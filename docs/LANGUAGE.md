@@ -1,4 +1,4 @@
-# SAMBU 0.4 language guide
+# SAMBU 0.5 language guide
 
 ## Design goal
 
@@ -84,15 +84,15 @@ All quantities are stored internally in SI base units. Addition, subtraction, an
 - `partition` is a finite discrete sum; it does not calculate a continuum density of states.
 - `sample_maxwell` draws three independent Gaussian velocity components and returns their speed magnitude. Its default seed is `0` for repeatability.
 - Unit conversion is implicit to SI at input; display formatting chooses a small set of common derived units.
-- User-defined functions and bounded loops are available in 0.4. No file I/O, network access, imports, mutable assignment, or arbitrary Python evaluation are exposed to SAMBU programs.
+- User-defined functions and bounded loops are available. No file I/O, network access, imports, mutable assignment, or arbitrary Python evaluation are exposed to SAMBU programs.
 
 ## Error model
 
 Lexical and parse errors include one-based line/column information, a stable code, and an end-exclusive source range. Runtime errors are surfaced by the CLI with the source filename. Dimension mismatch, invalid temperatures, invalid probabilities, unknown names, and duplicate bindings fail explicitly instead of silently coercing values.
 
-### Source locations and parser API (0.4)
+### Source locations, typed AST and parser API
 
-The public package exports `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, and `parse`.
+The public package exports `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, `parse`, and `parse_ast`.
 
 - `SourcePosition(offset, line, column)` uses a zero-based Python string offset (Unicode code points) and one-based line and column numbers.
 - `SourceSpan(start, end)` is end-exclusive. Its `is_empty` property identifies a point range.
@@ -100,7 +100,7 @@ The public package exports `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntax
 - `SambuSyntaxError` retains `line` and `column`, and adds `code` and `span`. Its human-readable exception string keeps the existing line/column format.
 - Current diagnostic codes are `SAMBU-L001` (unexpected character), `SAMBU-L002` (unterminated string literal), and `SAMBU-P001` (parser syntax error).
 
-`parse(source)` continues to return the established tuple-based AST so existing interpreter clients do not break. Node-level AST spans and a typed AST representation are follow-up work; the current span contract covers tokens and syntax diagnostics. LSP integrations must convert code-point offsets to the negotiated position encoding.
+`parse(source)` continues to return the established tuple-based AST so existing interpreter clients do not break. `parse_ast(source)` returns an immutable `Program` containing typed statement and expression nodes. Every node carries an end-exclusive `SourceSpan`; parenthesized expressions include their parentheses in the expression range. `Program.to_legacy()` converts the typed tree to the exact legacy tuple shape. Token and AST offsets count Python Unicode code points; LSP integrations must convert them to the negotiated protocol position encoding (commonly UTF-16). Semantic diagnostics still require a separate analyzer and are not yet produced by `parse_ast()`.
 
 ## Control flow and functions
 

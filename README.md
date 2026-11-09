@@ -6,7 +6,7 @@ Its scientific core includes SI-aware quantities, dimensional validation, Maxwel
 
 **Neo-Modern Diplomat** is the architectural direction: one coherent language for physical models, business processes, infrastructure plans, and domain-specific execution adapters. Magento / Adobe Commerce is the first enterprise-commerce reference domain, not a hard-coded dependency of the language runtime.
 
-> **Status:** 0.5.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Domain functions validate production briefs, community offers, territory rounds and commerce architecture plans; they do not connect to external services or render audio.
+> **Status:** 0.5.1 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Domain functions validate production briefs, community offers, territory rounds and commerce architecture plans; they do not connect to external services or render audio.
 
 ## Quick start
 
@@ -57,7 +57,7 @@ These primitives help make worker concurrency, retry timing, dead-letter routing
 - Community offer metrics with `studio_offer`, reusing multi-session package economics and a configurable introductory conversion target.
 - Ownership-aware territory rounds with `capture_node`, extending `capture_tower` resistance calculations.
 - Source-aware lexer and parser diagnostics with stable codes and end-exclusive token spans.
-- Public `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, and `parse` interfaces; legacy tuple AST output remains unchanged.
+- Public immutable typed AST nodes through `parse_ast()`, while `parse()` preserves the established tuple AST for existing clients.
 
 ## Neo-Modern Diplomat blueprint
 
@@ -65,12 +65,12 @@ The four-domain blueprint connects production briefs, enterprise order orchestra
 
 ## IDE direction
 
-The planned SAMBU Studio / Diplomat Night environment is specified separately from the interpreter. The roadmap covers semantic highlighting, dimensional diagnostics, context-aware completion, a scientific REPL, execution tracing, and editor themes. These are design targets, not features claimed to exist in this alpha. See [IDE architecture](docs/IDE.md).
+The planned SAMBU Studio / Diplomat Night environment is specified separately from the interpreter. The parser now provides typed, source-ranged nodes as the foundation for semantic diagnostics, semantic tokens and LSP support. The graphical IDE, semantic analyzer, LSP server, context completion, REPL, tracing, debugger and theme remain roadmap items, not features claimed to exist. See [IDE architecture](docs/IDE.md).
 
 ## Project layout
 
 ```text
-sambu/       lexer, parser, interpreter, units and domain models
+sambu/       lexer, typed AST, parser, interpreter, units and domain models
 examples/    runnable SAMBU programs
 tests/       dependency-free unittest suite
 docs/        language, domain, commerce and IDE specifications
@@ -79,12 +79,13 @@ docs/        language, domain, commerce and IDE specifications
 
 ## Roadmap
 
-1. Add node-level AST spans and a typed intermediate representation on top of the new token-span and diagnostic API.
-2. Add a language-server protocol implementation and editor integration.
-3. Add REPL plotting and execution tracing without weakening deterministic CLI behavior.
-4. Build opt-in Magento adapters as separate packages, with explicit version compatibility and integration tests.
-5. Expand queue, event, and workflow models with invariant checks and simulation.
-6. Add numerical solvers only with convergence tests, documented assumptions, and reproducible benchmarks.
+1. Add a static dimensional analyzer over the typed AST, with stable diagnostic codes and exact source ranges.
+2. Add semantic tokens and a language-server protocol implementation.
+3. Add context-aware completion from lexical scopes, built-in signatures and versioned adapter metadata.
+4. Add REPL plotting and execution tracing without weakening deterministic CLI behavior.
+5. Build opt-in Magento adapters as separate packages, with explicit version compatibility and integration tests.
+6. Expand queue, event, and workflow models with invariant checks and simulation.
+7. Add numerical solvers only with convergence tests, documented assumptions, and reproducible benchmarks.
 
 ## License
 
