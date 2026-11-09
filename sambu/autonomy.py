@@ -64,11 +64,23 @@ def _non_empty(value: str, name: str, *, limit: int = 512) -> str:
     return value.strip()
 
 
-def _names(values: Iterable[str], name: str) -> tuple[str, ...]:
+def _names(
+    values: Iterable[str],
+    name: str,
+    *,
+    allow_empty: bool = False,
+    limit: int = 128,
+    max_items: int = 1_024,
+) -> tuple[str, ...]:
     if isinstance(values, (str, bytes)):
         raise TypeError(f"{name} must be an iterable of names, not a string")
-    result = tuple(sorted({_non_empty(value, name, limit=128) for value in values}))
-    if not result:
+    collected: set[str] = set()
+    for index, value in enumerate(values):
+        if index >= max_items:
+            raise ValueError(f"{name} exceeds the maximum of {max_items} entries")
+        collected.add(_non_empty(value, name, limit=limit))
+    result = tuple(sorted(collected))
+    if not result and not allow_empty:
         raise ValueError(f"{name} must contain at least one entry")
     return result
 
@@ -206,19 +218,15 @@ class AutonomyPolicy:
     )
 
     def __post_init__(self) -> None:
-        if isinstance(self.allowed_capabilities, (str, bytes)):
-            raise TypeError("allowed_capabilities must be an iterable of names")
-        if isinstance(self.allowed_change_roots, (str, bytes)):
-            raise TypeError("allowed_change_roots must be an iterable of path prefixes")
-        caps = frozenset(
-            _non_empty(value, "allowed capability", limit=128)
-            for value in self.allowed_capabilities
+        caps = frozenset(_names(
+            self.allowed_capabilities, "allowed capability", allow_empty=True
+        ))
+        roots = _names(
+            self.allowed_change_roots, "allowed change root", allow_empty=True, limit=256
         )
-        roots = tuple(sorted({
-            _non_empty(value, "allowed change root", limit=256)
-            for value in self.allowed_change_roots
-        }))
-        protected = tuple(_non_empty(p, "protected path", limit=256) for p in self.protected_paths)
+        protected = _names(
+            self.protected_paths, "protected path", allow_empty=True, limit=256
+        )
         if not isinstance(self.maximum_budget, ResourceBudget):
             raise TypeError("maximum_budget must be a ResourceBudget")
         if isinstance(self.protected_paths, (str, bytes)):
@@ -261,22 +269,14 @@ class ChangeProposal:
     def __post_init__(self) -> None:
         object.__setattr__(self, "title", _non_empty(self.title, "proposal title", limit=160))
         object.__setattr__(self, "summary", _non_empty(self.summary, "proposal summary"))
-        if isinstance(self.changed_paths, (str, bytes)):
-            raise TypeError("changed_paths must be an iterable of repository paths")
-        paths = tuple(_non_empty(p, "changed path", limit=512) for p in self.changed_paths)
-        if not paths:
-            raise ValueError("a proposal must name at least one changed path")
+        paths = _names(self.changed_paths, "changed path", limit=512)
         object.__setattr__(self, "changed_paths", paths)
         object.__setattr__(self, "risk", _risk(self.risk))
-        if isinstance(self.required_tests, (str, bytes)):
-            raise TypeError("required_tests must be an iterable of test identifiers")
-        if isinstance(self.evidence_refs, (str, bytes)):
-            raise TypeError("evidence_refs must be an iterable of evidence identifiers")
-        object.__setattr__(self, "required_tests", tuple(
-            _non_empty(x, "required test", limit=256) for x in self.required_tests
+        object.__setattr__(self, "required_tests", _names(
+            self.required_tests, "required test", allow_empty=True, limit=256
         ))
-        object.__setattr__(self, "evidence_refs", tuple(
-            _non_empty(x, "evidence reference", limit=512) for x in self.evidence_refs
+        object.__setattr__(self, "evidence_refs", _names(
+            self.evidence_refs, "evidence reference", allow_empty=True, limit=512
         ))
         if not isinstance(self.reversible, bool):
             raise TypeError("reversible must be a boolean")
@@ -323,7 +323,7 @@ class ExperimentLedger:
     ):
         self.max_records = _positive_int(max_records, "max_records", maximum=1_000_000)
         self.max_total_bytes = _positive_int(
-            max_total_bytes, "max_total_bytes", maximum=1_073_741_824
+            max_total_bytes, "max_total_bytes", maximum=134_217_728
         )
         self._records: list[ExperimentRecord] = []
         self._stored_bytes = 0
