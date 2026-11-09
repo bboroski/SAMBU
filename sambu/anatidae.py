@@ -326,6 +326,54 @@ def _digestive_grinding(args: list[object]) -> Record:
     })
 
 
+
+def _avian_air_sac_cycle(args: list[object]) -> Record:
+    if len(args) != 3:
+        raise TypeError("avian_air_sac_cycle(inspired_volume, air_sac_count, parabronchial_transfer_fraction) expects 3 arguments")
+    volume = _number(args[0], "inspired air volume", minimum=0.0)
+    count = args[1]
+    if isinstance(count, bool) or not isinstance(count, int) or not 5 <= count <= 14:
+        raise ValueError("air_sac_count must be an explicitly supplied integer from 5 to 14")
+    transfer = _ratio(args[2], "parabronchial transfer fraction")
+    lung_volume = volume * transfer
+    phases = [
+        Record({
+            "phase": "first_inspiration",
+            "flow": "environment_to_posterior_air_sacs",
+            "fresh_air_volume": volume,
+            "parabronchial_transfer_volume": 0.0,
+        }),
+        Record({
+            "phase": "first_expiration",
+            "flow": "posterior_air_sacs_through_palaeopulmonic_parabronchi",
+            "fresh_air_volume": 0.0,
+            "parabronchial_transfer_volume": lung_volume,
+        }),
+        Record({
+            "phase": "second_inspiration",
+            "flow": "parabronchi_to_anterior_sacs_and_new_air_to_posterior_sacs",
+            "fresh_air_volume": volume,
+            "parabronchial_transfer_volume": 0.0,
+        }),
+        Record({
+            "phase": "second_expiration",
+            "flow": "anterior_air_sacs_to_environment",
+            "fresh_air_volume": 0.0,
+            "parabronchial_transfer_volume": lung_volume,
+        }),
+    ]
+    return Record({
+        "air_sac_count_assumption": count,
+        "inspired_volume_per_phase": volume,
+        "modeled_parabronchial_transfer_volume": lung_volume,
+        "phase_count": 4,
+        "phases": phases,
+        "directional_pathway": "posterior_to_anterior",
+        "model": "idealized_palaeopulmonic_airflow_cycle",
+        "caveat": "air-sac number and neopulmonic flow patterns vary across bird taxa",
+    })
+
+
 @dataclass(frozen=True, slots=True)
 class AnatidaeProfile:
     """Explicit comparative profile; values are inputs, not taxonomic defaults."""
@@ -374,6 +422,7 @@ ANATIDAE_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "migration_speed": _migration_speed,
     "oxygen_pressure_ratio": _oxygen_pressure_ratio,
     "avian_gas_exchange": _avian_gas_exchange,
+    "avian_air_sac_cycle": _avian_air_sac_cycle,
     "bill_lamella_filter": _bill_lamella_filter,
     "salt_balance": _salt_balance,
     "flock_flight_budget": _flock_flight_budget,
