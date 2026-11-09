@@ -59,6 +59,8 @@ def parse_field_specs(values: Iterable[str]) -> tuple[FieldSpec, ...]:
 
 def _write(root: Path, files: dict[str, str], allow_empty: bool) -> list[Path]:
     root = root.expanduser()
+    if root.is_symlink():
+        raise ProjectGenerationError(f"destination {root} must not be a symbolic link")
     if root.exists():
         if not root.is_dir() or (not allow_empty) or any(root.iterdir()):
             raise ProjectGenerationError(f"destination {root} is not empty or is not a directory")
@@ -71,6 +73,13 @@ def _write(root: Path, files: dict[str, str], allow_empty: bool) -> list[Path]:
         if rel.is_absolute() or ".." in rel.parts:
             raise ProjectGenerationError(f"unsafe generated path {relative!r}")
         target = root / rel
+        if target.is_symlink():
+            raise ProjectGenerationError(f"refusing to write through symbolic link {target}")
+        parent = root
+        for part in rel.parts[:-1]:
+            parent = parent / part
+            if parent.is_symlink():
+                raise ProjectGenerationError(f"refusing to write through symbolic link {parent}")
         if target.exists():
             raise ProjectGenerationError(f"refusing to overwrite {target}")
         targets.append((target, content))
