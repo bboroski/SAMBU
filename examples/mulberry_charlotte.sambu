@@ -1,0 +1,41 @@
+# Mulberry Charlotte: SAMBU's layered integration workload.
+# The recipe is a deterministic example, not a nutritional database.
+
+fn scale_amount(amount, original_portions, target_portions) {
+  return amount * target_portions / original_portions
+}
+
+fn filling_weight(mulberries, apples) {
+  return mulberries + apples
+}
+
+fn assemble_charlotte(base, filling, topping) {
+  return base + filling + topping
+}
+
+let original_portions = 8
+let target_portions = 12
+
+let flour_g = scale_amount(180, original_portions, target_portions)
+let butter_g = scale_amount(90, original_portions, target_portions)
+let sugar_g = scale_amount(120, original_portions, target_portions)
+let eggs = scale_amount(3, original_portions, target_portions)
+
+let mulberries_g = scale_amount(260, original_portions, target_portions)
+let apples_g = scale_amount(180, original_portions, target_portions)
+let filling_g = filling_weight(mulberries_g, apples_g)
+
+let base_g = flour_g + butter_g + sugar_g
+let topping_g = scale_amount(40, original_portions, target_portions)
+let finished_g = assemble_charlotte(base_g, filling_g, topping_g)
+let portion_g = finished_g / target_portions
+
+print("SAMBU Mulberry Charlotte")
+print(target_portions)
+print(flour_g)
+print(butter_g)
+print(eggs)
+print(mulberries_g)
+print(apples_g)
+print(finished_g)
+print(portion_g)
