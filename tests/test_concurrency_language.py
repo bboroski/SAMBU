@@ -67,6 +67,11 @@ fn one_argument(value) { return value }
 let worker = actor(one_argument, 0)
 """)
 
+    def test_language_version_matches_package_metadata(self):
+        output: list[str] = []
+        execute('print(version)', output=output.append)
+        self.assertEqual(output, ["0.11.0"])
+
 
 if __name__ == "__main__":
     unittest.main()
