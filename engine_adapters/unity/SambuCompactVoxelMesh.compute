@@ -1,0 +1,188 @@
+#pragma kernel CountVisibleFaces
+#pragma kernel ScanGroupOffsets
+#pragma kernel EmitVisibleFaces
+
+// Three dispatches, with UAV barriers between them:
+// 1) CountVisibleFaces: six-bit masks -> per-64-cell face totals.
+// 2) ScanGroupOffsets: exclusive prefix sum of group totals -> total face count.
+// 3) EmitVisibleFaces: prefix within each group -> compact vertex/index/material buffers.
+//
+// _Cells uses the SAMBU 8-byte GPU record:
+//   uint x = localX | (localY << 8) | (localZ << 16)
+//   uint y = material ID in low 16 bits.
+// Local positions are chunk-local voxel coordinates.
+
+StructuredBuffer<uint2> _Cells;
+StructuredBuffer<uint> _FaceMasks;
+RWStructuredBuffer<uint> _GroupFaceCounts;
+RWStructuredBuffer<uint> _GroupFaceOffsets;
+RWStructuredBuffer<uint> _TotalFaceCount;
+
+RWStructuredBuffer<float3> _Vertices;
+RWStructuredBuffer<float3> _Normals;
+RWStructuredBuffer<uint> _Indices;
+RWStructuredBuffer<uint> _FaceMaterials;
+
+uint _CellCount;
+uint _GroupCount;
+
+groupshared uint ScanData[64];
+
+uint DecodeMaterial(uint2 cell)
+{
+    return cell.y & 0xffffu;
+}
+
+float3 DecodePosition(uint2 cell)
+{
+    uint packed = cell.x;
+    return float3(
+        packed & 255u,
+        (packed >> 8u) & 255u,
+        (packed >> 16u) & 255u
+    );
+}
+
+float3 FaceNormal(uint face)
+{
+    if (face == 0u) return float3( 1, 0, 0);
+    if (face == 1u) return float3(-1, 0, 0);
+    if (face == 2u) return float3( 0, 1, 0);
+    if (face == 3u) return float3( 0,-1, 0);
+    if (face == 4u) return float3( 0, 0, 1);
+    return float3(0, 0, -1);
+}
+
+float3 FaceCorner(uint face, uint corner)
+{
+    // Corner order matches the CPU reference mesher in sambu/voxels/core.py.
+    if (face == 0u)
+    {
+        if (corner == 0u) return float3(1,0,0);
+        if (corner == 1u) return float3(1,1,0);
+        if (corner == 2u) return float3(1,1,1);
+        return float3(1,0,1);
+    }
+    if (face == 1u)
+    {
+        if (corner == 0u) return float3(0,0,0);
+        if (corner == 1u) return float3(0,0,1);
+        if (corner == 2u) return float3(0,1,1);
+        return float3(0,1,0);
+    }
+    if (face == 2u)
+    {
+        if (corner == 0u) return float3(0,1,0);
+        if (corner == 1u) return float3(0,1,1);
+        if (corner == 2u) return float3(1,1,1);
+        return float3(1,1,0);
+    }
+    if (face == 3u)
+    {
+        if (corner == 0u) return float3(0,0,0);
+        if (corner == 1u) return float3(1,0,0);
+        if (corner == 2u) return float3(1,0,1);
+        return float3(0,0,1);
+    }
+    if (face == 4u)
+    {
+        if (corner == 0u) return float3(0,0,1);
+        if (corner == 1u) return float3(1,0,1);
+        if (corner == 2u) return float3(1,1,1);
+        return float3(0,1,1);
+    }
+    if (corner == 0u) return float3(0,0,0);
+    if (corner == 1u) return float3(0,1,0);
+    if (corner == 2u) return float3(1,1,0);
+    return float3(1,0,0);
+}
+
+[numthreads(64, 1, 1)]
+void CountVisibleFaces(uint3 groupID : SV_GroupID, uint3 groupThreadID : SV_GroupThreadID, uint3 dispatchID : SV_DispatchThreadID)
+{
+    uint lane = groupThreadID.x;
+    uint index = dispatchID.x;
+    uint count = index < _CellCount ? countbits(_FaceMasks[index] & 63u) : 0u;
+    ScanData[lane] = count;
+    GroupMemoryBarrierWithGroupSync();
+
+    // Inclusive Hillis-Steele scan inside this 64-cell group.
+    for (uint offset = 1u; offset < 64u; offset <<= 1u)
+    {
+        uint addend = lane >= offset ? ScanData[lane - offset] : 0u;
+        GroupMemoryBarrierWithGroupSync();
+        ScanData[lane] += addend;
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    if (lane == 63u)
+    {
+        _GroupFaceCounts[groupID.x] = ScanData[63];
+    }
+}
+
+[numthreads(1, 1, 1)]
+void ScanGroupOffsets(uint3 id : SV_DispatchThreadID)
+{
+    uint running = 0u;
+    for (uint group = 0u; group < _GroupCount; ++group)
+    {
+        _GroupFaceOffsets[group] = running;
+        running += _GroupFaceCounts[group];
+    }
+    _TotalFaceCount[0] = running;
+}
+
+[numthreads(64, 1, 1)]
+void EmitVisibleFaces(uint3 groupID : SV_GroupID, uint3 groupThreadID : SV_GroupThreadID, uint3 dispatchID : SV_DispatchThreadID)
+{
+    uint lane = groupThreadID.x;
+    uint index = dispatchID.x;
+    uint mask = index < _CellCount ? (_FaceMasks[index] & 63u) : 0u;
+    uint count = countbits(mask);
+    ScanData[lane] = count;
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint offset = 1u; offset < 64u; offset <<= 1u)
+    {
+        uint addend = lane >= offset ? ScanData[lane - offset] : 0u;
+        GroupMemoryBarrierWithGroupSync();
+        ScanData[lane] += addend;
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    if (index >= _CellCount || count == 0u)
+    {
+        return;
+    }
+
+    uint faceCursor = _GroupFaceOffsets[groupID.x] + ScanData[lane] - count;
+    float3 origin = DecodePosition(_Cells[index]);
+    uint material = DecodeMaterial(_Cells[index]);
+
+    [unroll]
+    for (uint face = 0u; face < 6u; ++face)
+    {
+        if ((mask & (1u << face)) == 0u) continue;
+
+        uint faceIndex = faceCursor++;
+        uint vertexBase = faceIndex * 4u;
+        uint indexBase = faceIndex * 6u;
+        float3 normal = FaceNormal(face);
+
+        [unroll]
+        for (uint corner = 0u; corner < 4u; ++corner)
+        {
+            _Vertices[vertexBase + corner] = origin + FaceCorner(face, corner);
+            _Normals[vertexBase + corner] = normal;
+        }
+
+        _Indices[indexBase + 0u] = vertexBase + 0u;
+        _Indices[indexBase + 1u] = vertexBase + 1u;
+        _Indices[indexBase + 2u] = vertexBase + 2u;
+        _Indices[indexBase + 3u] = vertexBase + 0u;
+        _Indices[indexBase + 4u] = vertexBase + 2u;
+        _Indices[indexBase + 5u] = vertexBase + 3u;
+        _FaceMaterials[faceIndex] = material;
+    }
+}
