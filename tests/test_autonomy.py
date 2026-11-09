@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from dataclasses import replace
 
 from sambu.autonomy import (
     AutonomyPolicy,
@@ -96,12 +97,22 @@ class SambuMachineTests(unittest.TestCase):
     def test_plan_is_deterministic_for_equivalent_capability_order(self):
         machine = SambuMachine()
         first = machine.plan(TaskManifest(
-            "test.run", "Run deterministic checks", ("compute", "ledger.read")
+            "test.run", "Run deterministic checks", ("compute", "ledger.read"), seed=17
         ))
         second = machine.plan(TaskManifest(
-            "test.run", "Run deterministic checks", ("ledger.read", "compute")
+            "test.run", "Run deterministic checks", ("ledger.read", "compute"), seed=17
+        ))
+        changed_seed = machine.plan(TaskManifest(
+            "test.run", "Run deterministic checks", ("compute", "ledger.read"), seed=18
         ))
         self.assertEqual(first.digest, second.digest)
+        self.assertNotEqual(first.digest, changed_seed.digest)
+
+    def test_manifest_rejects_invalid_seed_values(self):
+        with self.assertRaises(ValueError):
+            TaskManifest("seed.bad", "Invalid seed", ("compute",), seed=True)
+        with self.assertRaises(ValueError):
+            TaskManifest("seed.bad", "Invalid seed", ("compute",), seed=2 ** 80)
 
     def test_audit_reports_that_execution_and_self_modification_are_disabled(self):
         audit = SambuMachine().audit()
@@ -145,6 +156,11 @@ class ExperimentLedgerTests(unittest.TestCase):
         self.assertNotEqual(first.digest, second.digest)
         self.assertEqual(second.sequence, 2)
         self.assertEqual(second.previous_digest, first.digest)
+        self.assertTrue(machine.ledger.verify())
+        tampered = replace(first, outcome_json='{"order":["b","a"],"passed":true}')
+        machine.ledger._records[0] = tampered
+        self.assertFalse(machine.ledger.verify())
+        machine.ledger._records[0] = first
         self.assertTrue(machine.ledger.verify())
         copy = first.outcome
         copy["passed"] = False
