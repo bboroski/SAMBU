@@ -6,6 +6,7 @@ the consuming game-engine adapter.
 """
 from __future__ import annotations
 
+import math
 from typing import Callable
 
 from .values import Record, number_value
@@ -17,11 +18,15 @@ from .voxels import (
 
 
 def _integer(value: object, name: str, minimum: int, maximum: int) -> int:
-    if isinstance(value, bool) or not isinstance(value, int):
+    if isinstance(value, bool):
         raise TypeError(f"{name} must be an integer")
-    if not minimum <= value <= maximum:
+    numeric = number_value(value, name)
+    if not math.isfinite(numeric) or not numeric.is_integer():
+        raise TypeError(f"{name} must be an integer-valued finite number")
+    result = int(numeric)
+    if not minimum <= result <= maximum:
         raise ValueError(f"{name} must be between {minimum} and {maximum}")
-    return value
+    return result
 
 
 def _grid(value: object) -> SparseVoxelGrid:
