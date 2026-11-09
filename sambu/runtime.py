@@ -302,13 +302,14 @@ class UserFunction:
         local = Environment(self.closure)
         for name, value in zip(self.params, args):
             local.define(name, value)
-        if bound_instance is not None and defining_class is not None:
-            if "this" not in self.params:
-                local.define("this", bound_instance)
+        if defining_class is not None:
+            if bound_instance is not None:
+                if "this" not in self.params:
+                    local.define("this", bound_instance)
+                if defining_class.base is not None and "super" not in self.params:
+                    local.define("super", SuperProxy(bound_instance, defining_class.base, defining_class))
             if "__class__" not in self.params:
                 local.define("__class__", defining_class)
-            if defining_class.base is not None and "super" not in self.params:
-                local.define("super", SuperProxy(bound_instance, defining_class.base, defining_class))
         self.interpreter.call_depth += 1
         try:
             self.interpreter.execute_statements(self.body, local)
@@ -422,7 +423,7 @@ class SambuClass:
             raise AttributeError(f"{name!r} is an instance method, not a static member")
         if not _can_access(method.visibility, owner, requester):
             raise SambuRuntimeError(f"cannot access {method.visibility} static method {name!r}")
-        return method
+        return BoundStaticMethod(method, owner)
 
     def set(self, name: str, value: object) -> None:
         if name not in self.static_fields:
@@ -496,6 +497,17 @@ class SuperProxy:
         if not _can_access(method.visibility, owner, self.requester):
             raise SambuRuntimeError(f"cannot access {method.visibility} parent method {name!r}")
         return BoundMethod(self.instance, method, owner)
+
+
+class BoundStaticMethod:
+    """Static method bound to its declaring class for access-control checks."""
+
+    def __init__(self, function: UserFunction, owner: SambuClass):
+        self.function = function
+        self.owner = owner
+
+    def __call__(self, args: list[object]) -> object:
+        return self.function.invoke(args, defining_class=self.owner)
 
 
 class BoundMethod:
