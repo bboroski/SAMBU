@@ -57,3 +57,10 @@ from .concurrency import (  # noqa: F401
     SleepTicks, Supervisor, SupervisorEvent, TypedChannel, YieldNow,
     sleep_ticks, yield_now,
 )
+
+from .autonomy import (  # noqa: F401
+    AutonomyError, AutonomyPolicy, CapabilityDenied, ChangeEvaluation,
+    ChangeProposal, ExecutionPlan, ExperimentLedger, ExperimentRecord,
+    LedgerFull, ResourceBudget, RiskTier, SambuMachine, TaskManifest,
+    fingerprint,
+)

@@ -386,6 +386,7 @@ SAMBU repository
 │   ├── aikido.py          Inference orchestration
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
+│   ├── autonomy.py        Bounded task policy, evidence ledger and change preflight
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
@@ -412,6 +413,7 @@ SAMBU is deliberately honest about its current boundaries.
 | Typed bounded software channels | **Implemented · experimental** |
 | Cooperative Python generator scheduler | **Implemented · Python host API; not native fibers** |
 | Reverse-order resource scope and dual-verifier gate | **Implemented · Python host APIs; HSM provider external** |
+| Bounded autonomy policy, task manifests, evidence ledger and change preflight | **Implemented · experimental Python host API; no execution or merge authority** |
 | Runtime SI quantities and scientific helpers | **Implemented** |
 | Sparse voxel core and bounded CPU graph/mesh algorithms | **Implemented** |
 | Starter engine bridge source | **Included · host integration required** |
@@ -426,6 +428,20 @@ SAMBU is deliberately honest about its current boundaries.
 | Running Rails-style router, ORM, database and migration engine | **Planned** |
 
 The future systems-language architecture and its acceptance criteria live in the [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md). The [Autonomy Constitution](docs/AUTONOMY_CONSTITUTION.md) records auditable rules and baseline evidence. A proposal is not counted as an implemented feature.
+
+## 🧭 Cripple Autonomy Core
+
+The new **Cripple Autonomy Core** adds bounded planning and evidence governance to the Python host API. It is inspired by six engineering lenses—ALUCARD, GING, RAIDEN, DJINN, MADARA and SHANKS—covering capability limits, research discipline, supervised recovery, isolated extensions, adversarial design review and explicit human handoff.
+
+- Immutable task manifests with declared capabilities and risk tiers.
+- Resource budgets that are capped by policy, never expanded automatically.
+- Deterministic plan fingerprints and a bounded, hash-chained experiment ledger.
+- Change preflight for path scope, reversibility, tests, evidence and risk.
+- Human review required above the configured autonomous risk ceiling.
+
+This core does **not** execute arbitrary code, modify the repository, grant host permissions, merge pull requests or deploy software. OS-level sandboxing and isolated experiment execution remain planned.
+
+See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md) and the [Cripple Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md).
 
 ## 📚 Documentation
 
@@ -452,6 +468,7 @@ The future systems-language architecture and its acceptance criteria live in the
 - [Django, Flask and FastAPI integrations](docs/INTEGRATIONS.md)
 - [Magento / Adobe Commerce architecture and inspector](docs/MAGENTO_COMMERCE.md)
 - [SAMBU Studio and IDE roadmap](docs/IDE.md)
+- [Cripple archetype engineering charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md)
 - [Test runner and failure autopsy](docs/TEST_AUTOPSY.md)
 
 ### Future architecture
