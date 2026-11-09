@@ -373,18 +373,23 @@ def _evaluate_rule(item: object, rule: FilterRule, index: int) -> RuleEvaluation
 class FilteringEngine:
     """Pure, deterministic 04coq engine for filtering in-memory SAMBU values."""
 
+    def _evaluate_normalized(
+        self, item: object, rules: tuple[FilterRule, ...], mode: str
+    ) -> FilterEvaluation:
+        results = tuple(
+            _evaluate_rule(item, rule, index)
+            for index, rule in enumerate(rules)
+        )
+        values = [result.matched for result in results]
+        matched = all(values) if mode == "all" else any(values)
+        return FilterEvaluation(matched, mode, results)
+
     def evaluate(
         self, item: object, rules: object, mode: str = "all"
     ) -> FilterEvaluation:
         normalized_mode = _mode(mode)
         normalized_rules = _normalise_rules(rules)
-        results = tuple(
-            _evaluate_rule(item, rule, index)
-            for index, rule in enumerate(normalized_rules)
-        )
-        values = [result.matched for result in results]
-        matched = all(values) if normalized_mode == "all" else any(values)
-        return FilterEvaluation(matched, normalized_mode, results)
+        return self._evaluate_normalized(item, normalized_rules, normalized_mode)
 
     def filter(
         self, items: object, rules: object, mode: str = "all"
@@ -398,7 +403,7 @@ class FilteringEngine:
         accepted: list[object] = []
         rejected: list[object] = []
         for item in items:
-            evaluation = self.evaluate(item, normalized_rules, normalized_mode)
+            evaluation = self._evaluate_normalized(item, normalized_rules, normalized_mode)
             (accepted if evaluation.matched else rejected).append(item)
         return Record({
             "items": accepted,
