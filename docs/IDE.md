@@ -48,6 +48,8 @@ A dark theme with restrained contrast, clear semantic differentiation, and acces
 6. Add deterministic execution tracing and debugger controls.
 7. Package the theme and accessibility tests.
 
-## Current implementation status (0.3.0)
+## Current implementation status (0.4.0)
 
-The repository currently provides a lexer, parser, interpreter, CLI, unit-aware runtime, tests, and domain built-ins. It does not yet ship an LSP server, graphical IDE, semantic token provider, live plot panel, debugger UI, or Diplomat Night theme. This document is a target architecture, not a feature checklist claiming those components already exist.
+The 0.4.0 core exposes immutable `SourcePosition` and `SourceSpan` values. Tokens expose an end-exclusive `span` plus end line/column and source offsets; lexical errors use stable codes `SAMBU-L001` (unexpected character) and `SAMBU-L002` (unterminated string), while parser errors use `SAMBU-P001`. Existing one-based `line` / `column` fields and the legacy tuple shape returned by `parse()` remain compatible.
+
+The AST tuples do not yet carry node-level spans, and the repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, live plot panel, debugger UI, or Diplomat Night theme. Token offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16). This document is a target architecture, not a feature checklist claiming those components already exist.

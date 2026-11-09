@@ -3,20 +3,53 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from .source import SourcePosition, SourceSpan
+
 
 @dataclass(frozen=True)
 class Token:
+    """A lexical token with an end-exclusive source span.
+
+    The original line and column attributes remain one-based and unchanged.
+    """
+
     kind: str
     value: object
     line: int
     column: int
+    end_line: int | None = None
+    end_column: int | None = None
+    start_offset: int = 0
+    end_offset: int = 0
+
+    @property
+    def span(self) -> SourceSpan:
+        end_line = self.line if self.end_line is None else self.end_line
+        end_column = self.column if self.end_column is None else self.end_column
+        return SourceSpan(
+            SourcePosition(self.start_offset, self.line, self.column),
+            SourcePosition(self.end_offset, end_line, end_column),
+        )
 
 
 class SambuSyntaxError(Exception):
-    def __init__(self, message: str, line: int, column: int):
-        super().__init__(f"{message} (line {line}, column {column})")
+    """Lexical or parse error with a stable code and source range."""
+
+    def __init__(
+        self,
+        message: str,
+        line: int,
+        column: int,
+        *,
+        span: SourceSpan | None = None,
+        code: str = "SAMBU-SYN-001",
+    ) -> None:
+        self.message = message
         self.line = line
         self.column = column
+        self.span = span or SourceSpan.point(SourcePosition(0, line, column))
+        self.code = code
+        super().__init__(f"{message} (line {line}, column {column})")
 
 
 _OPERATORS = ("==", "!=", "<=", ">=", "&&", "||", "**")
@@ -37,20 +70,32 @@ def tokenize(source: str) -> list[Token]:
         else:
             col += len(text)
 
+    def emit(kind: str, value: object, start: int, start_line: int, start_col: int) -> None:
+        tokens.append(Token(kind, value, start_line, start_col, line, col, start, i))
+
     while i < n:
         ch = source[i]
         if ch in " \t\r":
-            advance(ch); i += 1; continue
+            advance(ch)
+            i += 1
+            continue
         if ch == "\n":
-            tokens.append(Token("SEMI", ";", line, col))
-            advance(ch); i += 1; continue
+            start, start_line, start_col = i, line, col
+            advance(ch)
+            i += 1
+            emit("SEMI", ";", start, start_line, start_col)
+            continue
         if ch == "#":
             j = source.find("\n", i)
             if j == -1:
+                advance(source[i:])
+                i = n
                 break
-            advance(source[i:j]); i = j; continue
+            advance(source[i:j])
+            i = j
+            continue
         if ch in "\"'":
-            start_line, start_col, quote = line, col, ch
+            start, start_line, start_col, quote = i, line, col, ch
             j = i + 1
             escaped = False
             while j < n:
@@ -58,42 +103,73 @@ def tokenize(source: str) -> list[Token]:
                 if c == quote and not escaped:
                     break
                 if c == "\n" and not escaped:
-                    raise SambuSyntaxError("Unterminated string literal", start_line, start_col)
+                    tail = source[i:j]
+                    end_line = start_line + tail.count("\n")
+                    end_col = len(tail.rsplit("\n", 1)[-1]) + 1
+                    if "\n" not in tail:
+                        end_col = start_col + len(tail)
+                    raise SambuSyntaxError(
+                        "Unterminated string literal", start_line, start_col,
+                        span=SourceSpan(
+                            SourcePosition(start, start_line, start_col),
+                            SourcePosition(j, end_line, end_col),
+                        ),
+                        code="SAMBU-L002",
+                    )
                 if c == "\\" and not escaped:
                     escaped = True
                 else:
                     escaped = False
                 j += 1
             if j >= n:
-                raise SambuSyntaxError("Unterminated string literal", start_line, start_col)
+                tail = source[i:]
+                end_line = start_line + tail.count("\n")
+                end_col = len(tail.rsplit("\n", 1)[-1]) + 1
+                if "\n" not in tail:
+                    end_col = start_col + len(tail)
+                raise SambuSyntaxError(
+                    "Unterminated string literal", start_line, start_col,
+                    span=SourceSpan(
+                        SourcePosition(start, start_line, start_col),
+                        SourcePosition(n, end_line, end_col),
+                    ),
+                    code="SAMBU-L002",
+                )
             raw = source[i:j + 1]
             body = raw[1:-1]
             value = body.replace("\\n", "\n").replace("\\t", "\t").replace("\\r", "\r")
             value = value.replace("\\\\", "\\").replace('\\"', '"').replace("\\'", "'")
-            tokens.append(Token("STRING", value, start_line, start_col))
-            advance(raw); i = j + 1; continue
+            advance(raw)
+            i = j + 1
+            emit("STRING", value, start, start_line, start_col)
+            continue
         if ch.isdigit() or (ch == "." and i + 1 < n and source[i + 1].isdigit()):
             start = i
             start_line, start_col = line, col
             if ch == ".":
                 i += 1
-                while i < n and source[i].isdigit(): i += 1
+                while i < n and source[i].isdigit():
+                    i += 1
             else:
-                while i < n and source[i].isdigit(): i += 1
+                while i < n and source[i].isdigit():
+                    i += 1
                 if i < n and source[i] == ".":
                     i += 1
-                    while i < n and source[i].isdigit(): i += 1
+                    while i < n and source[i].isdigit():
+                        i += 1
             if i < n and source[i] in "eE":
                 exp_start = i
                 i += 1
-                if i < n and source[i] in "+-": i += 1
+                if i < n and source[i] in "+-":
+                    i += 1
                 digits = i
-                while i < n and source[i].isdigit(): i += 1
+                while i < n and source[i].isdigit():
+                    i += 1
                 if digits == i:
                     i = exp_start
             raw = source[start:i]
-            tokens.append(Token("NUMBER", float(raw), start_line, start_col))
             advance(raw)
+            emit("NUMBER", float(raw), start, start_line, start_col)
             continue
         if ch.isalpha() or ch == "_":
             start = i
@@ -102,18 +178,31 @@ def tokenize(source: str) -> list[Token]:
             while i < n and (source[i].isalnum() or source[i] == "_"):
                 i += 1
             raw = source[start:i]
-            tokens.append(Token("IDENT", raw, start_line, start_col))
             advance(raw)
+            emit("IDENT", raw, start, start_line, start_col)
             continue
         op = next((op for op in _OPERATORS if source.startswith(op, i)), None)
         if op:
-            tokens.append(Token("OP", op, line, col))
-            advance(op); i += len(op); continue
+            start, start_line, start_col = i, line, col
+            advance(op)
+            i += len(op)
+            emit("OP", op, start, start_line, start_col)
+            continue
         if ch in _SINGLE:
+            start, start_line, start_col = i, line, col
             kind = "SEMI" if ch == ";" else "OP"
-            tokens.append(Token(kind, ch, line, col))
-            advance(ch); i += 1; continue
-        raise SambuSyntaxError(f"Unexpected character {ch!r}", line, col)
+            advance(ch)
+            i += 1
+            emit(kind, ch, start, start_line, start_col)
+            continue
+        raise SambuSyntaxError(
+            f"Unexpected character {ch!r}", line, col,
+            span=SourceSpan(
+                SourcePosition(i, line, col),
+                SourcePosition(i + 1, line, col + 1),
+            ),
+            code="SAMBU-L001",
+        )
 
-    tokens.append(Token("EOF", None, line, col))
+    tokens.append(Token("EOF", None, line, col, line, col, n, n))
     return tokens

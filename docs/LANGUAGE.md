@@ -1,4 +1,4 @@
-# SAMBU 0.2 language guide
+# SAMBU 0.4 language guide
 
 ## Design goal
 
@@ -39,7 +39,7 @@ Use explicit multiplication for units: `300 * K`, not `300 K`.
 
 ## Physical quantities
 
-All quantities are stored internally in SI base units. Addition, subtraction, and comparison require matching dimensions. Multiplication and division combine dimensions. Integer powers preserve dimensional meaning. Fractional powers of dimensioned quantities remain deliberately rejected in 0.2.
+All quantities are stored internally in SI base units. Addition, subtraction, and comparison require matching dimensions. Multiplication and division combine dimensions. Integer powers preserve dimensional meaning. Fractional powers of dimensioned quantities remain deliberately rejected.
 
 ### Built-in units
 
@@ -84,13 +84,25 @@ All quantities are stored internally in SI base units. Addition, subtraction, an
 - `partition` is a finite discrete sum; it does not calculate a continuum density of states.
 - `sample_maxwell` draws three independent Gaussian velocity components and returns their speed magnitude. Its default seed is `0` for repeatability.
 - Unit conversion is implicit to SI at input; display formatting chooses a small set of common derived units.
-- User-defined functions and bounded loops are available in 0.2. No file I/O, network access, imports, mutable assignment, or arbitrary Python evaluation are exposed to SAMBU programs.
+- User-defined functions and bounded loops are available in 0.4. No file I/O, network access, imports, mutable assignment, or arbitrary Python evaluation are exposed to SAMBU programs.
 
 ## Error model
 
-Lexical and parse errors include line/column information. Runtime errors are surfaced by the CLI with the source filename. Dimension mismatch, invalid temperatures, invalid probabilities, unknown names, and duplicate bindings fail explicitly instead of silently coercing values.
+Lexical and parse errors include one-based line/column information, a stable code, and an end-exclusive source range. Runtime errors are surfaced by the CLI with the source filename. Dimension mismatch, invalid temperatures, invalid probabilities, unknown names, and duplicate bindings fail explicitly instead of silently coercing values.
 
-## Control flow and functions (0.2)
+### Source locations and parser API (0.4)
+
+The public package exports `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, and `parse`.
+
+- `SourcePosition(offset, line, column)` uses a zero-based Python string offset (Unicode code points) and one-based line and column numbers.
+- `SourceSpan(start, end)` is end-exclusive. Its `is_empty` property identifies a point range.
+- Each lexer `Token` retains the original `kind`, `value`, `line`, and `column` fields and adds a `span` property, `end_line`, `end_column`, `start_offset`, and `end_offset`.
+- `SambuSyntaxError` retains `line` and `column`, and adds `code` and `span`. Its human-readable exception string keeps the existing line/column format.
+- Current diagnostic codes are `SAMBU-L001` (unexpected character), `SAMBU-L002` (unterminated string literal), and `SAMBU-P001` (parser syntax error).
+
+`parse(source)` continues to return the established tuple-based AST so existing interpreter clients do not break. Node-level AST spans and a typed AST representation are follow-up work; the current span contract covers tokens and syntax diagnostics. LSP integrations must convert code-point offsets to the negotiated position encoding.
+
+## Control flow and functions
 
 User-defined functions use lexical scope and return values:
 
@@ -109,4 +121,4 @@ if (temperature > 300 * K) {
 }
 ```
 
-Bounded iteration uses `for name in array_or_range { ... }`. The standard `range(stop)`, `range(start, stop)`, and `range(start, stop, step)` functions generate integer arrays. `sum`, `min`, `max`, and `len` are also available. Both `range` and `for` enforce a 100,000-item safety cap. Blocks create child scopes; `let` names are immutable. Local bindings can shadow standard-library names. See [Domain Models](DOMAINS.md) for the 0.2 application library.
+Bounded iteration uses `for name in array_or_range { ... }`. The standard `range(stop)`, `range(start, stop)`, and `range(start, stop, step)` functions generate integer arrays. `sum`, `min`, `max`, and `len` are also available. Both `range` and `for` enforce a 100,000-item safety cap. Blocks create child scopes; `let` names are immutable. Local bindings can shadow standard-library names. See [Domain Models](DOMAINS.md) for the application library.
