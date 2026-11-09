@@ -1,0 +1,31 @@
+# Interfaces, traits, inheritance, abstract classes, static members and super.
+interface Renderable {
+  fn render(self)
+}
+
+trait Identified {
+  fn identity(self) { return self.name }
+}
+
+abstract class Widget implements Renderable {
+  static let instances = 0
+  fn init(self, name) {
+    self.name = name
+    Widget.instances = Widget.instances + 1
+  }
+  abstract fn render(self)
+}
+
+class Button extends Widget uses Identified {
+  fn render(self) { return "[" + self.identity() + "]" }
+}
+
+class PrimaryButton extends Button {
+  fn render(self) { return "PRIMARY " + super.render() }
+}
+
+let save = PrimaryButton("Save")
+print(save.render())
+print(save is Widget)
+print(save is Renderable)
+print(Widget.instances)
