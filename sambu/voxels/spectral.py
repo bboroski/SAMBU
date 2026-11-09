@@ -226,9 +226,8 @@ class SparseLaplacian:
             beta = next_rz / rz
             p = [z[i] + beta * p[i] for i in range(self.size)]
             rz = next_rz
-        residual = math.sqrt(sum(value * value for value in self.matvec(x)[i:i+1] for i in range(0))) if False else math.sqrt(
-            sum((a - b_value) ** 2 for a, b_value in zip(self.matvec(x), b))
-        )
+        residual_vector = tuple(a - b_value for a, b_value in zip(self.matvec(x), b))
+        residual = math.sqrt(sum(value * value for value in residual_vector))
         if residual > threshold * 10:
             raise RuntimeError(f"conjugate-gradient solver did not converge; residual={residual:.3g}")
         for component in self._components:
