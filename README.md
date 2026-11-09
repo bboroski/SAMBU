@@ -1,291 +1,464 @@
 <div align="center">
 
+<img src="assets/sambu-ducklings.svg" alt="A parent duck leading three ducklings across a calm pond" width="100%" />
+
 # 🦆 SAMBU
 
 ### Statistical Analysis · Modeling · Systems · Trust
 
 **A small language with a wide horizon.**
 
-[![Version](https://img.shields.io/badge/version-0.11.0--alpha-6D5DF9?style=for-the-badge)](https://github.com/bboroski/SAMBU)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-208A69?style=for-the-badge)](LICENSE)
-[![CI](https://img.shields.io/github/actions/workflow/status/bboroski/SAMBU/tests.yml?branch=main&style=for-the-badge&label=checks)](https://github.com/bboroski/SAMBU/actions)
+An experimental, Python-hosted language and toolkit for scientific calculation, explicit models, system architecture, workflows and sparse voxel worlds.
 
-*An experimental interpreted language connecting scientific calculation, object-oriented models, system architecture, evidence-aware workflows, and developer tools.*
+[![Version](https://img.shields.io/badge/version-0.11.0--alpha-536D8E?style=for-the-badge)](https://github.com/bboroski/SAMBU)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-26866B?style=for-the-badge)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/bboroski/SAMBU/tests.yml?branch=main&style=for-the-badge&label=checks)](https://github.com/bboroski/SAMBU/actions)
+[![Wiki](https://img.shields.io/badge/docs-SAMBU_Wiki-4F8A83?style=for-the-badge)](wiki/README.md)
+
+[Getting started](#-getting-started) · [Language](#-the-language) · [Capabilities](#-the-flock-of-capabilities) · [Documentation](#-documentation) · [Contributing](#-contributing)
 
 </div>
 
 ---
 
-## ✨ The idea
+> [!IMPORTANT]
+> **Project status: experimental alpha.** SAMBU is an interpreted language and a collection of Python-hosted modeling and developer tools. It is not yet a native systems-language compiler, a complete static type checker, a production web framework, or an automatic deployment system. This README separates what works today from what remains a design target.
 
-SAMBU is built around three principles:
+## 🌿 What is SAMBU?
 
-| 🧭 Principle | What it means |
+SAMBU brings a compact source language and a broader Python toolkit together under one project.
+
+The language began as a scientific DSL for statistical mechanics and dimensional calculations. It has grown to include functions, bounded control flow, object-oriented constructs, percentage arithmetic, domain models and sparse voxel operations. Around the interpreter, the repository provides architecture models, workflow utilities, evidence-aware checks, project inspection and engine-bridge source.
+
+The project is guided by three simple ideas:
+
+| Principle | In practice |
 |---|---|
-| **Make assumptions visible** | Explicit dimensions, model inputs, permissions, evidence and bounded limits |
-| **Make components composable** | One interpreter with focused scientific, systems, UI and integration layers |
-| **Make changes inspectable** | Structured diagnostics, deterministic previews, repeatable tests and reversible patches |
+| **Make assumptions visible** | Show dimensions, model inputs, permissions, evidence and resource limits. |
+| **Make components composable** | Keep the interpreter, scientific models, system tools and host integrations in focused layers. |
+| **Make changes inspectable** | Provide source-aware diagnostics, deterministic previews, repeatable tests and reversible edits. |
 
-> 🧪 **Project status:** SAMBU is experimental alpha software. It is an interpreter and modeling toolkit—not a native compiler, a replacement for Django or Flask, a wallet oracle, or a production certification authority.
+### Two surfaces, one project
 
-## 🧬 Capability map
+It is important to distinguish the language from the Python toolkit:
 
-| Layer | What SAMBU provides |
+| Surface | How you use it | Examples |
+|---|---|---|
+| **SAMBU language** | Write and run `.sambu` files | `let`, `fn`, `if`, `for`, classes, quantities, percentage and voxel built-ins |
+| **SAMBU Python toolkit** | Import modules from Python | Judo, Aikido, Jiu-Jitsu, trust, chunking, patching and voxel data structures |
+| **Command-line tools** | Run installed commands | `sambu`, `sambu-studio`, `sambu-test` |
+
+A Python API is not automatically a language keyword or built-in. Each capability is documented on the surface where it actually runs.
+
+## 🐣 The flock of capabilities
+
+### Language core
+
+- Hand-written lexer and parser.
+- Legacy tuple AST retained for compatibility.
+- Immutable typed AST with source spans.
+- Lexical scopes, immutable `let` bindings and user functions.
+- Conditionals and bounded `for` loops.
+- Arrays, records, function calls, indexing and field access.
+- Classes, constructors, inheritance and the extended OOP slice.
+- Explicit runtime diagnostics with source locations.
+
+### Science and numeric modeling
+
+- SI-normalized physical quantities and dimensional checks.
+- Built-in units and physical constants.
+- Statistical-mechanics helpers: thermal energy, Maxwell speeds, Boltzmann factors, discrete partition sums and entropy.
+- Reproducible Maxwell sampling with an explicit seed.
+- Percentage literals and validated arithmetic helpers.
+
+### Object models and deterministic games
+
+- Classes, constructors, methods and inheritance.
+- Interfaces and reusable traits.
+- Abstract/final declarations and class-level members in the extended OOP implementation.
+- Deterministic rock-paper-scissors resolution.
+- Validated tic-tac-toe state transitions and minimax move selection.
+
+### Domain and systems toolkit
+
+| Subsystem | What it models |
 |---|---|
-| 🧠 **Language core** | Lexer, parser, interpreter, typed AST, source spans, lexical scopes, functions, conditionals, bounded loops, arrays and records |
-| 🧩 **Object-oriented programming** | Classes, constructors, inheritance, interfaces, traits, abstract/final contracts, visibility, static members and polymorphism |
-| 📐 **Scientific computing** | SI quantities, dimensional checks, statistical mechanics, Maxwell distribution, Boltzmann factors, partition functions and entropy |
-| 💯 **Percentage arithmetic** | Attached percentage literals, modulo, discounts, relative changes, percentage points, ratio conversion and clamping |
-| 🦆 **Anatidae models** | Feather barrier, counter-current exchange, vision, gas exchange, bill filtering, salt balance, flight energetics, flocking and behaviour |
-| 🏗️ **Judo** | Architecture graphs, service contracts, dependency checks, fault-domain declarations and deployment-order planning |
-| 🥋 **Aikido** | Provider-neutral model routing, capability matching, budget preflight, fallback chains, bounded retries and telemetry |
-| 🖥️ **Jiu-Jitsu** | Serializable UI trees, MVC controllers, modal stacks, role-based access and dual-action buttons |
-| 🌐 **Web adapters** | Optional Django, Flask and FastAPI integration for host-authenticated Jiu-Jitsu applications |
-| 🛡️ **Trust & portfolio checks** | SHA-256 content integrity, trusted-issuer allow-lists, evidence dates, expiry checks and weighted verification coverage |
-| 🧱 **Chunking & patching** | Lazy bounded chunks, workload manifests, stale-edit detection, conflict checks and reversible text patches |
-| 🧊 **Voxel systems** | Affine frames, sparse chunks, Morton order, octree, surface meshing, DDA raycast, Spielman-style spectral graphs and engine payloads |
-| 🧪 **Autotest autopsy** | Repeatable test runs, flaky-test detection, failure categories and diagnostic recommendations |
-| 🔎 **Studio & analysis** | Magento XML inspection, declarative filtering, workflow previews, Unicode-aware text craft and prosody diagnostics |
+| **Anatidae** 🦆 | Parameterized waterfowl thermoregulation, feather barriers, vision, respiration, feeding, salt balance and flight-energy models |
+| **Judo** 🏗️ | Component graphs, contracts, dependency rules, ownership and deployment-order planning |
+| **Aikido** 🥋 | Provider-neutral inference routing, capability matching, budgets, fallbacks, bounded retries and telemetry |
+| **Jiu-Jitsu** 🖥️ | Serializable UI trees, MVC controllers, modal flows, role-based access and explicit action dispatch |
+| **Workflow models** | Evidence-linked records, relationship graphs, bounded batch plans, prioritization and pattern analysis |
+| **Trust tools** 🛡️ | SHA-256 content-integrity checks, issuer allow-lists, evidence dates and verification coverage |
+| **Chunking & patching** | Lazy bounded batches, stale-edit detection, conflict checks and reversible text patches |
 
-## 🚀 Quick start
+### Sparse voxel systems
 
-~~~bash
-# Install the interpreter and tools
+SAMBU includes a sparse voxel core with:
+
+- occupied-cell storage and bounded chunks;
+- affine voxel frames and signed Morton keys;
+- dirty-chunk frame planning;
+- exposed-face surface meshing;
+- 3D DDA ray traversal;
+- sparse octrees;
+- CSR graph Laplacians and bounded spectral graph tools;
+- MagicaVoxel VOX interchange;
+- renderer-neutral payloads and starter engine bridges.
+
+Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Open 3D Engine**. Additional engine identifiers may expose generic payload profiles only; a profile name is not a claim of a tested native plugin.
+
+### Developer tools
+
+- `sambu` — execute SAMBU programs and create project scaffolds.
+- `sambu-studio` — read-only inspection of selected Magento / Adobe Commerce XML configuration.
+- `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
+- Reproducible voxel benchmark scripts.
+- Optional Flask, Django and FastAPI adapters for Jiu-Jitsu host applications.
+
+## 🚀 Getting started
+
+### Requirements
+
+- Python **3.10 or newer**.
+- Git for cloning the repository.
+- Optional web framework dependencies only when using the corresponding adapter.
+
+The core interpreter has no mandatory third-party runtime dependencies.
+
+### Install from source
+
+```bash
+git clone https://github.com/bboroski/SAMBU.git
+cd SAMBU
 python -m pip install -e .
+```
 
-# Check the installation
+Verify the installation:
+
+```bash
 sambu --version
+```
 
-# Run scientific, OOP and domain examples
+### Your first SAMBU program
+
+Create `hello.sambu`:
+
+```sambu
+let temperature = 300 * K
+let particle_mass = 6.6e-26 * kg
+let result = maxwell(temperature, particle_mass)
+
+print(result.most_probable)
+print(result.mean)
+print(result.rms)
+```
+
+Run it:
+
+```bash
+sambu hello.sambu
+```
+
+You can also execute a one-line program directly:
+
+```bash
+sambu -c 'print("Hello from SAMBU")'
+```
+
+### Explore the examples
+
+```bash
 sambu examples/ideal_gas.sambu
-sambu examples/oop_and_games.sambu
+sambu examples/boltzmann_weights.sambu
 sambu examples/percentages.sambu
+sambu examples/oop_and_games.sambu
 sambu examples/anatidae_biophysics.sambu
 sambu examples/voxel_world.sambu
+```
 
-# Inspect a Magento module without launching Magento
-sambu-studio inspect examples/magento_reference
-sambu-studio inspect examples/magento_reference --format json
+The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
 
-# Run tests
-python -m unittest discover -s tests -v
-sambu-test tests --repeat 2
-~~~
+## 🧭 A quick language tour
 
-### 🌐 Optional web integrations
+### Physical quantities
 
-Install only the framework adapter you need:
+```sambu
+let distance = 12 * m
+let duration = 3 * s
+let speed = distance / duration
 
-~~~bash
-python -m pip install -e ".[django]"
-python -m pip install -e ".[flask]"
-python -m pip install -e ".[fastapi]"
-~~~
+print(speed)
+```
 
-The core interpreter has no mandatory third-party dependencies. Host applications remain responsible for authentication, CSRF protection, per-user persistence, deployment, and authorization at protected data boundaries.
+Quantities are stored in SI-normalized form. Addition, subtraction and comparison require compatible dimensions; multiplication and division combine dimension exponents.
 
-## 💯 Percentages that read clearly
+### Percentage syntax
 
-An attached percent sign converts percentage points into a dimensionless ratio. A whitespace-separated percent sign is the modulo operator.
+An attached percent sign converts percentage points into a dimensionless ratio. The spaced infix operator is modulo.
 
-~~~sambu
-let rate = 15%
+```sambu
+let discount = 15%
 let price = 240
 let savings = percent_of(price, 15)
-let discounted = price - savings
+let final_price = price - savings
 
-print(rate)             # 0.15
-print(discounted)       # 204
-print(10 % 3)           # 1
+print(discount)       # 0.15
+print(final_price)    # 204
+print(10 % 3)         # 1
 print(percent_change(80, 100))  # 25
-~~~
+```
 
-The standard library includes percent_of, apply_percent, reduce_by_percent, percentage, percent_change, percent_to_ratio, ratio_to_percent, percentage_points and clamp_percent.
+### Functions and bounded loops
 
-📘 [Read the percentage guide](docs/PERCENTAGES.md)
+```sambu
+fn square(value) {
+  return value * value
+}
 
-## 🦆 Scientific models inspired by waterfowl
+for number in range(1, 5) {
+  print(square(number))
+}
+```
 
-SAMBU includes a parameterized modeling slice inspired by the supplied Anatidae brief:
+The documented `range` and `for` paths enforce a 100,000-item ceiling.
 
-~~~sambu
-let limb = countercurrent_exchange(310 * K, 280 * K, 75%)
-let coat = plumage_insulation(0.9, 25%, 10%)
-let flight = flight_energy_budget((10 * J) / (1 * s), 5 * s, 60 * J)
+### Objects
 
-print(limb.venous_return)
-print(coat.effective_index)
-print(flight.energy_required)
-print(flight.is_sufficient)
-~~~
+```sambu
+class Animal {
+  fn init(self, name) {
+    self.name = name
+  }
 
-These are configurable teaching models, not claims that every duck shares identical physiology. Efficiency, insulation, wetness, flight power and energy reserves are inputs supplied by the researcher. Species-specific coefficients require species-specific evidence.
+  fn speak(self) {
+    return self.name + " makes a sound"
+  }
+}
 
-📘 [Explore Anatidae models](docs/ANATIDAE_MODELS.md)
+class Duck extends Animal {
+  fn speak(self) {
+    return self.name + " says quack"
+  }
+}
 
-## 🧊 Sparse voxels and engine bridges
+let duckling = Duck("Pip")
+print(duckling.speak())
+```
 
-SAMBU 0.11 adds a renderer-neutral voxel core and native SAMBU built-ins:
+The object model is still experimental. It uses the interpreter's Python-managed runtime; it does not provide a native object ABI or Rust-style ownership guarantees.
 
-~~~sambu
-let world = voxel_grid(16)
+### Sparse voxels
+
+```sambu
+let world = voxel_grid(16, 100000)
 voxel_set(world, 0, 0, 0, 2)
 voxel_set(world, 1, 0, 0, 2)
+voxel_set(world, 2, 0, 0, 3)
+
 let mesh = voxel_mesh(world)
-let tree = voxel_octree(world)
-let graph = voxel_spectral_profile(world)
-let field = voxel_solve_field(graph, [1, -1])
+let octree = voxel_octree(world)
+
+print(voxel_count(world))
 print(mesh.face_count)
-print(tree.node_count)
-print(graph.matrix_nonzeros)
-~~~
+print(octree.node_count)
+```
 
-The core provides affine spatial frames, signed Morton keys, sparse chunk storage, dirty-chunk frame budgets, exposed-face meshing, 3D DDA ray traversal, JSON interchange and a basic MagicaVoxel VOX importer/exporter. Sparse octrees skip empty regions; a graph layer exposes CSR Laplacians, preconditioned conjugate-gradient solves and a bounded Spielman–Srivastava-style effective-resistance sparsifier.
+For the graph solver, engine payloads, frame budgeting and GPU bridge notes, see the [voxel reference](docs/VOXELS.md).
 
-Starter bridges are included for **Unity, Unreal Engine, Godot, Bevy and O3DE**. Unlisted engines consume the generic payload or implement a small adapter. The bridges are integration source—not prebuilt plugins or proof of production compatibility with every version.
+## 🧰 Project creation and commands
 
-GPU kernels currently mark exposed voxel faces; a separate prefix-sum/compaction and geometry-emission stage is still required for a complete GPU mesher. CPU meshing is a reference face-culling path, not yet a greedy mesher. CPU spectral resistance sampling is intentionally size-limited and should not be mistaken for a GPU solver.
+SAMBU includes a lightweight project generator:
 
-📘 [Voxel architecture](docs/VOXELS.md) · [Engine integration matrix](engine_adapters/README.md) · [CPU benchmark](benchmarks/benchmark_voxels.py)
+```bash
+# Create a convention-based project
+sambu new pond_app
 
-## 🖥️ Interfaces with two explicit actions
+# Run its generated entry point
+sambu pond_app/src/main.sambu
 
-Jiu-Jitsu can expose one visual control with two distinct action paths. Each path can have its own permission, and the caller must state its intent.
+# Generate model/controller/view/migration/test starter files
+sambu generate scaffold Post title:string body:text --path pond_app
+```
 
-~~~python
-from sambu.jiu_jitsu import DualActionButton, ViewController
+The scaffold generator is implemented. **SAMBU Rails is not yet a running web framework:** generated route, controller, template, ORM and migration specifications are starters; there is no active native HTTP server, database adapter, router, view renderer or migration runner.
 
-button = DualActionButton(
-    "save-or-preview",
-    "Save / Preview",
-    primary_action="save",
-    secondary_action="preview",
-    primary_label="Save",
-    secondary_label="Preview",
-)
+| Command | Purpose |
+|---|---|
+| `sambu --version` | Print the installed version |
+| `sambu program.sambu` | Run a source file |
+| `sambu -c '...'` | Run source passed on the command line |
+| `sambu new NAME` | Create a starter project |
+| `sambu generate scaffold MODEL fields...` | Generate starter application files |
+| `sambu-studio inspect PATH` | Inspect selected Magento XML configuration |
+| `sambu-test tests --repeat 2` | Repeat the test suite and report outcome variation |
 
-controller = ViewController("editor").dual_action(
-    button.identifier,
-    save_handler,
-    preview_handler,
-    primary_permission="document:save",
-    secondary_permission="document:preview",
-)
+### Optional web adapters
 
-# Dispatch with {"intent": "primary"} or {"intent": "secondary"}.
-~~~
+Install only what your host application uses:
 
-No ambiguous action is guessed. Permission checks are independent for the selected branch.
+```bash
+python -m pip install -e ".[flask]"
+python -m pip install -e ".[django]"
+python -m pip install -e ".[fastapi]"
 
-📘 [Explore web adapters and UI contracts](docs/INTEGRATIONS.md)
+# Or install all three optional adapters
+python -m pip install -e ".[web]"
+```
 
-## 🛡️ Trust that explains its limits
+The host application remains responsible for authentication, CSRF protection, per-user persistence, deployment, transport security and authorization at protected data boundaries.
 
-Portfolio verification checks supplied artifact content against SHA-256 digests, checks issuer names against a configured allow-list, validates evidence dates, and reports weighted coverage with per-item reasons.
+## 🧪 Testing and quality checks
 
-**Integrity is not identity.** A matching hash does not prove who created a file, who owns an asset, whether a credential is legally recognized, or whether a wallet contains funds. Stronger provenance requires a host-controlled signature-verification provider and explicit trust roots.
+Run the complete test suite:
 
-📘 [Read the trust and portfolio guide](docs/TRUST_AND_PORTFOLIOS.md)
+```bash
+python -m unittest discover -s tests -v
+```
 
-## 🧱 Universal chunking. Reversible change.
+Repeat it to help expose flaky tests:
 
-- **Chunking:** lazy immutable batches, item ceilings, deterministic chunk counts and bounded concurrency plans.
-- **Patching:** exact source preconditions, overlap rejection, stale-edit detection, SHA-256 receipts and rollback previews.
-- **Workflow planning:** inspect and calculate first; external execution remains an explicit host responsibility.
-
-Nothing silently starts workers or writes project files.
-
-📘 [Chunking and patching](docs/CHUNKING_AND_PATCHING.md)
-
-## 🧪 Autotests with an autopsy
-
-~~~bash
-# Run the suite twice to expose flaky tests
+```bash
 sambu-test tests --repeat 2
-
-# Export a structured diagnostic report
 sambu-test tests --repeat 2 --json
-~~~
+```
 
-The runner records outcomes, flags tests that pass in one run and fail in another, groups failures by heuristic category, and suggests what to inspect next. Its autopsy is a diagnostic aid—not an oracle that can infer a certain root cause from a traceback.
+Run the voxel reference benchmark:
 
-📘 [Test runner and autopsy](docs/TEST_AUTOPSY.md)
+```bash
+python benchmarks/benchmark_voxels.py --size 16 --repeats 3
+python benchmarks/benchmark_voxels.py --size 6 --include-spectral --json
+```
 
-## 🗺️ Repository at a glance
+The CI workflow currently tests Python **3.10, 3.11, 3.12 and 3.13**, runs the unit suite and repeat runner, executes representative language examples, checks the Magento inspector, exercises optional web integrations and checks the Bevy bridge.
 
-~~~text
-sambu/
-├── lexer.py · parser.py · ast.py · runtime.py
-├── values.py · percentages.py · anatidae.py · voxel_builtins.py
-├── voxels/  # Sparse grids, frames, octree, graph Laplacian and adapters
-├── chunking.py · patching.py · trust.py · testing.py
-├── judo.py · aikido.py · jiu_jitsu.py
-└── integrations/
-    ├── django.py
-    ├── flask.py
-    └── fastapi.py
+The test autopsy groups failures heuristically. It is a diagnostic aid, not an oracle that can infer a certain root cause from a traceback.
 
-sambu_studio/       # Read-only project inspection tools
-docs/               # Language references, architecture and integration guides
-examples/           # Runnable language and Python examples
-tests/              # Regression and contract tests
-~~~
+## 🗺️ Architecture at a glance
 
-## 📚 SAMBU Encyclopedia
+```text
+SAMBU repository
+│
+├── sambu/                 Language runtime and Python toolkit
+│   ├── lexer.py           Tokenization
+│   ├── parser.py          Parsing and AST construction
+│   ├── ast.py             Immutable source-aware AST
+│   ├── interpreter.py     Program execution
+│   ├── values.py          Runtime records and SI quantities
+│   ├── judo.py            Architecture modeling
+│   ├── aikido.py          Inference orchestration
+│   ├── jiu_jitsu.py       UI / MVC / RBAC model
+│   ├── voxels/            Sparse voxel and graph systems
+│   └── integrations/      Optional web-framework adapters
+│
+├── sambu_studio/          Read-only project inspection tools
+├── engine_adapters/       Starter game-engine bridge source
+├── examples/              Runnable SAMBU and Python examples
+├── benchmarks/            Reproducible performance harnesses
+├── tests/                 Regression and contract tests
+├── docs/                  Detailed technical references
+├── wiki/                  Project encyclopedia
+└── assets/                Project artwork
+```
 
-A project-wide technical wiki is available in the repository: **[Open the SAMBU Wiki](wiki/README.md)**. It covers the language, syntax, runtime values, OOP, scientific and domain libraries, Judo/Aikido/Jiu-Jitsu, voxel systems, trust boundaries, Studio, integrations, tests and roadmap. The wiki labels implemented behavior separately from limitations and planned work.
+## 🔬 What is implemented — and what is not
+
+SAMBU is deliberately honest about its current boundaries.
+
+| Area | Current state |
+|---|---|
+| Interpreter, lexer, parser and source-aware AST | **Implemented · experimental** |
+| Functions, scopes, control flow, arrays and records | **Implemented** |
+| OOP, interfaces, traits and game-state helpers | **Implemented · alpha API** |
+| Runtime SI quantities and scientific helpers | **Implemented** |
+| Sparse voxel core and bounded CPU graph/mesh algorithms | **Implemented** |
+| Starter engine bridge source | **Included · host integration required** |
+| Judo, Aikido and Jiu-Jitsu | **Python host APIs** |
+| Studio Magento XML inspection | **Implemented · read-only and limited** |
+| Project/scaffold generator | **Implemented · generated framework files are starters** |
+| Native machine-code compiler and self-hosted runtime | **Planned** |
+| Full static type/effect/ownership checker | **Planned** |
+| Language-level async scheduler and native concurrency model | **Planned** |
+| Complete graphical IDE and LSP server | **Planned** |
+| Running Rails-style router, ORM, database and migration engine | **Planned** |
+
+The future systems-language architecture and its acceptance criteria live in the [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md). The [Autonomy Constitution](docs/AUTONOMY_CONSTITUTION.md) records auditable rules and baseline evidence. A proposal is not counted as an implemented feature.
 
 ## 📚 Documentation
 
-| Guide | Focus |
-|---|---|
-| [Language reference](docs/LANGUAGE.md) | Implemented syntax, runtime, AST and OOP |
-| [Language evolution](docs/LANGUAGE_EVOLUTION.md) | Typed compiler, ownership, concurrency, native targets and 101 consolidated contracts |
-| [SAMBU Rails architecture](docs/SAMBU_RAILS.md) | Convention-driven MVC, routing, ORM, migrations, security and framework roadmap |
-| [Autonomy constitution](docs/AUTONOMY_CONSTITUTION.md) | 100 auditable rules, baseline status and acceptance gates |
-| [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
-| [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
-| [Ecosystem primitives](docs/ECOSYSTEM_METHODS.md) | Five biology-inspired deterministic systems planners |
-| [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
-| [Percentages](docs/PERCENTAGES.md) | Percentage syntax and arithmetic |
-| [Web integrations](docs/INTEGRATIONS.md) | Django, Flask and FastAPI |
-| [Trust & portfolios](docs/TRUST_AND_PORTFOLIOS.md) | Evidence and content integrity |
-| [Chunking & patching](docs/CHUNKING_AND_PATCHING.md) | Bounded streams and reversible edits |
-| [Test autopsy](docs/TEST_AUTOPSY.md) | Repeated tests and failure diagnostics |
-| [Text craft](docs/text_craft.md) | Text structure, rhyme and prosody |
-| [Workflow models](docs/workflows.md) | Evidence-aware records and bounded plans |
-| [Studio architecture](docs/IDE.md) | Project inspection and IDE roadmap |
+### Start learning
 
-## 🔐 Design principles
+- [SAMBU Wiki — project encyclopedia](wiki/README.md)
+- [Language reference](docs/LANGUAGE.md)
+- [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
+- [Percentage arithmetic](docs/PERCENTAGES.md)
 
-1. **Explicit over implicit** — visible assumptions, permissions and external boundaries.
-2. **Bounded by default** — limits on input sizes, chunks, loops, retries and recursion.
-3. **Inspectable outputs** — source spans, stable diagnostics, structured reports and previews.
-4. **Reversible changes** — validate before applying; preserve the original snapshot.
-5. **Honest trust** — distinguish content integrity from identity and real-world authority.
-6. **Compatibility-aware evolution** — extend the language without casually breaking existing APIs.
+### Explore the domains
 
-## 🚦 Status
+- [Anatidae comparative models](docs/ANATIDAE_MODELS.md)
+- [Domain models](docs/DOMAINS.md)
+- [Neo-Modern planning blueprint](docs/NEO_MODERN_BLUEPRINT.md)
+- [Workflow models](docs/workflows.md)
+- [Chunking and reversible patching](docs/CHUNKING_AND_PATCHING.md)
+- [Trust and portfolio checks](docs/TRUST_AND_PORTFOLIOS.md)
 
-SAMBU is evolving alpha software. Core language features and new utilities are experimental. Django, Flask and FastAPI adapters are optional; a renderer, identity provider, durable storage, cryptographic trust roots and production deployment profile are supplied by the integrating application.
+### Systems and tooling
+
+- [Sparse voxel architecture](docs/VOXELS.md)
+- [Game-engine adapter matrix](engine_adapters/README.md)
+- [Django, Flask and FastAPI integrations](docs/INTEGRATIONS.md)
+- [Magento / Adobe Commerce architecture and inspector](docs/MAGENTO_COMMERCE.md)
+- [SAMBU Studio and IDE roadmap](docs/IDE.md)
+- [Test runner and failure autopsy](docs/TEST_AUTOPSY.md)
+
+### Future architecture
+
+- [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md)
+- [SAMBU Rails proposal](docs/SAMBU_RAILS.md)
+- [Autonomy Constitution](docs/AUTONOMY_CONSTITUTION.md)
+
+## 🦆 The SAMBU design principles
+
+The duck is a project mascot, not a restriction on what the language can do. The flock is a useful image for the project's architecture: independent components, clear coordination and a shared direction.
+
+1. **Curiosity before convention** — explore alternatives, but preserve evidence of what works.
+2. **Explicit over implicit** — assumptions, dimensions, permissions and side effects stay visible.
+3. **Small core, wide horizon** — keep the language approachable and its tooling modular.
+4. **Bounded by default** — place limits on work, memory, retries and input sizes.
+5. **Inspectable by design** — explain diagnostics, transformations and model outputs.
+6. **Safe experiments** — isolate prototypes and preserve a route back to a known-good state.
+7. **Evolution with memory** — retain compatibility notes, decision history and regression tests.
+8. **Honest maturity** — separate implemented behavior from proposals and unfinished integrations.
 
 ## 🤝 Contributing
 
-Focused pull requests, reproducible bug reports, tests and documentation improvements are welcome. Include a minimal reproducer and run:
+Focused pull requests, reproducible bug reports, tests and documentation improvements are welcome.
 
-~~~bash
+A useful report includes:
+- SAMBU and Python versions;
+- operating system and exact command;
+- a minimal reproducer;
+- expected and actual behavior;
+- complete diagnostic output.
+
+Before submitting a change, run:
+
+```bash
 python -m unittest discover -s tests -v
-~~~
+```
+
+For language changes, include valid and invalid source cases, boundary tests and compatibility checks. For domain models, document assumptions and limitations. For integrations, describe the host responsibilities and security boundary.
 
 ## 📄 License
 
-MIT — see [LICENSE](LICENSE).
+SAMBU is distributed under the MIT License. See [LICENSE](LICENSE).
 
 ---
 
 <div align="center">
 
-### **SAMBU — model clearly. compose carefully. verify honestly.** 🦆
+**SAMBU — model clearly. compose carefully. verify honestly.**
+
+*Stay curious. Follow the trail. Keep the flock moving.* 🐣
 
 </div>
