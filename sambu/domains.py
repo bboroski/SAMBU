@@ -406,6 +406,153 @@ def idempotency_key(args: list[object]) -> str:
     return scope.strip() + ":" + identifier.strip()
 
 
+
+def _finite(value: object, what: str) -> float:
+    result = number_value(value, what)
+    if not math.isfinite(result):
+        raise ValueError(f"{what} must be finite")
+    return result
+
+
+def audio_profile(args: list[object]):
+    """Validate a DAW-independent production brief; this does not process audio."""
+    from .values import Record
+    _arity(args, {10}, "audio_profile(name, bpm, swing_percent, snare_lag_ms, ceiling_dbfs, immediate_entry, cinematic_samples, metallic_snare, pitch_bent_hats, stereo_mastering)")
+    name, bpm, swing, snare_lag, ceiling, *flags = args
+    if not isinstance(name, str) or not name.strip() or len(name) > 64:
+        raise ValueError("audio profile name must be a non-empty string of at most 64 characters")
+    bpm = _integer(bpm, "tempo", 40, 240)
+    swing = _finite(swing, "swing percentage")
+    snare_lag = _finite(snare_lag, "snare lag")
+    ceiling = _finite(ceiling, "master ceiling")
+    if not 0 <= swing <= 100:
+        raise ValueError("swing percentage must be between 0 and 100")
+    if not 0 <= snare_lag <= 100:
+        raise ValueError("snare lag must be between 0 and 100 milliseconds")
+    if not -24 <= ceiling <= 0:
+        raise ValueError("master ceiling must be between -24 and 0 dBFS")
+    flag_names = (
+        "immediate_entry", "cinematic_samples", "metallic_snare",
+        "pitch_bent_hats", "stereo_mastering",
+    )
+    if any(not isinstance(value, bool) for value in flags):
+        raise TypeError("audio profile feature flags must be true or false")
+    return Record({
+        "name": name.strip(),
+        "bpm": bpm,
+        "swing_percent": swing,
+        "snare_lag_ms": snare_lag,
+        "ceiling_dbfs": ceiling,
+        "immediate_entry": flags[0],
+        "cinematic_samples": flags[1],
+        "metallic_snare": flags[2],
+        "pitch_bent_hats": flags[3],
+        "stereo_mastering": flags[4],
+        "mix_ceiling_is_below_full_scale": ceiling < 0,
+    })
+
+
+def studio_offer(args: list[object]):
+    """Compare a free introductory-class conversion target and a session package."""
+    from .values import Record
+    _arity(args, {6}, "studio_offer(intro_visitors, intro_conversions, target_conversion, single_price, package_price, package_sessions)")
+    visitors = _integer(args[0], "intro visitors")
+    conversions = _integer(args[1], "intro conversions")
+    target = _finite(args[2], "target conversion")
+    if conversions > visitors:
+        raise ValueError("intro conversions cannot exceed intro visitors")
+    if not 0 <= target <= 1:
+        raise ValueError("target conversion must be between 0 and 1")
+    rate = conversions / visitors if visitors else None
+    pricing = package_pricing([args[3], args[4], args[5]])
+    return Record({
+        "intro_visitors": visitors,
+        "intro_conversions": conversions,
+        "intro_conversion": rate,
+        "target_conversion": target,
+        "target_met": rate is not None and rate >= target,
+        "effective_session_price": pricing.get("effective_session_price"),
+        "package_savings": pricing.get("savings"),
+        "package_discount_rate": pricing.get("discount_rate"),
+        "package_sessions": pricing.get("sessions"),
+    })
+
+
+def capture_node(args: list[object]):
+    """Apply one resource attack and transfer node ownership only when resistance reaches zero."""
+    from .values import Record
+    _arity(args, {4}, "capture_node(current_owner, attacking_faction, resistance, incoming_pressure)")
+    owner, attacker = args[0], args[1]
+    if not isinstance(owner, str) or not owner.strip():
+        raise ValueError("current owner must be a non-empty string")
+    if not isinstance(attacker, str) or not attacker.strip():
+        raise ValueError("attacking faction must be a non-empty string")
+    if owner == attacker:
+        raise ValueError("attacking faction must differ from current owner")
+    resistance = _finite(args[2], "node resistance")
+    pressure = _finite(args[3], "incoming pressure")
+    if resistance < 0 or pressure < 0:
+        raise ValueError("node resistance and incoming pressure cannot be negative")
+    captured = pressure >= resistance
+    remaining = max(0.0, resistance - pressure)
+    return Record({
+        "captured": captured,
+        "owner_before": owner,
+        "owner_after": attacker if captured else owner,
+        "resistance_before": resistance,
+        "resistance_after": remaining,
+        "overflow": max(0.0, pressure - resistance),
+    })
+
+
+def order_pipeline(args: list[object]):
+    """Check enterprise order-flow invariants without contacting commerce infrastructure."""
+    from .values import Record
+    _arity(args, {7}, "order_pipeline(queue, durable_outbox, persisted_idempotency, reserve_inventory, authorize_payment, ack_after_commit, supervised_workers)")
+    queue = args[0]
+    if not isinstance(queue, Record):
+        raise TypeError("order_pipeline expects a queue_profile record as its first argument")
+    flag_names = (
+        "durable_outbox", "persisted_idempotency", "reserve_inventory",
+        "authorize_payment", "ack_after_commit", "supervised_workers",
+    )
+    flags = args[1:]
+    if any(not isinstance(value, bool) for value in flags):
+        raise TypeError("order pipeline invariant flags must be true or false")
+    blockers = [
+        f"{name.replace('_', ' ')} is required"
+        for name, enabled in zip(flag_names, flags)
+        if not enabled
+    ]
+    dead_letter_enabled = queue.get("dead_letter_enabled")
+    if not isinstance(dead_letter_enabled, bool):
+        raise TypeError("queue profile has an invalid dead-letter setting")
+    if not dead_letter_enabled:
+        blockers.append("dead-letter routing is required")
+    steps = [
+        "validate_quote_and_totals",
+        "persist_order_intent_and_outbox",
+        "publish_versioned_message",
+        "reserve_inventory",
+        "authorize_payment",
+        "persist_order_state",
+        "acknowledge_message",
+    ]
+    return Record({
+        "queue": queue.get("name"),
+        "max_in_flight": queue.get("max_in_flight"),
+        "delivery_semantics": "at_least_once",
+        "steps": steps,
+        "acknowledgement_boundary": "after_order_state_commit",
+        "customer_response": "pending_reference_until_order_commit",
+        "invariants_satisfied": not blockers,
+        "blockers": blockers,
+        "payment_capture_policy": "provider_and_merchant_specific_after_order_commit",
+        "requires_version_pinned_adapter": True,
+    })
+
+
+
 DOMAIN_BUILTINS = {
     "network": network,
     "network_metrics": network_metrics,
@@ -423,4 +570,8 @@ DOMAIN_BUILTINS = {
     "queue_profile": queue_profile,
     "retry_schedule": retry_schedule,
     "idempotency_key": idempotency_key,
+    "audio_profile": audio_profile,
+    "studio_offer": studio_offer,
+    "capture_node": capture_node,
+    "order_pipeline": order_pipeline,
 }

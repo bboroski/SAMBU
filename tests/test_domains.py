@@ -170,5 +170,81 @@ print(idempotency_key("checkout", "cart-42"))''')
             execute('idempotency_key("checkout", "")')
 
 
+class NeoModernBlueprintTests(unittest.TestCase):
+    def run_sambu(self, source: str):
+        output: list[str] = []
+        result = execute(source, output=output.append)
+        return result, output
+
+    def test_audio_profile_captures_production_constraints(self):
+        _, output = self.run_sambu('''let mix = audio_profile("Neo Modern Diplomat", 150, 60, 15, -0.3, true, true, true, true, true)
+print(mix.bpm)
+print(mix.immediate_entry)
+print(mix.stereo_mastering)
+print(mix.mix_ceiling_is_below_full_scale)''')
+        self.assertEqual(output, ["150", "true", "true", "true"])
+
+    def test_audio_profile_rejects_unsafe_values_and_non_boolean_flags(self):
+        with self.assertRaises(ValueError):
+            execute('audio_profile("bad", 150, 60, 15, 0.2, true, true, true, true, true)')
+        with self.assertRaises(TypeError):
+            execute('audio_profile("bad", 150, 60, 15, -0.3, "yes", true, true, true, true)')
+
+    def test_studio_offer_checks_intro_conversion_and_package_economics(self):
+        _, output = self.run_sambu('''let offer = studio_offer(200, 60, 0.30, 30, 200, 8)
+print(offer.intro_conversion)
+print(offer.target_met)
+print(offer.effective_session_price)
+print(offer.package_savings)
+print(offer.package_discount_rate)''')
+        self.assertEqual(output, ["0.3", "true", "25", "40", "0.16666667"])
+
+    def test_studio_offer_handles_zero_visitors_and_rejects_impossible_counts(self):
+        _, output = self.run_sambu('''let offer = studio_offer(0, 0, 0.30, 30, 200, 8)
+print(offer.target_met)''')
+        self.assertEqual(output, ["false"])
+        with self.assertRaises(ValueError):
+            execute("studio_offer(10, 11, 0.3, 30, 200, 8)")
+
+    def test_capture_node_transfers_owner_only_after_resistance_is_depleted(self):
+        _, output = self.run_sambu('''let partial = capture_node("rival", "diplomat", 40, 25)
+let captured = capture_node("rival", "diplomat", 40, 55)
+print(partial.captured)
+print(partial.owner_after)
+print(partial.resistance_after)
+print(captured.captured)
+print(captured.owner_after)
+print(captured.overflow)''')
+        self.assertEqual(output, ["false", "rival", "15", "true", "diplomat", "15"])
+
+    def test_capture_node_rejects_same_faction_and_negative_pressure(self):
+        with self.assertRaises(ValueError):
+            execute('capture_node("diplomat", "diplomat", 10, 20)')
+        with self.assertRaises(ValueError):
+            execute('capture_node("rival", "diplomat", 10, -1)')
+
+    def test_order_pipeline_accepts_safe_outbox_and_acknowledgement_plan(self):
+        _, output = self.run_sambu('''let queue = queue_profile("heavy_orders_queue", 4, 8, 3, true)
+let flow = order_pipeline(queue, true, true, true, true, true, true)
+print(flow.invariants_satisfied)
+print(flow.delivery_semantics)
+print(flow.acknowledgement_boundary)
+print(flow.max_in_flight)
+print(count(flow.blockers))''')
+        self.assertEqual(output, ["true", "at_least_once", "after_order_state_commit", "32", "0"])
+
+    def test_order_pipeline_reports_missing_safety_invariants(self):
+        _, output = self.run_sambu('''let queue = queue_profile("orders", 2, 4, 2, false)
+let flow = order_pipeline(queue, false, true, true, true, false, true)
+print(flow.invariants_satisfied)
+print(count(flow.blockers))''')
+        self.assertEqual(output, ["false", "3"])
+
+    def test_order_pipeline_requires_a_queue_profile(self):
+        with self.assertRaises(TypeError):
+            execute('order_pipeline("orders", true, true, true, true, true, true)')
+
+
+
 if __name__ == "__main__":
     unittest.main()

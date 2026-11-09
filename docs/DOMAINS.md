@@ -1,6 +1,6 @@
-# SAMBU domain models — 0.2
+# SAMBU domain models — 0.5
 
-SAMBU now combines its original physics core with a small library for transparent systems models. The additions are deterministic calculators and scenario tools. They are not autonomous agents, CRM integrations, forecasting services, or validated game-balance engines.
+SAMBU combines its original physics core with transparent systems, commerce, production-brief, community and territory models. The additions are deterministic calculators and scenario tools. They are not autonomous agents, CRM integrations, forecasting services, or validated game-balance engines.
 
 ## Neo-Modern Diplomat as a systems concept
 
@@ -22,7 +22,8 @@ A number of labels in the supplied synonym lists (for example, *Quantum Envoy*, 
 | Geoeconomic and multilateral strategy | `negotiate`, `allocate` | Overlap between two bargaining ranges and proportional resource splits |
 | Semiotic and cognitive mediation | Explicit stakeholder labels plus network paths | A transparent topology for discussing who connects whom; no semantic interpretation is inferred |
 | Institutional and operational coordination | `weekly_schedule`, `attendance`, `funnel`, `ab_test` | Repeating events, capacity use, stage losses, and a simple experiment comparison |
-| Game-like territorial systems | `capture_tower`, `allocate`, `network` | One-step resistance depletion and resource distribution |
+| Game-like territorial systems | `capture_tower`, `capture_node`, `allocate`, `network` | Resistance depletion, ownership transfer and resource distribution |
+| Music production planning | `audio_profile` | Validated tempo, groove, timing, entry and mix-intent metadata; no audio rendering |
 
 ## Network model
 
@@ -61,7 +62,7 @@ Nodes are unique strings. Each directed edge is `[source, target]` or `[source, 
 - `sample_maxwell` remains capped at 1,000,000 samples.
 - A/B inference is approximate and assumes independent Bernoulli observations.
 - Network influence scores are illustrative and are not evidence of actual political, social, or commercial influence.
-- No CRM, VOIP, payment-terminal, ticketing, calendar, or social-platform API is connected.
+- No CRM, VOIP, payment-terminal, ticketing, calendar, smart-lighting, social-platform or audio-rendering API is connected.
 
 
 ## Commerce queue planning (0.3)
@@ -73,3 +74,26 @@ SAMBU 0.3 adds deterministic planning primitives for asynchronous commerce workf
 - `idempotency_key(scope, identifier)` returns a stable namespaced string. It does not persist a uniqueness constraint or prevent duplicate side effects by itself.
 
 For the recommended Magento / Adobe Commerce boundaries, message envelope, outbox pattern, inventory and payment ordering, retry classification, dead-letter operations, and deployment considerations, see [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md).
+
+
+## Neo-Modern blueprint models (0.5)
+
+SAMBU 0.5 adds four deterministic models that make the strategic blueprint executable as a planning specification. They are domain calculators, not production integrations.
+
+### Sound-production brief
+
+`audio_profile(name, bpm, swing_percent, snare_lag_ms, ceiling_dbfs, immediate_entry, cinematic_samples, metallic_snare, pitch_bent_hats, stereo_mastering)` validates a named production brief. Tempo is constrained to 40–240 BPM, swing to 0–100%, snare lag to 0–100 ms, and the ceiling to -24–0 dBFS. The final five inputs must be booleans. The result records arrangement and mix intentions such as immediate entry, cinematic sample layers, metallic snare, pitch-bent hats and stereo mastering. It does not open a DAW, manipulate audio, enforce loudness standards, or create a master. Values such as 150 BPM, 60% swing, +15 ms and -0.3 dBFS in the example are illustrative project settings, not universal recommendations.
+
+### Checkout orchestration checklist
+
+`order_pipeline(queue, durable_outbox, persisted_idempotency, reserve_inventory, authorize_payment, ack_after_commit, supervised_workers)` accepts a `queue_profile` record and six boolean invariant flags. It returns a proposed sequence, at-least-once delivery semantics, the acknowledgement boundary, concurrency estimate, and a list of blockers. Missing durable outbox, persisted idempotency, inventory reservation, payment authorization, post-commit acknowledgement, supervised workers or queue DLQ marks the plan as not satisfying its checklist. A passing result means only that the declared assumptions satisfy this model; it does not prove the external system implements them or that an order is confirmed. The adapter remains responsible for database constraints, retries/jitter, MSI service contracts, payment-provider semantics, state transitions, compensation, telemetry and version compatibility.
+
+### Community offer
+
+`studio_offer(intro_visitors, intro_conversions, target_conversion, single_price, package_price, package_sessions)` reports introductory-class conversion and whether it meets the configured target, then reuses `package_pricing` for effective session price, savings and discount rate. Target is a fraction in [0, 1]; conversions cannot exceed visitors. A zero-visitor sample is reported as unknown and never marked as meeting the target. The target (for example, 0.30) is a business assumption to test, not a forecast or guarantee. Combine with `weekly_schedule`, `attendance`, `channel_metrics`, `funnel` and `unit_economics` for operating analysis. The four-week monthly session count in the example is a rough planning estimate, not a true calendar-month expansion.
+
+### Ownership-aware territory round
+
+`capture_node(current_owner, attacking_faction, resistance, incoming_pressure)` extends `capture_tower` with factions and ownership output. Pressure reduces resistance; ownership changes only when resistance reaches zero. Excess pressure is returned as overflow for a possible next target. It is a single deterministic round: it does not model regeneration, simultaneous attacks, pathfinding, enemy turns, dynamic events, bosses or multiplayer concurrency.
+
+See [Neo-Modern Diplomat Blueprint](NEO_MODERN_BLUEPRINT.md) for the full four-pillar mapping and [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md) for enterprise integration boundaries.

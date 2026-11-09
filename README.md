@@ -6,13 +6,14 @@ Its scientific core includes SI-aware quantities, dimensional validation, Maxwel
 
 **Neo-Modern Diplomat** is the architectural direction: one coherent language for physical models, business processes, infrastructure plans, and domain-specific execution adapters. Magento / Adobe Commerce is the first enterprise-commerce reference domain, not a hard-coded dependency of the language runtime.
 
-> **Status:** 0.4.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Commerce functions currently validate and calculate architecture plans; they do not connect to external services.
+> **Status:** 0.5.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Domain functions validate production briefs, community offers, territory rounds and commerce architecture plans; they do not connect to external services or render audio.
 
 ## Quick start
 
 ```bash
 python -m pip install -e .
 sambu examples/ideal_gas.sambu
+sambu examples/neo_modern_blueprint.sambu
 sambu examples/commerce_queue.sambu
 python -m unittest discover -s tests -v
 ```
@@ -51,9 +52,16 @@ These primitives help make worker concurrency, retry timing, dead-letter routing
 - SI quantities with dimensional checks for addition, subtraction, comparison, multiplication, division, and integer powers.
 - Statistical-mechanics functions: `thermal_energy`, `maxwell`, `boltzmann`, `partition`, `entropy`, and `sample_maxwell`.
 - Systems functions: networks, influence propagation, negotiation, allocation, funnels, A/B screening, schedules, attendance, and unit economics.
-- Commerce planning functions: `queue_profile`, `retry_schedule`, and `idempotency_key`.
+- Commerce planning functions: `queue_profile`, `retry_schedule`, `idempotency_key`, and `order_pipeline`.
+- Production brief validation with `audio_profile`; no DAW or audio-rendering engine is included.
+- Community offer metrics with `studio_offer`, reusing multi-session package economics and a configurable introductory conversion target.
+- Ownership-aware territory rounds with `capture_node`, extending `capture_tower` resistance calculations.
 - Source-aware lexer and parser diagnostics with stable codes and end-exclusive token spans.
 - Public `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, and `parse` interfaces; legacy tuple AST output remains unchanged.
+
+## Neo-Modern Diplomat blueprint
+
+The four-domain blueprint connects production briefs, enterprise order orchestration, community operations and resource-based territory mechanics. Its runnable example is `examples/neo_modern_blueprint.sambu`; implementation boundaries are documented in [Neo-Modern Blueprint](docs/NEO_MODERN_BLUEPRINT.md).
 
 ## IDE direction
 
