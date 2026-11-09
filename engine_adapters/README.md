@@ -29,10 +29,11 @@ The C# bridge expands 5-byte transfer records to an 8-byte structured GPU record
 2. Sort chunks/cells spatially (Morton/Z-order) for locality.
 3. Rebuild only dirty chunks and schedule bounded uploads per frame with plan_frame_updates.
 4. Cull internal faces on CPU or use the supplied compute kernels to build six-bit exposed-face masks.
-5. Generate render geometry in a second pass. For large scenes, add greedy meshing, LOD, async upload and GPU-driven indirect draws in the host engine.
+5. In Unity, dispatch count -> group-offset scan -> face emission; use the GPU-produced indexed-draw arguments and avoid synchronous per-frame readback. For other engines, port this three-stage pipeline to the host compute API.
+6. For large scenes, add greedy meshing, LOD, async upload and GPU-driven indirect draws in the host engine.
 6. Keep physics/collision meshes at a lower update rate and resolution than render geometry.
 
-The supplied compute kernels mark exposed faces; they do not yet emit vertex/index buffers or implement a complete GPU mesher. The CPU build_surface_mesh() is a reference face-culling mesher, not a greedy mesher.
+The GLSL kernel marks exposed faces. Unity additionally includes a three-dispatch HLSL path: per-group visible-face counts, a group-offset prefix scan, then compact vertex/index/material emission with indexed-draw arguments. This is a simple face mesher, not greedy meshing; allocate output capacity for up to six visible faces per voxel (or use a bounded chunk budget). The CPU build_surface_mesh() remains the reference face-culling path.
 
 ## Engine notes
 
@@ -59,7 +60,8 @@ Use the C++ mesh data contract inside a Gem. The Gem should own an Atom RPI Feat
 ## Shader kernels
 
 - shaders/sambu_visible_faces.comp: GLSL 450 compute kernel for storage-image occupancy.
-- unity/SambuVisibleFaces.compute: Unity HLSL compute equivalent.
+- unity/SambuVisibleFaces.compute: Unity HLSL visibility-mask pass.
+- unity/SambuCompactVoxelMesh.compute: Unity HLSL count/scan/emit pipeline that builds compact triangle buffers and indirect indexed-draw arguments.
 
 These passes write one six-bit face mask per occupied cell. A second prefix-sum/compaction pass is required to allocate exact vertex/index ranges.
 
