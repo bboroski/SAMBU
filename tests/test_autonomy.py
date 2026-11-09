@@ -202,11 +202,36 @@ class ExperimentLedgerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ledger.record("h", "m", fingerprint({}), {}, ())
 
-    def test_ledger_capacity_is_finite(self):
+    def test_ledger_capacity_is_finite_by_record_count(self):
         ledger = ExperimentLedger(max_records=1)
         ledger.record("first", "unit-test", fingerprint(1), {"ok": True}, ("test:first",))
         with self.assertRaises(LedgerFull):
             ledger.record("second", "unit-test", fingerprint(2), {"ok": True}, ("test:second",))
+
+    def test_ledger_capacity_is_finite_by_serialized_bytes(self):
+        ledger = ExperimentLedger(max_records=10, max_total_bytes=512)
+        with self.assertRaises(LedgerFull):
+            ledger.record(
+                "bounded evidence",
+                "size-test",
+                fingerprint(1),
+                {"payload": "x" * 400},
+                ("test:size",),
+            )
+
+    def test_evidence_rejects_non_string_keys_excessive_depth_and_payload_size(self):
+        ledger = ExperimentLedger()
+        with self.assertRaises(TypeError):
+            ledger.record("h", "m", fingerprint({}), {1: "not a JSON object"}, ("test",))
+        nested = []
+        for _ in range(66):
+            nested = [nested]
+        with self.assertRaises(TypeError):
+            ledger.record("h", "m", fingerprint({}), nested, ("test",))
+        with self.assertRaises(ValueError):
+            ledger.record(
+                "h", "m", fingerprint({}), {"payload": "x" * 40_000}, ("test",)
+            )
 
 
 class ChangeGateTests(unittest.TestCase):
