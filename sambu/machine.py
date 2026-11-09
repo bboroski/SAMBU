@@ -642,6 +642,23 @@ class EffortAmplification:
     ) -> AmplificationReport:
         if not baseline or set(baseline) != set(candidate):
             raise ValueError("baseline and candidate must contain the same non-empty metric names")
+        if any(not isinstance(name, str) or not name.strip() for name in baseline):
+            raise ValueError("metric names must be non-empty strings")
+        if isinstance(lower_is_better, str):
+            lower = {lower_is_better}
+        else:
+            try:
+                lower = set(lower_is_better)
+            except TypeError as exc:
+                raise ValueError("lower_is_better must be an iterable of metric names") from exc
+        if any(not isinstance(name, str) for name in lower):
+            raise ValueError("lower_is_better entries must be metric names")
+        unknown_directions = lower - set(baseline)
+        if unknown_directions:
+            raise ValueError(
+                "lower_is_better contains unknown metrics: "
+                + ", ".join(sorted(unknown_directions))
+            )
         if not isinstance(effort_hours, (int, float)) or isinstance(effort_hours, bool) or not math.isfinite(effort_hours) or effort_hours <= 0:
             raise ValueError("effort_hours must be finite and positive")
         if isinstance(tests_passed, bool) or not isinstance(tests_passed, int):
@@ -650,7 +667,6 @@ class EffortAmplification:
             raise ValueError("tests_total must be a positive integer")
         if not 0 <= tests_passed <= tests_total:
             raise ValueError("tests_passed must be between zero and tests_total")
-        lower = set(lower_is_better)
         metrics: list[MetricGain] = []
         regressions: list[str] = []
         for name in sorted(baseline):
