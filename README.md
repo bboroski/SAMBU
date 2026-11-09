@@ -24,7 +24,7 @@
 ## ⚡ Core Capabilities
 
 * **Foundational Runtime:** Immutable `let` bindings, lexical scopes, user-defined functions, control flow (`if`/`else`, bounded `for` loops), arrays, and records.
-* **Object-Oriented Programming:** Classes, constructors, mutable instance fields, methods, and single inheritance.
+* **Object-Oriented Programming:** Classes, constructors, mutable instance fields, single class inheritance, interfaces, traits, abstract/final contracts, visibility, static members, and polymorphic dispatch.
 * **SI Quantities & Dimensionality:** Native dimensional checks for arithmetic, comparisons, products, quotients, and integer powers.
 * **Statistical Mechanics:** `thermal_energy`, `maxwell`, `boltzmann`, `partition`, `entropy`, and `sample_maxwell`.
 * **Deterministic Systems & Domains:** Networks, influence propagation, negotiation, allocation, funnels, A/B screening, schedules, attendance, and unit economics.
@@ -47,6 +47,7 @@ sambu --version
 sambu examples/ideal_gas.sambu
 sambu examples/neo_modern_blueprint.sambu
 sambu examples/oop_and_games.sambu
+sambu examples/text_craft.sambu
 
 # Run Magento static inspection via Studio
 sambu-studio inspect examples/magento_reference
