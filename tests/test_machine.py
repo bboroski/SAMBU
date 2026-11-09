@@ -164,6 +164,17 @@ class AmplificationEffortTests(unittest.TestCase):
         self.assertFalse(report.accepted)
         self.assertEqual(report.regressions, ("memory_mb",))
 
+    def test_effort_amplification_rejects_unknown_metric_direction(self):
+        with self.assertRaisesRegex(ValueError, "unknown metrics"):
+            EffortAmplification.evaluate(
+                {"latency_ms": 10},
+                {"latency_ms": 9},
+                lower_is_better=("memory_mb",),
+                effort_hours=1,
+                tests_passed=1,
+                tests_total=1,
+            )
+
 
 class SambuMachineTests(unittest.TestCase):
     def test_workspace_check_records_invalid_source_and_validates_architecture(self):
