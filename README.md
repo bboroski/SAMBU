@@ -3,7 +3,7 @@
 # SAMBU
 ### Statistical Analysis & Modeling with Boltzmann Utilities
 
-[![Status: 0.7.0-alpha](https://img.shields.io/badge/status-0.7.0--alpha-informational?style=flat-square&color=3b82f6)]()
+[![Status: 0.8.0-alpha](https://img.shields.io/badge/status-0.8.0--alpha-informational?style=flat-square&color=3b82f6)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-success?style=flat-square)]()
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)]()
 
@@ -31,10 +31,13 @@
 * **Commerce & Queue Planning:** `queue_profile`, `retry_schedule`, `idempotency_key`, `order_pipeline`, community offers, and territory control.
 * **Game Rules & Diagnostics:** Deterministic states for Rock-Paper-Scissors and Tic-Tac-Toe, alongside a public AST and error diagnostic API (`tokenize`, `parse`, `parse_ast`).
 * **Text Craft Diagnostics:** Unicode-aware text metrics, approximate syllable counts, rhyme-tail grouping, line-level prosody, and alliteration analysis.
+* **Workflow & Trust Models:** Atomic gift-batch previews, evidence-backed accreditation records, relationship links, human-reviewed signal reports, transparent proposal scoring, bounded batch plans, safe parser inspection, text mining and tag-based clustering.
 
 ---
 
 Text analysis is deterministic and non-destructive: it reports patterns without rewriting a draft or judging literary quality. See `docs/text_craft.md` and `examples/text_craft.sambu` for the text-craft layer.
+
+Workflow primitives are bounded, deterministic previews; they do not move money, issue credentials, publish allegations, or run external jobs. See `docs/workflows.md` and `examples/workflows.sambu`.
 
 ## 🚀 Quick Start
 
@@ -48,6 +51,7 @@ sambu examples/ideal_gas.sambu
 sambu examples/neo_modern_blueprint.sambu
 sambu examples/oop_and_games.sambu
 sambu examples/text_craft.sambu
+sambu examples/workflows.sambu
 
 # Run Magento static inspection via Studio
 sambu-studio inspect examples/magento_reference
