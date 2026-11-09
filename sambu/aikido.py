@@ -236,6 +236,10 @@ class AikidoHub:
                         raise TypeError("adapter must return InferenceResult")
                     if result.input_tokens < 0 or result.output_tokens < 0:
                         raise ValueError("adapter returned negative token usage")
+                    if result.output_tokens > request.max_output_tokens:
+                        raise ValueError("adapter exceeded the requested output-token limit")
+                    if result.input_tokens + result.output_tokens > model.context_window:
+                        raise ValueError("adapter usage exceeds the selected model context window")
                     actual_cost = (
                         result.input_tokens * model.input_cost_per_1k
                         + result.output_tokens * model.output_cost_per_1k
@@ -268,7 +272,7 @@ class AikidoHub:
                         latency, 0, 0, 0.0, type(exc).__name__,
                     ))
                     # Provider exceptions may opt out of retries with retryable=False.
-                    if getattr(exc, "retryable", True) is False:
+                    if isinstance(exc, BudgetExceeded) or getattr(exc, "retryable", True) is False:
                         break
 
         raise InferenceExhausted(
