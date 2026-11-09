@@ -9,6 +9,12 @@ This is a target architecture, not a claim that the current release already prov
 
 Status vocabulary is mandatory: **Implemented** means code and tests exist; **Experimental** means usable but not stable; **Planned** means design only; **Deferred** means dependent on a future backend, platform or validated provider. Roadmaps, names and examples do not change feature status.
 
+## 1.1. Autonomy constitution and status audit
+
+The companion [50-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and sovereignty requirements to the 0.11 repository baseline. Each rule has a stable `AUT-01`–`AUT-50` ID, a truthful status, current evidence and an acceptance gate. The companion matrix is independently checked by `tests/test_autonomy_constitution.py`.
+
+The 50-rule matrix complements, rather than replaces, the 101 lower-level language contracts in this document. Its purpose is to prevent architectural aspirations from being reported as shipped capabilities.
+
 ## 2. Constitutional principles
 
 **Law over convention.** Source has one defined meaning. Evaluation order, conversions, overflow, effects, ownership, cancellation and error propagation are specified before optimization. Unknown or ambiguous semantics are rejected.
