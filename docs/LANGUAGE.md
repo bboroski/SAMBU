@@ -124,3 +124,38 @@ if (temperature > 300 * K) {
 ```
 
 Bounded iteration uses `for name in array_or_range { ... }`. The standard `range(stop)`, `range(start, stop)`, and `range(start, stop, step)` functions generate integer arrays. `sum`, `min`, `max`, and `len` are also available. Both `range` and `for` enforce a 100,000-item safety cap. Blocks create child scopes; `let` names are immutable. Local bindings can shadow standard-library names. See [Domain Models](DOMAINS.md) for the application library.
+
+
+## Experimental concurrency primitives
+
+The current interpreter exposes a deliberately small, bounded actor API. It does not add asynchronous syntax or parallel execution to the source grammar.
+
+| Built-in | Signature | Behavior |
+|---|---|---|
+| `actor` | `actor(handler, initial_state, mailbox_capacity=256)` | Create a sequential actor; `handler(state, message)` returns the next state |
+| `actor_send` | `actor_send(actor, message)` | Add a bounded JSON-shaped value to the FIFO mailbox |
+| `actor_drain` | `actor_drain(actor, max_messages=1)` | Process messages sequentially up to a work limit |
+| `actor_state` | `actor_state(actor)` | Return a defensive state copy |
+| `supervisor` | `supervisor(strategy, max_restarts=3, window_seconds=60)` | Create a restart supervisor |
+| `supervise` | `supervise(supervisor, actor_or_supervisor)` | Attach a child to a supervision tree |
+| `supervisor_status` | `supervisor_status(supervisor)` | Return bounded status and recent restart events |
+| `channel` | `channel(type_name, capacity=64)` | Create a bounded software FIFO channel |
+| `channel_send` | `channel_send(channel, value)` | Type-check and enqueue a value |
+| `channel_receive` | `channel_receive(channel)` | Dequeue one value without blocking |
+
+Actor handlers accept exactly two parameters. Supported payloads are JSON-shaped values: null, booleans, finite numbers, strings, arrays and string-keyed objects. The runtime enforces payload byte, depth and item limits. Each handler receives a working copy; state is committed only after a successful return and validation. Failed messages are added to a bounded dead-letter history.
+
+Supervision strategies are `one_for_one`, `one_for_all` and `rest_for_one`. Restart budgets are rolling-window limits. Restart resets actor state to the initial snapshot, leaves pending mailbox entries queued and does not retry the failed message automatically. A supervisor that exhausts its budget escalates to its parent.
+
+Typed channels currently support `int`, `integer`, `float`, `number`, `text`, `string`, `bool` and `boolean`. Send is non-blocking and fails on a type mismatch or full queue; receive fails on an empty queue.
+
+### Python-hosted runtime APIs
+
+The package also exports `FiberScheduler`, `yield_now()`, `sleep_ticks(n)`, `ResourceScope`, `ModuleMetadata` and `DualAuthorizationGate`.
+
+- `FiberScheduler` cooperatively resumes Python generators in deterministic FIFO order. Its logical sleeps do not block the host thread.
+- `ResourceScope` closes owned resources in reverse registration order and reports cleanup failures.
+- `ModuleMetadata` validates descriptive module fields; it does not act as a compiler directive.
+- `DualAuthorizationGate` invokes two independent verifier callbacks. A real HSM/TPM must be provided by the host.
+
+These APIs are experimental Python-host features. The scheduler does not create OS threads, allocate native fiber stacks, preempt running code or execute tasks across cores. There is no language-level `yield`, `async`, `await`, static race detector, hardware bus or bundled HSM implementation. See [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md) for guarantees, limits and the native-runtime roadmap.
