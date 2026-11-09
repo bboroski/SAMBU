@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1 — 2026-11-09
+
+- Added an immutable typed AST with end-exclusive source spans for every expression and statement.
+- Added `parse_ast()` while preserving the exact legacy tuple structure returned by `parse()`.
+- Added `Program.to_legacy()` for incremental migration by tooling and interpreter clients.
+- Corrected the public `__version__` value to match package release metadata.
+- Fixed parser EOF token handling so incomplete expressions report the actual EOF position.
+- Added AST span, nested-block, Unicode-offset, tuple-compatibility, and EOF-diagnostic regression coverage.
+
+
 ## 0.5.0 — 2026-11-09
 
 - Added `audio_profile` to validate tempo, swing, snare timing, master ceiling and production-feature flags without rendering or mastering audio.

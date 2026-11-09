@@ -1,7 +1,29 @@
 """Recursive-descent statement parser and Pratt expression parser."""
 from __future__ import annotations
 
+from dataclasses import replace
+
+from .ast import (
+    ArrayExpr,
+    BinaryExpr,
+    CallExpr,
+    Expression,
+    ExpressionStatement,
+    FieldExpr,
+    ForStatement,
+    FunctionStatement,
+    IfStatement,
+    IndexExpr,
+    LetStatement,
+    LiteralExpr,
+    NameExpr,
+    Program,
+    ReturnStatement,
+    Statement,
+    UnaryExpr,
+)
 from .lexer import Token, SambuSyntaxError, tokenize
+from .source import SourcePosition, SourceSpan
 
 
 _PRECEDENCE = {
@@ -13,6 +35,11 @@ _PRECEDENCE = {
     "*": 6, "/": 6,
     "^": 7, "**": 7,
 }
+
+
+def _cover(start: SourceSpan, end: SourceSpan) -> SourceSpan:
+    """Return the smallest source range covering two ordered ranges."""
+    return SourceSpan(start.start, end.end)
 
 
 class Parser:
@@ -34,9 +61,10 @@ class Parser:
         return self.tokens[self.current - 1]
 
     def advance(self) -> Token:
-        if self.peek().kind != "EOF":
+        token = self.peek()
+        if token.kind != "EOF":
             self.current += 1
-        return self.previous()
+        return token
 
     def check(self, value: object) -> bool:
         return self.peek().value == value
@@ -60,10 +88,19 @@ class Parser:
         while self.match(";"):
             pass
 
-    def parse(self) -> list[tuple]:
+    def parse_ast(self) -> Program:
         statements = self.statements("EOF")
-        self.consume_kind("EOF", "Unexpected trailing input")
-        return statements
+        eof = self.consume_kind("EOF", "Unexpected trailing input")
+        span = SourceSpan(SourcePosition(0, 1, 1), eof.span.end)
+        return Program(tuple(statements), span)
+
+    def parse(self) -> list[tuple]:
+        """Parse source into the historical tuple AST.
+
+        Kept as the compatibility entry point. New language tooling should use
+        parse_ast to retain typed nodes and source spans.
+        """
+        return self.parse_ast().to_legacy()
 
     def consume_kind(self, kind: str, message: str) -> Token:
         if self.peek().kind == kind:
@@ -71,8 +108,8 @@ class Parser:
         token = self.peek()
         raise self.syntax_error(message, token)
 
-    def statements(self, terminator: str) -> list[tuple]:
-        out: list[tuple] = []
+    def statements(self, terminator: str) -> list[Statement]:
+        out: list[Statement] = []
         while self.peek().kind != terminator and not (terminator == "OP" and self.check("}")):
             if self.peek().kind == "EOF":
                 if terminator != "EOF":
@@ -89,23 +126,26 @@ class Parser:
                 raise self.syntax_error("Expected a newline or ';' between statements", token)
         return out
 
-    def block(self) -> list[tuple]:
-        self.consume("{", "Expected '{' to begin block")
+    def block(self) -> tuple[tuple[Statement, ...], Token, Token]:
+        opening = self.consume("{", "Expected '{' to begin block")
         body = self.statements("OP")
-        self.consume("}", "Expected '}' after block")
-        return body
+        closing = self.consume("}", "Expected '}' after block")
+        return tuple(body), opening, closing
 
-    def statement(self) -> tuple:
+    def statement(self) -> Statement:
         token = self.peek()
         if token.kind == "IDENT":
             keyword = token.value
             if keyword == "let":
-                self.advance()
+                start = self.advance()
                 name = self.consume_ident("Expected a variable name after 'let'")
                 self.consume("=", "Expected '=' after variable name")
-                return ("let", str(name.value), self.expression())
+                value = self.expression()
+                return LetStatement(
+                    str(name.value), value, _cover(start.span, value.span)
+                )
             if keyword == "fn":
-                self.advance()
+                start = self.advance()
                 name = self.consume_ident("Expected a function name after 'fn'")
                 self.consume("(", "Expected '(' after function name")
                 params: list[str] = []
@@ -120,40 +160,54 @@ class Parser:
                 self.consume(")", "Expected ')' after parameters")
                 if len(params) != len(set(params)):
                     raise self.syntax_error("Function parameters must be unique", name)
-                return ("fn", str(name.value), params, self.block())
+                body, _, closing = self.block()
+                return FunctionStatement(
+                    str(name.value), tuple(params), body,
+                    _cover(start.span, closing.span),
+                )
             if keyword == "return":
-                self.advance()
+                start = self.advance()
                 if self.check(";") or self.check("}") or self.peek().kind == "EOF":
-                    return ("return", ("literal", None))
-                return ("return", self.expression())
+                    value = LiteralExpr(None, SourceSpan.point(start.span.end))
+                else:
+                    value = self.expression()
+                return ReturnStatement(value, _cover(start.span, value.span))
             if keyword == "if":
-                self.advance()
+                start = self.advance()
                 condition = self.expression()
-                then_body = self.block()
-                # A newline before else is optional. Only consume it when an
-                # else branch follows; otherwise it still separates outer statements.
+                then_body, _, then_close = self.block()
                 after_then = self.current
                 self.skip_separators()
-                else_body: list[tuple] = []
+                else_body: tuple[Statement, ...] = ()
+                end_span = then_close.span
                 if self.peek().kind == "IDENT" and self.peek().value == "else":
                     self.advance()
                     if self.peek().kind == "IDENT" and self.peek().value == "if":
-                        else_body = [self.statement()]
+                        else_body = (self.statement(),)
+                        end_span = else_body[-1].span
                     else:
-                        else_body = self.block()
+                        else_body, _, else_close = self.block()
+                        end_span = else_close.span
                 else:
                     self.current = after_then
-                return ("if", condition, then_body, else_body)
+                return IfStatement(
+                    condition, then_body, else_body, _cover(start.span, end_span)
+                )
             if keyword == "for":
-                self.advance()
+                start = self.advance()
                 variable = self.consume_ident("Expected loop variable after 'for'")
                 if not (self.peek().kind == "IDENT" and self.peek().value == "in"):
                     bad = self.peek()
                     raise self.syntax_error("Expected 'in' after loop variable", bad)
                 self.advance()
                 iterable = self.expression()
-                return ("for", str(variable.value), iterable, self.block())
-        return ("expr", self.expression())
+                body, _, closing = self.block()
+                return ForStatement(
+                    str(variable.value), iterable, body,
+                    _cover(start.span, closing.span),
+                )
+        expression = self.expression()
+        return ExpressionStatement(expression, expression.span)
 
     def consume_ident(self, message: str) -> Token:
         if self.peek().kind == "IDENT":
@@ -161,7 +215,7 @@ class Parser:
         token = self.peek()
         raise self.syntax_error(message, token)
 
-    def expression(self, min_precedence: int = 1) -> tuple:
+    def expression(self, min_precedence: int = 1) -> Expression:
         left = self.postfix(self.prefix())
         while True:
             op = self.peek().value
@@ -170,30 +224,35 @@ class Parser:
                 break
             self.advance()
             right = self.expression(precedence if op in ("^", "**") else precedence + 1)
-            left = ("binary", str(op), left, right)
+            left = BinaryExpr(str(op), left, right, _cover(left.span, right.span))
         return left
 
-    def prefix(self) -> tuple:
+    def prefix(self) -> Expression:
         token = self.advance()
         if token.kind == "NUMBER":
-            return ("literal", token.value)
+            return LiteralExpr(token.value, token.span)
         if token.kind == "STRING":
-            return ("literal", token.value)
+            return LiteralExpr(token.value, token.span)
         if token.kind == "IDENT":
-            if token.value == "true": return ("literal", True)
-            if token.value == "false": return ("literal", False)
-            if token.value == "null": return ("literal", None)
+            if token.value == "true":
+                return LiteralExpr(True, token.span)
+            if token.value == "false":
+                return LiteralExpr(False, token.span)
+            if token.value == "null":
+                return LiteralExpr(None, token.span)
             if token.value == "not":
-                return ("unary", "!", self.expression(8))
-            return ("name", str(token.value))
+                operand = self.expression(8)
+                return UnaryExpr("!", operand, _cover(token.span, operand.span))
+            return NameExpr(str(token.value), token.span)
         if token.value in ("-", "+", "!"):
-            return ("unary", str(token.value), self.expression(8))
+            operand = self.expression(8)
+            return UnaryExpr(str(token.value), operand, _cover(token.span, operand.span))
         if token.value == "(":
-            expr = self.expression()
-            self.consume(")", "Expected ')' after expression")
-            return expr
+            expression = self.expression()
+            closing = self.consume(")", "Expected ')' after expression")
+            return replace(expression, span=_cover(token.span, closing.span))
         if token.value == "[":
-            items: list[tuple] = []
+            items: list[Expression] = []
             self.skip_separators()
             if not self.check("]"):
                 while True:
@@ -202,37 +261,50 @@ class Parser:
                     if not self.match(","):
                         break
                     self.skip_separators()
-            self.consume("]", "Expected ']' after array elements")
-            return ("array", items)
+            closing = self.consume("]", "Expected ']' after array elements")
+            return ArrayExpr(tuple(items), _cover(token.span, closing.span))
         raise self.syntax_error("Expected an expression", token)
 
-    def postfix(self, expr: tuple) -> tuple:
+    def postfix(self, expression: Expression) -> Expression:
         while True:
             if self.match("("):
-                args: list[tuple] = []
+                arguments: list[Expression] = []
                 self.skip_separators()
                 if not self.check(")"):
                     while True:
-                        args.append(self.expression())
+                        arguments.append(self.expression())
                         self.skip_separators()
                         if not self.match(","):
                             break
                         self.skip_separators()
-                self.consume(")", "Expected ')' after function arguments")
-                expr = ("call", expr, args)
+                closing = self.consume(")", "Expected ')' after function arguments")
+                expression = CallExpr(
+                    expression, tuple(arguments),
+                    _cover(expression.span, closing.span),
+                )
                 continue
             if self.match("."):
                 name = self.consume_ident("Expected a field name after '.'")
-                expr = ("field", expr, str(name.value))
+                expression = FieldExpr(
+                    expression, str(name.value), _cover(expression.span, name.span)
+                )
                 continue
             if self.match("["):
                 index = self.expression()
-                self.consume("]", "Expected ']' after index")
-                expr = ("index", expr, index)
+                closing = self.consume("]", "Expected ']' after index")
+                expression = IndexExpr(
+                    expression, index, _cover(expression.span, closing.span)
+                )
                 continue
             break
-        return expr
+        return expression
+
+
+def parse_ast(source: str) -> Program:
+    """Parse source into immutable typed nodes carrying end-exclusive spans."""
+    return Parser(tokenize(source)).parse_ast()
 
 
 def parse(source: str) -> list[tuple]:
+    """Parse source into the backward-compatible tuple-based AST."""
     return Parser(tokenize(source)).parse()

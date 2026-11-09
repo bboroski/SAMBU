@@ -6,6 +6,10 @@ SAMBU Studio is the planned developer environment for the Neo-Modern Diplomat wo
 
 ## Semantic language services
 
+### Typed AST and source ranges
+
+The parser exposes immutable typed statement and expression nodes through `parse_ast()`. Each node carries an end-exclusive source span, while `parse()` continues to return the legacy tuple AST. This is the stable substrate for semantic analysis and editor services. AST offsets count Python Unicode code points; protocol adapters must translate them to the negotiated LSP encoding.
+
 ### Dimensional semantic highlighting
 
 Tokenize identifiers, literals, units, constants, function names, record fields, and control-flow keywords into distinct semantic classes. Unit symbols such as `eV`, `K`, `kg`, and `m/s` should be highlighted only when the parser resolves them as known unit bindings, not by matching arbitrary text.
@@ -48,8 +52,10 @@ A dark theme with restrained contrast, clear semantic differentiation, and acces
 6. Add deterministic execution tracing and debugger controls.
 7. Package the theme and accessibility tests.
 
-## Current implementation status (0.4.0)
+## Current implementation status (0.5.1)
 
-The 0.4.0 core exposes immutable `SourcePosition` and `SourceSpan` values. Tokens expose an end-exclusive `span` plus end line/column and source offsets; lexical errors use stable codes `SAMBU-L001` (unexpected character) and `SAMBU-L002` (unterminated string), while parser errors use `SAMBU-P001`. Existing one-based `line` / `column` fields and the legacy tuple shape returned by `parse()` remain compatible.
+The core exposes immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
 
-The AST tuples do not yet carry node-level spans, and the repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, live plot panel, debugger UI, or Diplomat Night theme. Token offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16). This document is a target architecture, not a feature checklist claiming those components already exist.
+The parser reports incomplete expressions at the actual EOF token. Token and AST offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
+
+The repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, context completion provider, live plot panel, debugger UI, or Diplomat Night theme. This document is a target architecture, not a feature checklist claiming those components already exist.
