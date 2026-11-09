@@ -6,6 +6,7 @@ import random
 from typing import Callable
 
 from .domains import DOMAIN_BUILTINS
+from .filtering import FILTERING_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 
@@ -253,6 +254,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "min": lambda args: _extreme(args, "min"),
     "max": lambda args: _extreme(args, "max"),
     **TEXTCRAFT_BUILTINS,
+    **FILTERING_BUILTINS,
     **WORKFLOW_BUILTINS,
     **DOMAIN_BUILTINS,
 }
