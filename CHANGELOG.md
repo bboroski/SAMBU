@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0 — 2026-11-09
+
+- Introduced 04coq, a declarative in-memory filtering engine with validated rule records, safe field paths and explicit all/any logic.
+- Added comparison, membership, text, presence, boolean and collection-length operators, including compatible dimensional-quantity comparisons.
+- Added per-rule explanations with stable failure reasons, collection filtering and sequential multi-stage pipelines.
+- Added strict resource limits, fail-closed type handling, non-mutation guarantees, regression tests, documentation, an executable example and CI coverage.
+- Registered 04coq built-ins and exported the public filtering engine API.
+
+
 ## 0.8.0 — 2026-11-09
 
 - Added deterministic gift-transfer and atomic gift-batch preview ledgers with balance checks and idempotency keys.
