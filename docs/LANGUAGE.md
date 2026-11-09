@@ -1,4 +1,6 @@
-# SAMBU 0.5 language guide
+# SAMBU language guide (0.11 baseline)
+
+> This guide describes the implemented Python-hosted interpreter. Native compilation, static type checking, ownership, language-level async and zero-cost abstractions are future targets, not current guarantees. See [Language Evolution Architecture](LANGUAGE_EVOLUTION.md) for the staged systems-language design.
 
 ## Design goal
 
