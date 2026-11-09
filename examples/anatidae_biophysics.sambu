@@ -1,0 +1,16 @@
+# Educational, parameterized models inspired by waterfowl physiology.
+# All coefficients are illustrative model inputs, not species-wide measurements.
+
+let exchange = countercurrent_exchange(310 * K, 280 * K, 75%)
+let plumage = plumage_insulation(0.9, 25%, 10%)
+let flight = flight_energy_budget((10 * J) / (1 * s), 5 * s, 60 * J)
+let migration_speed = migration_speed(150 * km, 10800 * s)
+let relative_oxygen_pressure = oxygen_pressure_ratio(12 * Pa, 20 * Pa)
+
+print(exchange.venous_return)
+print(exchange.arterial_outlet)
+print(plumage.effective_index)
+print(flight.energy_required)
+print(flight.is_sufficient)
+print(migration_speed)
+print(relative_oxygen_pressure)
