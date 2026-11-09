@@ -48,3 +48,12 @@ from .voxels import (  # noqa: F401
     encode_morton3, engine_payload, graph_from_voxels, plan_frame_updates,
     supported_engines,
 )
+
+from .concurrency import (  # noqa: F401
+    Actor, ActorSnapshot, ActorStoppedError, AuthorizationError,
+    ChannelEmptyError, ChannelFullError, ConcurrencyError, DualAuthorizationGate,
+    FiberHandle, FiberRunReport, FiberScheduler, MailboxFullError,
+    ModuleMetadata, ResourceScope, ResourceScopeError, SchedulerLimitError,
+    SleepTicks, Supervisor, SupervisorEvent, TypedChannel, YieldNow,
+    sleep_ticks, yield_now,
+)
