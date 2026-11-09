@@ -1,6 +1,6 @@
 """SAMBU language public API."""
 
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
@@ -22,7 +22,7 @@ from .aikido import (  # noqa: F401
     InferenceRequest, InferenceResult, ModelProfile, NoModelAvailable,
 )
 from .jiu_jitsu import (  # noqa: F401
-    AccessDenied, JiuJitsu, JiuJitsuApp, JiuJitsuError, ModalDefinition,
+    AccessDenied, DualActionButton, JiuJitsu, JiuJitsuApp, JiuJitsuError, ModalDefinition,
     ModalManager, Role, RoleManager, ViewController, ViewDefinition,
     ViewNode, ViewSnapshot,
 )
@@ -30,4 +30,11 @@ from .jiu_jitsu import (  # noqa: F401
 from .filtering import (  # noqa: F401
     FilterConfigurationError, FilterEvaluation, FilterRule,
     FilteringEngine, RuleEvaluation,
+)
+
+from .chunking import ChunkManifest, chunked, plan_chunks  # noqa: F401
+from .patching import PatchConflict, PatchReceipt, PatchSet, TextPatch  # noqa: F401
+from .trust import (  # noqa: F401
+    ArtifactVerification, PortfolioArtifact, PortfolioVerification,
+    PortfolioVerifier, trust_dig,
 )
