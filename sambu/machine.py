@@ -22,6 +22,7 @@ from .parser import parse_ast
 MAX_GHOSTS = 10_000
 MAX_SOURCE_BYTES = 2_000_000
 MAX_TOTAL_SOURCE_BYTES = 32_000_000
+MAX_SAMPLE_EXCERPT_BYTES = 8_192
 MAX_WORKSPACE_FILES = 500
 _EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "build", "dist"}
 _SECRET_PATTERNS = (
@@ -443,19 +444,26 @@ class CodeSampler:
                 digest = hashlib.sha256(key.encode("utf-8")).hexdigest()
                 ranked.append((digest, node))
             chosen = sorted(ranked, key=lambda pair: pair[0])[:count]
-            lines = source.splitlines()
             source_hash = hashlib.sha256(source.encode("utf-8")).hexdigest()
             for digest, node in sorted(chosen, key=lambda pair: pair[1].span.start.offset):
-                start = node.span.start.line
-                end = node.span.end.line
-                excerpt_lines = lines[max(0, start - 1):max(start, min(end, start + 29))]
+                span = node.span
+                start = span.start.line
+                end = span.end.line
+                excerpt = source[span.start.offset:span.end.offset]
+                encoded_excerpt = excerpt.encode("utf-8")
+                if len(encoded_excerpt) > MAX_SAMPLE_EXCERPT_BYTES:
+                    excerpt = (
+                        encoded_excerpt[:MAX_SAMPLE_EXCERPT_BYTES]
+                        .decode("utf-8", errors="ignore")
+                        + "\\n… <sample truncated>"
+                    )
                 all_samples.append(CodeSample(
                     relative,
                     type(node).__name__,
                     start,
                     end,
                     hashlib.sha256(f"{source_hash}:{digest}".encode("ascii")).hexdigest(),
-                    "\n".join(excerpt_lines),
+                    excerpt,
                 ))
                 if len(all_samples) > sample_limit:
                     raise CodeSamplingError(f"sample exceeds max_samples={sample_limit}")
