@@ -179,7 +179,7 @@ class SambuMachineTests(unittest.TestCase):
             sealed.run_source("print(42)", output=lambda _: None)
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            (root / "main.sambu").write_text("let answer = 42\\n", encoding="utf-8")
+            (root / "main.sambu").write_text("let answer = 42\n", encoding="utf-8")
             self.assertTrue(sealed.check_workspace(root).valid)
             self.assertEqual(sealed.sample_code(root).files_scanned, 1)
 
