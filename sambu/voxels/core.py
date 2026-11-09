@@ -22,10 +22,22 @@ _MAX_VOXELS = 2_000_000
 def _finite3(value: object, name: str) -> Vec3:
     if not isinstance(value, (tuple, list)) or len(value) != 3:
         raise TypeError(f"{name} must contain exactly three numbers")
+    if any(isinstance(item, bool) for item in value):
+        raise TypeError(f"{name} values must be numeric, not booleans")
     result = tuple(float(item) for item in value)
     if not all(math.isfinite(item) for item in result):
         raise ValueError(f"{name} values must be finite")
     return result  # type: ignore[return-value]
+
+
+def _exact_coord(value: object, name: str) -> Coord:
+    if not isinstance(value, (tuple, list)) or len(value) != 3:
+        raise TypeError(f"{name} must contain exactly three integer coordinates")
+    if any(isinstance(item, bool) or not isinstance(item, int) for item in value):
+        raise TypeError(f"{name} coordinates must be integers")
+    if any(item < _MIN_COORD or item > _MAX_COORD for item in value):
+        raise ValueError(f"{name} coordinates must fit signed 32-bit integers")
+    return (value[0], value[1], value[2])
 
 
 def _determinant(m: Matrix3) -> float:
@@ -60,7 +72,7 @@ class VoxelFrame:
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "origin", _finite3(self.origin, "origin"))
-        if not math.isfinite(self.voxel_size) or self.voxel_size <= 0:
+        if isinstance(self.voxel_size, bool) or not math.isfinite(self.voxel_size) or self.voxel_size <= 0:
             raise ValueError("voxel_size must be finite and greater than zero")
         if len(self.axes) != 3 or any(len(row) != 3 for row in self.axes):
             raise ValueError("axes must be a 3x3 matrix")
@@ -184,12 +196,10 @@ def plan_frame_updates(
         raise ValueError("frame_index must be a non-negative integer")
     if isinstance(max_chunks, bool) or not isinstance(max_chunks, int) or max_chunks < 0:
         raise ValueError("max_chunks must be a non-negative integer")
-    camera = tuple(int(v) for v in camera_chunk)
-    if len(camera) != 3:
-        raise ValueError("camera_chunk must have three coordinates")
-    if not math.isfinite(lod_distance) or lod_distance < 0:
+    camera = _exact_coord(camera_chunk, "camera_chunk")
+    if isinstance(lod_distance, bool) or not math.isfinite(lod_distance) or lod_distance < 0:
         raise ValueError("lod_distance must be finite and non-negative")
-    unique = set(tuple(int(v) for v in coord) for coord in dirty_chunks)
+    unique = {_exact_coord(coord, "dirty chunk") for coord in dirty_chunks}
     ordered = sorted(unique, key=lambda item: (
         sum((item[i] - camera[i]) ** 2 for i in range(3)), item
     ))
@@ -298,12 +308,24 @@ class SparseVoxelGrid:
 
     def acknowledge_chunks(self, chunks: Iterator[Coord] | tuple[Coord, ...] | list[Coord]) -> None:
         for chunk in chunks:
-            key = tuple(int(v) for v in chunk)
-            if len(key) != 3:
-                raise ValueError("chunk coordinate must have three components")
+            key = _exact_coord(chunk, "chunk coordinate")
             self._dirty_chunks.discard(key)
 
-    def build_surface_mesh(self) -> SurfaceMesh:
+    def build_surface_mesh(self, *, max_faces: int = 1_000_000) -> SurfaceMesh:
+        """Build exposed faces, rejecting unexpectedly large allocations before emission."""
+        if isinstance(max_faces, bool) or not isinstance(max_faces, int) or not 0 <= max_faces <= 12_000_000:
+            raise ValueError("max_faces must be an integer from 0 to 12,000,000")
+        visible_faces = 0
+        for (x, y, z), _material in self._voxels.items():
+            for (dx, dy, dz), _corners in _FACE_DATA:
+                if (x + dx, y + dy, z + dz) not in self._voxels:
+                    visible_faces += 1
+                    if visible_faces > max_faces:
+                        raise ValueError(
+                            f"surface mesh requires more than max_faces={max_faces:,}; "
+                            "build smaller chunks or use the engine GPU mesher"
+                        )
+
         vertices: list[Vec3] = []
         normals: list[Vec3] = []
         indices: list[int] = []
