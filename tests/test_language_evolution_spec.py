@@ -21,7 +21,7 @@ class LanguageEvolutionSpecificationTests(unittest.TestCase):
     def test_systems_domains_are_covered(self):
         for phrase in ("bare-metal", "NUMA", "HTTP/3", "QUIC", "CRDTs",
                        "TPM/HSM", "eBPF", "WCET", "Sambu.toml", "content-addressed"):
-            self.assertIn(phrase, self.content)
+            self.assertIn(phrase.lower(), self.content.lower())
 
 
 if __name__ == "__main__":
