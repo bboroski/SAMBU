@@ -235,6 +235,7 @@ class SambuMachineTests(unittest.TestCase):
             root = Path(directory)
             (root / "main.sambu").write_text("let answer = 42\n", encoding="utf-8")
             self.assertTrue(sealed.check_workspace(root).valid)
+            self.assertTrue(sealed.inspect_architecture()["valid"])
             self.assertEqual(sealed.sample_code(root).files_scanned, 1)
 
         sandbox = SambuMachine(profile="sandbox")
