@@ -178,7 +178,7 @@ class SambuIDE:
             raise ValueError("max_documents must be an integer from 1 to 10,000")
         self.max_documents = max_documents
         self._documents: dict[str, _OpenDocument] = {}
-        self.machine = SambuMachine()
+        self.machine = SambuMachine(profile="sealed")
 
     def open_document(
         self, uri: str, source: str, *, version: int = 1
