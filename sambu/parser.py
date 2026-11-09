@@ -14,6 +14,7 @@ from .ast import (
     ForStatement,
     FunctionStatement,
     IfStatement,
+    InterfaceStatement,
     IndexExpr,
     LetStatement,
     LiteralExpr,
@@ -22,6 +23,7 @@ from .ast import (
     ReturnStatement,
     SetFieldStatement,
     Statement,
+    TraitStatement,
     UnaryExpr,
 )
 from .lexer import Token, SambuSyntaxError, tokenize
@@ -316,12 +318,6 @@ class Parser:
                 method = self.function_declaration(member_modifiers, allow_abstract=True)
                 if method.name in method_names:
                     raise self.syntax_error(f"Duplicate method {method.name!r}", name)
-                if method.is_static and method.parameters and method.parameters[0] == "self":
-                    raise self.syntax_error("Static methods do not receive an implicit 'self'", name)
-                if not method.is_static and not method.is_abstract and (
-                    not method.parameters or method.parameters[0] != "self"
-                ):
-                    raise self.syntax_error("Instance methods must declare 'self' as their first parameter", name)
                 method_names.add(method.name)
                 methods.append(method)
                 self.skip_separators()
