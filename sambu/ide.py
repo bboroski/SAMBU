@@ -25,18 +25,11 @@ _KEYWORDS = (
     "for", "if", "in", "interface", "is", "let", "null", "or", "private",
     "protected", "public", "return", "static", "trait", "true",
 )
-_BUILTINS = (
-    "abs", "actor", "actor_drain", "actor_send", "actor_state", "boltzmann",
-    "channel", "channel_receive", "channel_send", "count", "entropy", "exp",
-    "len", "log", "max", "maxwell", "mean", "min", "partition", "percent_change",
-    "percent_of", "range", "sample_maxwell", "sqrt", "sum", "supervise",
-    "supervisor", "supervisor_status", "thermal_energy", "variance",
-)
 _PREDECLARED = (
     "pi", "e", "k_B", "h", "hbar", "c", "N_A", "R", "G", "version",
 )
 _COMPLETIONS = tuple(
-    sorted(set(_KEYWORDS) | set(_BUILTINS) | set(_RUNTIME_BUILTINS) | set(UNITS) | set(_PREDECLARED))
+    sorted(set(_KEYWORDS) | set(_RUNTIME_BUILTINS) | set(UNITS) | set(_PREDECLARED))
 )
 
 
