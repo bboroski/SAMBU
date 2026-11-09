@@ -224,7 +224,10 @@ class ResourceAndTrustTests(unittest.TestCase):
     def test_module_metadata_requires_every_safety_field(self):
         metadata = ModuleMetadata("core", "0.12", "", "ops@example.invalid", "audit")
         self.assertEqual(metadata.validate(), ("owner must be a non-empty string",))
-        self.assertIs(metadata.require_valid() if False else metadata, metadata)
+        with self.assertRaises(ValueError):
+            metadata.require_valid()
+        valid = ModuleMetadata("core", "0.12", "platform", "ops@example.invalid", "audit")
+        self.assertIs(valid.require_valid(), valid)
 
     def test_dual_authorization_requires_independent_verifiers(self):
         gate = DualAuthorizationGate(
