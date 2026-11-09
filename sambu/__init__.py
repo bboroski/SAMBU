@@ -1,6 +1,6 @@
 """SAMBU language public API."""
 
-__version__ = "0.11.0"
+from ._version import __version__
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
