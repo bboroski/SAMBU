@@ -11,7 +11,7 @@ from .values import Quantity, Record, number_value
 
 _MAX_ITEMS = 100_000
 _MAX_WORKERS = 4_096
-_MAX_FEATURES = 64
+_MAX_FEATURES = 53
 _MAX_CONTEXT_NODES = 20_000
 _MAX_CONTEXT_DEPTH = 64
 
