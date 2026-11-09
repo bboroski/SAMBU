@@ -36,7 +36,7 @@ _PRECEDENCE = {
     "==": 3, "!=": 3, "is": 3,
     "<": 4, "<=": 4, ">": 4, ">=": 4,
     "+": 5, "-": 5,
-    "*": 6, "/": 6,
+    "*": 6, "/": 6, "%": 6,
     "^": 7, "**": 7,
 }
 
@@ -462,6 +462,12 @@ class Parser:
 
     def postfix(self, expression: Expression) -> Expression:
         while True:
+            # An adjacent postfix percent converts percentage points into a ratio.
+            # A spaced percent remains the infix modulo operator.
+            if self.check("%") and self.peek().start_offset == expression.span.end.offset:
+                token = self.advance()
+                expression = UnaryExpr("percent", expression, _cover(expression.span, token.span))
+                continue
             if self.match("("):
                 arguments: list[Expression] = []
                 self.skip_separators()
