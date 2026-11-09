@@ -575,7 +575,7 @@ class GhostLedger:
             message = _redact(entry["message"])
             context = _redact(entry["context"])[:128]
             expected = hashlib.sha256(
-                f"{error_type}\\0{category}\\0{message}\\0{source_hash}\\0{context}".encode("utf-8")
+                f"{error_type}\0{category}\0{message}\0{source_hash}\0{context}".encode("utf-8")
             ).hexdigest()
             if expected != fingerprint:
                 raise ValueError("ghost fingerprint does not match its redacted record")
