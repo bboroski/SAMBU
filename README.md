@@ -232,6 +232,10 @@ examples/           # Runnable language and Python examples
 tests/              # Regression and contract tests
 ~~~
 
+## 📚 SAMBU Encyclopedia
+
+A project-wide technical wiki is available in the repository: **[Open the SAMBU Wiki](wiki/README.md)**. It covers the language, syntax, runtime values, OOP, scientific and domain libraries, Judo/Aikido/Jiu-Jitsu, voxel systems, trust boundaries, Studio, integrations, tests and roadmap. The wiki labels implemented behavior separately from limitations and planned work.
+
 ## 📚 Documentation
 
 | Guide | Focus |
