@@ -31,7 +31,7 @@
 * **Commerce & Queue Planning:** `queue_profile`, `retry_schedule`, `idempotency_key`, `order_pipeline`, community offers, and territory control.
 * **Game Rules & Diagnostics:** Deterministic states for Rock-Paper-Scissors and Tic-Tac-Toe, alongside a public AST and error diagnostic API (`tokenize`, `parse`, `parse_ast`).
 * **Text Craft Diagnostics:** Unicode-aware text metrics, approximate syllable counts, rhyme-tail grouping, line-level prosody, and alliteration analysis.
-* **Workflow & Trust Models:** Atomic gift-batch previews, evidence-backed accreditation records, relationship links, human-reviewed signal reports, transparent proposal scoring, bounded batch plans, safe parser inspection, text mining and tag-based clustering.
+* **Workflow & Trust Models:** Atomic gift-batch previews, evidence-backed accreditation records, relationship links, human-reviewed signal reports, transparent proposal scoring, bounded batch plans, safe parser inspection, text mining, tag-based clustering and vocabulary-free structural mimicry.
 
 ---
 
