@@ -53,7 +53,7 @@ class SambuSyntaxError(Exception):
 
 
 _OPERATORS = ("==", "!=", "<=", ">=", "&&", "||", "**")
-_SINGLE = set("+-*/^<>=!(),.[];{}")
+_SINGLE = set("+-*/%^<>=!(),.[];{}")
 
 
 def tokenize(source: str) -> list[Token]:
