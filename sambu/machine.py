@@ -203,6 +203,8 @@ class PlywoodDesign:
         for name in order:
             inherited: set[str] = set()
             for dependency in by_name[name].depends_on:
+                if dependency not in by_name:
+                    continue
                 inherited.add(dependency)
                 inherited.update(ancestors.get(dependency, set()))
             ancestors[name] = inherited
