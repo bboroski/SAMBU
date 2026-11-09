@@ -211,8 +211,10 @@ class SambuIDE:
                 )
         elif previous is None and len(self._documents) >= self.max_documents:
             raise IDEError(f"open document limit ({self.max_documents}) reached")
-        elif previous is not None and version < previous.version:
-            raise IDEError("document version cannot move backwards")
+        elif previous is not None and version <= previous.version:
+            raise IDEError(
+                f"document version {version} must be newer than current version {previous.version}"
+            )
 
         source_hash = hashlib.sha256(source.encode("utf-8")).hexdigest()
         diagnostics: tuple[IDEDiagnostic, ...] = ()
