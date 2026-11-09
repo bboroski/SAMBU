@@ -132,6 +132,11 @@ class SambuMachineTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             TaskManifest("seed.bad", "Invalid seed", ("compute",), seed=2 ** 80)
 
+    def test_manifest_caps_requested_capability_count(self):
+        capabilities = tuple(f"capability.{index}" for index in range(1_025))
+        with self.assertRaises(ValueError):
+            TaskManifest("too.many", "Too many grants", capabilities)
+
     def test_audit_reports_that_execution_and_self_modification_are_disabled(self):
         audit = SambuMachine().audit()
         self.assertTrue(audit["ledger_valid"])
