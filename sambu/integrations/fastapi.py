@@ -1,5 +1,4 @@
 """FastAPI router adapter for the renderer-neutral Jiu-Jitsu application model."""
-from __future__ import annotations
 import inspect
 import json
 from typing import Callable
@@ -73,7 +72,16 @@ def create_router(app_for_principal: Callable[[str], JiuJitsuApp], principal_res
         except (JiuJitsuError, ValueError, TypeError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    @router.post("/modals/{modal_id}")
+    @router.post("/modals/close")
+    async def close_modal(request: Request):
+        app = await resolve_app(request)
+        try:
+            app.modals.close()
+            return app.snapshot().to_dict()
+        except (JiuJitsuError, ValueError, TypeError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+@router.post("/modals/{modal_id}")
     async def open_modal(modal_id: str, request: Request):
         app = await resolve_app(request)
         try:
@@ -84,14 +92,6 @@ def create_router(app_for_principal: Callable[[str], JiuJitsuApp], principal_res
         except (JiuJitsuError, ValueError, TypeError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    @router.post("/modals/close")
-    async def close_modal(request: Request):
-        app = await resolve_app(request)
-        try:
-            app.modals.close()
-            return app.snapshot().to_dict()
-        except (JiuJitsuError, ValueError, TypeError) as exc:
-            raise HTTPException(status_code=400, detail=str(exc)) from exc
     return router
 
 __all__ = ["create_router"]
