@@ -40,11 +40,23 @@ namespace Sambu.Voxels
         public static GraphicsBuffer CreateVoxelBuffer(byte[] packedCells, int cellCount)
         {
             if (packedCells == null) throw new ArgumentNullException(nameof(packedCells));
-            const int stride = 5; // local x/y/z uint8 + material uint16, little-endian
-            if (cellCount < 0 || packedCells.Length != cellCount * stride)
+            const int packedStride = 5; // SAMBU transfer format
+            const int gpuStride = 8;    // two uint32 words; compatible structured-buffer alignment
+            if (cellCount < 0 || packedCells.Length != cellCount * packedStride)
                 throw new ArgumentException("Packed voxel payload length does not match cellCount.");
-            var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Math.Max(1, cellCount), stride);
-            if (cellCount > 0) buffer.SetData(packedCells);
+            var gpuWords = new uint[cellCount * 2];
+            for (int i = 0; i < cellCount; i++)
+            {
+                int source = i * packedStride;
+                uint packedCoordinate = (uint)(packedCells[source]
+                    | (packedCells[source + 1] << 8)
+                    | (packedCells[source + 2] << 16));
+                uint material = (uint)(packedCells[source + 3] | (packedCells[source + 4] << 8));
+                gpuWords[i * 2] = packedCoordinate;
+                gpuWords[i * 2 + 1] = material;
+            }
+            var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Math.Max(1, cellCount), gpuStride);
+            if (cellCount > 0) buffer.SetData(gpuWords);
             return buffer;
         }
     }
