@@ -476,18 +476,6 @@ def cluster_glue(args: list[object]) -> Record:
     })
 
 
-WORKFLOW_BUILTINS: dict[str, Callable[[list[object]], object]] = {
-    "gift_transfer": gift_transfer,
-    "gift_batch": gift_batch,
-    "accreditation_record": accreditation_record,
-    "accreditation_status": accreditation_status,
-    "associate": associate,
-    "signal_report": signal_report,
-    "pitch_score": pitch_score,
-    "blast_plan": blast_plan,
-    "parse_report": parse_report,
-
-
 def mimic_profile(args: list[object]) -> Record:
     """Extract a vocabulary-free structural signature from a reference text."""
     _arity(args, {1}, "mimic_profile(text)")
@@ -561,6 +549,18 @@ def mimic_distance(args: list[object]) -> Record:
         "vocabulary_compared": False,
         "interpretation": "structural comparison only; not a literary quality score",
     })
+
+
+WORKFLOW_BUILTINS: dict[str, Callable[[list[object]], object]] = {
+    "gift_transfer": gift_transfer,
+    "gift_batch": gift_batch,
+    "accreditation_record": accreditation_record,
+    "accreditation_status": accreditation_status,
+    "associate": associate,
+    "signal_report": signal_report,
+    "pitch_score": pitch_score,
+    "blast_plan": blast_plan,
+    "parse_report": parse_report,
     "mine_patterns": mine_patterns,
     "cluster_glue": cluster_glue,
     "mimic_profile": mimic_profile,
