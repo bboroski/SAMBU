@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added a 50-rule autonomy constitution mapping compiler topology, syntax, isolation, toolchain closure and language sovereignty to verified baseline statuses and acceptance gates.
+- Added regression tests for stable AUT-01–AUT-50 identifiers, ten rules per block and truthful feature-status declarations.
+
 - Added the systems-language evolution architecture covering static types, algebraic errors, ownership, effects, native compilation, embedded/kernel profiles, distributed systems, reliability, security and observability.
 - Consolidated overlapping language requirements into 101 test-indexed contracts and staged implementation gates.
 - Clarified the implemented 0.11 interpreter baseline versus planned compiler/runtime capabilities.
