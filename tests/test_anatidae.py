@@ -63,6 +63,19 @@ class AnatidaeModelTests(unittest.TestCase):
         )
         self.assertEqual(out,["0.9166666666666666","true","2","359"])
 
+    def test_four_phase_air_sac_flow_and_variable_anatomy(self):
+        out=self.run_sambu(
+            "let cycle = avian_air_sac_cycle(100, 9, 80%)\\n"
+            "print(cycle.air_sac_count_assumption)\\n"
+            "print(cycle.phase_count)\\n"
+            "print(cycle.modeled_parabronchial_transfer_volume)\\n"
+            "print(cycle.phases[1].flow)"
+        )
+        self.assertEqual(out,[
+            "9","4","80",
+            "posterior_air_sacs_through_palaeopulmonic_parabronchi",
+        ])
+
     def test_digestive_grinding_model(self):
         out=self.run_sambu("let g = digestive_grinding(10, 20%, 3)\nprint(g.estimated_particle_size)")
         self.assertEqual(out,["5.12"])
