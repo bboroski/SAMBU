@@ -544,10 +544,14 @@ class GhostLedger:
 
     @classmethod
     def from_json(cls, raw: str) -> "GhostLedger":
-        if not isinstance(raw, str) or len(raw.encode("utf-8")) > 8_000_000:
-            raise ValueError("ghost ledger JSON must be text no larger than 8 MB")
+        if not isinstance(raw, str) or len(raw.encode("utf-8")) > 32_000_000:
+            raise ValueError("ghost ledger JSON must be text no larger than 32 MB")
         payload = json.loads(raw)
-        if not isinstance(payload, dict) or payload.get("schema_version") != 1:
+        if (
+            not isinstance(payload, dict)
+            or type(payload.get("schema_version")) is not int
+            or payload.get("schema_version") != 1
+        ):
             raise ValueError("unsupported ghost ledger schema")
         capacity = _bounded_int(payload.get("capacity"), "capacity", 1, MAX_GHOSTS)
         records = payload.get("records")
@@ -561,13 +565,24 @@ class GhostLedger:
             if any(not isinstance(entry.get(key), str) for key in fields_required):
                 raise ValueError("ghost record text fields are malformed")
             fingerprint = entry["fingerprint"]
+            source_hash = entry["source_hash"]
             if not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
                 raise ValueError("ghost fingerprint is malformed")
+            if not re.fullmatch(r"[0-9a-f]{64}", source_hash):
+                raise ValueError("ghost source hash is malformed")
+            error_type = _redact(entry["error_type"])[:128]
+            category = _redact(entry["category"])[:64]
+            message = _redact(entry["message"])
+            context = _redact(entry["context"])[:128]
+            expected = hashlib.sha256(
+                f"{error_type}\\0{category}\\0{message}\\0{source_hash}\\0{context}".encode("utf-8")
+            ).hexdigest()
+            if expected != fingerprint:
+                raise ValueError("ghost fingerprint does not match its redacted record")
             occurrences = _bounded_int(entry.get("occurrences"), "occurrences", 1, 2**31 - 1)
             ledger._records[fingerprint] = GhostRecord(
-                fingerprint, entry["error_type"][:128], entry["category"][:64],
-                _redact(entry["message"]), entry["source_hash"], entry["context"][:128],
-                occurrences,
+                fingerprint, error_type, category, message, source_hash,
+                context, occurrences,
             )
         return ledger
 
