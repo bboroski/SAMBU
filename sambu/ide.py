@@ -195,9 +195,15 @@ class SambuIDE:
     ) -> IDEInspection:
         if not isinstance(uri, str) or not uri.strip():
             raise ValueError("document URI must be a non-empty string")
+        if len(uri) > 2_048:
+            raise ValueError("document URI exceeds 2,048 characters")
         if not isinstance(source, str):
             raise TypeError("document source must be text")
-        if len(source.encode("utf-8")) > MAX_SOURCE_BYTES:
+        try:
+            source_size = len(source.encode("utf-8"))
+        except UnicodeEncodeError as exc:
+            raise ValueError("document contains text that cannot be encoded as UTF-8") from exc
+        if source_size > MAX_SOURCE_BYTES:
             raise ValueError(f"document exceeds {MAX_SOURCE_BYTES} UTF-8 bytes")
         if isinstance(version, bool) or not isinstance(version, int) or version < 0:
             raise ValueError("document version must be a non-negative integer")
