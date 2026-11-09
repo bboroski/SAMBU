@@ -6,7 +6,7 @@
 layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 layout(r32ui, set = 0, binding = 0) uniform readonly uimage3D occupancy;
 layout(std430, set = 0, binding = 1) readonly buffer ActiveCells {
-    uvec4 cells[]; // xyz = integer grid coordinate, w = material ID
+    uvec2 cells[]; // x = packed local xyz uint8, y = material uint16 in low bits
 };
 layout(std430, set = 0, binding = 2) writeonly buffer VisibleFaces {
     uint faceMasks[];
@@ -22,7 +22,12 @@ bool is_empty(ivec3 p) {
 void main() {
     uint index = gl_GlobalInvocationID.x;
     if (index >= params.cellCount) return;
-    ivec3 p = ivec3(cells[index].xyz);
+    uint packed = cells[index].x;
+    ivec3 p = ivec3(
+        int(packed & 255u),
+        int((packed >> 8u) & 255u),
+        int((packed >> 16u) & 255u)
+    );
     uint mask = 0u;
     if (is_empty(p + ivec3( 1, 0, 0))) mask |= 1u << 0;
     if (is_empty(p + ivec3(-1, 0, 0))) mask |= 1u << 1;
