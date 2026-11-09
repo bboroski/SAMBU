@@ -141,9 +141,13 @@ class SupervisorTests(unittest.TestCase):
         def crash(state, message):
             raise RuntimeError("stop")
 
+        def fail(state, message):
+            raise RuntimeError("stop")
+
         actors = [
-            Actor(lambda state, message: state, i, name=f"worker-{i}")
-            for i in range(3)
+            Actor(lambda state, message: state, 0, name="worker-0"),
+            Actor(fail, 1, name="worker-1"),
+            Actor(lambda state, message: state, 2, name="worker-2"),
         ]
         supervisor = Supervisor(strategy="rest_for_one", max_restarts=3)
         for actor in actors:
