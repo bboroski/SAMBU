@@ -20,6 +20,7 @@ jobs:
       - run: sambu-test tests --repeat 2
       - run: sambu examples/percentages.sambu
       - run: sambu examples/anatidae_biophysics.sambu
+      - run: sambu examples/ecosystem_primitives.sambu
       - run: sambu examples/voxel_world.sambu
       - run: python benchmarks/benchmark_voxels.py --size 6 --repeats 1 --include-spectral --json
       - run: sambu examples/ideal_gas.sambu

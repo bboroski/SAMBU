@@ -243,6 +243,7 @@ A project-wide technical wiki is available in the repository: **[Open the SAMBU 
 | [Language reference](docs/LANGUAGE.md) | Syntax, runtime, AST and OOP |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
+| [Ecosystem primitives](docs/ECOSYSTEM_METHODS.md) | Five biology-inspired deterministic systems planners |
 | [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
 | [Percentages](docs/PERCENTAGES.md) | Percentage syntax and arithmetic |
 | [Web integrations](docs/INTEGRATIONS.md) | Django, Flask and FastAPI |

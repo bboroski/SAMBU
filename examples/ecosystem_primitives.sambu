@@ -1,0 +1,39 @@
+# Five ecology-inspired system methods.
+# Every method returns a deterministic plan/value; none starts external work.
+
+fn handle_event(context, amount) {
+  return context.resistance_after + amount
+}
+
+let imprint = imprint_closure(
+  handle_event,
+  capture_node("rival", "flock", 30, 5)
+)
+print(imprint(2))
+
+let flight_plan = v_vector_stream(19, 4, 60%, 1)
+print(flight_plan.covered_items)
+print(flight_plan.assignments[0].role)
+print(flight_plan.assignments[0].count)
+
+let cache_plan = countercurrent_sync(
+  ["hot-a", "hot-b"],
+  ["cold-a", "cold-b", "cold-c"],
+  3,
+  1,
+  1
+)
+print(cache_plan.direction)
+print(cache_plan.hot_after)
+
+let taxonomy = biometric_taxonomy_sort(
+  [["duck", 7], ["goose", 3], ["chicken", 1], ["loon", 5], ["swan", 3]],
+  ["webbed", "waterfowl", "diver"]
+)
+print(taxonomy.taxa_order)
+print(taxonomy.phylogeny_inferred)
+
+let scaling = wetland_ecosystem_loop(900, 100, 4, 2, 12, 75%)
+print(scaling.action)
+print(scaling.desired_workers)
+print(scaling.projected_utilization)

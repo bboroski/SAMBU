@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added five deterministic ecosystem-inspired SAMBU built-ins: imprint_closure, v_vector_stream, countercurrent_sync, biometric_taxonomy_sort and wetland_ecosystem_loop, plus exact-name aliases.
+- Added immutable context capture, deterministic worker partition plans, bounded tier-transfer planning, binary trait classification and capacity-based scaling recommendations.
+- Added runnable examples, implementation-boundary documentation and regression tests; actual threads, hardware cache I/O, phylogeny inference and cloud/GC control remain outside these pure planners.
+
 ## 0.11.0 — 2026-11-09
 
 - Added sparse voxel grids, affine frames, signed Morton ordering, dirty chunks and per-frame upload planning.
