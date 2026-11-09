@@ -43,6 +43,13 @@ Every input is a fraction from 0 through 1. The score is a prioritization aid, n
 
 `parse_report(source)` lexes and parses SAMBU source without executing it. A malformed program returns the stable diagnostic code, message and source position; a valid program returns token and top-level statement counts. This is an inspection primitive, not a sandbox or static type checker.
 
+## Mimicry by structure, not copied wording
+
+- `mimic_profile(text)` extracts an abstract signature of line length, approximate syllable movement, rhyme/alliteration density, lexical diversity and punctuation density.
+- `mimic_distance(profile, draft)` compares the signature with a new draft using normalized per-feature distance.
+
+The profile deliberately excludes the source wording and does not compare vocabulary. It is a structural aid for rhythm and delivery, not a promise to reproduce an author's identity or a score of artistic quality.
+
 ## Mining and cluster glue
 
 - `mine_patterns(text, min_frequency=2)` finds repeated words, adjacent word pairs and approximate spelling-based rhyme families.
