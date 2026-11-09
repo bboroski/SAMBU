@@ -788,8 +788,13 @@ class SambuMachine:
         self.profile.require("source.sample")
         return self.sampler.sample(path, denominator=denominator, seed=seed)
 
+    def inspect_architecture(self) -> dict[str, object]:
+        self.profile.require("architecture.inspect")
+        return self.design.to_dict()
+
     def check_workspace(self, path: str | Path) -> WorkspaceCheckReport:
         self.profile.require("workspace.read")
+        self.profile.require("architecture.inspect")
         root = Path(path).expanduser()
         if root.is_symlink() or not root.is_dir():
             raise MachineError("workspace must be an existing directory, not a symlink")
