@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0 — 2026-11-09
+
+- Added sparse voxel grids, affine frames, signed Morton ordering, dirty chunks and per-frame upload planning.
+- Added exposed-face surface meshing, Amanatides–Woo ray traversal, sparse octrees and bounded MagicaVoxel VOX v150 interchange.
+- Added sparse voxel graphs, CSR Laplacians, Jacobi-preconditioned conjugate gradients and a bounded Spielman–Srivastava-style spectral sparsifier.
+- Exposed voxel creation, editing, meshing, octree, raycast, spectral and engine-export operations as native SAMBU built-ins.
+- Added starter voxel bridges and compute face-mask kernels for Unity, Unreal Engine, Godot, Bevy 0.20.1 and O3DE, plus generic payload profiles for additional engines.
+- Expanded Anatidae models to cover feather barrier, visual profile, avian air-sac phases, gas exchange, bill filtration, salt balance, flight muscle energetics, flocking, imprinting, sleep vigilance and magnetic-heading assumptions.
+- Added scientific caveats, reference guides, runnable voxel-world example and regression tests.
+
 ## 0.10.0 — 2026-11-09
 
 - Added postfix percentage literals, modulo arithmetic, and checked percentage helpers.
