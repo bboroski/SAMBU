@@ -123,6 +123,20 @@ class GhostLedgerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             GhostLedger.from_json('{"schema_version": 99, "capacity": 2, "records": []}')
 
+    def test_ledger_import_rejects_tampered_fingerprint(self):
+        import json
+
+        ledger = GhostLedger()
+        ledger.record("original failure", source="let x = 1", context="fixture")
+        payload = json.loads(ledger.to_json())
+        payload["records"][0]["message"] = "tampered failure"
+        with self.assertRaisesRegex(ValueError, "fingerprint"):
+            GhostLedger.from_json(json.dumps(payload))
+
+    def test_ledger_schema_rejects_boolean_version(self):
+        with self.assertRaises(ValueError):
+            GhostLedger.from_json('{"schema_version": true, "capacity": 1, "records": []}')
+
 
 class AmplificationEffortTests(unittest.TestCase):
     def test_effort_is_accepted_only_with_improvement_and_all_tests_pass(self):
