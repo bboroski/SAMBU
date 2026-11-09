@@ -79,18 +79,18 @@ Maintained starter bridge source is provided for:
 - Bevy 0.20.1: Rust mesh bridge. Pin the exact Bevy release in the host project; Bevy APIs evolve.
 - Open 3D Engine: renderer-neutral mesh data contract intended for an Atom RPI FeatureProcessor and RHI-managed resources owned by a host Gem.
 
-Additional profiles exist for Flax, Stride, UNIGINE, OGRE and Source 2, but those are payload-only extension targets; their SDK-specific plugin source is not included. No repository can honestly claim a verified native integration for every engine/version/platform combination.
+Additional payload-only profiles exist for Flax, Stride, UNIGINE, OGRE, Source 2, CRYENGINE, Roblox Studio, Babylon.js, Three.js, PlayCanvas, Cocos Creator, Defold, jMonkeyEngine and Panda3D. Their SDK-specific plugins are not included. No repository can honestly claim a verified native integration for every engine/version/platform combination.
 
 See engine adapter source and notes at ../engine_adapters/README.md.
 
 ## GPU compute stages
 
-The included GLSL and Unity HLSL kernels calculate a six-bit exposed-face mask for every occupied voxel. They do not yet allocate geometry. A complete GPU mesher still needs:
-1. prefix-sum/scan over visible face counts;
-2. output range allocation and face vertex/index generation;
-3. material grouping and optional greedy face merging;
-4. per-chunk bounds, LOD selection and indirect draw arguments;
-5. synchronization and resource-lifetime rules for each host engine.
+The included GLSL and Unity HLSL visibility kernels calculate a six-bit exposed-face mask for every occupied voxel. Unity's C# DispatchVisibleFaceMasks() and DispatchCompactVoxelMesher() helpers orchestrate the passes. Unity also has engine_adapters/unity/SambuCompactVoxelMesh.compute, a three-dispatch GPU pipeline:
+1. CountVisibleFaces performs group-local scan and stores per-group face totals.
+2. ScanGroupOffsets computes exclusive offsets and writes indexed-draw arguments.
+3. EmitVisibleFaces writes compact grid-local vertices, normals, uint32 indices and material IDs.
+
+The Unity pass emits two triangles per visible voxel face. It is not a greedy mesher and does not merge adjacent coplanar faces. Output capacity must be bounded/allocated for up to six visible faces per input voxel (or work must be split into smaller chunks). Vulkan/GLSL consumers can use the first visibility pass and port the documented count/scan/emit stages to their compute pipeline; a full shared Vulkan emission kernel is not yet supplied.
 
 Do not read back every voxel or face mask to the CPU each frame. Keep chunk data resident on the GPU where the renderer permits it, and transfer only changed chunk payloads.
 
