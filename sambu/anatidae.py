@@ -28,6 +28,19 @@ def _number(value: object, name: str, *, minimum: float | None = None) -> float:
     return result
 
 
+def _whole(value: object, name: str, minimum: int, maximum: int | None = None) -> int:
+    if isinstance(value, bool):
+        raise TypeError(f"{name} must be an integer")
+    numeric = _number(value, name)
+    if not numeric.is_integer():
+        raise TypeError(f"{name} must be an integer-valued number")
+    result = int(numeric)
+    if result < minimum or (maximum is not None and result > maximum):
+        limit = f" and at most {maximum}" if maximum is not None else ""
+        raise ValueError(f"{name} must be at least {minimum}{limit}")
+    return result
+
+
 def _ratio(value: object, name: str) -> float:
     result = _number(value, name)
     if not 0.0 <= result <= 1.0:
@@ -214,13 +227,10 @@ def _flock_flight_budget(args: list[object]) -> Record:
         raise TypeError("flock_flight_budget(individual_power, duration, bird_count, leader_count, follower_saving_fraction) expects 5 arguments")
     power = _positive_quantity(args[0], POWER, "individual flight power")
     duration = _positive_quantity(args[1], TIME, "flight duration", allow_zero=True)
-    bird_count = args[2]
-    leaders = args[3]
-    for value, name in ((bird_count, "bird_count"), (leaders, "leader_count")):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError(f"{name} must be an integer")
-    if bird_count < 1 or not 1 <= leaders <= bird_count:
-        raise ValueError("require bird_count >= 1 and 1 <= leader_count <= bird_count")
+    bird_count = _whole(args[2], "bird_count", 1)
+    leaders = _whole(args[3], "leader_count", 1)
+    if leaders > bird_count:
+        raise ValueError("leader_count cannot exceed bird_count")
     saving = _ratio(args[4], "follower saving fraction")
     baseline = power * duration * bird_count
     saved = power * duration * (bird_count - leaders) * saving
@@ -278,9 +288,7 @@ def _imprinting_window(args: list[object]) -> Record:
 def _hemispheric_sleep_budget(args: list[object]) -> Record:
     if len(args) != 3:
         raise TypeError("hemispheric_sleep_budget(flock_size, edge_bird_fraction, vigilant_hemisphere_fraction) expects 3 arguments")
-    flock_size = args[0]
-    if isinstance(flock_size, bool) or not isinstance(flock_size, int) or flock_size < 1:
-        raise ValueError("flock_size must be a positive integer")
+    flock_size = _whole(args[0], "flock_size", 1)
     edge_fraction = _ratio(args[1], "edge bird fraction")
     vigilant = _ratio(args[2], "vigilant hemisphere fraction")
     edge_count = min(flock_size, round(flock_size * edge_fraction))
@@ -313,9 +321,7 @@ def _digestive_grinding(args: list[object]) -> Record:
         raise TypeError("digestive_grinding(particle_size, grinding_ratio, passes) expects 3 arguments")
     particle = _number(args[0], "particle size", minimum=0.0)
     reduction = _ratio(args[1], "per-pass size reduction")
-    passes = args[2]
-    if isinstance(passes, bool) or not isinstance(passes, int) or not 0 <= passes <= 100:
-        raise ValueError("passes must be an integer from 0 to 100")
+    passes = _whole(args[2], "passes", 0, 100)
     remaining = particle * ((1.0-reduction) ** passes)
     return Record({
         "initial_particle_size": particle,
@@ -331,9 +337,7 @@ def _avian_air_sac_cycle(args: list[object]) -> Record:
     if len(args) != 3:
         raise TypeError("avian_air_sac_cycle(inspired_volume, air_sac_count, parabronchial_transfer_fraction) expects 3 arguments")
     volume = _number(args[0], "inspired air volume", minimum=0.0)
-    count = args[1]
-    if isinstance(count, bool) or not isinstance(count, int) or not 5 <= count <= 14:
-        raise ValueError("air_sac_count must be an explicitly supplied integer from 5 to 14")
+    count = _whole(args[1], "air_sac_count", 5, 14)
     transfer = _ratio(args[2], "parabronchial transfer fraction")
     lung_volume = volume * transfer
     phases = [
