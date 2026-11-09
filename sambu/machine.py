@@ -455,7 +455,7 @@ class CodeSampler:
                     excerpt = (
                         encoded_excerpt[:MAX_SAMPLE_EXCERPT_BYTES]
                         .decode("utf-8", errors="ignore")
-                        + "\\n… <sample truncated>"
+                        + "\n… <sample truncated>"
                     )
                 all_samples.append(CodeSample(
                     relative,
