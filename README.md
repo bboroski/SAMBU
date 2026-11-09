@@ -236,7 +236,8 @@ tests/              # Regression and contract tests
 
 | Guide | Focus |
 |---|---|
-| [Language reference](docs/LANGUAGE.md) | Syntax, runtime, AST and OOP |
+| [Language reference](docs/LANGUAGE.md) | Implemented syntax, runtime, AST and OOP |
+| [Language evolution](docs/LANGUAGE_EVOLUTION.md) | Typed compiler, ownership, concurrency, native targets and 101 consolidated contracts |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
 | [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
