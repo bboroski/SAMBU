@@ -34,7 +34,7 @@ The C# bridge expands 5-byte transfer records to an 8-byte structured GPU record
 6. For large scenes, add greedy meshing, LOD, async upload and GPU-driven indirect draws in the host engine.
 6. Keep physics/collision meshes at a lower update rate and resolution than render geometry.
 
-The GLSL kernel marks exposed faces. Unity additionally includes a three-dispatch HLSL path: per-group visible-face counts, a group-offset prefix scan, then compact vertex/index/material emission with indexed-draw arguments. This is a simple face mesher, not greedy meshing; allocate output capacity for up to six visible faces per voxel (or use a bounded chunk budget). The CPU build_surface_mesh() remains the reference face-culling path.
+The GLSL kernel marks exposed faces. Unity additionally includes a three-dispatch HLSL path: per-group visible-face counts, a group-offset prefix scan, then compact vertex/index/material emission with indexed-draw arguments. This is a simple face mesher, not greedy meshing; allocate output capacity for up to six visible faces per voxel (or use a bounded chunk budget). The CPU build_surface_mesh() remains the reference face-culling path. It enforces a max_faces allocation ceiling; large scenes should be processed chunk by chunk or through the Unity GPU path.
 
 ## Engine notes
 
