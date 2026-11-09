@@ -3,9 +3,9 @@
 # SAMBU
 ### Statistical Analysis & Modeling with Boltzmann Utilities
 
-[![Status: 0.6.0-alpha](https://img.shields.io/badge/status-0.6.0--alpha-informational?style=flat-square&color=3b82f6)]()
+[![Status: 0.7.0-alpha](https://img.shields.io/badge/status-0.7.0--alpha-informational?style=flat-square&color=3b82f6)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-success?style=flat-square)]()
-[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue?style=flat-square)]()
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)]()
 
 *An experimental interpreted language for scientific computation, explicit systems modeling, and enterprise architecture blueprints.*
 
@@ -30,8 +30,11 @@
 * **Deterministic Systems & Domains:** Networks, influence propagation, negotiation, allocation, funnels, A/B screening, schedules, attendance, and unit economics.
 * **Commerce & Queue Planning:** `queue_profile`, `retry_schedule`, `idempotency_key`, `order_pipeline`, community offers, and territory control.
 * **Game Rules & Diagnostics:** Deterministic states for Rock-Paper-Scissors and Tic-Tac-Toe, alongside a public AST and error diagnostic API (`tokenize`, `parse`, `parse_ast`).
+* **Text Craft Diagnostics:** Unicode-aware text metrics, approximate syllable counts, rhyme-tail grouping, line-level prosody, and alliteration analysis.
 
 ---
+
+Text analysis is deterministic and non-destructive: it reports patterns without rewriting a draft or judging literary quality. See `docs/text_craft.md` and `examples/text_craft.sambu` for the text-craft layer.
 
 ## 🚀 Quick Start
 
