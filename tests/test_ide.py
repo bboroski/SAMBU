@@ -33,7 +33,7 @@ class Duck {
     def test_unencodable_document_text_is_rejected_cleanly(self):
         ide = SambuIDE()
         with self.assertRaisesRegex(ValueError, "UTF-8"):
-            ide.open_document("untitled:unicode", "\\ud800", version=1)
+            ide.open_document("untitled:unicode", "\ud800", version=1)
 
     def test_syntax_errors_become_source_diagnostics(self):
         ide = SambuIDE()
