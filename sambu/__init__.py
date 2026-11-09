@@ -1,6 +1,6 @@
 """SAMBU language public API."""
 
-__version__ = "0.4.0"
+__version__ = "0.6.0"
 
 from .interpreter import execute  # noqa: F401
 from .lexer import SambuSyntaxError, Token, tokenize  # noqa: F401
