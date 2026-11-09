@@ -50,6 +50,13 @@ def _positive_int(value: int, name: str, *, maximum: int) -> int:
     return value
 
 
+def _seed(value: int) -> int:
+    if (isinstance(value, bool) or not isinstance(value, int)
+            or value < -(2 ** 63) or value > (2 ** 64 - 1)):
+        raise ValueError("seed must be a signed/unsigned 64-bit integer")
+    return value
+
+
 def _non_empty(value: str, name: str, *, limit: int = 512) -> str:
     if not isinstance(value, str) or not value.strip() or len(value) > limit:
         raise ValueError(f"{name} must be a non-empty string of at most {limit} characters")
@@ -119,6 +126,8 @@ class ResourceBudget:
             values[name] = min(requested, allowed)
             if requested > allowed:
                 clipped.append(name)
+        if not isinstance(maximum, ResourceBudget):
+            raise TypeError("maximum must be a ResourceBudget")
         return ResourceBudget(**values), tuple(clipped)
 
 
@@ -142,8 +151,7 @@ class TaskManifest:
         object.__setattr__(self, "risk", _risk(self.risk))
         if not isinstance(self.budget, ResourceBudget):
             raise TypeError("budget must be a ResourceBudget")
-        if isinstance(self.seed, bool) or not isinstance(self.seed, int):
-            raise TypeError("seed must be an integer")
+        object.__setattr__(self, "seed", _seed(self.seed))
 
 
 @dataclass(frozen=True, slots=True)
@@ -169,6 +177,8 @@ class AutonomyPolicy:
         protected = tuple(_non_empty(p, "protected path", limit=256) for p in self.protected_paths)
         if not isinstance(self.maximum_budget, ResourceBudget):
             raise TypeError("maximum_budget must be a ResourceBudget")
+        if isinstance(self.protected_paths, (str, bytes)):
+            raise TypeError("protected_paths must be an iterable of repository paths")
         object.__setattr__(self, "allowed_capabilities", caps)
         object.__setattr__(self, "maximum_autonomous_risk", _risk(self.maximum_autonomous_risk))
         object.__setattr__(self, "allowed_change_roots", roots)
@@ -214,6 +224,10 @@ class ChangeProposal:
             raise ValueError("a proposal must name at least one changed path")
         object.__setattr__(self, "changed_paths", paths)
         object.__setattr__(self, "risk", _risk(self.risk))
+        if isinstance(self.required_tests, (str, bytes)):
+            raise TypeError("required_tests must be an iterable of test identifiers")
+        if isinstance(self.evidence_refs, (str, bytes)):
+            raise TypeError("evidence_refs must be an iterable of evidence identifiers")
         object.__setattr__(self, "required_tests", tuple(
             _non_empty(x, "required test", limit=256) for x in self.required_tests
         ))
@@ -285,8 +299,7 @@ class ExperimentLedger:
         if not isinstance(input_digest, str) or not _SHA256_RE.fullmatch(input_digest):
             raise ValueError("input_digest must be a lowercase SHA-256 hex digest")
         evidence = tuple(_names(evidence_refs, "evidence reference"))
-        if isinstance(seed, bool) or not isinstance(seed, int):
-            raise TypeError("seed must be an integer")
+        seed = _seed(seed)
         outcome_json = _canonical_json(outcome)
         previous = self._records[-1].digest if self._records else _ZERO_DIGEST
         payload = {
@@ -350,8 +363,12 @@ class SambuMachine:
         *,
         ledger: ExperimentLedger | None = None,
     ):
-        self.policy = policy or AutonomyPolicy()
-        self.ledger = ledger or ExperimentLedger()
+        if policy is not None and not isinstance(policy, AutonomyPolicy):
+            raise TypeError("policy must be an AutonomyPolicy")
+        if ledger is not None and not isinstance(ledger, ExperimentLedger):
+            raise TypeError("ledger must be an ExperimentLedger")
+        self.policy = policy if policy is not None else AutonomyPolicy()
+        self.ledger = ledger if ledger is not None else ExperimentLedger()
 
     def plan(self, manifest: TaskManifest) -> ExecutionPlan:
         if not isinstance(manifest, TaskManifest):
@@ -371,8 +388,22 @@ class SambuMachine:
             "name": manifest.name,
             "purpose": manifest.purpose,
             "risk": manifest.risk.value,
+            "seed": manifest.seed,
             "requested_capabilities": tuple(sorted(manifest.capabilities)),
             "granted_capabilities": granted,
+            "requested_budget": {
+                "max_steps": manifest.budget.max_steps,
+                "max_messages": manifest.budget.max_messages,
+                "max_payload_bytes": manifest.budget.max_payload_bytes,
+                "max_retries": manifest.budget.max_retries,
+            },
+            "policy_maximum_budget": {
+                "max_steps": self.policy.maximum_budget.max_steps,
+                "max_messages": self.policy.maximum_budget.max_messages,
+                "max_payload_bytes": self.policy.maximum_budget.max_payload_bytes,
+                "max_retries": self.policy.maximum_budget.max_retries,
+            },
+            "policy_maximum_risk": self.policy.maximum_autonomous_risk.value,
             "budget": {
                 "max_steps": effective.max_steps,
                 "max_messages": effective.max_messages,
