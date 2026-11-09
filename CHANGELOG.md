@@ -7,6 +7,8 @@
 - Added sparse voxel graphs, CSR Laplacians, Jacobi-preconditioned conjugate gradients and a bounded Spielman–Srivastava-style spectral sparsifier.
 - Exposed voxel creation, editing, meshing, octree, raycast, spectral and engine-export operations as native SAMBU built-ins.
 - Added starter voxel bridges and compute face-mask kernels for Unity, Unreal Engine, Godot, Bevy 0.20.1 and O3DE, plus generic payload profiles for additional engines.
+- Added Unity's three-dispatch GPU face-count, prefix-scan and compact mesh-emission pipeline with indirect indexed-draw arguments.
+- Expanded the portable engine profile registry to CRYENGINE, Roblox Studio, Babylon.js, Three.js, PlayCanvas, Cocos Creator, Defold, jMonkeyEngine, Panda3D, Flax, Stride, UNIGINE, OGRE and Source 2 (payload-only profiles).
 - Expanded Anatidae models to cover feather barrier, visual profile, avian air-sac phases, gas exchange, bill filtration, salt balance, flight muscle energetics, flocking, imprinting, sleep vigilance and magnetic-heading assumptions.
 - Added scientific caveats, reference guides, runnable voxel-world example and regression tests.
 
