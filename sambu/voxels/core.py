@@ -275,7 +275,12 @@ class SparseVoxelGrid:
 
     def iter_voxels(self, *, morton_order: bool = False) -> Iterator[tuple[Coord, int]]:
         if morton_order:
-            for coord in sorted(self._voxels, key=lambda p: encode_morton3(*p)):
+            def key(position: Coord):
+                try:
+                    return (0, encode_morton3(*position))
+                except ValueError:
+                    return (1, position)
+            for coord in sorted(self._voxels, key=key):
                 yield coord, self._voxels[coord]
         else:
             for coord in sorted(self._voxels):
