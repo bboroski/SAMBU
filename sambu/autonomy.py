@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from enum import Enum
 import hashlib
 import json
-import math
 import re
 from typing import Iterable, Mapping
 from pathlib import PurePosixPath
