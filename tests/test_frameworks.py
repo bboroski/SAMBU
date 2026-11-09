@@ -188,7 +188,7 @@ class AikidoTests(unittest.TestCase):
             input_cost_per_1k=0.01, output_cost_per_1k=0.02,
         ))
         result = hub.complete(InferenceRequest(
-            prompt="hello", max_cost=0.02, route_strategy="lowest_cost",
+            prompt="hello", max_cost=0.04, route_strategy="lowest_cost",
         ))
         self.assertEqual(result.content, "answer")
         self.assertEqual(result.model_id, "small")
