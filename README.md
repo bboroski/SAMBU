@@ -6,7 +6,7 @@ Its scientific core includes SI-aware quantities, dimensional validation, Maxwel
 
 **Neo-Modern Diplomat** is the architectural direction: one coherent language for physical models, business processes, infrastructure plans, and domain-specific execution adapters. Magento / Adobe Commerce is the first enterprise-commerce reference domain, not a hard-coded dependency of the language runtime.
 
-> **Status:** 0.3.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Commerce functions currently validate and calculate architecture plans; they do not connect to external services.
+> **Status:** 0.4.0 — experimental alpha. SAMBU is an interpreter and modeling toolkit, not a Magento module, RabbitMQ client, production checkout replacement, symbolic algebra system, or validated computational-physics package. Commerce functions currently validate and calculate architecture plans; they do not connect to external services.
 
 ## Quick start
 
@@ -52,6 +52,8 @@ These primitives help make worker concurrency, retry timing, dead-letter routing
 - Statistical-mechanics functions: `thermal_energy`, `maxwell`, `boltzmann`, `partition`, `entropy`, and `sample_maxwell`.
 - Systems functions: networks, influence propagation, negotiation, allocation, funnels, A/B screening, schedules, attendance, and unit economics.
 - Commerce planning functions: `queue_profile`, `retry_schedule`, and `idempotency_key`.
+- Source-aware lexer and parser diagnostics with stable codes and end-exclusive token spans.
+- Public `SourcePosition`, `SourceSpan`, `Token`, `SambuSyntaxError`, `tokenize`, and `parse` interfaces; legacy tuple AST output remains unchanged.
 
 ## IDE direction
 
@@ -69,7 +71,7 @@ docs/        language, domain, commerce and IDE specifications
 
 ## Roadmap
 
-1. Stabilize the grammar, typed intermediate representation, diagnostics, and public API.
+1. Add node-level AST spans and a typed intermediate representation on top of the new token-span and diagnostic API.
 2. Add a language-server protocol implementation and editor integration.
 3. Add REPL plotting and execution tracing without weakening deterministic CLI behavior.
 4. Build opt-in Magento adapters as separate packages, with explicit version compatibility and integration tests.
