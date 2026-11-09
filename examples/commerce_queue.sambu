@@ -1,0 +1,17 @@
+# SAMBU Commerce queue planning — architecture model, not a live broker connection
+let queue = queue_profile("heavy_orders", 4, 8, 3, true)
+let delays = retry_schedule(4, 2, 2, 30)
+let key = idempotency_key("checkout", "cart-42")
+
+print("queue:")
+print(queue.name)
+print("maximum in-flight messages:")
+print(queue.max_in_flight)
+print("maximum processing attempts:")
+print(queue.max_attempts)
+print("dead-letter destination:")
+print(queue.dead_letter_queue)
+print("retry delays in seconds:")
+print(delays)
+print("stable operation key:")
+print(key)

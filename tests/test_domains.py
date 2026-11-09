@@ -148,5 +148,27 @@ print(economics.contribution_after_acquisition)''')
             execute("return 42")
 
 
+    def test_commerce_queue_profile_and_dead_letter_route(self):
+        _, output = self.run_sambu('''let queue = queue_profile("heavy_orders", 4, 8, 3, true)
+print(queue.max_in_flight)
+print(queue.max_attempts)
+print(queue.dead_letter_queue)''')
+        self.assertEqual(output, ["32", "4", "heavy_orders.dlq"])
+
+    def test_commerce_retry_schedule_and_idempotency_key(self):
+        _, output = self.run_sambu('''let delays = retry_schedule(5, 2, 2, 10)
+print(delays)
+print(idempotency_key("checkout", "cart-42"))''')
+        self.assertEqual(output, ["[2, 4, 8, 10]", "checkout:cart-42"])
+
+    def test_commerce_queue_primitives_reject_unsafe_configuration(self):
+        with self.assertRaises(ValueError):
+            execute('queue_profile("Bad Queue", 4, 8, 3, true)')
+        with self.assertRaises(ValueError):
+            execute("retry_schedule(4, 2, 0.5, 10)")
+        with self.assertRaises(ValueError):
+            execute('idempotency_key("checkout", "")')
+
+
 if __name__ == "__main__":
     unittest.main()

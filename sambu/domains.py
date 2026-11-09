@@ -344,6 +344,68 @@ def unit_economics(args: list[object]):
     })
 
 
+# Commerce queue-planning primitives. These model configuration; they do not
+# connect to RabbitMQ or execute Magento checkout operations.
+_QUEUE_NAME = re.compile(r"^[a-z][a-z0-9_.-]{0,62}$")
+
+
+def queue_profile(args: list[object]):
+    """Describe a bounded worker pool and its dead-letter destination."""
+    from .values import Record
+    _arity(args, {5}, "queue_profile(name, workers, prefetch, retry_limit, dead_letter_enabled)")
+    name, workers, prefetch, retry_limit, dead_letter = args
+    if not isinstance(name, str) or not _QUEUE_NAME.fullmatch(name):
+        raise ValueError("queue name must be 1-63 lowercase letters, digits, dots, underscores or hyphens")
+    workers = _integer(workers, "worker count", 1, 256)
+    prefetch = _integer(prefetch, "prefetch", 1, 1000)
+    retry_limit = _integer(retry_limit, "retry limit", 0, 100)
+    if not isinstance(dead_letter, bool):
+        raise TypeError("dead_letter_enabled must be true or false")
+    return Record({
+        "name": name,
+        "workers": workers,
+        "prefetch": prefetch,
+        "max_in_flight": workers * prefetch,
+        "retry_limit": retry_limit,
+        "max_attempts": retry_limit + 1,
+        "dead_letter_enabled": dead_letter,
+        "dead_letter_queue": name + ".dlq" if dead_letter else None,
+    })
+
+
+def retry_schedule(args: list[object]):
+    """Return capped exponential retry delays in seconds (excluding the first attempt)."""
+    _arity(args, {4}, "retry_schedule(max_attempts, initial_delay, multiplier, max_delay)")
+    attempts = _integer(args[0], "maximum attempts", 1, 21)
+    initial = _nonnegative(args[1], "initial retry delay")
+    multiplier = number_value(args[2], "retry multiplier")
+    maximum = _nonnegative(args[3], "maximum retry delay")
+    if initial <= 0 or maximum <= 0:
+        raise ValueError("initial and maximum retry delays must be positive")
+    if multiplier < 1:
+        raise ValueError("retry multiplier must be at least 1")
+    delays = []
+    delay = initial
+    for _ in range(attempts - 1):
+        delay = min(delay, maximum)
+        delays.append(delay)
+        delay = min(delay * multiplier, maximum)
+    return delays
+
+
+def idempotency_key(args: list[object]) -> str:
+    """Build a stable namespaced key; callers must still persist and enforce uniqueness."""
+    _arity(args, {2}, "idempotency_key(scope, identifier)")
+    scope, identifier = args
+    if not isinstance(scope, str) or not isinstance(identifier, str):
+        raise TypeError("idempotency_key arguments must be strings")
+    if not scope.strip() or not identifier.strip():
+        raise ValueError("idempotency key scope and identifier cannot be empty")
+    if len(scope) > 64 or len(identifier) > 128:
+        raise ValueError("idempotency key parts exceed their length limits")
+    return scope.strip() + ":" + identifier.strip()
+
+
 DOMAIN_BUILTINS = {
     "network": network,
     "network_metrics": network_metrics,
@@ -358,4 +420,7 @@ DOMAIN_BUILTINS = {
     "channel_metrics": channel_metrics,
     "package_pricing": package_pricing,
     "unit_economics": unit_economics,
+    "queue_profile": queue_profile,
+    "retry_schedule": retry_schedule,
+    "idempotency_key": idempotency_key,
 }

@@ -62,3 +62,14 @@ Nodes are unique strings. Each directed edge is `[source, target]` or `[source, 
 - A/B inference is approximate and assumes independent Bernoulli observations.
 - Network influence scores are illustrative and are not evidence of actual political, social, or commercial influence.
 - No CRM, VOIP, payment-terminal, ticketing, calendar, or social-platform API is connected.
+
+
+## Commerce queue planning (0.3)
+
+SAMBU 0.3 adds deterministic planning primitives for asynchronous commerce workflows. They describe configuration and calculate bounded retry / concurrency values; they do not connect to Magento, RabbitMQ, a database, or a payment provider.
+
+- `queue_profile(name, workers, prefetch, retry_limit, dead_letter_enabled)` validates a queue identifier and worker settings. It returns `max_in_flight = workers * prefetch`, `max_attempts = retry_limit + 1`, and an optional `name + ".dlq"` destination. This is a capacity estimate, not measured throughput.
+- `retry_schedule(max_attempts, initial_delay, multiplier, max_delay)` returns capped exponential retry delays in seconds. The first attempt is not included; for four attempts, the array contains three retry delays. Jitter is intentionally left to the transport adapter.
+- `idempotency_key(scope, identifier)` returns a stable namespaced string. It does not persist a uniqueness constraint or prevent duplicate side effects by itself.
+
+For the recommended Magento / Adobe Commerce boundaries, message envelope, outbox pattern, inventory and payment ordering, retry classification, dead-letter operations, and deployment considerations, see [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md).
