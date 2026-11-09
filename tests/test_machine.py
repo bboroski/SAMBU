@@ -104,6 +104,18 @@ class CodeSamplerTests(unittest.TestCase):
             with self.assertRaisesRegex(CodeSamplingError, "total bytes"):
                 sampler.sample(root, denominator=100)
 
+    def test_sample_excerpt_is_exact_and_byte_bounded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "long.sambu"
+            path.write_text('let label = "' + ("x" * 50_000) + '"', encoding="utf-8")
+            report = CodeSampler().sample(path)
+            self.assertEqual(report.statements_sampled, 1)
+            self.assertLessEqual(
+                len(report.samples[0].excerpt.encode("utf-8")),
+                8_192 + len("\\n… <sample truncated>".encode("utf-8")),
+            )
+            self.assertTrue(report.samples[0].excerpt.startswith("let label = "))
+
 
 class GhostLedgerTests(unittest.TestCase):
     def test_ghosts_are_deduplicated_redacted_and_roundtrip(self):
