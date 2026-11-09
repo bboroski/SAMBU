@@ -40,7 +40,7 @@ class ResourceBudgetTests(unittest.TestCase):
             max_retries=1,
         ))
         self.assertEqual(
-            clipped, ("max_payload_bytes", "max_retries", "max_steps")
+            clipped, ("max_steps", "max_payload_bytes", "max_retries")
         )
 
     def test_boolean_values_are_not_accepted_as_integer_budgets(self):
@@ -131,7 +131,18 @@ class ExperimentLedgerTests(unittest.TestCase):
             seed=17,
         )
 
-        self.assertEqual(first.digest, second.digest)
+        independent = ExperimentLedger()
+        same_first = independent.record(
+            "bounded scheduler preserves FIFO order",
+            "fifo-regression",
+            fingerprint({"tasks": ["a", "b"]}),
+            {"order": ["a", "b"], "passed": True},
+            ("tests/test_concurrency.py::test_fifo",),
+            seed=17,
+        )
+
+        self.assertEqual(first.digest, same_first.digest)
+        self.assertNotEqual(first.digest, second.digest)
         self.assertEqual(second.sequence, 2)
         self.assertEqual(second.previous_digest, first.digest)
         self.assertTrue(machine.ledger.verify())
