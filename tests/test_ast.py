@@ -84,22 +84,20 @@ class TypedAstTests(unittest.TestCase):
 
 
     def test_class_and_field_assignment_have_typed_spans_and_legacy_form(self):
-        source = (
-            "class Counter {\\n"
-            "  fn init(self, start) { self.value = start }\\n"
-            "  fn read(self) { return self.value }\\n"
-            "}\\n"
-            "let counter = Counter(3)"
-        )
+        source = """class Counter {
+  fn init(self, start) { self.value = start }
+  fn read(self) { return self.value }
+}
+let counter = Counter(3)"""
         program = parse_ast(source)
         declaration = program.statements[0]
         self.assertIsInstance(declaration, ClassStatement)
         self.assertEqual(
             source[declaration.span.start.offset:declaration.span.end.offset],
-            "class Counter {\\n"
-            "  fn init(self, start) { self.value = start }\\n"
-            "  fn read(self) { return self.value }\\n"
-            "}",
+            """class Counter {
+  fn init(self, start) { self.value = start }
+  fn read(self) { return self.value }
+}""",
         )
         assignment = declaration.methods[0].body[0]
         self.assertIsInstance(assignment, SetFieldStatement)
