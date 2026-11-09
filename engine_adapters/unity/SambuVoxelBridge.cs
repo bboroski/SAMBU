@@ -38,6 +38,41 @@ namespace Sambu.Voxels
         }
 
         /// <summary>
+        /// Builds six-bit exposed-face masks for one chunk-local occupancy texture.
+        /// Dispatch this before DispatchCompactVoxelMesher.
+        /// </summary>
+        public static int DispatchVisibleFaceMasks(
+            ComputeShader shader,
+            Texture occupancy,
+            int width,
+            int height,
+            int depth,
+            int cellCount,
+            GraphicsBuffer cells,
+            GraphicsBuffer faceMasks)
+        {
+            if (shader == null) throw new ArgumentNullException(nameof(shader));
+            if (occupancy == null) throw new ArgumentNullException(nameof(occupancy));
+            if (width < 1 || height < 1 || depth < 1 || cellCount < 0)
+                throw new ArgumentOutOfRangeException("Voxel dimensions and cellCount must be non-negative.");
+            if (cells == null || faceMasks == null)
+                throw new ArgumentNullException("Cell and face-mask buffers are required.");
+            if (cells.count < cellCount || faceMasks.count < cellCount)
+                throw new ArgumentException("Input cell and face-mask buffers are too small.");
+
+            if (cellCount == 0) return 0;
+            int kernel = shader.FindKernel("BuildVisibleFaces");
+            shader.SetTexture(kernel, "_Occupancy", occupancy);
+            shader.SetBuffer(kernel, "_Cells", cells);
+            shader.SetBuffer(kernel, "_FaceMasks", faceMasks);
+            shader.SetInts("_Dimensions", width, height, depth);
+            shader.SetInt("_CellCount", cellCount);
+            int groups = (cellCount + 63) / 64;
+            shader.Dispatch(kernel, groups, 1, 1);
+            return groups;
+        }
+
+        /// <summary>
         /// Dispatches count -> group-prefix-scan -> face emission. Output buffers must
         /// have capacity for the worst case of six exposed faces per input voxel.
         /// All compute dispatches stay on the GPU; no synchronous readback is performed.
