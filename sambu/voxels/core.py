@@ -399,22 +399,36 @@ class SparseVoxelGrid:
     def from_dict(cls, data: Mapping[str, object], *, max_voxels: int = _MAX_VOXELS) -> "SparseVoxelGrid":
         if data.get("schema") != "sambu.voxel_grid.v1":
             raise ValueError("unsupported voxel grid schema")
+        if isinstance(max_voxels, bool) or not isinstance(max_voxels, int) or not 1 <= max_voxels <= _MAX_VOXELS:
+            raise ValueError(f"max_voxels must be an integer from 1 to {_MAX_VOXELS:,}")
         frame_data = data.get("frame")
         if not isinstance(frame_data, Mapping):
             raise ValueError("voxel grid frame must be an object")
+        voxel_size = frame_data.get("voxel_size", 1.0)
+        if isinstance(voxel_size, bool) or not isinstance(voxel_size, (int, float)):
+            raise TypeError("frame voxel_size must be a number")
+        axes_data = frame_data.get("axes", ((1,0,0),(0,1,0),(0,0,1)))
+        if not isinstance(axes_data, (tuple, list)):
+            raise TypeError("frame axes must be a 3x3 array")
         frame = VoxelFrame(
             origin=tuple(frame_data.get("origin", (0,0,0))),  # type: ignore[arg-type]
-            voxel_size=float(frame_data.get("voxel_size", 1.0)),
-            axes=tuple(tuple(row) for row in frame_data.get("axes", ((1,0,0),(0,1,0),(0,0,1)))),  # type: ignore[arg-type]
+            voxel_size=float(voxel_size),
+            axes=tuple(tuple(row) for row in axes_data),  # type: ignore[arg-type]
         )
-        grid = cls(frame=frame, chunk_size=int(data.get("chunk_size", 16)), max_voxels=max_voxels)
+        chunk_size = data.get("chunk_size", 16)
+        if isinstance(chunk_size, bool) or not isinstance(chunk_size, int):
+            raise TypeError("chunk_size in voxel JSON must be an integer")
+        grid = cls(frame=frame, chunk_size=chunk_size, max_voxels=max_voxels)
         voxels = data.get("voxels")
         if not isinstance(voxels, list) or len(voxels) > max_voxels:
             raise ValueError(f"voxels must be an array with at most {max_voxels:,} items")
         for entry in voxels:
             if not isinstance(entry, Mapping):
                 raise ValueError("voxel entries must be objects")
-            grid.set_voxel(int(entry["x"]), int(entry["y"]), int(entry["z"]), int(entry["material"]))
+            values = (entry.get("x"), entry.get("y"), entry.get("z"), entry.get("material"))
+            if any(isinstance(value, bool) or not isinstance(value, int) for value in values):
+                raise TypeError("voxel coordinates and material IDs in JSON must be integers")
+            grid.set_voxel(values[0], values[1], values[2], values[3])
         grid._dirty_chunks.clear()
         return grid
 
