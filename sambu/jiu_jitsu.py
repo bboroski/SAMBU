@@ -144,6 +144,42 @@ class ViewNode:
 
 
 @dataclass(frozen=True, slots=True)
+class DualActionButton:
+    """Renderer-neutral button exposing two explicitly named action paths."""
+
+    identifier: str
+    label: str
+    primary_action: str
+    secondary_action: str
+    default_intent: str = "primary"
+    primary_label: str | None = None
+    secondary_label: str | None = None
+
+    def __post_init__(self) -> None:
+        if not all(value.strip() for value in (
+            self.identifier, self.label, self.primary_action, self.secondary_action,
+        )):
+            raise ValueError("dual-action button identifiers, labels, and actions are required")
+        if self.primary_action == self.secondary_action:
+            raise ValueError("dual-action button actions must be distinct")
+        if self.default_intent not in {"primary", "secondary"}:
+            raise ValueError("default_intent must be 'primary' or 'secondary'")
+
+    def to_node(self) -> ViewNode:
+        return ViewNode(
+            self.identifier, "dual_action_button",
+            {
+                "label": self.label,
+                "default_intent": self.default_intent,
+                "actions": {
+                    "primary": {"name": self.primary_action, "label": self.primary_label or self.primary_action},
+                    "secondary": {"name": self.secondary_action, "label": self.secondary_label or self.secondary_action},
+                },
+            },
+        )
+
+
+@dataclass(frozen=True, slots=True)
 class ViewDefinition:
     route: str
     title: str
@@ -204,6 +240,7 @@ class ViewController:
             raise ValueError("controller name cannot be empty")
         self.name = name
         self._actions: dict[str, tuple[ActionHandler, str | None]] = {}
+        self._dual_actions: dict[str, dict[str, tuple[ActionHandler, str | None]]] = {}
 
     def action(
         self,
@@ -214,9 +251,29 @@ class ViewController:
     ) -> "ViewController":
         if not name.strip():
             raise ValueError("action name cannot be empty")
-        if name in self._actions:
+        if name in self._actions or name in self._dual_actions:
             raise ValueError(f"action {name!r} is already registered")
         self._actions[name] = (handler, permission)
+        return self
+
+    def dual_action(
+        self,
+        name: str,
+        primary: ActionHandler,
+        secondary: ActionHandler,
+        *,
+        primary_permission: str | None = None,
+        secondary_permission: str | None = None,
+    ) -> "ViewController":
+        """Register two separately authorized branches under one UI action ID."""
+        if not name.strip():
+            raise ValueError("dual action name cannot be empty")
+        if name in self._actions or name in self._dual_actions:
+            raise ValueError(f"action {name!r} is already registered")
+        self._dual_actions[name] = {
+            "primary": (primary, primary_permission),
+            "secondary": (secondary, secondary_permission),
+        }
         return self
 
     def dispatch(
@@ -225,15 +282,26 @@ class ViewController:
         context: ControllerContext,
         payload: Mapping[str, object] | None = None,
     ) -> object:
-        try:
-            handler, permission = self._actions[action_name]
-        except KeyError as exc:
-            raise JiuJitsuError(
-                f"controller {self.name!r} has no action {action_name!r}"
-            ) from exc
+        body = payload or {}
+        if action_name in self._dual_actions:
+            intent = body.get("intent")
+            if intent not in {"primary", "secondary"}:
+                raise JiuJitsuError(
+                    f"dual action {action_name!r} requires intent 'primary' or 'secondary'"
+                )
+            handler, permission = self._dual_actions[action_name][intent]
+            action_payload = {key: value for key, value in body.items() if key != "intent"}
+        else:
+            try:
+                handler, permission = self._actions[action_name]
+            except KeyError as exc:
+                raise JiuJitsuError(
+                    f"controller {self.name!r} has no action {action_name!r}"
+                ) from exc
+            action_payload = body
         if permission:
             context.require(permission)
-        return handler(context, payload or {})
+        return handler(context, action_payload)
 
 
 class ModalManager:
@@ -379,6 +447,6 @@ class JiuJitsu:
 
 __all__ = [
     "JiuJitsuError", "AccessDenied", "Role", "RoleManager", "ViewNode",
-    "ViewDefinition", "ModalDefinition", "ModalFrame", "ViewSnapshot",
+    "DualActionButton", "ViewDefinition", "ModalDefinition", "ModalFrame", "ViewSnapshot",
     "ControllerContext", "ViewController", "ModalManager", "JiuJitsuApp", "JiuJitsu",
 ]
