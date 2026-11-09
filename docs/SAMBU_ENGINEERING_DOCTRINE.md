@@ -119,7 +119,7 @@ The principle is not “read only one percent and trust the result.” It is a b
 4. Parse each source file. Invalid files fail the sampling operation instead of disappearing from the report.
 5. Rank AST statements by SHA-256 of `seed | relative path | source offset | node kind`.
 6. Select `ceil(statement_count / N)` statements per file, with at least one sample for every non-empty file.
-7. Return source ranges, excerpts and fingerprints.
+7. Return source ranges, exact AST-node excerpts (capped at 8 KiB each) and fingerprints.
 
 The default is `N = 100`, seed `0`. Sampling is stratified per file so a small but important source file is not erased by a large module. The same source, path, seed and ratio produce the same sample.
 
