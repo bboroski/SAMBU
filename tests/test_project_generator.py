@@ -56,6 +56,21 @@ class ProjectGeneratorTests(unittest.TestCase):
             execute((root / "test/posts.sambu").read_text(encoding="utf-8"), output=output.append)
             self.assertEqual(output, ["[title, body]"])
 
+    def test_scaffold_rejects_symlinked_output_directories(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "app"
+            outside = Path(temporary) / "outside"
+            create_project("blog_app", root)
+            outside.mkdir()
+            (root / "app" / "models").rmdir()
+            try:
+                (root / "app" / "models").symlink_to(outside, target_is_directory=True)
+            except (OSError, NotImplementedError):
+                self.skipTest("directory symlinks are unavailable on this platform")
+            with self.assertRaises(ProjectGenerationError):
+                generate_scaffold(root, "Post", ["title:string"])
+            self.assertEqual(list(outside.iterdir()), [])
+
     def test_migration_sequence_increments_without_overwriting(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "app"
