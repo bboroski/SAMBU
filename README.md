@@ -180,6 +180,7 @@ sambu examples/percentages.sambu
 sambu examples/oop_and_games.sambu
 sambu examples/anatidae_biophysics.sambu
 sambu examples/voxel_world.sambu
+sambu examples/supervised_runtime.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
