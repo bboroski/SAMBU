@@ -31,7 +31,7 @@ from .source import SourcePosition, SourceSpan
 _PRECEDENCE = {
     "||": 1, "or": 1,
     "&&": 2, "and": 2,
-    "==": 3, "!=": 3,
+    "==": 3, "!=": 3, "is": 3,
     "<": 4, "<=": 4, ">": 4, ">=": 4,
     "+": 5, "-": 5,
     "*": 6, "/": 6,
