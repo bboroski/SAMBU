@@ -13,6 +13,7 @@ from .voxel_builtins import VOXEL_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 from .ecosystems import ECOSYSTEM_BUILTINS
+from ._version import __version__
 from .concurrency import (
     Actor, ActorStoppedError, MailboxFullError, Supervisor, TypedChannel,
     ChannelEmptyError, ChannelFullError, FiberScheduler, ResourceScope,
@@ -666,7 +667,7 @@ class Interpreter:
         self.env.define("N_A", Quantity(6.02214076e23, (0, 0, 0, 0, -1)))
         self.env.define("R", Quantity(8.31446261815324, (1, 2, -2, -1, -1)))
         self.env.define("G", Quantity(6.67430e-11, (-1, 3, -2, 0, 0)))
-        self.env.define("version", "0.7.0")
+        self.env.define("version", __version__)
         self.env.define("print", _PRINT)
 
     def run(self, statements: list[tuple]) -> object:
