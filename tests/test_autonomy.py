@@ -72,6 +72,23 @@ class SambuMachineTests(unittest.TestCase):
         self.assertEqual(plan.clipped_limits, ("max_steps",))
         self.assertEqual(len(plan.digest), 64)
 
+    def test_policy_can_deny_every_capability_and_change_root(self):
+        policy = AutonomyPolicy(
+            allowed_capabilities=frozenset(),
+            allowed_change_roots=(),
+        )
+        machine = SambuMachine(policy)
+        with self.assertRaises(CapabilityDenied):
+            machine.plan(TaskManifest("no.cap", "No permissions", ("compute",)))
+        result = machine.evaluate_change(ChangeProposal(
+            title="Blocked path",
+            summary="No repository path is allowed.",
+            changed_paths=("sambu/new.py",),
+            required_tests=("python -m unittest",),
+            evidence_refs=("evidence:no-op",),
+        ))
+        self.assertEqual(result.verdict, "rejected")
+
     def test_unknown_or_unapproved_capability_is_denied(self):
         machine = SambuMachine()
         manifest = TaskManifest(
