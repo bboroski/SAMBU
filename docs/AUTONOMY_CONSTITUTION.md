@@ -1,6 +1,6 @@
-# SAMBU Autonomy Constitution — 50 engineering rules
+# SAMBU Autonomy Constitution — 100 engineering rules
 
-**Purpose:** translate the 50 autonomy and compiler-topology rules into an auditable engineering baseline for SAMBU. This document is normative for design review; it does not itself implement a feature.
+**Purpose:** translate 100 autonomy, compiler-topology, refactoring, performance and quality rules into an auditable engineering baseline for SAMBU. This document is normative for design review; it does not itself implement every capability described.
 
 ## Status vocabulary
 
@@ -85,6 +85,82 @@ A status applies to the evidence stated in that row, not to an aspirational inte
 | AUT-48 | Application-to-systems reach | Partial | Scientific, workflow, OOP, voxel and integration models cover application work; native OS, embedded and kernel programming are not supported. | Add capability-scoped FFI, target profiles, no-std core and hardware validation only after ABI and ownership gates. |
 | AUT-49 | Language-level metaprogramming | Planned | Built-ins and Python-side extension points exist, but SAMBU compile-time macros, hygienic expansion and reflection contracts do not. | Add hygienic macros with bounded expansion, provenance spans and compile-time/runtime separation. |
 | AUT-50 | Full bootstrap autonomy | Deferred | SAMBU is interpreted by Python; it cannot yet compile its compiler or maintain its own complete toolchain independently. | Bootstrap in stages: self-hosted lexer/parser, then checker/IR, compiler, package manager and test runner; reproduce builds from a trusted seed. |
+
+
+## Block VI — Structure, decomposition and legacy control
+
+| ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
+|---|---|---|---|---|
+| AUT-51 | Decompose oversized modules | Partial | Runtime functionality is split across lexer, parser, AST, value and domain modules; no enforced module-size or cohesion budget exists. | Add architectural boundaries and reviewable complexity thresholds; split only where cohesion improves. |
+| AUT-52 | Reduce coupling | Partial | Domain libraries are imported through a runtime registry, but several subsystems still depend on common runtime/value internals. | Define narrow protocols and dependency direction; reject cycles in an architecture test. |
+| AUT-53 | Increase cohesion | Partial | Scientific, workflow, voxel and studio code are separated by domain; some modules still combine registration, validation and execution. | Give each module one documented responsibility and measure dependency fan-in/fan-out. |
+| AUT-54 | Consistent domain naming | Partial | Public APIs are predominantly descriptive snake_case; no complete naming registry or automated consistency check exists. | Publish naming conventions and add duplicate/ambiguous API-name checks. |
+| AUT-55 | Eliminate duplicated logic | Partial | Shared value, validation and formatting helpers exist; no whole-repository duplication audit is enforced in CI. | Add focused duplicate-code detection and prove extracted helpers preserve semantics. |
+| AUT-56 | Simplify complex conditionals | Planned | There is no static analyzer that identifies excessive branching or recommends exhaustive matches/state tables. | Introduce CFG complexity diagnostics and safe pattern-matching alternatives. |
+| AUT-57 | Avoid mutable global state | Partial | The interpreter stores per-instance environments; module-level builtin registries are shared and treated as static configuration. | Keep mutable state instance-scoped and test isolation between concurrent interpreter instances. |
+| AUT-58 | Isolate side effects | Planned | Runtime operations and pure domain calculations coexist; there is no language-level effect type separating IO, state and nondeterminism. | Add effect signatures and tests proving pure functions cannot access undeclared capabilities. |
+| AUT-59 | Sanitize public interfaces | Partial | Public syntax, built-ins and docs exist; there is no automated API usage/deprecation report across all modules. | Track exported names, call sites and compatibility windows before removing an API. |
+| AUT-60 | Replace unexplained constants | Partial | Many algorithms expose bounds and defaults, but hard-coded values are not universally catalogued or justified. | Name domain constants, document units/rationale and test configurable limits at boundaries. |
+
+## Block VII — Memory, performance and execution efficiency
+
+| ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
+|---|---|---|---|---|
+| AUT-61 | Minimize runtime allocations | Partial | Sparse voxel and numeric code use compact representations in selected paths; Python object allocation remains fundamental to the interpreter. | Profile allocation hot spots and optimize only with before/after memory and latency measurements. |
+| AUT-62 | Limit heap fragmentation | Partial | CSR and sparse-grid structures avoid some pointer-heavy layouts; there is no SAMBU-owned heap or fragmentation policy. | Add arena/pool allocators only with ownership semantics and fragmentation benchmarks. |
+| AUT-63 | Improve cache locality | Partial | Morton ordering, CSR matrices and chunked voxel data improve locality for selected algorithms; CPU cache placement is not controlled by SAMBU. | Benchmark access traces on named CPU targets before claiming cache improvements. |
+| AUT-64 | Non-blocking async IO | Deferred | No language-level async scheduler or portable async IO runtime exists. | Specify task/cancellation semantics, readiness model, bounded queues and cross-platform conformance first. |
+| AUT-65 | Batch small operations | Partial | Existing tools support chunking, frame budgets and batch planning; the general runtime does not combine arbitrary calls automatically. | Add explicit batch APIs with ordering, atomicity and backpressure contracts. |
+| AUT-66 | Lazy evaluation | Planned | Arrays and function calls are evaluated eagerly; no lazy stream or thunk type with cleanup semantics exists. | Add opt-in lazy values with bounded realization, deterministic cancellation and resource closure. |
+| AUT-67 | Memoize expensive pure work | Planned | No general purity/effect checker exists to make transparent memoization safe; no standard bounded memo table is shipped. | Require pure function signatures, stable keys, eviction bounds and benchmarked hit/miss overhead. |
+| AUT-68 | Early exit on invalid state | Partial | Runtime validators reject invalid inputs before expensive work in many built-ins; this is not a whole-program optimization guarantee. | Add validation-order tests and ensure early exits preserve resource cleanup and typed error context. |
+| AUT-69 | Avoid redundant proxy layers | Partial | Built-ins generally call domain functions directly, but no call-graph pass identifies excess dispatch or wrappers. | Measure call overhead and remove abstractions only when API and observability contracts remain intact. |
+| AUT-70 | Profile hot paths | Partial | Benchmarks exist for voxel and selected workloads; continuous whole-runtime profiling and regression thresholds are not universal. | Add reproducible profiles, representative workloads and noise-tolerant regression budgets. |
+
+## Block VIII — Verification, reliability and fault tolerance
+
+| ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
+|---|---|---|---|---|
+| AUT-71 | Design by contract | Partial | Built-ins validate ranges, units and structural assumptions; no general precondition/postcondition syntax or verifier exists. | Specify contracts and execute them in debug builds and supported static-analysis passes. |
+| AUT-72 | Check every fallible operation | Partial | Runtime errors are surfaced and many adapters validate responses; no compiler enforces exhaustive handling of every failure. | Introduce typed Result flows and reject ignored fallible results in the statically checked subset. |
+| AUT-73 | Preserve class invariants | Partial | Constructors and access controls validate selected OOP conditions; class-wide invariants are not declared or checked after every mutation. | Add explicit invariants with transactional mutation and rollback/error-path tests. |
+| AUT-74 | Fuzz parser and compiler inputs | Planned | Unit and regression suites cover invalid syntax; continuous grammar-aware fuzzing and corpus minimization are not configured. | Add bounded fuzz jobs, saved crash corpus, deterministic reproduction seeds and resource ceilings. |
+| AUT-75 | Run static analyzers before accepting changes | Planned | CI runs tests and targeted project checks, but no mandatory general linter/type checker covers the full codebase. | Gate merges on declared lint, type, security and format checks with reviewed baselines. |
+| AUT-76 | Make setup operations idempotent | Partial | Several workflow planners model idempotency and repeated tests exist; there is no universal idempotency contract for setup APIs. | Add repeated-call tests and explicit idempotency keys for stateful adapters. |
+| AUT-77 | Isolate failures with bulkheads | Planned | Workflow models describe bounded queues and supervised workers; the interpreter has no live supervisor or task isolation layer. | Add supervised process/task boundaries with quotas, cancellation and fault-injection tests. |
+| AUT-78 | Enforce buffer and collection bounds | Partial | Many built-ins impose item, grid, depth and frame budgets; bounds are not generated from one central resource policy. | Centralize configurable limits and fuzz boundary values on all public input paths. |
+| AUT-79 | Audit dependencies and supply chain | Partial | The core declares no third-party runtime package dependency, but builds use Python packaging and CI actions; provenance and advisory automation are incomplete. | Pin and review build tooling, generate an SBOM and verify artifact provenance and dependency advisories. |
+| AUT-80 | Reproduce failures deterministically | Partial | Stable diagnostic codes, test summaries and seeded utilities exist; not all runtime failures capture complete replayable input/environment traces. | Provide opt-in redacted repro bundles with seed, source span, configuration and external-input capture. |
+
+## Block IX — Developer infrastructure and code hygiene
+
+| ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
+|---|---|---|---|---|
+| AUT-81 | Canonical formatting | Planned | The language has documented syntax but no official formatter with idempotence guarantees. | Implement \`sambu fmt\`, stable output and formatter/parser round-trip tests. |
+| AUT-82 | Self-documenting code | Partial | Modules and public APIs have docstrings and guides; comment quality and naming cannot yet be checked systematically. | Require API docs and examples for exports; lint stale and redundant comments rather than banning useful rationale. |
+| AUT-83 | Track technical debt | Planned | TODO/FIXME markers and roadmap items exist without a structured owner, expiry or issue reference policy. | Add a debt registry with owner, risk, expiry and CI warning for overdue entries. |
+| AUT-84 | Test-first feature development | Partial | The repository has broad unit/integration suites and focused regression tests; commit-level TDD chronology is not enforced. | Require a failing regression reproducer for bug fixes and coverage for positive, negative and boundary behavior. |
+| AUT-85 | Reproducible isolated builds | Planned | CI uses clean hosted runners, but there is no pinned hermetic build image or offline toolchain lock. | Produce reproducible artifacts from a digest-pinned build environment and compare normalized outputs. |
+| AUT-86 | Semantic versioning | Partial | Package version and changelog are maintained; pre-1.0 compatibility policy and versioned internal APIs are not fully formalized. | Publish pre-1.0 compatibility promises and enforce release/API change checks. |
+| AUT-87 | Automated syntax migrations | Planned | No version-to-version source migration tool exists. | Add versioned, idempotent codemods with preview, backup and before/after parser validation. |
+| AUT-88 | Reduce false-positive warnings | Planned | No comprehensive static warning engine or suppression taxonomy exists. | Give each warning a rule ID, confidence, evidence and narrow documented suppression mechanism. |
+| AUT-89 | Keep dependency surface small | Partial | No third-party runtime dependencies are declared; the Python host/build chain and GitHub Actions remain explicit toolchain dependencies. | Require a written need, footprint, license and security review for every new dependency. |
+| AUT-90 | Continuous integration and delivery | Partial | GitHub Actions tests several Python versions, web integrations and an engine bridge; releases, deployment and comprehensive performance gates are not automatic. | Add release provenance, artifact publication, staged deployment and non-flaky benchmark gates. |
+
+## Block X — Design philosophy and sustainable evolution
+
+| ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
+|---|---|---|---|---|
+| AUT-91 | Elegant simplicity | Partial | SAMBU favors compact scientific syntax and named domain operations; no formal complexity budget governs new syntax. | Require proposals to show a simpler alternative, semantic cost and migration impact. |
+| AUT-92 | Preserve developer mental models | Partial | Legacy AST conversion and documented syntax preserve selected interfaces; complete language-level compatibility guarantees are not established. | Maintain stable language editions, migration fixtures and compatibility notes. |
+| AUT-93 | Leave code cleaner | Partial | Reviews and tests encourage focused changes; no repository-wide policy enforces cleanup or records architectural drift. | Include cleanup and architecture checks in pull-request review templates and periodic audits. |
+| AUT-94 | Remove obsolete experimental features | Planned | There is no formal experiment lifecycle or feature-removal cadence. | Tag experiments, set review dates and require adoption evidence or a documented retirement path. |
+| AUT-95 | Express mathematics and business rules | Partial | Scientific units, statistical mechanics, workflows and business/domain models coexist; static contracts across them are not universal. | Validate shared types, units, errors and serialization across scientific and application APIs. |
+| AUT-96 | Make common mistakes hard to express | Partial | Immutable bindings, dimension checks and bounded inputs prevent selected errors; static ownership, exhaustive errors and effect checks remain absent. | Expand negative compile-time tests and measure which runtime failures move to static diagnostics. |
+| AUT-97 | Debug at source level | Partial | AST source spans and stable parser/lexer diagnostics exist; no full stepping debugger or source-mapped native stack unwinder exists. | Deliver source breakpoints, stepping, locals, stack traces and backend source maps. |
+| AUT-98 | Evolve from architectural need | Partial | The roadmap is status-labelled and contract-driven; governance does not yet require a written problem statement for every proposal. | Adopt an RFC template with problem, evidence, alternatives, impact and measurable acceptance criteria. |
+| AUT-99 | Teach through the ecosystem | Planned | Documentation and executable examples exist; no integrated interactive tutorial, progressive learning path or persistent REPL is shipped. | Add offline tutorials and a REPL lesson runner with validated expected results. |
+| AUT-100 | Keep architecture coherent | Planned | The 50-rule constitution, 101 low-level contracts and tests provide a start; there is no single versioned architecture conformance report. | Generate one architecture report from rule IDs, code evidence, tests, statuses and outstanding gates. |
 
 ## Dependency and sovereignty boundary
 
