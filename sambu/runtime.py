@@ -8,6 +8,7 @@ from typing import Callable
 from .domains import DOMAIN_BUILTINS
 from .filtering import FILTERING_BUILTINS
 from .percentages import PERCENTAGE_BUILTINS
+from .anatidae import ANATIDAE_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 
@@ -259,6 +260,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     **WORKFLOW_BUILTINS,
     **DOMAIN_BUILTINS,
     **PERCENTAGE_BUILTINS,
+    **ANATIDAE_BUILTINS,
 }
 
 
