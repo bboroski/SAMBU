@@ -292,6 +292,30 @@ class ExperimentLedger:
     def records(self) -> tuple[ExperimentRecord, ...]:
         return tuple(self._records)
 
+    def find_by_input(self, input_digest: str) -> tuple[ExperimentRecord, ...]:
+        """Return all observations made with one canonical input fingerprint."""
+        if not isinstance(input_digest, str) or not _SHA256_RE.fullmatch(input_digest):
+            raise ValueError("input_digest must be a lowercase SHA-256 hex digest")
+        return tuple(record for record in self._records if record.input_digest == input_digest)
+
+    def export_json(self) -> str:
+        """Return a deterministic portable snapshot; persistence remains host-owned."""
+        rows = [{
+            "sequence": record.sequence,
+            "hypothesis": record.hypothesis,
+            "method": record.method,
+            "input_digest": record.input_digest,
+            "outcome_json": record.outcome_json,
+            "evidence_refs": record.evidence_refs,
+            "seed": record.seed,
+            "previous_digest": record.previous_digest,
+            "digest": record.digest,
+        } for record in self._records]
+        return _canonical_json({
+            "format": "sambu.experiment-ledger/v1",
+            "records": rows,
+        })
+
     def record(
         self,
         hypothesis: str,
