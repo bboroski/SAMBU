@@ -76,8 +76,8 @@ class TypedAstTests(unittest.TestCase):
         expression = declaration.value
         self.assertEqual(source[expression.span.start.offset:expression.span.end.offset],
                          "stats.rms[0]")
-        self.assertEqual(expression.index.span.start.offset, len(source) - 1)
-        self.assertEqual(expression.index.span.end.offset, len(source))
+        self.assertEqual(expression.index.span.start.offset, len(source) - 2)
+        self.assertEqual(expression.index.span.end.offset, len(source) - 1)
         self.assertIsInstance(expression.target, FieldExpr)
 
     def test_program_span_includes_leading_and_trailing_trivia(self):
