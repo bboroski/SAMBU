@@ -17,6 +17,7 @@ StructuredBuffer<uint> _FaceMasks;
 RWStructuredBuffer<uint> _GroupFaceCounts;
 RWStructuredBuffer<uint> _GroupFaceOffsets;
 RWStructuredBuffer<uint> _TotalFaceCount;
+RWStructuredBuffer<uint> _DrawIndexedArgs; // 5 uints: indexCount, instanceCount, startIndex, baseVertex, startInstance
 
 RWStructuredBuffer<float3> _Vertices;
 RWStructuredBuffer<float3> _Normals;
@@ -131,6 +132,11 @@ void ScanGroupOffsets(uint3 id : SV_DispatchThreadID)
         running += _GroupFaceCounts[group];
     }
     _TotalFaceCount[0] = running;
+    _DrawIndexedArgs[0] = running * 6u;
+    _DrawIndexedArgs[1] = 1u;
+    _DrawIndexedArgs[2] = 0u;
+    _DrawIndexedArgs[3] = 0u;
+    _DrawIndexedArgs[4] = 0u;
 }
 
 [numthreads(64, 1, 1)]
