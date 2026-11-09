@@ -139,5 +139,20 @@ print(result.item_count)
         self.assertEqual(output, ["0", "0"])
 
 
+    def test_mimic_profile_is_vocabulary_free_and_identical_shape_matches(self):
+        _, output = self.run_sambu("""
+let reference = mimic_profile("Молчит мрачный мотор")
+let comparison = mimic_distance(reference, "Молчит мрачный мотор")
+print(reference.contains_source_text)
+print(reference.schema)
+print(comparison.distance)
+print(comparison.vocabulary_compared)
+""")
+        self.assertEqual(output, ["false", "sambu.structural_voice.v1", "0", "false"])
+
+    def test_mimic_distance_rejects_unrelated_records(self):
+        with self.assertRaises(TypeError):
+            execute('mimic_distance(text_profile("hello"), "draft")')
+
 if __name__ == "__main__":
     unittest.main()
