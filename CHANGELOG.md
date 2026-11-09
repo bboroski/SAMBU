@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0 — 2026-11-09
+
+- Added deterministic gift-transfer and atomic gift-batch preview ledgers with balance checks and idempotency keys.
+- Added accreditation records with explicit verification, evidence references and as-of date status evaluation.
+- Added evidence-linked association records, non-accusatory signal reports and transparent proposal scoring.
+- Added bounded chunk/concurrency/retry planning without pretending to execute external workloads.
+- Added non-executing parser diagnostics, repeated-pattern mining and deterministic tag-connected clustering.
+- Registered workflow primitives in the interpreter and added regression tests, documentation, examples and CI execution.
+
 ## 0.7.0 — 2026-11-09
 
 - Added native Unicode-aware text metrics, approximate syllable counting, rhyme-tail grouping, line-level prosody and alliteration diagnostics.
