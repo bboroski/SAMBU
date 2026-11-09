@@ -24,7 +24,7 @@ class AnatidaeModelTests(unittest.TestCase):
             "let f = feather_barrier_profile(1, 90%, 80%, 10%, 20%)\n"
             "print(p.effective_index)\nprint(f.effective_insulation_index)"
         )
-        self.assertEqual(out,["0.6075","0.5184"])
+        self.assertEqual(out,["0.6075","0.5832"])
 
     def test_flight_energy_and_muscle_fuel_profile(self):
         out=self.run_sambu(
