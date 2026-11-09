@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sambu-language"
 version = "0.7.0"
-description = "A scientific, systems and commerce architecture language"
+description = "A scientific, systems, commerce and text-analysis language"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "SAMBU contributors" }]
-keywords = ["programming-language", "scientific-computing", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics"]
+keywords = ["programming-language", "scientific-computing", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics", "text-analysis", "prosody", "rhetoric", "rhyme"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3",
