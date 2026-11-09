@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.10.0 — 2026-11-09
+
+- Added postfix percentage literals, modulo arithmetic, and checked percentage helpers.
+- Added bounded lazy chunking, deterministic chunk manifests, and conflict-aware reversible text patch sets.
+- Added first-class dual-action UI buttons with explicit intent and independent permission checks.
+- Added optional Django, Flask and FastAPI adapters for host-authenticated Jiu-Jitsu applications.
+- Added evidence-backed portfolio integrity checks with SHA-256, issuer allow-lists, expiry validation and weighted reports.
+- Added the sambu-test runner with repeat execution, flaky-test detection and heuristic failure autopsy.
+- Added regression tests for the new language, trust, UI and integration contracts.
+
 ## 0.9.0 — 2026-11-09
 
 - Introduced 04coq, a declarative in-memory filtering engine with validated rule records, safe field paths and explicit all/any logic.
