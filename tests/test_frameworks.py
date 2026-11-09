@@ -82,6 +82,22 @@ print(Counter.created)
 """, output=output.append)
         self.assertEqual(output, ["SAMBU", "counter", "0", "1"])
 
+    def test_private_static_method_is_available_only_inside_declaring_class(self):
+        output: list[str] = []
+        execute("""
+class Vault {
+  private static fn secret() { return "inside" }
+  static fn reveal() { return Vault.secret() }
+}
+print(Vault.reveal())
+""", output=output.append)
+        self.assertEqual(output, ["inside"])
+        with self.assertRaises(SambuRuntimeError):
+            execute("""
+class Vault { private static fn secret() { return "inside" } }
+Vault.secret()
+""")
+
     def test_final_class_and_final_method(self):
         with self.assertRaises(SambuRuntimeError):
             execute("""
