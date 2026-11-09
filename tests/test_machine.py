@@ -98,8 +98,8 @@ class CodeSamplerTests(unittest.TestCase):
     def test_sampler_enforces_aggregate_workspace_source_budget(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            (root / "first.sambu").write_text("1\\n", encoding="utf-8")
-            (root / "second.sambu").write_text("2\\n", encoding="utf-8")
+            (root / "first.sambu").write_text("1", encoding="utf-8")
+            (root / "second.sambu").write_text("2", encoding="utf-8")
             sampler = CodeSampler(max_source_bytes=100, max_total_source_bytes=3)
             with self.assertRaisesRegex(CodeSamplingError, "total bytes"):
                 sampler.sample(root, denominator=100)
