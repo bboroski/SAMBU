@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import unittest
 from dataclasses import replace
 
@@ -174,6 +175,10 @@ class ExperimentLedgerTests(unittest.TestCase):
         self.assertEqual(second.sequence, 2)
         self.assertEqual(second.previous_digest, first.digest)
         self.assertTrue(machine.ledger.verify())
+        self.assertEqual(machine.ledger.find_by_input(first.input_digest), (first, second))
+        exported = json.loads(machine.ledger.export_json())
+        self.assertEqual(exported["format"], "sambu.experiment-ledger/v1")
+        self.assertEqual(len(exported["records"]), 2)
         tampered = replace(first, outcome_json='{"order":["b","a"],"passed":true}')
         machine.ledger._records[0] = tampered
         self.assertFalse(machine.ledger.verify())
