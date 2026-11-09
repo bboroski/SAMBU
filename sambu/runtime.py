@@ -625,6 +625,15 @@ class Interpreter:
                 for method_node in method_nodes:
                     _, method_name, params, body = method_node[:4]
                     method_metadata = method_node[4] if len(method_node) > 4 else {}
+                    if method_metadata.get("static"):
+                        if params and params[0] == "self":
+                            raise SambuRuntimeError(
+                                f"static method {method_name!r} must not declare 'self' as its first parameter"
+                            )
+                    elif not params or params[0] != "self":
+                        raise SambuRuntimeError(
+                            f"instance method {method_name!r} must declare 'self' as its first parameter"
+                        )
                     method = UserFunction(
                         method_name, params, body, env, self, method_metadata,
                     )
