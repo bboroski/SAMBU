@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 — 2026-11-09
+
+- Added native Unicode-aware text metrics, approximate syllable counting, rhyme-tail grouping, line-level prosody and alliteration diagnostics.
+- Added a non-destructive text-craft workflow that preserves colloquial language, marked stress, dialect forms and intentional phonetic distortion.
+- Fixed parser precedence for the runtime-supported `is` type operator and added class/interface regression coverage.
+- Exported interface and trait AST node types through the public package API.
+- Synchronized package, runtime and README version metadata at 0.7.0.
+- Added text-craft documentation, an executable example and regression tests.
+
+
 ## 0.6.0 — 2026-11-09
 
 - Added the separate sambu_studio package and sambu-studio inspect CLI.
@@ -20,8 +30,6 @@
 - Fixed parser EOF token handling so incomplete expressions report the actual EOF position.
 - Added AST span, nested-block, Unicode-offset, tuple-compatibility, and EOF-diagnostic regression coverage.
 
-
-## 0.5.0 — 2026-11-09
 
 ## 0.5.0 — 2026-11-09
 
