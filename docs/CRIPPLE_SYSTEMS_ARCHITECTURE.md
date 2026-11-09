@@ -36,11 +36,11 @@ C++ is an evolving reference point: C++23 is published and C++26 work is tracked
 
 ## 3. Implemented experimental runtime slice
 
-The following APIs exist in \`sambu.concurrency\` and are exported from the \`sambu\` package.
+The following APIs exist in `sambu.concurrency` and are exported from the `sambu` package.
 
-### 3.1 Cooperative fibers — \`FiberScheduler\`
+### 3.1 Cooperative fibers — `FiberScheduler`
 
-\`FiberScheduler\` accepts Python generator functions, resumes them in deterministic FIFO round-robin order, and understands \`yield_now()\` and \`sleep_ticks(n)\`. Sleep advances a logical scheduler clock; it does not block the host thread. Each resume counts as one scheduler step. Global and per-fiber step budgets cap work.
+`FiberScheduler` accepts Python generator functions, resumes them in deterministic FIFO round-robin order, and understands `yield_now()` and `sleep_ticks(n)`. Sleep advances a logical scheduler clock; it does not block the host thread. Each resume counts as one scheduler step. Global and per-fiber step budgets cap work.
 
 ~~~python
 from sambu import FiberScheduler, yield_now, sleep_ticks
@@ -58,11 +58,11 @@ report = scheduler.run()
 print(scheduler.result(first), scheduler.result(second), report.completed)
 ~~~
 
-**Boundary:** these are cooperative Python generator tasks on the calling OS thread. They are not preemptive, do not run in parallel on CPU cores, do not allocate custom native stacks, and do not provide a language-level \`yield\` statement. There is no OS-thread migration because this scheduler creates no OS threads. It still performs explicit logical task switches at yield points.
+**Boundary:** these are cooperative Python generator tasks on the calling OS thread. They are not preemptive, do not run in parallel on CPU cores, do not allocate custom native stacks, and do not provide a language-level `yield` statement. There is no OS-thread migration because this scheduler creates no OS threads. It still performs explicit logical task switches at yield points.
 
 ### 3.2 Actors — bounded mailboxes and serialized state
 
-An actor owns a JSON-shaped state value and a FIFO mailbox. Its handler has the signature \`handler(state, message) -> next_state\`. The runtime copies and validates the input state, message and returned state. The next state is committed only after a successful handler result. A failed message is placed in a bounded dead-letter log; partial mutations to the handler's working copy are not committed.
+An actor owns a JSON-shaped state value and a FIFO mailbox. Its handler has the signature `handler(state, message) -> next_state`. The runtime copies and validates the input state, message and returned state. The next state is committed only after a successful handler result. A failed message is placed in a bounded dead-letter log; partial mutations to the handler's working copy are not committed.
 
 Payload limits currently include a maximum UTF-8 encoded size, nesting depth and item count. Unsupported host objects, non-finite floats and non-string object keys are rejected.
 
@@ -70,10 +70,10 @@ The language exposes these built-ins:
 
 | Built-in | Contract |
 |---|---|
-| \`actor(handler, initial_state, mailbox_capacity=256)\` | Create an actor; handler accepts exactly two arguments |
-| \`actor_send(actor, message)\` | Enqueue a bounded, validated message |
-| \`actor_drain(actor, max_messages=1)\` | Process up to the specified number of messages sequentially |
-| \`actor_state(actor)\` | Return a defensive copy of actor state |
+| `actor(handler, initial_state, mailbox_capacity=256)` | Create an actor; handler accepts exactly two arguments |
+| `actor_send(actor, message)` | Enqueue a bounded, validated message |
+| `actor_drain(actor, max_messages=1)` | Process up to the specified number of messages sequentially |
+| `actor_state(actor)` | Return a defensive copy of actor state |
 
 ~~~sambu
 fn add(state, message) {
@@ -95,13 +95,13 @@ This serialization guarantee applies to messages drained by the actor runtime. I
 
 A supervisor can own actors or child supervisors. Supported strategies:
 
-- \`one_for_one\` — restart only the failed child;
-- \`one_for_all\` — restart every child of the supervisor;
-- \`rest_for_one\` — restart the failed child and children registered after it.
+- `one_for_one` — restart only the failed child;
+- `one_for_all` — restart every child of the supervisor;
+- `rest_for_one` — restart the failed child and children registered after it.
 
 Each supervisor has a rolling restart window, a maximum restart count and a bounded event history. Exceeding the budget marks the supervisor failed and reports the failure to its parent. An actor restart resets its state to the declared initial snapshot, increments its generation, keeps its pending mailbox and does not silently replay the failed message; that message is recorded as a dead letter.
 
-Language built-ins are \`supervisor(strategy, max_restarts=3, window_seconds=60)\`, \`supervise(supervisor, child)\`, and \`supervisor_status(supervisor)\`.
+Language built-ins are `supervisor(strategy, max_restarts=3, window_seconds=60)`, `supervise(supervisor, child)`, and `supervisor_status(supervisor)`.
 
 ~~~sambu
 fn guarded(state, message) {
@@ -125,7 +125,7 @@ A restart is not proof of recovery. The failed message, event history and restar
 
 ### 3.4 Typed software channels
 
-\`TypedChannel\` and the SAMBU built-ins \`channel(type, capacity=64)\`, \`channel_send\`, and \`channel_receive\` provide bounded, non-blocking FIFO queues for \`int\`, \`integer\`, \`float\`, \`number\`, \`text\`, \`string\`, \`bool\`, and \`boolean\`.
+`TypedChannel` and the SAMBU built-ins `channel(type, capacity=64)`, `channel_send`, and `channel_receive` provide bounded, non-blocking FIFO queues for `int`, `integer`, `float`, `number`, `text`, `string`, `bool`, and `boolean`.
 
 ~~~sambu
 let radio = channel("text", 8)
@@ -139,9 +139,9 @@ A type mismatch, full queue or empty receive fails explicitly. These are softwar
 
 Python APIs:
 
-- \`ResourceScope\` registers resources, releases transferred ownership and closes remaining resources in reverse acquisition order. It attempts every close and reports all failures. A closer returning \`False\` means it did not confirm a safe state.
-- \`ModuleMetadata\` validates required descriptive fields. It is not a compiler header or identity credential.
-- \`DualAuthorizationGate\` requires two independently supplied verifiers for a protected operation. The hardware verifier may delegate to a TPM/HSM provider, but no hardware key store or cryptographic protocol is bundled.
+- `ResourceScope` registers resources, releases transferred ownership and closes remaining resources in reverse acquisition order. It attempts every close and reports all failures. A closer returning `False` means it did not confirm a safe state.
+- `ModuleMetadata` validates required descriptive fields. It is not a compiler header or identity credential.
+- `DualAuthorizationGate` requires two independently supplied verifiers for a protected operation. The hardware verifier may delegate to a TPM/HSM provider, but no hardware key store or cryptographic protocol is bundled.
 
 ~~~python
 from sambu import ResourceScope, DualAuthorizationGate
@@ -187,7 +187,7 @@ The roadmap is defined by semantic layers, not by superficial keyword matching.
 | Compile-time | Constant evaluation, compile-time assertions, reflection metadata and deterministic build-time computation |
 | Abstraction | Traits/interfaces, overload resolution, operator protocols, closures and monomorphization where justified |
 | Memory | Ownership, move semantics, borrowing, lifetimes, arenas, allocators, alignment and explicit unsafe FFI |
-| Errors | Typed \`Result\` / \`Option\`, propagation, panic boundaries and cleanup guarantees |
+| Errors | Typed `Result` / `Option`, propagation, panic boundaries and cleanup guarantees |
 | Runtime | Bytecode or native execution, stack/heap policy, scheduler, actors, supervision, cancellation and parallelism |
 | Standard library | Containers, algorithms, iterators/ranges, text/Unicode, math/units, time, filesystem, process, networking and synchronization |
 | Systems access | C ABI, FFI, atomics, SIMD, GPU, embedded profiles, MMIO and hardware drivers |
@@ -215,7 +215,7 @@ No stage is considered complete because its syntax appears in a design document.
 
 ## 7. Compatibility and governance
 
-- Preserve existing \`parse()\` tuple AST and public Python APIs until a documented major migration.
+- Preserve existing `parse()` tuple AST and public Python APIs until a documented major migration.
 - Introduce new syntax behind explicit language editions or feature gates.
 - Keep the reference interpreter as an executable semantic oracle while a native backend is developed.
 - Record architecture decisions, threat models, supported targets and deprecation windows.
