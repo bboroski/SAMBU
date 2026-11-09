@@ -38,6 +38,20 @@ syllables estimates syllables by counting vowel nuclei. rhyme_key produces a rou
     print(syllables("разговор"))
     print(rhyme_key("разговор"))
 
+## A repeatable refinement loop
+
+1. **Lock intent.** Identify the speaker, target, emotional temperature, core images and facts that must survive revision.
+2. **Write in a speakable voice.** Establish the natural spoken phrase before decorating it.
+3. **Tune rhythm first.** Compare line lengths and syllable movement; change pauses, stress placement and line breaks before adding more words.
+4. **Build the sound network.** Strengthen internal echoes, multisyllabic rhyme families, consonant runs and vowel patterns. Keep end rhymes only where they help.
+5. **Make each return do new work.** Repeated words, images and refrains should gain a second meaning, change the scene or raise the stakes.
+6. **Separate error from intention.** Classify unusual spelling, colloquial grammar, marked stress and neologisms as intentional, accidental or uncertain. Correct only clear mistakes; ask before normalizing uncertain forms.
+7. **Read aloud and re-check.** A line that looks impressive but cannot be performed naturally needs another pass. Re-run the diagnostics after each meaningful revision.
+
+### Reusable refinement instruction
+
+Preserve the author's intent, point of view and distinctive vocabulary. Prioritize speakable rhythm, then purposeful sound design, then semantic precision. Use internal and multisyllabic rhyme without forcing every line to match. Let humor, absurdity, technical language, satire and elevated imagery shift registers deliberately. Prefer fresh, concrete phrasing over filler and stock expressions. Treat repetition as development, not padding. Do not silently erase dialect, profanity, stress marks, neologisms or intentional grammatical breaks. Separate objective spelling/grammar errors from stylistic choices, and explain uncertain corrections instead of imposing them. Never optimize a numerical metric at the expense of clarity, meaning or performance.
+
 ## Limits and interpretation
 
 These functions are diagnostics, not a grammar corrector, dictionary, speech recognizer, or literary judge. Syllable counts are estimates based on written vowel nuclei; they do not infer lexical stress, pronunciation, dialect, or elision. Rhyme keys compare written endings from the last vowel and can produce false positives or miss true phonetic rhymes. Alliteration currently checks repeated consonant initials within one line. Read the text aloud and use human judgment before changing a draft.
