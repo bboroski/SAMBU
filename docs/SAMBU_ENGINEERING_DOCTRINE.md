@@ -129,6 +129,7 @@ sambu machine sample . --ratio 100 --seed 17 --json
 ~~~
 
 The result is a sample, never a proof of correctness. Critical modules still require complete tests, review, threat analysis and boundary checks.
+Sample excerpts contain real source text and may include proprietary code or credentials. Keep reports local and review/redact them before sharing; deterministic fingerprints do not make code excerpts safe to publish.
 
 ## 5. Ten thousand dead spirits — Ghost Ledger
 
