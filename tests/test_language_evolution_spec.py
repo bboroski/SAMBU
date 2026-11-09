@@ -10,7 +10,7 @@ class LanguageEvolutionSpecificationTests(unittest.TestCase):
         cls.content = cls.path.read_text(encoding="utf-8")
 
     def test_all_contracts_are_present_in_order(self):
-        ids = re.findall(r"^\*\*(\d{3})\*\*", self.content, flags=re.MULTILINE)
+        ids = re.findall(r"^\*\*(\d{3})\.\*\*", self.content, flags=re.MULTILINE)
         self.assertEqual(ids, [f"{i:03d}" for i in range(1, 102)])
 
     def test_actual_baseline_and_future_status_are_explicit(self):
