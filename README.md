@@ -238,6 +238,7 @@ tests/              # Regression and contract tests
 |---|---|
 | [Language reference](docs/LANGUAGE.md) | Implemented syntax, runtime, AST and OOP |
 | [Language evolution](docs/LANGUAGE_EVOLUTION.md) | Typed compiler, ownership, concurrency, native targets and 101 consolidated contracts |
+| [Autonomy constitution](docs/AUTONOMY_CONSTITUTION.md) | 50 auditable rules, baseline status and implementation acceptance gates |
 | [Frameworks](docs/FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
 | [Anatidae models](docs/ANATIDAE_MODELS.md) | Thermoregulation and flight models |
 | [Voxel systems](engine_adapters/README.md) | Sparse voxel core, spectral solvers and game-engine adapters |
