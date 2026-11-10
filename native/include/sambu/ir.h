@@ -187,6 +187,10 @@ SambuIrStatus sambu_mir_emit_return_unit(
 SambuIrStatus sambu_mir_verify(
     const SambuMirFunction *function, char *error, size_t error_capacity
 );
+/* Folds safe local constant expressions in place; overflow and invalid divisions stay intact. */
+SambuIrStatus sambu_mir_fold_constants(
+    SambuMirFunction *function, size_t *folded_count
+);
 SambuIrStatus sambu_lower_hir_expression(
     SambuArena *arena, const char *function_name,
     const SambuHirExpr *expression, SambuMirFunction **out_function
