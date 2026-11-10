@@ -30,7 +30,34 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+      - name: Check Black Duck service configuration
+        id: scan-config
+        shell: bash
+        env:
+          BLACKDUCKSCA_URL: ${{ vars.BLACKDUCKSCA_URL }}
+          BLACKDUCKSCA_TOKEN: ${{ secrets.BLACKDUCKSCA_TOKEN }}
+          COVERITY_URL: ${{ vars.COVERITY_URL }}
+          COVERITY_USER: ${{ secrets.COVERITY_USER }}
+          COVERITY_PASSPHRASE: ${{ secrets.COVERITY_PASSPHRASE }}
+          POLARIS_SERVER_URL: ${{ vars.POLARIS_SERVER_URL }}
+          POLARIS_ACCESS_TOKEN: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          SRM_URL: ${{ vars.SRM_URL }}
+          SRM_API_KEY: ${{ secrets.SRM_API_KEY }}
+        run: |
+          configured=false
+          if [[ -n "$BLACKDUCKSCA_URL" && -n "$BLACKDUCKSCA_TOKEN" ]] ||
+             [[ -n "$COVERITY_URL" && -n "$COVERITY_USER" && -n "$COVERITY_PASSPHRASE" ]] ||
+             [[ -n "$POLARIS_SERVER_URL" && -n "$POLARIS_ACCESS_TOKEN" ]] ||
+             [[ -n "$SRM_URL" && -n "$SRM_API_KEY" ]]; then
+            configured=true
+          fi
+          echo "configured=$configured" >> "$GITHUB_OUTPUT"
+          if [[ "$configured" != "true" ]]; then
+            echo "No complete Black Duck service endpoint/credential pair is configured; skipping optional scan."
+          fi
+
       - name: Black Duck SCA scan
+        if: steps.scan-config.outputs.configured == 'true'
         uses: blackduck-inc/black-duck-security-scan@805cbd09e806b01907bbea0f990723c2bb85abe9
         with:
           ### ---------- BLACKDUCK SCA SCANNING: REQUIRED FIELDS ----------
