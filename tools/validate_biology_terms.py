@@ -31,7 +31,7 @@ def validate() -> list[str]:
 
     try:
         with DATA_FILE.open("r", encoding="utf-8", newline="") as handle:
-            reader = csv.DictReader(handle, delimiter="|")
+            reader = csv.DictReader(handle, delimiter=chr(9))
             if reader.fieldnames != EXPECTED_FIELDS:
                 return [
                     "Invalid header: expected "
