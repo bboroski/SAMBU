@@ -1,0 +1,21 @@
+{
+  "cluster_id": "T-001",
+  "theme": "cultural_celebration",
+  "tone": "nostalgic_reverence",
+  "key_symbols": [
+    "fairground",
+    "style_marker",
+    "communal_gathering"
+  ],
+  "language": [
+    "ru"
+  ],
+  "linguistic_register": "poetic_colloquial",
+  "stylistic_devices": [
+    "visual_imagery",
+    "nostalgic_address"
+  ],
+  "safety_flag": "NEEDS_REVIEW",
+  "source_ref": "corpus-item-001",
+  "ontology_version": "2026.11"
+}
