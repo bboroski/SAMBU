@@ -2,29 +2,27 @@
 
 SAMBU combines its original physics core with transparent systems, commerce, production-brief, community and territory models. The additions are deterministic calculators and scenario tools. They are not autonomous agents, CRM integrations, forecasting services, or validated game-balance engines.
 
-## Neo-Modern Diplomat as a systems concept
+## Entity graph and bounded coordination model
 
-The phrase **Neo-Modern Diplomat** is treated in SAMBU as a design archetype: an adaptive intermediary that maps stakeholders, communicates across institutional and cultural contexts, identifies bargaining intervals, and evaluates the consequences of proposals. The language does not encode a political ideology or presume that a mathematical score can replace judgment, consent, law, or institutional legitimacy.
+The model represents a set of entities, weighted links, bounded signal propagation and the overlap between two numeric operating ranges. It does not encode political positions, infer intent or replace authorization, domain review or operator decisions.
 
-The three-word construction can be read conceptually as:
-
-- **Neo** — a new or renewed method; from Greek *néos* (new, young).
-- **Modern** — responsive to the present; from Late Latin *modernus*, associated with *modo* (just now, recently).
-- **Diplomat** — a representative or intermediary; historically connected to Greek *diplōma* (a folded document), the source of the later diplomatic vocabulary.
-
-A number of labels in the supplied synonym lists (for example, *Quantum Envoy*, *Matrix Diplomat*, and *Singularity Broker*) are coined metaphors or stylistic variants, not strict dictionary synonyms or established professional titles. Some etymological glosses in informal lists are speculative; SAMBU documentation does not treat them as verified derivations.
+The model exposes four measurable operations:
+- directed graph construction and topology metrics;
+- bounded strongest-path propagation from declared source nodes;
+- interval intersection with explicit bounds and midpoint;
+- proportional allocation under a declared non-negative weight vector.
 
 ## Model clusters and computational counterparts
 
-| Conceptual cluster | SAMBU model | What it computes |
+| Technical domain | SAMBU model | Computed result |
 |---|---|---|
-| Cybernetic and network agents | `network`, `network_metrics`, `influence` | Directed ties, degree counts, density, and strongest-path propagation |
-| Geoeconomic and multilateral strategy | `negotiate`, `allocate` | Overlap between two bargaining ranges and proportional resource splits |
-| Semiotic and cognitive mediation | Explicit stakeholder labels plus network paths | A transparent topology for discussing who connects whom; no semantic interpretation is inferred |
-| Institutional and operational coordination | `weekly_schedule`, `attendance`, `funnel`, `ab_test` | Repeating events, capacity use, stage losses, and a simple experiment comparison |
-| Game-like territorial systems | `capture_tower`, `capture_node`, `allocate`, `network` | Resistance depletion, ownership transfer and resource distribution |
-| Music production planning | `audio_profile` | Validated tempo, groove, timing, entry and mix-intent metadata; no audio rendering |
-| Language design craft | `craft_source`, `craft_cut`, `craft_token`, `craft_rule`, `craft_assemble`, `craft_master` | Provenance-led grammar blueprint assembly and deterministic audit; no dynamic parser generation |
+| Entity and dependency graphs | `network`, `network_metrics`, `influence` | Directed ties, degree counts, density, and strongest-path propagation |
+| Range negotiation and resource allocation | `negotiate`, `allocate` | Overlap between two bargaining ranges and proportional resource splits |
+| Graph connectivity and signal propagation | Explicit entity labels plus network paths | A transparent topology for discussing who connects whom; no semantic interpretation is inferred |
+| Scheduling and conversion metrics | `weekly_schedule`, `attendance`, `funnel`, `ab_test` | Repeating events, capacity use, stage losses, and a simple experiment comparison |
+| Stateful resource allocation | `capture_tower`, `capture_node`, `allocate`, `network` | Resistance depletion, ownership transfer and resource distribution |
+| Audio signal specification | `audio_profile` | Validated tempo, groove, timing, entry and mix-intent metadata; no audio rendering |
+| Grammar pipeline specification | `craft_source`, `craft_cut`, `craft_token`, `craft_rule`, `craft_assemble`, `craft_master` | Provenance-led grammar blueprint assembly and deterministic audit; no dynamic parser generation |
 
 ## Network model
 
@@ -38,7 +36,7 @@ Nodes are unique strings. Each directed edge is `[source, target]` or `[source, 
 
 `negotiate(a_min, a_max, b_min, b_max)` computes the intersection of two acceptable intervals. Endpoints must be comparable and dimensionally compatible when expressed as physical quantities. The record returns `possible`, `lower`, `upper`, `midpoint`, and `overlap_width`. A non-empty overlap is only a mathematical bargaining zone; it does not guarantee an agreement.
 
-## Marketing and community operations
+## Conversion and scheduling metrics
 
 `funnel([stage_1, stage_2, ...])` accepts non-increasing integer stage counts and reports adjacent conversion rates, drop-offs, overall conversion, and total losses. Stage labels are intentionally external in 0.2; array positions preserve the exact stage order chosen by the model author.
 
@@ -62,7 +60,7 @@ Nodes are unique strings. Each directed edge is `[source, target]` or `[source, 
 - A `for` loop may process at most 100,000 items.
 - `sample_maxwell` remains capped at 1,000,000 samples.
 - A/B inference is approximate and assumes independent Bernoulli observations.
-- Network influence scores are illustrative and are not evidence of actual political, social, or commercial influence.
+- Network influence scores are illustrative and are not evidence of actual measured system influence.
 - No CRM, VOIP, payment-terminal, ticketing, calendar, smart-lighting, social-platform or audio-rendering API is connected.
 
 
@@ -89,7 +87,7 @@ SAMBU 0.5 adds four deterministic models that make the strategic blueprint execu
 
 `order_pipeline(queue, durable_outbox, persisted_idempotency, reserve_inventory, authorize_payment, ack_after_commit, supervised_workers)` accepts a `queue_profile` record and six boolean invariant flags. It returns a proposed sequence, at-least-once delivery semantics, the acknowledgement boundary, concurrency estimate, and a list of blockers. Missing durable outbox, persisted idempotency, inventory reservation, payment authorization, post-commit acknowledgement, supervised workers or queue DLQ marks the plan as not satisfying its checklist. A passing result means only that the declared assumptions satisfy this model; it does not prove the external system implements them or that an order is confirmed. The adapter remains responsible for database constraints, retries/jitter, MSI service contracts, payment-provider semantics, state transitions, compensation, telemetry and version compatibility.
 
-### Community offer
+### Service-offer conversion model
 
 `studio_offer(intro_visitors, intro_conversions, target_conversion, single_price, package_price, package_sessions)` reports introductory-class conversion and whether it meets the configured target, then reuses `package_pricing` for effective session price, savings and discount rate. Target is a fraction in [0, 1]; conversions cannot exceed visitors. A zero-visitor sample is reported as unknown and never marked as meeting the target. The target (for example, 0.30) is a business assumption to test, not a forecast or guarantee. Combine with `weekly_schedule`, `attendance`, `channel_metrics`, `funnel` and `unit_economics` for operating analysis. The four-week monthly session count in the example is a rough planning estimate, not a true calendar-month expansion.
 
