@@ -1,0 +1,43 @@
+{
+  "module_id": "sambu-core",
+  "repository": "bboroski/SAMBU",
+  "display_name": "SAMBU",
+  "version": "0.11.0-alpha",
+  "role": "central-language-and-engineering-platform",
+  "runtime": [
+    "Python >=3.10",
+    "SAMBU interpreter (experimental)"
+  ],
+  "maturity": "experimental-alpha",
+  "provides": [
+    "sambu-language-runtime",
+    "developer-tooling",
+    "architecture-models",
+    "policy-and-workflow-descriptions",
+    "module-manifest-v1",
+    "ecosystem-registry-v1"
+  ],
+  "consumes": [
+    "sambu-module-manifest-v1",
+    "versioned-adapter-descriptors",
+    "evidence-reports"
+  ],
+  "dependencies": [],
+  "boundaries": [
+    "SAMBU is not an operating system, native compiler, or universal sandbox.",
+    "Python-hosted workflows do not execute arbitrary native firmware modules.",
+    "Host, device, network, process, and hardware access require explicit adapters and separate authorization.",
+    "A declared module or workflow is not proof that an external action executed."
+  ],
+  "verification": {
+    "host_tests": "Use the repository test suite and CLI checks; the project is experimental alpha.",
+    "target_validation": "Not applicable to the language core; external hardware adapters require target-specific evidence.",
+    "evidence": [
+      "README.md",
+      "docs/SAMBU_ENGINEERING_DOCTRINE.md",
+      "docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md"
+    ]
+  },
+  "schema_version": 1,
+  "ecosystem": "SAMBU"
+}
