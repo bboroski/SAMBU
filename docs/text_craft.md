@@ -81,3 +81,32 @@ Preserve the author's intent, point of view, section order, and distinctive voca
 These functions are diagnostics, not a grammar corrector, dictionary, speech recognizer, or literary judge. Syllable counts are estimates based on written vowel nuclei; they do not infer lexical stress, pronunciation, dialect, or elision. Rhyme keys compare written endings from the last vowel and can produce false positives or miss true phonetic rhymes. Alliteration currently checks repeated consonant initials within one line. Section and refrain recognition uses a small explicit heading vocabulary and exact normalized text matching. Language-mix analysis identifies writing systems rather than natural languages.
 
 The analyzer never rewrites the source text. Non-standard spelling, colloquial grammar, profanity, code-switching, marked stress, and intentional phonetic distortion remain the author's decisions.
+
+
+## Performance and delivery cues
+
+### performance_cues_profile(text)
+
+This built-in extracts explicit written markers that can matter when preparing a performance or arranging a lyric:
+
+- \`*...*\` stage directions (for example, sound effects);
+- \`( ... )\` parenthetical asides and ad-lib notation;
+- straight, curly or guillemet-quoted phrases;
+- repeated hyphenated word segments such as \`О-о-о\` or \`ру-ру-Русско\`.
+
+Every marker includes its kind, source line, and start/end columns. The result is capped at 1,000 returned markers; \`truncated\` reports when more were found. Recognized section headings are not double-counted as parenthetical asides.
+
+\`text_structure_profile\` also accepts parenthesized section labels such as \`(Verse 2)\`, bracketed labels with an internal colon such as \`[Verse:]\`, and explicit delivery labels such as \`[Melody sing Chorus:]\`. A section's \`performance_hint\` is descriptive and only reflects explicit words in its heading (\`melodic\`, \`spoken\`, \`ad_lib\`, \`rap\`, or \`unspecified\`).
+
+These are markup observations only. The analyzer does not identify the speaker, infer emotion, predict vocal delivery, transcribe audio, or decide whether a cue is appropriate. It preserves the exact source text.
+
+### Example
+
+    let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA returning line\\n[Chorus:]\\nA returning line\\n(Verse 2)\\nSecond movement"
+    let structure = text_structure_profile(draft)
+    let cues = performance_cues_profile("*Phone rings*\\n(Mm-mm)\\nру-ру-Русско")
+
+    print(structure.section_kind_counts.verse)
+    print(structure.refrain_groups[0].repeat_count)
+    print(structure.sections[1].performance_hint)
+    print(cues.marker_count)
