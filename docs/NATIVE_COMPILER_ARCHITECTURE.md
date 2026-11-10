@@ -59,7 +59,7 @@ MIR must guarantee:
 - side effects are explicit and ordered;
 - source locations survive lowering for diagnostics and debug information.
 
-The current C11 kernel implements typed SSA values and checks dense definitions, operand-before-use and a final return for a **single basic block**. It does not yet implement CFG, dominance analysis or phi nodes. The verifier must become CFG-aware before multi-block code is admitted.
+The current C11 kernel implements typed SSA values, including operand-free unit-return terminators, and checks dense definitions, operand-before-use and a final return for a **single basic block**. It does not yet implement CFG, dominance analysis or phi nodes. The verifier must become CFG-aware before multi-block code is admitted.
 
 ### 2.4 LIR — target-neutral machine operations
 

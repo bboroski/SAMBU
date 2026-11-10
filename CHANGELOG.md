@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
+- Added explicit unit-return MIR/LIR terminators and verifier checks for both value-returning and unit-returning functions.
 - Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
 
 

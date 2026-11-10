@@ -179,6 +179,9 @@ SambuIrStatus sambu_mir_emit_binary(
 SambuIrStatus sambu_mir_emit_return(
     SambuMirFunction *function, uint32_t block_id, SambuValueId value
 );
+SambuIrStatus sambu_mir_emit_return_unit(
+    SambuMirFunction *function, uint32_t block_id
+);
 
 /* MIR v1 accepts one block. CFG dominance and phi nodes are later milestones. */
 SambuIrStatus sambu_mir_verify(
