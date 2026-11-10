@@ -64,6 +64,7 @@ class LocalizationTests(unittest.TestCase):
         locale.set_language("ru-RU")
         self.assertEqual(locale.language, "ru")
         self.assertIn("Не найдена", translate("tool_missing", "ru", tool="idevice_id"))
+        self.assertIn("будет пропущена", translate("recommend_pair_optional", "ru"))
 
 
 class AppleDeviceToolkitTests(unittest.TestCase):
