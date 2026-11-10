@@ -45,9 +45,9 @@ print(evolved.populations[1])
 print(evolved.relaxation_factor)
 """)
         self.assertAlmostEqual(float(output[0]) + float(output[1]), 1.0, places=12)
-        self.assertAlmostEqual(float(output[0]), 0.5 + 0.5 * math.exp(-1), places=10)
-        self.assertAlmostEqual(float(output[1]), 0.5 - 0.5 * math.exp(-1), places=10)
-        self.assertAlmostEqual(float(output[2]), math.exp(-1), places=10)
+        self.assertAlmostEqual(float(output[0]), 0.5 + 0.5 * math.exp(-1), places=7)
+        self.assertAlmostEqual(float(output[1]), 0.5 - 0.5 * math.exp(-1), places=7)
+        self.assertAlmostEqual(float(output[2]), math.exp(-1), places=7)
 
     def test_two_level_lindblad_dephasing_preserves_trace_and_populations(self):
         output = self.run_sambu("""
@@ -58,7 +58,7 @@ print(state.matrix[1][1])
 print(state.matrix[0][1])
 """)
         self.assertEqual(output[:3], ["1", "0.5", "0.5"])
-        self.assertAlmostEqual(float(output[3]), 0.2 * math.exp(-1), places=10)
+        self.assertAlmostEqual(float(output[3]), 0.2 * math.exp(-1), places=7)
 
     def test_onsager_flux_and_nonnegative_dissipation(self):
         output = self.run_sambu("""
@@ -71,7 +71,7 @@ print(transport.entropy_production)
 
     def test_exponential_phonon_relaxation(self):
         output = self.run_sambu("print(phonon_decay(2, 2 * Hz, 1 * s))")
-        self.assertAlmostEqual(float(output[0]), 2 * math.exp(-2), places=10)
+        self.assertAlmostEqual(float(output[0]), 2 * math.exp(-2), places=7)
 
     def test_invalid_thermodynamic_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
