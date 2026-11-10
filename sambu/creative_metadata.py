@@ -166,28 +166,50 @@ class CreativeMetadata:
     ontology_version: str = ONTOLOGY_VERSION
 
     def __post_init__(self) -> None:
-        if self.cluster_id not in CLUSTER_BY_ID:
-            raise CreativeMetadataError(f"unknown cluster_id: {self.cluster_id!r}")
-        _required_text(self.theme, "theme", limit=96)
-        _required_text(self.tone, "tone", limit=96)
-        if self.safety_flag not in SAFETY_FLAGS:
+        cluster_id = _required_text(self.cluster_id, "cluster_id", limit=16)
+        if cluster_id not in CLUSTER_BY_ID:
+            raise CreativeMetadataError(f"unknown cluster_id: {cluster_id!r}")
+        object.__setattr__(self, "cluster_id", cluster_id)
+        object.__setattr__(self, "theme", _required_text(self.theme, "theme", limit=96))
+        object.__setattr__(self, "tone", _required_text(self.tone, "tone", limit=96))
+        if not isinstance(self.safety_flag, str) or self.safety_flag not in SAFETY_FLAGS:
             raise CreativeMetadataError(
                 f"safety_flag must be one of: {', '.join(sorted(SAFETY_FLAGS))}"
             )
         if self.linguistic_register is not None:
-            _required_text(self.linguistic_register, "linguistic_register", limit=96)
+            object.__setattr__(
+                self, "linguistic_register",
+                _required_text(self.linguistic_register, "linguistic_register", limit=96),
+            )
         if self.source_ref is not None:
-            _required_text(self.source_ref, "source_ref", limit=128)
-        if self.content_sha256 is not None and not _SHA256_RE.fullmatch(self.content_sha256):
-            raise CreativeMetadataError("content_sha256 must be a 64-character SHA-256 hex digest")
+            object.__setattr__(
+                self, "source_ref", _required_text(self.source_ref, "source_ref", limit=128)
+            )
+        if self.content_sha256 is not None:
+            if not isinstance(self.content_sha256, str) or not _SHA256_RE.fullmatch(self.content_sha256):
+                raise CreativeMetadataError(
+                    "content_sha256 must be a 64-character SHA-256 hex digest"
+                )
+            object.__setattr__(self, "content_sha256", self.content_sha256.lower())
         if self.ontology_version != ONTOLOGY_VERSION:
             raise CreativeMetadataError(
                 f"unsupported ontology_version {self.ontology_version!r}; "
                 f"expected {ONTOLOGY_VERSION!r}"
             )
-        _string_tuple(self.key_symbols, "key_symbols", maximum=16)
-        _string_tuple(self.language, "language", maximum=8, item_limit=16)
-        _string_tuple(self.stylistic_devices, "stylistic_devices", maximum=16)
+        object.__setattr__(
+            self, "key_symbols",
+            _string_tuple(self.key_symbols, "key_symbols", maximum=16),
+        )
+        object.__setattr__(
+            self, "language",
+            tuple(item.lower() for item in _string_tuple(
+                self.language, "language", maximum=8, item_limit=16
+            )),
+        )
+        object.__setattr__(
+            self, "stylistic_devices",
+            _string_tuple(self.stylistic_devices, "stylistic_devices", maximum=16),
+        )
 
     @property
     def generation_eligible(self) -> bool:
@@ -207,7 +229,6 @@ class CreativeMetadata:
             "source_ref": self.source_ref,
             "content_sha256": self.content_sha256,
             "ontology_version": self.ontology_version,
-            "generation_eligible": self.generation_eligible,
         }
 
     def to_jsonld(self) -> dict[str, object]:
