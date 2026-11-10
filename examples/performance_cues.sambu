@@ -1,17 +1,17 @@
-# Explicit performance markup stays separate from lyric content.
-let draft = "[Verse:]\nThe first movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nA different movement\n*Phone rings*\n(Mm-mm)\nSomeone says \"go now\"\nру-ру-Русско"
+# Neutral synthetic text used to demonstrate explicit written markers.
+let draft = "[Verse:]\\nThe service reads an input record\\n[Spoken Chorus:]\\nSystem status is ready\\n[Chorus:]\\nSystem status is ready\\n(Verse 2)\\nThe client stores the result\\n*Display turns on*\\n(status: ready)\\nThe operator says \\"Open settings\\"\\npre-pre-processing"
 
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 let sound = prosody_profile(draft)
 
-print("Verse sections:")
-print(structure.section_kind_counts.verse)
-print("Repeated chorus blocks:")
+print("Sections:")
+print(structure.section_count)
+print("Repeated blocks:")
 print(structure.refrain_groups[0].repeat_count)
-print("Chorus delivery hint:")
+print("Explicit section hint:")
 print(structure.sections[1].performance_hint)
-print("Explicit performance markers:")
+print("Written markers:")
 print(cues.marker_count)
 print("Approximate syllable counts:")
 print(sound.syllable_counts)
