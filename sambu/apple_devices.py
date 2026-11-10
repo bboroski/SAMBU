@@ -98,7 +98,7 @@ class HardwareTestReport:
     @property
     def passed(self) -> bool:
         return bool(self.tests) and all(
-            item.status in {"pass", "skip", "warn"} for item in self.tests
+            item.status in {"pass", "skip"} for item in self.tests
         )
 
     def to_dict(self) -> dict[str, object]:
@@ -114,7 +114,9 @@ class HardwareTestReport:
 class AppleDeviceToolkit:
     """Read-only iPhone/iPad diagnostics backed by libimobiledevice CLI tools."""
 
-    REQUIRED_TOOLS = ("idevice_id", "ideviceinfo", "idevicepair")
+    REQUIRED_TOOLS = ("idevice_id", "ideviceinfo")
+    OPTIONAL_TOOLS = ("idevicepair",)
+    ALL_TOOLS = REQUIRED_TOOLS + OPTIONAL_TOOLS
 
     def __init__(
         self,
@@ -188,7 +190,7 @@ class AppleDeviceToolkit:
 
     def _probe_tools(self) -> tuple[ToolStatus, ...]:
         tools: list[ToolStatus] = []
-        for name in self.REQUIRED_TOOLS:
+        for name in self.ALL_TOOLS:
             path = self._resolve_tool(name)
             if path is None:
                 tools.append(ToolStatus(name=name, available=False))
@@ -312,13 +314,13 @@ class AppleDeviceToolkit:
             pairing_valid = pairing.returncode == 0
             pairing_detail = self._short_error(pairing) if not pairing_valid else None
 
-        info = self._run_tool("ideviceinfo", ["-u", udid])
+        # Request each allow-listed property explicitly. Do not dump the full
+        # ideviceinfo output, which can contain serial and other personal data.
         properties: dict[str, str] = {}
-        if info is not None and info.returncode == 0:
-            for line in info.stdout.splitlines():
-                key, separator, value = line.partition(":")
-                if separator:
-                    properties[key.strip()] = value.strip()
+        for key in ("DeviceName", "ProductType", "ProductVersion", "BuildVersion"):
+            result = self._run_tool("ideviceinfo", ["-u", udid, "-k", key])
+            if result is not None and result.returncode == 0:
+                properties[key] = result.stdout.strip()
 
         return AppleDevice(
             udid=udid,
@@ -335,7 +337,7 @@ class AppleDeviceToolkit:
         tools = self._probe_tools()
         tool_map = {item.name: item for item in tools}
         diagnostics: list[Diagnostic] = []
-        for name in self.REQUIRED_TOOLS:
+        for name in self.REQUIRED_TOOLS + self.OPTIONAL_TOOLS:
             item = tool_map[name]
             if item.available:
                 version = f" ({item.version})" if item.version else ""
@@ -344,10 +346,15 @@ class AppleDeviceToolkit:
                     self._message("tool_ready", tool=name, version=version),
                 ))
             else:
+                optional = name in self.OPTIONAL_TOOLS
                 diagnostics.append(Diagnostic(
-                    f"tool_{name}", "error",
+                    f"tool_{name}", "warning" if optional else "error",
                     self._message("tool_missing", tool=name),
-                    "Install a compatible libimobiledevice Windows build and add its bin directory to PATH or pass --bin-dir.",
+                    (
+                        "Pairing validation will be skipped; metadata can still be read."
+                        if optional else
+                        "Install a compatible libimobiledevice Windows build and add its bin directory to PATH or pass --bin-dir."
+                    ),
                 ))
 
         devices: list[AppleDevice] = []
