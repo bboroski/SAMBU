@@ -104,3 +104,8 @@ MIT — see [LICENSE](LICENSE).
 - [Data contract and usage boundaries](docs/BIOLOGY_DOMAIN_PACK.md)
 
 An offline reference pack for education and metadata; it does not control systems, devices or diagnostics.
+
+
+## Product system
+
+Shared Duck design, multilingual documentation, capability governance, marketing-claim controls and release rules: [docs/PRODUCT_SYSTEM.md](docs/PRODUCT_SYSTEM.md). The 10,000-ID registry is planning capacity, not a claim of 10,000 shipped functions.
