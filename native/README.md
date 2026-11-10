@@ -8,6 +8,7 @@ It is intentionally separate from the existing Python-hosted interpreter.
 - Typed scalar HIR for boolean, signed 64-bit integer and 64-bit floating values.
 - A single-basic-block MIR in SSA form with explicit type metadata on each result.
 - A verifier for dense SSA definitions, use-before-definition, operand types and final returns.
+- Explicit operand-free terminators for unit-returning MIR/LIR functions, with strict verifier checks.
 - A first LIR with virtual-register identifiers and a second verifier.
 - A chunked arena allocator for compiler-lifetime objects.
 - A compiler-lifetime string interner with stable returned pointers.

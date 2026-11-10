@@ -3,7 +3,7 @@
 **Specification:** AS-1  
 **Baseline:** SAMBU 0.11 alpha  
 **Status:** implemented, experimental  
-**Word count:** 200 unique lexical forms — 25 grammar forms, 123 built-in forms, 52 reserved forms.
+**Word count:** 200 unique lexical forms — 25 grammar forms, 129 built-in forms, 46 reserved forms.
 
 ## 1. Design intent
 
@@ -100,7 +100,7 @@ Legacy forms such as `let`, `fn`, `if`, `class`, `return`, and `true` remain val
 
 ## 4. Executable built-in words
 
-The 123 implemented built-in forms call existing SAMBU library functions. They do not create duplicate implementations or change function argument contracts. Families are grouped by sound and functional relationship in the full wordbook below.
+The 129 implemented built-in forms call existing SAMBU library functions. They do not create duplicate implementations or change function argument contracts. Families are grouped by sound and functional relationship in the full wordbook below.
 
 Two additional lexicon services are available inside SAMBU:
 - `word_info(word)` returns the complete articulatory record.
@@ -110,7 +110,7 @@ Their articulated spellings are `leven` (`word_info`) and `levir` (`wordbook`).
 
 ## 5. Reserved vocabulary
 
-52 forms are fully defined lexemes, but are **reserved**, not executable keywords or built-ins yet. They name future semantic slots for advanced type construction, protocols, state transitions, diagnostics, parallel execution and source tooling. They are available through `word_info` and `wordbook("reserved")`.
+46 forms are fully defined lexemes, but are **reserved**, not executable keywords or built-ins yet. They name future semantic slots for advanced type construction, protocols, state transitions, diagnostics, parallel execution and source tooling. They are available through `word_info` and `wordbook("reserved")`.
 
 A reserved word never silently performs an operation. When a future feature is implemented, its status can change only alongside parser/runtime code and regression tests.
 
@@ -139,7 +139,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `kovir` | ko-vir | shape, declaration and architecture; combine, group or contain; a link, rule or connection | встроенная форма → `tic_tac_toe_state` |
 | `kovum` | ko-vum | shape, declaration and architecture; combine, group or contain; a value, condition or result | встроенная форма → `tic_tac_toe_move` |
 | `kuva` | ku-va | shape, declaration and architecture; finish, release or close; an operation or directive | встроенная форма → `tic_tac_toe_best_move` |
-| `kuven` | ku-ven | shape, declaration and architecture; finish, release or close; a named object, type or resource | зарезервировано |
+| `kuven` | ku-ven | shape, declaration and architecture; finish, release or close; a named object, type or resource | встроенная форма → `craft_token` |
 | `kuvir` | ku-vir | shape, declaration and architecture; finish, release or close; a link, rule or connection | зарезервировано |
 | `kuvum` | ku-vum | shape, declaration and architecture; finish, release or close; a value, condition or result | зарезервировано |
 
@@ -187,7 +187,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `rova` | ro-va | payload, number and stored data; combine, group or contain; an operation or directive | встроенная форма → `ratio_to_percent` |
 | `roven` | ro-ven | payload, number and stored data; combine, group or contain; a named object, type or resource | встроенная форма → `percentage_points` |
 | `rovir` | ro-vir | payload, number and stored data; combine, group or contain; a link, rule or connection | встроенная форма → `clamp_percent` |
-| `rovum` | ro-vum | payload, number and stored data; combine, group or contain; a value, condition or result | зарезервировано |
+| `rovum` | ro-vum | payload, number and stored data; combine, group or contain; a value, condition or result | встроенная форма → `craft_assemble` |
 | `ruva` | ru-va | payload, number and stored data; finish, release or close; an operation or directive | зарезервировано |
 | `ruven` | ru-ven | payload, number and stored data; finish, release or close; a named object, type or resource | зарезервировано |
 | `ruvir` | ru-vir | payload, number and stored data; finish, release or close; a link, rule or connection | зарезервировано |
@@ -239,7 +239,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `sovir` | so-vir | logic, truth and constraint; combine, group or contain; a link, rule or connection | встроенная форма → `hemispheric_sleep_budget` |
 | `sovum` | so-vum | logic, truth and constraint; combine, group or contain; a value, condition or result | встроенная форма → `magnetic_heading` |
 | `suva` | su-va | logic, truth and constraint; finish, release or close; an operation or directive | встроенная форма → `digestive_grinding` |
-| `suven` | su-ven | logic, truth and constraint; finish, release or close; a named object, type or resource | зарезервировано |
+| `suven` | su-ven | logic, truth and constraint; finish, release or close; a named object, type or resource | встроенная форма → `craft_rule` |
 | `suvir` | su-vir | logic, truth and constraint; finish, release or close; a link, rule or connection | зарезервировано |
 | `suvum` | su-vum | logic, truth and constraint; finish, release or close; a value, condition or result | зарезервировано |
 
@@ -281,7 +281,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `devir` | de-vir | diagnosis, signal and proof; observe, check or validate; a link, rule or connection | встроенная форма → `mine_patterns` |
 | `devum` | de-vum | diagnosis, signal and proof; observe, check or validate; a value, condition or result | встроенная форма → `cluster_glue` |
 | `diva` | di-va | diagnosis, signal and proof; calculate, convert or transform; an operation or directive | встроенная форма → `pitch_score` |
-| `diven` | di-ven | diagnosis, signal and proof; calculate, convert or transform; a named object, type or resource | зарезервировано |
+| `diven` | di-ven | diagnosis, signal and proof; calculate, convert or transform; a named object, type or resource | встроенная форма → `craft_master` |
 | `divir` | di-vir | diagnosis, signal and proof; calculate, convert or transform; a link, rule or connection | зарезервировано |
 | `divum` | di-vum | diagnosis, signal and proof; calculate, convert or transform; a value, condition or result | зарезервировано |
 | `dova` | do-va | diagnosis, signal and proof; combine, group or contain; an operation or directive | зарезервировано |
@@ -337,7 +337,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `pova` | po-va | space, geometry and composition; combine, group or contain; an operation or directive | встроенная форма → `voxel_spectral_profile` |
 | `poven` | po-ven | space, geometry and composition; combine, group or contain; a named object, type or resource | встроенная форма → `voxel_solve_field` |
 | `povir` | po-vir | space, geometry and composition; combine, group or contain; a link, rule or connection | встроенная форма → `voxel_sparsify` |
-| `povum` | po-vum | space, geometry and composition; combine, group or contain; a value, condition or result | зарезервировано |
+| `povum` | po-vum | space, geometry and composition; combine, group or contain; a value, condition or result | встроенная форма → `craft_cut` |
 | `puva` | pu-va | space, geometry and composition; finish, release or close; an operation or directive | зарезервировано |
 | `puven` | pu-ven | space, geometry and composition; finish, release or close; a named object, type or resource | зарезервировано |
 | `puvir` | pu-vir | space, geometry and composition; finish, release or close; a link, rule or connection | зарезервировано |
@@ -360,7 +360,7 @@ The table marks every word's phonetic form, compositional meaning and implementa
 | `livir` | li-vir | sound, symbol, text and expression; calculate, convert or transform; a link, rule or connection | встроенная форма → `order_pipeline` |
 | `livum` | li-vum | sound, symbol, text and expression; calculate, convert or transform; a value, condition or result | встроенная форма → `package_pricing` |
 | `lova` | lo-va | sound, symbol, text and expression; combine, group or contain; an operation or directive | встроенная форма → `unit_economics` |
-| `loven` | lo-ven | sound, symbol, text and expression; combine, group or contain; a named object, type or resource | зарезервировано |
+| `loven` | lo-ven | sound, symbol, text and expression; combine, group or contain; a named object, type or resource | встроенная форма → `craft_source` |
 | `lovir` | lo-vir | sound, symbol, text and expression; combine, group or contain; a link, rule or connection | зарезервировано |
 | `lovum` | lo-vum | sound, symbol, text and expression; combine, group or contain; a value, condition or result | зарезервировано |
 | `luva` | lu-va | sound, symbol, text and expression; finish, release or close; an operation or directive | зарезервировано |
@@ -417,7 +417,7 @@ The headless IDE completion list includes all executable articulatory words. Res
 - Existing English-like keywords and built-ins remain supported.
 - Built-in aliases point to the same callable objects as their canonical targets.
 - No runtime guesswork, fuzzy spelling correction or semantic inference is used.
-- The 52 reserved forms have meanings but no execution semantics.
+- The 46 reserved forms have meanings but no execution semantics.
 - The wordbook is finite, deterministic and checked for exactly 200 unique forms.
 
 **Articulatory law:** sound selects a domain, vowel selects an operation mode, ending selects the grammatical role; the compiler does not guess.

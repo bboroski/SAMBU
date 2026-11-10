@@ -26,7 +26,7 @@ VersionInfoProductName=SAMBU
 VersionInfoDescription=SAMBU language and developer toolkit
 
 [Files]
-Source: "dist\sambu.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\dist\sambu.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\SAMBU CLI"; Filename: "{app}\sambu.exe"; WorkingDir: "{app}"

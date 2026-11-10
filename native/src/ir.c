@@ -430,6 +430,22 @@ SambuIrStatus sambu_mir_emit_return(SambuMirFunction *f, uint32_t block_id, Samb
     return append_inst(f, b, &inst);
 }
 
+SambuIrStatus sambu_mir_emit_return_unit(SambuMirFunction *f, uint32_t block_id) {
+    if (f == NULL) return SAMBU_IR_INVALID_ARGUMENT;
+    if (f->return_type != SAMBU_TYPE_UNIT) return SAMBU_IR_INVALID_TYPE;
+    SambuMirBlock *b = block_at(f, block_id);
+    if (b == NULL) return SAMBU_IR_INVALID_ARGUMENT;
+
+    SambuMirInst inst;
+    memset(&inst, 0, sizeof(inst));
+    inst.opcode = SAMBU_MIR_RETURN;
+    inst.result = SAMBU_VALUE_NONE;
+    inst.operand_a = SAMBU_VALUE_NONE;
+    inst.operand_b = SAMBU_VALUE_NONE;
+    inst.type = SAMBU_TYPE_UNIT;
+    return append_inst(f, b, &inst);
+}
+
 static bool valid_mir_binary(
     SambuMirOpcode op, SambuType input, SambuType output
 ) {
@@ -472,12 +488,20 @@ SambuIrStatus sambu_mir_verify(
     for (size_t i = 0u; i < b->instruction_count; ++i) {
         const SambuMirInst *inst = &b->instructions[i];
         if (inst->opcode == SAMBU_MIR_RETURN) {
-            SambuType type;
-            if (i + 1u != b->instruction_count || returned ||
-                inst->operand_a >= definitions ||
-                !value_type_before(b, i, inst->operand_a, &type) ||
-                type != f->return_type) {
-                error_text(error, error_capacity, "MIR return must be final and match the function type");
+            bool valid_return = i + 1u == b->instruction_count && !returned &&
+                inst->result == SAMBU_VALUE_NONE &&
+                inst->operand_b == SAMBU_VALUE_NONE &&
+                inst->type == SAMBU_TYPE_UNIT;
+            if (valid_return && f->return_type == SAMBU_TYPE_UNIT) {
+                valid_return = inst->operand_a == SAMBU_VALUE_NONE;
+            } else if (valid_return) {
+                SambuType type;
+                valid_return = inst->operand_a < definitions &&
+                    value_type_before(b, i, inst->operand_a, &type) &&
+                    type == f->return_type;
+            }
+            if (!valid_return) {
+                error_text(error, error_capacity, "MIR return terminator violates the function result contract");
                 return SAMBU_IR_INVALID_IR;
             }
             returned = true;
@@ -669,11 +693,20 @@ SambuIrStatus sambu_lir_verify(
     for (size_t i = 0u; i < f->instruction_count; ++i) {
         const SambuLirInst *inst = &f->instructions[i];
         if (inst->opcode == SAMBU_LIR_RETURN) {
-            SambuType type;
-            if (i + 1u != f->instruction_count || returned ||
-                inst->source_a >= definitions ||
-                !lir_value_type(f, inst->source_a, i, &type) || type != f->return_type) {
-                error_text(error, error_capacity, "LIR return must be final and match the function type");
+            bool valid_return = i + 1u == f->instruction_count && !returned &&
+                inst->destination == SAMBU_VALUE_NONE &&
+                inst->source_b == SAMBU_VALUE_NONE &&
+                inst->type == SAMBU_TYPE_UNIT;
+            if (valid_return && f->return_type == SAMBU_TYPE_UNIT) {
+                valid_return = inst->source_a == SAMBU_VALUE_NONE;
+            } else if (valid_return) {
+                SambuType type;
+                valid_return = inst->source_a < definitions &&
+                    lir_value_type(f, inst->source_a, i, &type) &&
+                    type == f->return_type;
+            }
+            if (!valid_return) {
+                error_text(error, error_capacity, "LIR return terminator violates the function result contract");
                 return SAMBU_IR_INVALID_IR;
             }
             returned = true;

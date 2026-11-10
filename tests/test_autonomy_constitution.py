@@ -73,6 +73,23 @@ class AutonomyConstitutionTests(unittest.TestCase):
             ids = re.findall(r"^\| (AUT-\d{2,3}) \|", block, flags=re.MULTILINE)
             self.assertEqual(len(ids), 10)
 
+    def test_two_series_of_fifty_and_101_contracts_are_linked(self):
+        architecture = (ROOT / "docs" / "LANGUAGE_EVOLUTION.md").read_text(encoding="utf-8")
+        self.assertIn("100-rule Autonomy Constitution", architecture)
+        self.assertIn("two thematic series of 50 rules", architecture)
+        contracts = re.findall(
+            r"^\*\*(\d{3})\.\*\*", architecture, flags=re.MULTILINE
+        )
+        self.assertEqual(contracts, [f"{i:03d}" for i in range(1, 102)])
+
+    def test_quality_catalog_indexes_all_constitutional_rules(self):
+        catalog = (ROOT / "docs" / "quality" / "RULE_CATALOG.md").read_text(encoding="utf-8")
+        ids = re.findall(r"^\| (AUT-\d{2,3}) \|", catalog, flags=re.MULTILINE)
+        self.assertEqual(ids, [f"AUT-{i:02d}" for i in range(1, 101)])
+        self.assertIn("SAM-Q-SEC-001", catalog)
+        self.assertIn("LANG-001–LANG-020", catalog)
+        self.assertIn("LANG-091–101", catalog)
+
     def test_autonomy_boundaries_are_not_overclaimed(self):
         for phrase in (
             "not itself implement every capability",
