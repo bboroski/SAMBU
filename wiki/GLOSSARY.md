@@ -2,18 +2,18 @@
 
 | Term | Meaning |
 |---|---|
-| **Aikido** | Provider-neutral AI/inference routing and orchestration API in the Python package |
+| **Inference orchestration API** | Provider-neutral AI/inference routing and orchestration model; legacy Python namespace: `sambu.aikido` |
 | **AST** | Abstract syntax tree: structured representation of parsed source |
 | **ABI** | Application binary interface between compiled components |
-| **Anatidae** | Domain models inspired by ducks, geese and related waterfowl |
+| **Comparative avian models** | Parameterized physiology, airflow, energetics and sensory-profile calculations |
 | **Bounded operation** | Operation with an explicit limit on work, memory, retries or input size |
 | **Chunk** | Immutable batch of items produced by the chunking utilities |
 | **CSR** | Compressed sparse row storage for graph/Laplacian matrices |
 | **Dimensional analysis** | Checking physical dimensions as values are combined |
 | **DDA** | Digital differential analyzer traversal used by the voxel raycaster |
 | **Evidence reference** | Identifier or pointer to supporting material; not proof by itself |
-| **Jiu-Jitsu** | Renderer-neutral UI, MVC, modal and role-based authorization model |
-| **Judo** | Component graph and architecture validation API |
+| **UI workflow model** | Renderer-neutral UI, MVC, modal and role-based authorization; legacy namespace: `sambu.jiu_jitsu` |
+| **Architecture validation model** | Component graph and architecture validation; legacy namespace: `sambu.judo` |
 | **Lexer** | Source scanner that converts characters into tokens |
 | **Morton order** | Spatial ordering that interleaves coordinate bits |
 | **OOP** | Object-oriented programming |
@@ -26,8 +26,8 @@
 | **VOX** | MagicaVoxel interchange file format |
 | **Voxel frame** | Mapping from voxel-grid coordinates to world coordinates |
 
-## Naming conventions
+## API compatibility
 
-Judo, Aikido and Jiu-Jitsu are subsystem names used by the SAMBU project. They identify distinct software models and should not be interpreted as claims that SAMBU implements the corresponding martial arts or any external service.
+The legacy namespaces `sambu.judo`, `sambu.aikido` and `sambu.jiu_jitsu` remain unchanged for source compatibility. Documentation uses functional names; imports and public class identifiers are not renamed in this cleanup.
 
 Names such as Research Lab, Feature Incubator and Evolution Engine in the roadmap are architectural proposals unless a corresponding implementation is linked from the current repository.
