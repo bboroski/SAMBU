@@ -222,4 +222,4 @@ The package also exports `FiberScheduler`, `yield_now()`, `sleep_ticks(n)`, `Res
 - `ModuleMetadata` validates descriptive module fields; it does not act as a compiler directive.
 - `DualAuthorizationGate` invokes two independent verifier callbacks. A real HSM/TPM must be provided by the host.
 
-These APIs are experimental Python-host features. The scheduler does not create OS threads, allocate native fiber stacks, preempt running code or execute tasks across cores. There is no language-level `yield`, `async`, `await`, static race detector, hardware bus or bundled HSM implementation. See [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md) for guarantees, limits and the native-runtime roadmap.
+These APIs are experimental Python-host features. The scheduler does not create OS threads, allocate native fiber stacks, preempt running code or execute tasks across cores. There is no language-level `yield`, `async`, `await`, static race detector, hardware bus or bundled HSM implementation. See [Systems Language Architecture](SYSTEMS_LANGUAGE_ARCHITECTURE.md) for guarantees, limits and the native-runtime roadmap.
