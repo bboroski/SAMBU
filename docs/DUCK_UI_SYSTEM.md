@@ -36,7 +36,7 @@ Yellow is reserved for primary actions, active navigation, keyboard focus, progr
 
 ## Scaling and layout
 
-The desktop tools should follow OS DPI scaling and provide an independent UI zoom range of 85–150%. In the IDE, use the visible **+ / −** toolbar controls; in Duck Studio, use the visible **+ / −** controls in the top bar. Both also support **Ctrl +** / **Ctrl −** and **Ctrl 0**. The preference is stored under `~/.sambu/`. Keep the main workspace usable at 1366×768 and 1920×1080; reduce secondary panels before clipping the editor or report content.
+The desktop tools should follow OS DPI scaling and provide an independent UI zoom range of 80–160%. In the IDE, use the visible **+ / −** toolbar controls; in Duck Studio, use the visible **+ / −** controls in the top bar. Both also support **Ctrl +** / **Ctrl −** and **Ctrl 0**. The preference is stored under `~/.sambu/`. Keep the main workspace usable at 1366×768 and 1920×1080; reduce secondary panels before clipping the editor or report content.
 
 ## Current implementation
 
