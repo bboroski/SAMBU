@@ -258,6 +258,35 @@
       "specification": "docs/MULTILINGUAL_SIGNAL_PIPELINE.md",
       "metadata_only": true,
       "raw_text_embedded": false
+    },
+    "academic_biology_terms_v1": {
+      "version": 1,
+      "format": "UTF-8 TSV (tab-delimited)",
+      "records": 500,
+      "fields": [
+        "id",
+        "category",
+        "term_en",
+        "term_ru"
+      ],
+      "languages": [
+        "en",
+        "ru"
+      ],
+      "category_keys": [
+        "molecular_cell",
+        "genetics_evolution",
+        "ecology_environment",
+        "physiology_anatomy",
+        "immunology_microbiology_virology"
+      ],
+      "canonical_dataset": "https://github.com/bboroski/SAMBU/blob/main/data/biology/academic_terms_500.tsv",
+      "local_copy_path": "data/biology/academic_terms_500.tsv",
+      "specification": "https://github.com/bboroski/SAMBU/blob/main/docs/BIOLOGY_DOMAIN_PACK.md",
+      "validator": "tools/validate_biology_terms.py",
+      "reference_only": true,
+      "clinical_decision_support": false,
+      "hardware_control": false
     }
   }
 }
