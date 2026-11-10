@@ -29,6 +29,8 @@ jobs:
           pyinstaller --clean --onefile --name sambu --collect-submodules sambu packaging/windows/sambu_launcher.py
           & .\dist\sambu.exe --version
           if ($LASTEXITCODE -ne 0) { throw "Standalone CLI smoke test failed." }
+          & .\dist\sambu.exe device diagnose --help
+          if ($LASTEXITCODE -ne 0) { throw "Bundled Apple device CLI smoke test failed." }
       - name: Require signing certificate
         shell: pwsh
         env:
