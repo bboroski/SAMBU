@@ -1,0 +1,38 @@
+# A host-neutral model for an automatic passage curtain.
+# The host calls enter() and leave() from its presence/occupancy sensors.
+class PassageCurtain {
+  fn init(self) {
+    self.occupants = 0
+    self.is_open = false
+  }
+
+  fn enter(self) {
+    self.occupants = self.occupants + 1
+    if self.occupants == 1 {
+      self.is_open = true
+      return "opened"
+    }
+    return "already_open"
+  }
+
+  fn leave(self) {
+    if self.occupants > 0 {
+      self.occupants = self.occupants - 1
+    }
+    if self.occupants == 0 {
+      if self.is_open {
+        self.is_open = false
+        return "closed"
+      }
+      return "already_closed"
+    }
+    return "held_open"
+  }
+}
+
+let curtain = PassageCurtain()
+print(curtain.enter())
+print(curtain.enter())
+print(curtain.leave())
+print(curtain.leave())
+print(curtain.is_open)
