@@ -13,9 +13,10 @@ ROOT = Path(__file__).resolve().parents[1] / "examples" / "dialect_apps"
 
 class DialectApplicationTests(unittest.TestCase):
     def test_each_dialect_has_ten_parseable_executable_applications(self):
+        suffixes = {"pascal": ".pas", "delphi": ".dpr", "fortran": ".f90"}
         for dialect in ("pascal", "delphi", "fortran"):
             with self.subTest(dialect=dialect):
-                paths = sorted((ROOT / dialect).glob("*.sambu"))
+                paths = sorted((ROOT / dialect).glob("*" + suffixes[dialect]))
                 self.assertEqual(len(paths), 10, f"{dialect} suite must contain exactly ten apps")
                 for path in paths:
                     with self.subTest(application=path.name):
