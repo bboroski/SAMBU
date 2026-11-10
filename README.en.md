@@ -178,7 +178,7 @@ Five governing principles:
 - **Branchable design** — modular layers and explicit contracts.
 - **Unforced interoperability** — stable interfaces and user choice.
 
-Machine adds capability profiles, deterministic 1:100 AST sampling and a bounded Ghost Ledger. Sealed allows inspection; sandbox allows execution in the SAMBU interpreter. Neither is an OS security sandbox. Host and device profiles reserve future adapters; they do not grant shell, network or hardware access.
+Machine adds capability profiles, deterministic 1:100 AST sampling and a bounded failure-signature ledger. Sealed allows inspection; sandbox allows execution in the SAMBU interpreter. Neither is an OS security sandbox. Host and device profiles reserve future adapters; they do not grant shell, network or hardware access.
 
 ## Verification
 
@@ -200,8 +200,8 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 ## Documentation
 
-- [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md) · [Platform Integration](docs/PLATFORM_INTEGRATION.md)
+- [Systems Architecture](docs/SYSTEMS_LANGUAGE_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
