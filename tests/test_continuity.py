@@ -116,6 +116,25 @@ class SignalGuardTests(unittest.TestCase):
         self.assertFalse(result.authenticated)
         self.assertEqual(guard.sequence_cursors, {})
 
+    def test_reentrant_verifier_cannot_commit_the_same_sequence_twice(self):
+        nested_results = []
+        nested_once = False
+        guard = None
+
+        def verifier(issuer, sequence, digest, signature):
+            nonlocal nested_once
+            if not nested_once:
+                nested_once = True
+                nested_results.append(guard.accept(self.envelope(sequence=sequence)))
+            return True
+
+        guard = SignalGuard(("relay.alpha",), signature_verifier=verifier)
+        outer = guard.accept(self.envelope(sequence=1))
+        self.assertTrue(nested_results[0].accepted)
+        self.assertEqual(outer.reason, "replay_or_out_of_order")
+        self.assertEqual(sum(item.accepted for item in guard.decisions), 1)
+        self.assertEqual(guard.sequence_cursors["relay.alpha"], 1)
+
     def test_non_authenticating_mode_is_explicit_and_marks_signal_unauthenticated(self):
         guard = SignalGuard(("relay.alpha",), require_authentication=False)
         result = guard.accept(self.envelope(signature=None))
