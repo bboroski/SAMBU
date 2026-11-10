@@ -29,10 +29,10 @@ class CreativeMetadataTests(unittest.TestCase):
         item = CreativeMetadata.from_mapping({
             "cluster_id": "T-001",
             "theme": "cultural_celebration",
-            "tone": "nostalgic_reverence",
-            "key_symbols": ["fairground", "communal gathering"],
+            "tone": "neutral_informational",
+            "key_symbols": ["event_calendar", "public_schedule"],
             "language": ["uk", "en"],
-            "linguistic_register": "poetic_colloquial",
+            "linguistic_register": "informational_prose",
             "safety_flag": "CLEAN",
             **self.REVIEW,
         })
@@ -53,17 +53,17 @@ class CreativeMetadataTests(unittest.TestCase):
             "SANITIZED_INTIMACY",
             "EXCLUDED_FROM_GENERATION",
         ):
-            item = CreativeMetadata("T-004", "emotional_duality", "reflective", safety_flag=flag)
+            item = CreativeMetadata("T-004", "emotional_duality", "neutral_comparative", safety_flag=flag)
             self.assertFalse(item.generation_eligible)
         satire = CreativeMetadata(
-            "T-007", "conflict_resilience", "satirical",
+            "T-007", "conflict_resilience", "neutral_procedural",
             safety_flag="CLEAN_SATIRE", **self.REVIEW
         )
         self.assertTrue(satire.generation_eligible)
 
     def test_generation_eligibility_requires_review_evidence(self):
         unreviewed_clean = CreativeMetadata(
-            "T-001", "cultural_celebration", "nostalgic",
+            "T-001", "cultural_celebration", "neutral_informational",
             safety_flag="CLEAN",
         )
         self.assertFalse(unreviewed_clean.generation_eligible)
@@ -135,8 +135,8 @@ class CreativeMetadataTests(unittest.TestCase):
                 "content_sha256": "not-a-hash",
             })
 
-    def test_corpus_fixture_is_valid_and_not_generation_eligible(self):
-        sample_path = Path(__file__).resolve().parents[1] / "examples" / "creative_corpus_metadata.sample.json"
+    def test_synthetic_examples_fixture_is_valid_and_not_generation_eligible(self):
+        sample_path = Path(__file__).resolve().parents[1] / "examples" / "creative_metadata_examples.sample.json"
         payload = json.loads(sample_path.read_text(encoding="utf-8"))
         records = validate_metadata_document(payload)
         self.assertEqual(len(records), 9)
