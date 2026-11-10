@@ -1,3 +1,9 @@
+<p align="center"><img src="../assets/duck-ui/duck-mark.svg" alt="SAMBU duck mark" width="88" /></p>
+<p align="center"><strong>SAMBU · PROJECT ENCYCLOPEDIA</strong></p>
+<p align="center"><em>Architecture, language reference, and project governance</em></p>
+<p align="center"><a href="../README.md">Project overview</a> · <a href="../README.en.md">English overview</a> · <a href="../README.ru.md">Russian overview</a></p>
+<hr />
+
 # SAMBU Wiki — Project Encyclopedia
 
 > **SAMBU: model clearly. compose carefully. verify honestly.**
