@@ -109,6 +109,13 @@ class SignalGuardTests(unittest.TestCase):
         self.assertEqual(result.reason, "signature_verifier_error")
         self.assertEqual(guard.sequence_cursors, {})
 
+    def test_truthy_non_boolean_verifier_result_is_not_authentication(self):
+        guard = SignalGuard(("relay.alpha",), signature_verifier=lambda *args: "yes")
+        result = guard.accept(self.envelope())
+        self.assertEqual(result.reason, "signature_invalid")
+        self.assertFalse(result.authenticated)
+        self.assertEqual(guard.sequence_cursors, {})
+
     def test_non_authenticating_mode_is_explicit_and_marks_signal_unauthenticated(self):
         guard = SignalGuard(("relay.alpha",), require_authentication=False)
         result = guard.accept(self.envelope(signature=None))
