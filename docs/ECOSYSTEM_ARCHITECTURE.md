@@ -6,7 +6,7 @@
 
 ## 1. Purpose
 
-SAMBU is the umbrella engineering platform for seven independently buildable repositories. It owns the ecosystem-level language, developer tooling, architectural models, module-manifest contract and canonical registry. The repositories below are specialized modules of one ecosystem, not directories to be collapsed into one source tree.
+SAMBU is the umbrella engineering platform for nine coordinated repositories: seven implemented engineering projects and two specification-only system projects, NUN and NUNLauncher. It owns the ecosystem-level language, developer tooling, architectural models, module-manifest contract and canonical registry. The repositories below are specialized modules of one ecosystem, not directories to be collapsed into one source tree.
 
 The former **NUN Mesh** label is superseded as the ecosystem's public architecture name by **SAMBU Ecosystem**. Existing historical filenames and illustrations may retain the older wording until they are deliberately refreshed; that legacy wording does not define a runtime dependency.
 
@@ -50,6 +50,8 @@ Solid lines are ecosystem-level contracts or an existing policy port. Dashed lin
 | **ReaperCripple** | BSP integration, staged bootstrap, pinout governance, production profiles, calibration, fixture recipes and MES events | C11 / CMake / target-specific toolchains | Host tests do not qualify a board, pinout, electrical limit, calibration or production profile |
 | **ToolNG** | Windows-side Apple USB observation, local reports and evidence quality gates | C17 / Win32 | Native application; it ports selected SAMBU policy rules and does not embed Python or execute `.sambu` programs |
 | **Klipot** | Registry discovery, dependency presentation, contract catalog and operator-facing browser labs | Static HTML/CSS/JavaScript | Browser labs are simulations, not firmware execution, live telemetry or hardware evidence |
+| **NUN** | Minimal kernel architecture, boot handoff, memory, execution and protection contracts | Specification-only; target runtime not implemented | No bootable image, linker script, driver set or target support is claimed |
+| **NUNLauncher** | Kernel-image validation and versioned boot-information handoff | Specification-only; bootloader not implemented | No automatic flashing, unverified image handoff or hidden fallback is allowed |
 
 ## 4. Dependency and execution rules
 
@@ -60,6 +62,8 @@ Solid lines are ecosystem-level contracts or an existing policy port. Dashed lin
 5. **ReaperCripple composes target-specific services.** It validates the exact MCU/SoC, package, board and schematic revision, fixture, calibration set and approved profile.
 6. **ToolNG remains a native Windows application.** Its SAMBU relationship is a reviewed native C17 port of selected policy and workflow rules, not a dependency on the Python package.
 7. **Klipot is a presentation/control plane.** It consumes a registry projection, but no embedded target links or trusts the portal to perform hardware actions.
+8. **NUNLauncher owns the system-entry boundary.** It validates image metadata, memory ranges, signature state and the versioned handoff before transfer; it does not duplicate kernel services.
+9. **NUN owns the kernel boundary.** It independently validates boot context and owns architecture entry, memory, execution, protection and device interfaces. Both system repositories are currently specifications only.
 
 No module receives filesystem, process, network, device or actuator authority merely because it appears in the registry. Every privileged operation requires an implemented adapter, explicit capability, caller authorization and independent evidence.
 
@@ -98,6 +102,8 @@ The canonical ecosystem registry is maintained in SAMBU at `ecosystem/registry.j
 | Kloz → ReaperCripple | Adapter-ready | Target BSP and measurement callbacks remain board-specific |
 | CO → SaintSI | Adapter-ready | Heartbeat bridge is refreshed only after successful polling |
 | SaintSI → ReaperCripple | Adapter-ready | Health is observed; recovery and actuation remain application/board policy |
+| NUNLauncher → NUN | Planned | Versioned kernel image and boot-information handoff; neither implementation exists yet |
+| Kloz → NUN | Planned optional adapter | A future kernel port may adapt platform capabilities without making Kloz mandatory |
 
 ## 7. Local validation
 
@@ -111,11 +117,23 @@ Run checks in each repository using its own toolchain:
 | SaintSI | `make test` |
 | ReaperCripple | `cmake -S . -B build -DREAPER_BUILD_TESTS=ON && cmake --build build --parallel && ctest --test-dir build --output-on-failure` |
 | ToolNG | `cmake -S . -B build -A x64 -DBUILD_TESTING=ON` then build and CTest on Windows |
-| Klipot | Open `index.html` locally and run the repository's Pages/asset validation workflow |
+| Klipot | Open `index.html` locally and run the Pages/asset validation workflow |
+| NUN | Specification/manifest validation only; no kernel build exists yet |
+| NUNLauncher | Specification/manifest validation only; no bootloader build exists yet |
 
 These are documented repository commands, not a claim that they were executed during this registry change. Hardware qualification remains a separate gate.
 
-## 8. Evolution path
+## 8. Layered autonomy and update lifecycle
+
+Each repository owns its source, build, API, tests, configuration, release cadence and rollback. Integration is performed by declared contract versions and explicit adapters; required dependencies must be minimal, optional adapters must fail independently, and cyclic required dependencies are rejected. Klipot is a control plane only and is never a firmware or kernel runtime dependency.
+
+Dependabot checks GitHub Actions weekly in all repositories and Python package dependencies in SAMBU. Updates arrive as pull requests, pass repository contract CI, and are reviewed before merge. Automatic merge and automatic installation are disabled. This provides automatic dependency-update proposals, not a claim that every product already has an in-app updater or published release artifacts.
+
+Application and desktop releases may use versioned GitHub Releases when artifacts are published. Installers must validate provenance, integrity/signature, platform and contract compatibility, preserve the last known-good release, and provide a rollback path. Kernel, bootloader and firmware updates additionally require target-specific recovery evidence and explicit operator approval; no unattended flashing or boot-chain replacement is allowed.
+
+Scheduled ecosystem-guard workflows validate manifests and update policy. Repositories with executable one-knob checks run their local checks; NUN and NUNLauncher remain explicitly specification-only until code and target evidence exist.
+
+## 9. Evolution path
 
 1. Validate every `sambu.module.json` against the shared schema in CI.
 2. Add a SAMBU CLI command that reads manifests, detects missing modules, duplicate capability providers and dependency cycles without executing module code.
@@ -124,4 +142,4 @@ These are documented repository commands, not a claim that they were executed du
 5. Define explicit evidence exchange for ToolNG and ReaperCripple without exporting private device or production data by default.
 6. Only after those contracts are stable, consider a supervised host-side module runner. It must not be described as OS sandboxing or native embedded orchestration.
 
-**Design rule:** one ecosystem, seven owners, explicit contracts, independent builds, evidence before claims.
+**Design rule:** one ecosystem, nine repository owners, explicit contracts, independent builds, safe update proposals, evidence before claims.
