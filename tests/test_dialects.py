@@ -1,0 +1,135 @@
+from __future__ import annotations
+
+import unittest
+
+from sambu.dialects import DialectSyntaxError, execute_dialect, transpile
+from sambu.parser import parse_ast
+
+
+class PascalDialectTests(unittest.TestCase):
+    def test_typed_declarations_functions_and_output_translate_and_execute(self):
+        source = """
+program Invoice;
+function doubled(value: real): real;
+begin
+  doubled := value * 2;
+end;
+var amount: real;
+begin
+  amount := 21;
+  writeln(doubled(amount));
+  writeln(300 * K);
+end.
+"""
+        output: list[str] = []
+        result = execute_dialect(source, "pascal", output=output.append)
+        self.assertEqual(result, 300.0 * 1.0)  # final unit-valued expression
+        self.assertEqual(output, ["42", "300 K"])
+
+    def test_inclusive_counted_loop_is_translated(self):
+        source = """
+program Squares;
+begin
+  for index := 1 to 3 do
+  begin
+    writeln(index * index);
+  end;
+end.
+"""
+        result = transpile(source, "pascal")
+        parse_ast(result.generated_source)
+        self.assertIn("range(1, (3) + 1)", result.generated_source)
+
+    def test_immutable_bindings_reject_reassignment(self):
+        source = """
+program Invalid;
+var amount: real;
+begin
+  amount := 10;
+  amount := 20;
+end.
+"""
+        with self.assertRaises(DialectSyntaxError):
+            transpile(source, "pascal")
+
+
+class DelphiDialectTests(unittest.TestCase):
+    def test_object_pascal_function_and_actor_builtins_work(self):
+        source = """
+program ActorDemo;
+function accumulate(state: real; message: real): real;
+begin
+  accumulate := state + message;
+end;
+var worker: actor_ref;
+begin
+  worker := actor(accumulate, 0, 8);
+  actor_send(worker, 5);
+  actor_send(worker, 7);
+  actor_drain(worker, 2);
+  writeln(actor_state(worker));
+end.
+"""
+        output: list[str] = []
+        execute_dialect(source, "delphi", output=output.append)
+        self.assertEqual(output, ["12"])
+
+    def test_aliases_accept_object_pascal_name(self):
+        source = "program Demo;\nbegin\n  writeln(1);\nend."
+        result = transpile(source, "object pascal")
+        self.assertEqual(result.dialect, "delphi")
+
+
+class FortranDialectTests(unittest.TestCase):
+    def test_program_declarations_do_loop_and_logical_operators(self):
+        source = """
+program LoopDemo
+implicit none
+integer :: limit
+limit = 3
+do index = 1, limit
+  print *, index ** 2
+end do
+if (limit .gt. 2 .and. .true.) then
+  print *, .true.
+else
+  print *, .false.
+end if
+end program LoopDemo
+"""
+        output: list[str] = []
+        execute_dialect(source, "fortran", output=output.append)
+        self.assertEqual(output, ["1", "4", "9", "true"])
+
+    def test_si_unit_symbol_case_is_preserved(self):
+        source = """
+program Energy
+implicit none
+real :: temperature
+real :: energy
+temperature = 300 * K
+energy = 1e-21 * J
+print *, energy
+end program Energy
+"""
+        result = transpile(source, "fortran")
+        self.assertIn("300 * K", result.generated_source)
+        self.assertIn("1e-21 * J", result.generated_source)
+        parse_ast(result.generated_source)
+
+    def test_unsupported_mutation_and_constructs_fail_closed(self):
+        source = """
+program Invalid
+integer :: value
+value = 1
+value = 2
+end program Invalid
+"""
+        with self.assertRaises(DialectSyntaxError):
+            transpile(source, "fortran")
+        with self.assertRaises(DialectSyntaxError):
+            transpile("program Bad\nwhile (x)\nend program Bad", "fortran")
+
+
+if __name__ == "__main__":
+    unittest.main()
