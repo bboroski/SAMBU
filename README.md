@@ -104,3 +104,8 @@ MIT — див. [LICENSE](LICENSE).
 - [Контракт и правила использования](docs/BIOLOGY_DOMAIN_PACK.md)
 
 Справочный офлайн-набор для обучения и метаданных; он не управляет системами, устройствами и диагностикой.
+
+
+## Application UI preview
+
+A product-specific browser preview is available in `ui/`. Open `ui/index.html` in a modern browser. The layout interprets the shared abstract grammar as a domain-specific workspace for SAMBU, with connected spatial nodes, contextual inspection and a lower action surface. The preview is illustrative and does not replace the native runtime or produce hardware evidence.
