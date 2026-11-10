@@ -526,6 +526,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [SAMBU Wiki — project encyclopedia](wiki/README.md)
 - [Language reference](docs/LANGUAGE.md)
 - [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
+- [GitHub language identity, TextMate grammar and Linguist admission status](docs/EDITOR_AND_GITHUB_LANGUAGE_SUPPORT.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
 
