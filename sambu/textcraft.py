@@ -102,10 +102,15 @@ def _section_performance_hint(label: str) -> str:
 
 
 def _section_header(line: str) -> str | None:
-    for pattern in (_HEADER_RE, _PAREN_HEADER_RE, _BARE_HEADER_RE):
-        match = pattern.fullmatch(line)
-        if match:
-            return match.group(1).strip()
+    match = _HEADER_RE.fullmatch(line)
+    if match:
+        return match.group(1).strip()
+    match = _PAREN_HEADER_RE.fullmatch(line)
+    if match and _section_kind(match.group(1)) != "custom":
+        return match.group(1).strip()
+    match = _BARE_HEADER_RE.fullmatch(line)
+    if match:
+        return match.group(1).strip()
     return None
 
 def syllables(args: list[object]) -> int:
@@ -435,10 +440,6 @@ def performance_cues_profile(args: list[object]) -> Record:
         ("stage_direction", re.compile(r"\*([^*\n]{1,160})\*")),
         ("parenthetical_aside", re.compile(r"\(([^()\n]{1,160})\)")),
         ("quoted_phrase", re.compile(r'"([^"\n]{1,160})"|“([^”\n]{1,160})”|«([^»\n]{1,160})»')),
-        ("elongated_spelling", re.compile(
-            r"\b(?:[^\W\d_]{1,16}[-–]){2,}[^\W\d_]{1,16}\b",
-            re.IGNORECASE,
-        )),
     )
     markers: list[Record] = []
     counts: Counter[str] = Counter()
@@ -463,6 +464,26 @@ def performance_cues_profile(args: list[object]) -> Record:
                     }))
                 else:
                     truncated = True
+
+        # Detect repeated hyphen-separated syllable/word chunks from the same
+        # tokenization rule used elsewhere in Text Craft. This is robust for
+        # Slavic spelling and does not depend on ASCII-only word boundaries.
+        for match in _WORD_RE.finditer(line):
+            token = match.group(0)
+            chunks = re.split(r"[-–]", token)
+            if len(chunks) < 3 or not all(chunks):
+                continue
+            counts["elongated_spelling"] += 1
+            if len(markers) < 1000:
+                markers.append(Record({
+                    "kind": "elongated_spelling",
+                    "line_number": line_number,
+                    "start_column": match.start() + 1,
+                    "end_column": match.end() + 1,
+                    "text": token,
+                }))
+            else:
+                truncated = True
 
     return Record({
         "marker_count": sum(counts.values()),
