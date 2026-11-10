@@ -68,7 +68,7 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 ## Current iteration candidate
 
 - Draft PR [#19](https://github.com/bboroski/SAMBU/pull/19) contains the workflow permission hardening, quality policy/matrix, normalized AUT/LANG rule catalog and regression tests. It remains unmerged; live validation is determined from the PR's current head SHA, not from this historical main snapshot.
-- At the last candidate check, Python 3.10–3.13, web-integrations, engine-bridges and native C11 passed. The CodeQL aggregate was neutral because the Rust default setup was missing, and Analyze (rust) was still running. Do not treat that security scan as complete.
+- Candidate SHA 2c87837c736fedb958d1410a90c9073dab30a47b exposed a test-only mismatch: the new catalog assertion expected the second LANG range endpoint to repeat the LANG- prefix, while the canonical index uses the compact form LANG-091–101. Python 3.12 failed that assertion; fail-fast cancelled the other matrix jobs. The native C11 job passed. This was an assertion-format defect, not a SAMBU runtime defect; the expectation is corrected in this follow-up. The next candidate SHA must be rechecked. The CodeQL aggregate remains neutral because the Rust default setup is missing, and Rust analysis has not completed.
 
 ## Ranked backlog
 
