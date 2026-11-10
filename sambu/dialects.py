@@ -364,6 +364,9 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
                 result_name = result_name.casefold() if result_name else None
                 result_name = result_name or (name if kind == "function" else None)
                 params = _parameter_names(raw_params, normalized)
+                known_names.update(params)
+                if result_name is not None:
+                    known_names.add(result_name)
                 emit(f"fn {name}({', '.join(params)}) {{", line_number)
                 block_stack.append("function")
                 function_results.append(result_name)
