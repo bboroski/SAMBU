@@ -70,8 +70,50 @@ static bool test_hir_mir_lir(void) {
     return true;
 }
 
+static bool test_unit_returns(void) {
+    SambuArena arena;
+    CHECK(sambu_arena_init(&arena, 256u) == SAMBU_IR_OK);
+
+    SambuMirFunction *mir = sambu_mir_function_new(&arena, "procedure", SAMBU_TYPE_UNIT);
+    CHECK(mir != NULL);
+    uint32_t entry = 0u;
+    CHECK(sambu_mir_add_block(mir, "entry", &entry) == SAMBU_IR_OK);
+    CHECK(sambu_mir_emit_return_unit(mir, entry) == SAMBU_IR_OK);
+
+    char error[160];
+    CHECK(sambu_mir_verify(mir, error, sizeof(error)) == SAMBU_IR_OK);
+
+    SambuLirFunction *lir = NULL;
+    CHECK(sambu_lir_lower(&arena, mir, &lir) == SAMBU_IR_OK);
+    CHECK(lir != NULL && lir->instruction_count == 1u);
+    CHECK(lir->instructions[0].source_a == SAMBU_VALUE_NONE);
+    CHECK(lir->instructions[0].source_b == SAMBU_VALUE_NONE);
+    CHECK(sambu_lir_verify(lir, error, sizeof(error)) == SAMBU_IR_OK);
+
+    lir->instructions[0].source_a = 0u;
+    CHECK(sambu_lir_verify(lir, error, sizeof(error)) == SAMBU_IR_INVALID_IR);
+    lir->instructions[0].source_a = SAMBU_VALUE_NONE;
+
+    mir->blocks[0].instructions[0].operand_a = 0u;
+    CHECK(sambu_mir_verify(mir, error, sizeof(error)) == SAMBU_IR_INVALID_IR);
+    mir->blocks[0].instructions[0].operand_a = SAMBU_VALUE_NONE;
+    CHECK(sambu_mir_verify(mir, error, sizeof(error)) == SAMBU_IR_OK);
+
+    CHECK(sambu_mir_emit_return_unit(mir, entry) == SAMBU_IR_INVALID_IR);
+
+    SambuMirFunction *value_function =
+        sambu_mir_function_new(&arena, "value_function", SAMBU_TYPE_I64);
+    CHECK(value_function != NULL);
+    uint32_t value_entry = 0u;
+    CHECK(sambu_mir_add_block(value_function, "entry", &value_entry) == SAMBU_IR_OK);
+    CHECK(sambu_mir_emit_return_unit(value_function, value_entry) == SAMBU_IR_INVALID_TYPE);
+
+    sambu_arena_dispose(&arena);
+    return true;
+}
+
 int main(void) {
-    if (!test_arena_and_interner() || !test_hir_mir_lir()) return 1;
+    if (!test_arena_and_interner() || !test_hir_mir_lir() || !test_unit_returns()) return 1;
     puts("SAMBU native IR tests passed");
     return 0;
 }
