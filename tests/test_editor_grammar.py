@@ -8,11 +8,7 @@ from pathlib import Path
 from sambu.articulatory import BUILTIN_ALIASES, KEYWORD_ALIASES
 
 
-GRAMMAR_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "syntaxes"
-    / "SAMBU.tmLanguage.json"
-)
+GRAMMAR_PATH = Path(__file__).resolve().parents[1] / "syntaxes" / "SAMBU.tmLanguage.json"
 
 
 def _all_patterns(value):
@@ -46,23 +42,37 @@ class SambuEditorGrammarTests(unittest.TestCase):
                     with self.subTest(key=key, expression=expression):
                         re.compile(expression)
 
-    def test_every_active_articulatory_keyword_is_highlighted(self):
+    def test_all_control_keywords_and_articulatory_spellings_are_highlighted(self):
         expression = re.compile(self.repository["keywords"]["match"])
-        canonical_and_articulated = set(KEYWORD_ALIASES)
-        canonical_and_articulated.update(KEYWORD_ALIASES.values())
-        for word in canonical_and_articulated:
+        values = set(KEYWORD_ALIASES) | set(KEYWORD_ALIASES.values())
+        literals = {"true", "false", "null", "ravum", "reva", "reven"}
+        logical = {"and", "or", "not", "rava", "raven", "ravir"}
+        for word in values - literals - logical:
             with self.subTest(word=word):
                 self.assertIsNotNone(expression.search(word))
 
-    def test_every_articulatory_builtin_alias_is_highlighted_as_a_call(self):
+    def test_logical_operators_have_their_own_scope(self):
+        expression = re.compile(self.repository["logical"]["match"])
+        for word in ("and", "or", "not", "rava", "raven", "ravir"):
+            with self.subTest(word=word):
+                self.assertIsNotNone(expression.search(word))
+
+    def test_boolean_and_null_literals_have_their_own_scope(self):
+        expression = re.compile(self.repository["constants"]["match"])
+        for word in ("true", "false", "null", "ravum", "reva", "reven"):
+            with self.subTest(word=word):
+                self.assertIsNotNone(expression.search(word))
+
+    def test_every_articulatory_builtin_and_canonical_callable_is_highlighted(self):
         expression = re.compile(
             self.repository["builtins"]["patterns"][0]["match"]
         )
-        for alias in BUILTIN_ALIASES:
-            with self.subTest(alias=alias):
-                match = expression.search(alias + "(")
+        names = set(BUILTIN_ALIASES) | set(BUILTIN_ALIASES.values())
+        for name in names:
+            with self.subTest(name=name):
+                match = expression.search(name + "(")
                 self.assertIsNotNone(match)
-                self.assertEqual(match.group(0), alias)
+                self.assertEqual(match.group(0), name)
 
     def test_both_string_delimiters_are_supported(self):
         string_patterns = self.repository["strings"]["patterns"]
