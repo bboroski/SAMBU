@@ -163,7 +163,7 @@ Text Craft надає детерміновані описи структури �
 Приклад:
 
 ~~~sambu
-let draft = "[Verse:]\\nПерший рух\\n[Melody sing Chorus:]\\nМелодія повертається\\n[Chorus:]\\nМелодія повертається\\n(Verse 2)\\nІнший рух\\n*Phone rings*\\n(Mm-mm)\\nру-ру-Русско"
+let draft = "[Verse:]\nПерший рух\n[Melody sing Chorus:]\nМелодія повертається\n[Chorus:]\nМелодія повертається\n(Verse 2)\nІнший рух\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 print(structure.refrain_groups[0].repeat_count)
