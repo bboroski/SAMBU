@@ -95,6 +95,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 | **Jiu-Jitsu** 🖥️ | Serializable UI trees, MVC controllers, modal flows, role-based access and explicit action dispatch |
 | **Workflow models** | Evidence-linked records, relationship graphs, bounded batch plans, prioritization and pattern analysis |
 | **Trust tools** 🛡️ | SHA-256 content-integrity checks, issuer allow-lists, evidence dates and verification coverage |
+| **Continuity & signal governance** | Evidence-gated lifecycle cycles, hash-chained transitions, authenticated issuer checks, replay rejection and quarantine |
 | **Chunking & patching** | Lazy bounded batches, stale-edit detection, conflict checks and reversible text patches |
 
 ### Sparse voxel systems
@@ -120,6 +121,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
 - Reproducible voxel benchmark scripts.
 - Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
+- **Continuity core**: bounded lifecycle cycles with verifiable event chains, plus fail-closed signal admission with issuer allow-lists, external signature verification and replay checks.
 - **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
 - **Sambu IDE core**: source-aware document diagnostics, function/class outline, keyword completion and workspace inspection.
 - **Effort Amplification**: evidence-backed improvement metric that rejects regressions and incomplete test runs.
@@ -463,6 +465,7 @@ SAMBU repository
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
 │   ├── autonomy.py        Bounded task policy, evidence ledger and change preflight
+│   ├── continuity.py     Evidence-gated cycles and provenance-checked signals
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
@@ -490,6 +493,7 @@ SAMBU is deliberately honest about its current boundaries.
 | Cooperative Python generator scheduler | **Implemented · Python host API; not native fibers** |
 | Reverse-order resource scope and dual-verifier gate | **Implemented · Python host APIs; HSM provider external** |
 | Bounded autonomy policy, task manifests, evidence ledger and change preflight | **Implemented · experimental Python host API; no execution or merge authority** |
+| Continuity lifecycle and signal admission | **Implemented · experimental Python host API; no scheduler, persistent replay store or bundled cryptographic provider** |
 | Runtime SI quantities and scientific helpers | **Implemented** |
 | Sparse voxel core and bounded CPU graph/mesh algorithms | **Implemented** |
 | Starter engine bridge source | **Included · host integration required** |
@@ -516,6 +520,12 @@ The new **Cripple Autonomy Core** adds bounded planning and evidence governance 
 - Human review required above the configured autonomous risk ceiling.
 
 This core does **not** execute arbitrary code, modify the repository, grant host permissions, merge pull requests or deploy software. OS-level sandboxing and isolated experiment execution remain planned.
+
+### Continuity cycles and signal governance
+
+`CycleController` provides bounded phases (`dormant → observing → preparing → active → recovering → archived`) with evidence-gated transitions, explicit halting, snapshot fingerprints and a verifiable hash chain. `SignalGuard` admits bounded JSON signals only from allow-listed issuers, checks strictly increasing issuer sequences, and by default requires a signature verifier supplied by the host. Rejected inputs are quarantined with reason codes. Neither API executes signal content or grants capabilities; signal cursors and decisions remain in memory unless the host persists them.
+
+The mapping from fictional cyclic-threat concepts to engineering safeguards—and the implementation's limitations—is documented in [Continuity Cycles and Signal Governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md). A runnable host-API example is in `examples/continuity_guard.py`.
 
 See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md) and the [Cripple Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md).
 
@@ -547,6 +557,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [SAMBU Studio and IDE roadmap](docs/IDE.md)
 - [Cripple archetype engineering charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md)
 - [Test runner and failure autopsy](docs/TEST_AUTOPSY.md)
+- [Continuity cycles and signal governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md)
 
 ### Future architecture
 
