@@ -46,7 +46,7 @@ The inspector presents supported XML files and the structured configuration reco
 
 ### 3. Reports & findings
 
-The report view consolidates the review summary and diagnostic messages. Original finding severity, code, source path and message remain visible for follow-up.
+The report view consolidates the review summary and diagnostic messages, and includes a picker for previously saved local reports. The newest 40 inspection records are retained under `~/.sambu/duck-studio/reports/`; original finding severity, code, source path and message remain visible for follow-up.
 
 <div align="center">
 <img src="images/duck-studio-hq/reports-findings-00.webp" width="25%" alt="SAMBU Duck Studio Reports and findings screenshot, upper-left segment" /><img src="images/duck-studio-hq/reports-findings-01.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-02.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-03.webp" width="25%" alt="" />
@@ -72,7 +72,7 @@ For real runtime captures, launch the installed application on the target deskto
 
 - Inspection is local and read-only. The UI does not modify the selected project.
 - The inspector does not start Magento, contact a Magento runtime, database, RabbitMQ broker or other network service, or use external credentials.
-- JSON export is a separate, explicit user action and writes only to the destination selected by the user.
+- Each completed inspection is saved automatically to the private local application directory `~/.sambu/duck-studio/reports/`; the Reports & findings view provides an in-app selector for the newest 40 reports. History is local and bounded; JSON export remains a separate, explicit user action and writes only to the destination selected by the user.
 - The tool is a static XML inspection aid. It is not Magento XSD validation, dependency-injection compilation, PHP symbol resolution or a production-health verification system.
 - Duck Studio is a desktop inspection shell over the existing inspector, not a full Magento IDE or general-purpose source editor.
 - Demo screenshots show synthetic workspace data only; they are not evidence about a user's own project.
