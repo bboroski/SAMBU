@@ -12,6 +12,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import sys
 from collections.abc import Iterable
 from typing import Any
 
@@ -23,10 +24,14 @@ EXPECTED_CATEGORIES = frozenset({
     "physiology_anatomy",
     "immunology_microbiology_virology",
 })
-DEFAULT_CATALOGUE = (
-    Path(__file__).resolve().parents[1]
-    / "data" / "biology" / "academic_terms_500.tsv"
-)
+def _default_catalogue_path() -> Path:
+    checkout_path = Path(__file__).resolve().parents[1] / "data" / "biology" / "academic_terms_500.tsv"
+    if checkout_path.is_file():
+        return checkout_path
+    return Path(sys.prefix) / "share" / "sambu" / "data" / "biology" / "academic_terms_500.tsv"
+
+
+DEFAULT_CATALOGUE = _default_catalogue_path()
 
 
 class BiologyCatalogueError(ValueError):
@@ -185,9 +190,10 @@ class BiologyCatalogue:
             raise ValueError("evidence_ref must be non-empty")
         if not isinstance(note, str) or not note.strip():
             raise ValueError("note must be non-empty")
-        normalized_tags = tuple(sorted(set(tags)))
-        if any(not isinstance(tag, str) or not tag.strip() for tag in normalized_tags):
+        materialized_tags = tuple(tags)
+        if any(not isinstance(tag, str) or not tag.strip() for tag in materialized_tags):
             raise ValueError("tags must contain non-empty strings")
+        normalized_tags = tuple(sorted(set(materialized_tags)))
         return TermAnnotation(term_id, evidence_ref.strip(), note.strip(), normalized_tags)
 
 
@@ -210,7 +216,7 @@ def validate_catalogue(path: str | Path = DEFAULT_CATALOGUE) -> CatalogueValidat
 def annotation_digest(annotations: Iterable[TermAnnotation]) -> str:
     """Return a deterministic SHA-256 digest for annotation metadata."""
     rows = [asdict(item) for item in annotations]
-    rows.sort(key=lambda item: (item["term_id"], item["evidence_ref"], item["note"]))
+    rows.sort(key=lambda item: (item["term_id"], item["evidence_ref"], item["note"], tuple(item["tags"])))
     payload = json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
