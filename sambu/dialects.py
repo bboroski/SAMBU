@@ -120,7 +120,7 @@ def _split_csv(text: str) -> list[str]:
     return result
 
 
-def _fold_identifiers(text: str) -> str:
+def _fold_identifiers(text: str, known_names: set[str] | frozenset[str] = frozenset()) -> str:
     """Apply the case-insensitive identifier convention of these dialects."""
     out: list[str] = []
     i = 0
@@ -155,7 +155,7 @@ def _fold_identifiers(text: str) -> str:
                 "k": "K", "j": "J", "kj": "kJ", "ev": "eV",
                 "pa": "Pa", "hz": "Hz", "n": "N", "l": "L",
             }
-            out.append(units.get(folded, folded))
+            out.append(folded if folded in known_names else units.get(folded, folded))
             i = end
             continue
         out.append(char)
@@ -163,7 +163,10 @@ def _fold_identifiers(text: str) -> str:
     return "".join(out)
 
 
-def _expression(text: str, dialect: str, *, condition: bool = False) -> str:
+def _expression(
+    text: str, dialect: str, *, condition: bool = False,
+    known_names: set[str] | frozenset[str] = frozenset(),
+) -> str:
     value = text.strip().rstrip(";").strip()
     if dialect in {"pascal", "delphi"}:
         value = re.sub(r"<>", "!=", value)
@@ -181,7 +184,7 @@ def _expression(text: str, dialect: str, *, condition: bool = False) -> str:
             value = re.sub(pattern, replacement, value, flags=re.IGNORECASE)
         if condition:
             value = re.sub(r"(?<![<>=!])=(?!=)", "==", value)
-    return _fold_identifiers(value)
+    return _fold_identifiers(value, known_names)
 
 
 def _parameter_names(raw: str, dialect: str) -> tuple[str, ...]:
@@ -278,6 +281,7 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
     output: list[str] = []
     source_lines: list[int] = []
     assigned: set[str] = set()
+    known_names: set[str] = set()
     block_stack: list[str] = []
     function_results: list[str | None] = []
     pending_if_close = False
@@ -340,6 +344,9 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
                 name, raw_params = fn.group(1).casefold(), fn.group(2)
                 result_name = name if low.startswith("function") else None
                 params = _parameter_names(raw_params, normalized)
+                known_names.update(params)
+                if result_name is not None:
+                    known_names.add(result_name)
                 emit(f"fn {name}({', '.join(params)}) {{", line_number)
                 block_stack.append("function")
                 function_results.append(result_name)
@@ -427,7 +434,7 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
         else:
             conditional = re.match(r"^if\s*\((.+)\)\s*then\s*$", line, re.IGNORECASE)
         if conditional:
-            condition = _expression(conditional.group(1), normalized, condition=True)
+            condition = _expression(conditional.group(1), normalized, condition=True, known_names=known_names)
             emit(f"if {condition} {{", line_number)
             block_stack.append("if")
             continue
@@ -441,10 +448,11 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
             if loop:
                 variable, start, direction, stop = loop.groups()
                 variable = variable.casefold()
+                known_names.add(variable)
                 if direction.casefold() == "to":
-                    iterable = f"range({_expression(start, normalized)}, ({_expression(stop, normalized)}) + 1)"
+                    iterable = f"range({_expression(start, normalized, known_names=known_names)}, ({_expression(stop, normalized, known_names=known_names)}) + 1)"
                 else:
-                    iterable = f"range({_expression(start, normalized)}, ({_expression(stop, normalized)}) - 1, -1)"
+                    iterable = f"range({_expression(start, normalized, known_names=known_names)}, ({_expression(stop, normalized, known_names=known_names)}) - 1, -1)"
                 emit(f"for {variable} in {iterable} {{", line_number)
                 block_stack.append("do")
                 continue
@@ -456,12 +464,13 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
             if loop:
                 variable, start, stop, step = loop.groups()
                 variable = variable.casefold()
-                step_expr = _expression(step, normalized) if step else "1"
+                known_names.add(variable)
+                step_expr = _expression(step, normalized, known_names=known_names) if step else "1"
                 if step_expr.startswith("-"):
-                    inclusive = f"({_expression(stop, normalized)}) - 1"
+                    inclusive = f"({_expression(stop, normalized, known_names=known_names)}) - 1"
                 else:
-                    inclusive = f"({_expression(stop, normalized)}) + 1"
-                emit(f"for {variable} in range({_expression(start, normalized)}, {inclusive}, {step_expr}) {{", line_number)
+                    inclusive = f"({_expression(stop, normalized, known_names=known_names)}) + 1"
+                emit(f"for {variable} in range({_expression(start, normalized, known_names=known_names)}, {inclusive}, {step_expr}) {{", line_number)
                 block_stack.append("do")
                 continue
 
@@ -477,11 +486,12 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
         declaration = _declarations(line, normalized)
         if declaration is not None:
             for name, initializer in declaration:
+                known_names.add(name)
                 if initializer is not None:
                     if name in assigned:
                         raise DialectSyntaxError(normalized, line_number, f"'{name}' is assigned more than once; SAMBU bindings are immutable")
                     assigned.add(name)
-                    emit(f"let {name} = {_expression(initializer, normalized)}", line_number)
+                    emit(f"let {name} = {_expression(initializer, normalized, known_names=known_names)}", line_number)
             continue
 
         # Reject syntax that would otherwise be mistaken for an expression or
@@ -498,53 +508,54 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
             if output_match:
                 args = _split_csv(output_match.group(1))
                 payload = args[0] if len(args) == 1 else "[" + ", ".join(args) + "]"
-                emit(f"print({_expression(payload, normalized)})", line_number)
+                emit(f"print({_expression(payload, normalized, known_names=known_names)})", line_number)
                 continue
         else:
             output_match = re.match(r"^print\s*\*\s*,\s*(.+)$", line, re.IGNORECASE)
             if output_match:
                 args = _split_csv(output_match.group(1))
                 payload = args[0] if len(args) == 1 else "[" + ", ".join(args) + "]"
-                emit(f"print({_expression(payload, normalized)})", line_number)
+                emit(f"print({_expression(payload, normalized, known_names=known_names)})", line_number)
                 continue
             output_match = re.match(r"^write\s*\(\s*\*\s*,\s*\*\s*\)\s*(.*)$", line, re.IGNORECASE)
             if output_match:
                 args = _split_csv(output_match.group(1))
                 payload = args[0] if len(args) == 1 else "[" + ", ".join(args) + "]"
-                emit(f"print({_expression(payload, normalized)})", line_number)
+                emit(f"print({_expression(payload, normalized, known_names=known_names)})", line_number)
                 continue
 
         # Calls and explicit returns.
         call = re.match(r"^call\s+([A-Za-z_]\w*\s*\(.*\))\s*;?$", line, re.IGNORECASE)
         if call:
-            emit(_expression(call.group(1), normalized), line_number)
+            emit(_expression(call.group(1), normalized, known_names=known_names), line_number)
             continue
         if low in {"return", "return;"}:
             emit("return", line_number)
             continue
         exit_match = re.match(r"^exit\s*\((.*)\)\s*;?$", line, re.IGNORECASE)
         if exit_match:
-            emit(f"return {_expression(exit_match.group(1), normalized)}", line_number)
+            emit(f"return {_expression(exit_match.group(1), normalized, known_names=known_names)}", line_number)
             continue
 
         assignment = re.match(r"^([A-Za-z_]\w*)\s*(:=|=)\s*(.+?)\s*;?$", line)
         if assignment:
             name, _operator, rhs = assignment.groups()
             name = name.casefold()
+            known_names.add(name)
             if function_results and function_results[-1] == name:
-                emit(f"return {_expression(rhs, normalized)}", line_number)
+                emit(f"return {_expression(rhs, normalized, known_names=known_names)}", line_number)
             elif name in assigned:
                 raise DialectSyntaxError(normalized, line_number, f"'{name}' is assigned more than once; SAMBU bindings are immutable")
             else:
                 assigned.add(name)
-                emit(f"let {name} = {_expression(rhs, normalized)}", line_number)
+                emit(f"let {name} = {_expression(rhs, normalized, known_names=known_names)}", line_number)
             continue
 
         if line.endswith(";"):
             line = line[:-1].strip()
         if not line:
             continue
-        emit(_expression(line, normalized), line_number)
+        emit(_expression(line, normalized, known_names=known_names), line_number)
 
     if block_comment[0] is not None:
         raise DialectSyntaxError(
