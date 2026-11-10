@@ -2,6 +2,12 @@
 
 from ._version import __version__
 
+from .apple_devices import (  # noqa: F401
+    AppleDevice, AppleDeviceToolkit, AppleDiagnosticReport, Diagnostic,
+    HardwareTest, HardwareTestReport, ToolStatus,
+)
+from .i18n import LanguageManager, normalize_language, translate  # noqa: F401
+
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
     FieldExpr, ForStatement, FunctionStatement, IfStatement, IndexExpr,

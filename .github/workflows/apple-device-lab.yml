@@ -1,0 +1,41 @@
+name: Apple device hardware lab
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  iphone-ipad-smoke:
+    # Register this runner only on a controlled Windows machine with Apple
+    # Mobile Device Support and one or more dedicated test devices attached.
+    runs-on: [self-hosted, Windows, X64, apple-device-lab]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install SAMBU
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Capture diagnostics
+        shell: pwsh
+        run: |
+          sambu device diagnose --json --lang en | Out-File -Encoding utf8 apple-device-diagnostics.json
+      - name: Run read-only hardware smoke tests
+        shell: pwsh
+        run: |
+          sambu device test --json --lang en | Out-File -Encoding utf8 apple-device-smoke.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apple-device-lab-report
+          path: |
+            apple-device-diagnostics.json
+            apple-device-smoke.json
+          if-no-files-found: warn
+          retention-days: 30
