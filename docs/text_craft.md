@@ -102,6 +102,14 @@ The hook profile complements section-level chorus extraction with a line-level c
 
 This is a revision aid, not a predictor of audience response, musical catchiness, semantic coherence, natural stress or melody. A useful hook may deliberately break these heuristics. The analyzer does not rewrite the input.
 
+### Actionable hook revision hints
+
+In addition to raw measurements, `hook_profile(text)` returns `revision_hints`: a short, deterministic list of possible next edits. Hints cover compact-form length, a missing sound-family return, an absent cross-line anchor, a wide syllable range, and opportunities for a restrained internal echo.
+
+These are invitations to inspect a draft, not requirements. A hook may intentionally avoid end rhyme or repetition, and a wide rhythmic contrast may be part of the delivery. The analyzer does not rank drafts or combine the measurements into a quality score.
+
+Clean-language handling is a separate author preference. New examples and default suggestion text should use polite language; existing source text is preserved exactly. A caller may choose a clean-language constraint for future suggestions, but SAMBU does not silently censor or rewrite a supplied draft.
+
 ## Performance and delivery cues
 
 ### performance_cues_profile(text)
