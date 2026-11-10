@@ -216,3 +216,6 @@ sambu-test tests --repeat 2 --json
 <p align="center"><img src="assets/nun-mesh.svg" width="100%" alt="SAMBU в общей экосистеме NUN Mesh"></p>
 
 SAMBU — языковой и инструментальный слой. Tkinter IDE и Duck Studio остаются отдельными приложениями; ToolNG встраивает только переносимое ядро policy/workflow, а не Python-интерпретатор. [Руководство интеграции](docs/ECOSYSTEM_INTEGRATION.md) · [Портал Klipot](https://github.com/bboroski/Klipot) · [Общий протокол](https://github.com/bboroski/Klipot/blob/main/docs/INTEGRATION_PROTOCOL.md)
+
+
+[Открыть портал NUN Mesh](https://bboroski.github.io/Klipot/)
