@@ -39,6 +39,7 @@ class ArticulatoryWordbookTests(unittest.TestCase):
 
     def test_keyword_and_builtin_aliases_resolve_to_existing_targets(self):
         self.assertEqual(len(KEYWORD_ALIASES), 25)
+        self.assertEqual(len(BUILTIN_ALIASES), 123)
         self.assertIn("lava", BUILTIN_ALIASES)
         self.assertEqual(BUILTIN_ALIASES["lava"], "print")
         self.assertIn("word_info", BUILTIN_ALIASES.values())
@@ -122,6 +123,17 @@ kava active_words = levir("active")
         self.assertEqual(result[0], "keyword")
         self.assertEqual(result[1], "let")
         self.assertEqual(result[2], len(ACTIVE_WORDS))
+
+    def test_reserved_words_are_discoverable_but_not_executable_aliases(self):
+        from sambu.lexer import SambuSyntaxError
+
+        with self.assertRaises(SambuSyntaxError):
+            execute("kava value = kava")
+        self.assertEqual(execute('leven("kava").status'), "keyword")
+        self.assertEqual(
+            execute('count(levir("reserved"))'),
+            len(RESERVED_WORDS),
+        )
 
     def test_ide_completion_includes_active_articulatory_forms(self):
         ide = SambuIDE()
