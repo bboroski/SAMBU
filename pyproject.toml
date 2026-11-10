@@ -3,13 +3,13 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sambu-language"
+name = "mcl-language"
 version = "0.11.0"
-description = "Python-hosted scientific systems language with language craft, Pascal/Delphi/Fortran compatibility, Apple device diagnostics and sparse voxel systems"
+description = "Multidomain computation language and Python toolkit for scientific modeling, systems workflows, and sparse voxel computing"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-authors = [{ name = "SAMBU contributors" }]
+authors = [{ name = "MCL contributors" }]
 keywords = ["programming-language","scientific-computing","statistical-mechanics","boltzmann","physics","magento","adobe-commerce","rabbitmq","architecture-modeling","audio-production","community-operations","game-mechanics","text-analysis","prosody","rhetoric","rhyme","workflow-modeling","accreditation-records","batch-planning","text-mining","filtering","rule-engine","data-quality","04coq","voxel-computing","sparse-octree","spectral-graph-theory","game-engine-tools","avian-physiology","actor-model","cooperative-scheduling","supervision","code-sampling","failure-ledger","developer-tools","headless-ide","language-design","grammar-design","parser-construction","syntax-tooling","formal-grammar","language-craft","iphone-diagnostics","ipad-diagnostics","libimobiledevice","windows-usb","device-toolkit","ru-en-localization"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -27,9 +27,13 @@ fastapi = ["fastapi>=0.110"]
 web = ["Flask>=3.0", "Django>=4.2", "fastapi>=0.110"]
 
 [project.scripts]
+mcl = "sambu.cli:main"
 sambu = "sambu.cli:main"
+mcl-studio = "sambu_studio.cli:main"
 sambu-studio = "sambu_studio.cli:main"
+mcl-ide = "sambu_ide.app:main"
 sambu-ide = "sambu_ide.app:main"
+mcl-test = "sambu.testing:main"
 sambu-test = "sambu.testing:main"
 
 [tool.setuptools.packages.find]
