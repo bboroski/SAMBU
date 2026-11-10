@@ -1,0 +1,27 @@
+{
+  "project_id": "sambu",
+  "schema_version": 1,
+  "contract_major": 1,
+  "role": "language-and-developer-tooling",
+  "maturity": "experimental-alpha",
+  "provides": [
+    "sambu-language",
+    "python-cli",
+    "tkinter-ide",
+    "duck-studio",
+    "workflow-descriptions",
+    "policy-analysis"
+  ],
+  "consumes": [
+    "versioned-schemas",
+    "host-execution-adapters"
+  ],
+  "integrations": [
+    "ToolNG embeds a portable policy/workflow core; it does not embed the Python interpreter",
+    "Klipot indexes project capability metadata and links to UI documentation"
+  ],
+  "safety": [
+    "Workflow descriptions are not execution evidence",
+    "Read-only Studio inspection boundaries remain authoritative"
+  ]
+}
