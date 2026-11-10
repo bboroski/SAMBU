@@ -8,11 +8,13 @@ before constructing a CreativeMetadata record.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 import re
 from typing import Mapping, Sequence
 
 
-ONTOLOGY_VERSION = "2026.11"
+ONTOLOGY_VERSION = "2026.12"
+SUPPORTED_ONTOLOGY_VERSIONS = frozenset({"2026.11", "2026.12"})
 JSONLD_CONTEXT = "https://schema.org/"
 
 SAFETY_FLAGS = frozenset(
@@ -27,6 +29,7 @@ SAFETY_FLAGS = frozenset(
 )
 _GENERATION_ELIGIBLE_FLAGS = frozenset({"CLEAN", "CLEAN_SATIRE"})
 _SHA256_RE = re.compile(r"^[0-9a-fA-F]{64}$")
+_REVIEW_TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$")
 
 
 class CreativeMetadataError(ValueError):
@@ -110,6 +113,13 @@ CREATIVE_CLUSTERS: tuple[CreativeCluster, ...] = (
         "Code-switching, multilingual rhyme, dialectal texture and mixed registers.",
         ("translation assessment", "multilingual annotation", "register analysis"),
     ),
+    CreativeCluster(
+        "T-009",
+        "Surreal juxtaposition and wordplay",
+        "surreal_juxtaposition",
+        "Absurd associations, phonetic collisions, abrupt image shifts and unexpected pop-culture or technical references.",
+        ("wordplay analysis", "metaphor annotation", "creative register analysis"),
+    ),
 )
 CLUSTER_BY_ID = {cluster.cluster_id: cluster for cluster in CREATIVE_CLUSTERS}
 
@@ -149,6 +159,23 @@ def _string_tuple(
     return tuple(items)
 
 
+def _review_timestamp(value: object) -> str:
+    """Validate an ISO-8601 timestamp with an explicit timezone offset."""
+    if not isinstance(value, str) or not _REVIEW_TIME_RE.fullmatch(value):
+        raise CreativeMetadataError(
+            "reviewed_at must be an ISO-8601 timestamp with a timezone offset"
+        )
+    try:
+        parsed = datetime.fromisoformat(
+            value[:-1] + "+00:00" if value.endswith("Z") else value
+        )
+    except ValueError as exc:
+        raise CreativeMetadataError("reviewed_at is not a valid timestamp") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise CreativeMetadataError("reviewed_at must include a timezone offset")
+    return value
+
+
 @dataclass(frozen=True, slots=True)
 class CreativeMetadata:
     """A reviewed metadata record; raw creative source is intentionally absent."""
@@ -164,6 +191,8 @@ class CreativeMetadata:
     source_ref: str | None = None
     content_sha256: str | None = None
     ontology_version: str = ONTOLOGY_VERSION
+    review_ref: str | None = None
+    reviewed_at: str | None = None
 
     def __post_init__(self) -> None:
         cluster_id = _required_text(self.cluster_id, "cluster_id", limit=16)
@@ -191,11 +220,22 @@ class CreativeMetadata:
                     "content_sha256 must be a 64-character SHA-256 hex digest"
                 )
             object.__setattr__(self, "content_sha256", self.content_sha256.lower())
-        if self.ontology_version != ONTOLOGY_VERSION:
+        if self.ontology_version not in SUPPORTED_ONTOLOGY_VERSIONS:
+            supported = ", ".join(sorted(SUPPORTED_ONTOLOGY_VERSIONS))
             raise CreativeMetadataError(
                 f"unsupported ontology_version {self.ontology_version!r}; "
-                f"expected {ONTOLOGY_VERSION!r}"
+                f"supported versions: {supported!r}"
             )
+        if cluster_id == "T-009" and self.ontology_version != ONTOLOGY_VERSION:
+            raise CreativeMetadataError("cluster T-009 requires ontology_version 2026.12")
+        if self.review_ref is not None:
+            object.__setattr__(
+                self, "review_ref", _required_text(self.review_ref, "review_ref", limit=128)
+            )
+        if self.reviewed_at is not None:
+            object.__setattr__(self, "reviewed_at", _review_timestamp(self.reviewed_at))
+        if (self.review_ref is None) != (self.reviewed_at is None):
+            raise CreativeMetadataError("review_ref and reviewed_at must be provided together")
         object.__setattr__(
             self, "key_symbols",
             _string_tuple(self.key_symbols, "key_symbols", maximum=16),
@@ -214,7 +254,11 @@ class CreativeMetadata:
     @property
     def generation_eligible(self) -> bool:
         """True only for explicitly reviewed, non-sanitization-only labels."""
-        return self.safety_flag in _GENERATION_ELIGIBLE_FLAGS
+        return (
+            self.safety_flag in _GENERATION_ELIGIBLE_FLAGS
+            and self.review_ref is not None
+            and self.reviewed_at is not None
+        )
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -229,6 +273,8 @@ class CreativeMetadata:
             "source_ref": self.source_ref,
             "content_sha256": self.content_sha256,
             "ontology_version": self.ontology_version,
+            "review_ref": self.review_ref,
+            "reviewed_at": self.reviewed_at,
         }
 
     def to_jsonld(self) -> dict[str, object]:
@@ -256,6 +302,9 @@ class CreativeMetadata:
             result["sourceReference"] = self.source_ref
         if self.content_sha256 is not None:
             result["contentHash"] = self.content_sha256
+        if self.review_ref is not None and self.reviewed_at is not None:
+            result["reviewReference"] = self.review_ref
+            result["dateReviewed"] = self.reviewed_at
         return result
 
     @classmethod
@@ -266,6 +315,7 @@ class CreativeMetadata:
             "cluster_id", "theme", "tone", "key_symbols", "language",
             "linguistic_register", "stylistic_devices", "safety_flag",
             "source_ref", "content_sha256", "ontology_version",
+            "review_ref", "reviewed_at",
         }
         unknown = set(payload) - allowed
         if unknown:
@@ -292,6 +342,12 @@ class CreativeMetadata:
         ontology_version = payload.get("ontology_version", ONTOLOGY_VERSION)
         if not isinstance(ontology_version, str):
             raise CreativeMetadataError("ontology_version must be a string")
+        review_ref = payload.get("review_ref")
+        if review_ref is not None and not isinstance(review_ref, str):
+            raise CreativeMetadataError("review_ref must be a string or null")
+        reviewed_at = payload.get("reviewed_at")
+        if reviewed_at is not None and not isinstance(reviewed_at, str):
+            raise CreativeMetadataError("reviewed_at must be a string or null")
 
         return cls(
             cluster_id=cluster_id,
@@ -309,6 +365,8 @@ class CreativeMetadata:
             source_ref=source_ref,
             content_sha256=content_sha256,
             ontology_version=ontology_version,
+            review_ref=review_ref,
+            reviewed_at=reviewed_at,
         )
 
 

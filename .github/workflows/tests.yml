@@ -31,7 +31,7 @@ jobs:
       - name: Exercise creative metadata CLI
         run: |
           sambu creative clusters --json > /tmp/sambu-creative-clusters.json
-          python -c "import json; data=json.load(open('/tmp/sambu-creative-clusters.json')); assert len(data) == 8 and data[0]['id'] == 'T-001'"
+          python -c "import json; data=json.load(open('/tmp/sambu-creative-clusters.json')); assert len(data) == 9 and data[0]['id'] == 'T-001' and data[-1]['id'] == 'T-009'"
           sambu creative validate examples/creative_metadata.sample.json --json > /tmp/sambu-creative-metadata.json
           python -c "import json; data=json.load(open('/tmp/sambu-creative-metadata.json')); assert len(data) == 1 and data[0]['safety_flag'] == 'NEEDS_REVIEW'"
       - run: sambu machine architecture --json > /tmp/sambu-architecture.json
