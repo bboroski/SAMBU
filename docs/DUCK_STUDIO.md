@@ -54,9 +54,9 @@ The report view consolidates the review summary and diagnostic messages, and inc
 <img src="images/duck-studio-hq/reports-findings-10.webp" width="25%" alt="Reports and findings screenshot, lower-left segment" /><img src="images/duck-studio-hq/reports-findings-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-13.webp" width="25%" alt="" />
 </div>
 
-## Current black/yellow vector layout previews
+## Previous-generation Duck vector previews (archived)
 
-The following assets are **1920 × 1080 vector design previews** using the shared Duck palette. They show the intended layout of the current application surfaces, use synthetic SAMPLE DATA, and are not screenshots captured from a running process.
+The following assets are **previous-generation 1920 × 1080 vector references** using the retired black/yellow palette. They are retained for historical comparison only and are not the current visual system or screenshots captured from a running process.
 
 ### Duck Studio workspace
 
@@ -67,6 +67,10 @@ The following assets are **1920 × 1080 vector design previews** using the share
 <img src="../assets/duck-ui/ide-editor-preview.svg" width="100%" alt="SAMBU IDE black and yellow vector layout preview with code editor, workspace tree, outline and output pane" />
 
 For real runtime captures, launch the installed application on the target desktop, use a deterministic DEMO WORKSPACE, and capture at 1920 × 1080 and 1366 × 768. Keep those captures separate from vector design illustrations.
+
+## Current Amber–Obsidian v2 visual contract
+
+The active Tkinter IDE and Studio color constants have been updated to the repository-specific Amber–Obsidian v2 palette. The current high-level interface reference is [the Amber–Obsidian preview](../assets/amber-obsidian-preview.svg); the full palette, contrast, component and accessibility rules are in [INTERFACE_DESIGN.md](INTERFACE_DESIGN.md). Existing `.webp` captures remain historical light-theme screenshots and must not be presented as current output. Fresh application captures require launching the updated application on a target desktop.
 
 ## Safety and scope
 
