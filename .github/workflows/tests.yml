@@ -28,6 +28,12 @@ jobs:
       - run: sambu examples/voxel_world.sambu
       - run: sambu examples/supervised_runtime.sambu
       - run: sambu examples/mulberry_charlotte.sambu
+      - name: Exercise creative metadata CLI
+        run: |
+          sambu creative clusters --json > /tmp/sambu-creative-clusters.json
+          python -c "import json; data=json.load(open('/tmp/sambu-creative-clusters.json')); assert len(data) == 8 and data[0]['id'] == 'T-001'"
+          sambu creative validate examples/creative_metadata.sample.json --json > /tmp/sambu-creative-metadata.json
+          python -c "import json; data=json.load(open('/tmp/sambu-creative-metadata.json')); assert len(data) == 1 and data[0]['safety_flag'] == 'NEEDS_REVIEW'"
       - run: sambu machine architecture --json > /tmp/sambu-architecture.json
       - run: python -c "import json; assert json.load(open('/tmp/sambu-architecture.json'))['valid']"
       - run: sambu machine check examples --json > /tmp/sambu-machine-check.json
