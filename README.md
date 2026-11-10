@@ -413,7 +413,7 @@ The scaffold generator is implemented. **SAMBU Rails is not yet a running web fr
 
 ### Apple device diagnostics
 
-The optional Apple Device Toolkit uses compatible libimobiledevice command-line utilities and, on Windows, checks Apple Mobile Device Support, the USB driver package and Plug and Play enumeration. It reads model/iOS metadata only when the device and existing pairing permissions allow it. It never initiates pairing, changes device settings, installs drivers or accesses personal content.
+The optional Apple Device Toolkit uses compatible libimobiledevice command-line utilities and, on Windows, checks Apple Mobile Device Support, the USB driver package and Plug and Play enumeration. It requests only an explicit allow-list of identity fields and reads model/iOS metadata when device trust and service access permit it. Pairing validation is optional. It never initiates pairing, changes device settings, installs drivers or accesses personal content.
 
 ```powershell
 sambu device diagnose --lang en
