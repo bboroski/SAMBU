@@ -43,6 +43,24 @@
         {
           "name": "comment.line.number-sign.sambu",
           "match": "#.*$"
+        },
+        {
+          "name": "comment.line.double-slash.pascal",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.exclamation.fortran",
+          "match": "!.*$"
+        },
+        {
+          "name": "comment.block.curly.pascal",
+          "begin": "\\\\{",
+          "end": "\\\\}"
+        },
+        {
+          "name": "comment.block.parenthesized-pascal",
+          "begin": "\\\\(\\\\*",
+          "end": "\\\\*\\\\)"
         }
       ]
     },
@@ -110,7 +128,7 @@
     },
     "keywords": {
       "name": "keyword.control.sambu",
-      "match": "\\b(?:implements|interface|protected|abstract|extends|private|public|return|static|class|final|kaven|kavir|kavum|keven|kevir|kevum|kiven|kivir|kivum|taven|tavir|tavum|teven|trait|else|kava|keva|kiva|kova|tava|teva|uses|for|let|fn|if|in)\\b"
+      "match": "\\b(?:implementation|initialization|finalization|implements|subroutine|character|interface|precision|procedure|protected|published|recursive|abstract|contains|function|implicit|property|extends|integer|logical|private|program|double|downto|module|public|result|return|static|array|begin|class|const|final|kaven|kavir|kavum|keven|kevir|kevum|kiven|kivir|kivum|print|taven|tavir|tavum|teven|trait|write|call|else|kava|keva|kiva|kova|none|real|tava|teva|then|type|unit|uses|end|for|int|let|var|do|fn|if|in|to|b)\\b"
     },
     "logical": {
       "name": "keyword.operator.logical.sambu",
@@ -130,7 +148,7 @@
     },
     "operators": {
       "name": "keyword.operator.sambu",
-      "match": "==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
+      "match": ":=|<>|==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
     },
     "punctuation": {
       "name": "punctuation.separator.sambu",
