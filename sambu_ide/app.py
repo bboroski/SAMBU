@@ -1,4 +1,4 @@
-"""SAMBU Duck Studio: a lightweight Tkinter desktop IDE."""
+"""MCL Workbench: a lightweight Tkinter desktop IDE."""
 from __future__ import annotations
 
 import json
@@ -28,10 +28,10 @@ STRINGS = {
         "diagnostics": "Diagnostics", "welcome": "Open a .sambu file or start typing.",
         "saved": "Saved", "opened": "Opened", "valid": "Syntax OK",
         "invalid": "Syntax errors found", "no_file": "Save the document before running it.",
-        "run_error": "Could not run SAMBU", "device_title": "Apple device diagnostics",
+        "run_error": "Could not run MCL", "device_title": "Apple device diagnostics",
         "scan": "Scan device", "device_hint": "Connect an iPhone/iPad by USB, unlock it and approve Trust on the device.",
         "language": "Language", "ready": "Ready", "line": "Line",
-        "new": "New", "about": "SAMBU Duck Studio · experimental alpha",
+        "new": "New", "about": "MCL Workbench · experimental alpha",
     },
     "ru": {
         "file": "Файл", "open": "Открыть", "save": "Сохранить", "save_as": "Сохранить как",
@@ -43,12 +43,12 @@ STRINGS = {
         "run_error": "Не удалось запустить SAMBU", "device_title": "Диагностика устройств Apple",
         "scan": "Проверить устройство", "device_hint": "Подключите iPhone/iPad по USB, разблокируйте и подтвердите «Доверять этому компьютеру».",
         "language": "Язык", "ready": "Готово", "line": "Строка",
-        "new": "Новый", "about": "SAMBU Duck Studio · экспериментальная alpha",
+        "new": "Новый", "about": "MCL Workbench · экспериментальная alpha",
     },
 }
 
 
-class DuckStudio:
+class MclWorkbench:
     def __init__(self, root: tk.Tk):
         self.root = root
         self.lang = "ru"
@@ -78,8 +78,8 @@ class DuckStudio:
 
         header = tk.Frame(self.root, bg=DARK, height=58)
         header.pack(fill="x", padx=14, pady=(12, 8))
-        tk.Label(header, text="🦆 SAMBU", bg=DARK, fg=YELLOW, font=("Segoe UI", 19, "bold")).pack(side="left")
-        tk.Label(header, text="DUCK STUDIO", bg=DARK, fg=TEXT, font=("Segoe UI", 10, "bold")).pack(side="left", padx=(10, 24))
+        tk.Label(header, text="MCL", bg=DARK, fg=YELLOW, font=("Segoe UI", 19, "bold")).pack(side="left")
+        tk.Label(header, text="WORKBENCH", bg=DARK, fg=TEXT, font=("Segoe UI", 10, "bold")).pack(side="left", padx=(10, 24))
         self.open_btn = ttk.Button(header, command=self.open_file)
         self.open_btn.pack(side="left", padx=3)
         self.save_btn = ttk.Button(header, command=self.save_file)
@@ -259,13 +259,13 @@ class DuckStudio:
 
     def run_file(self):
         if self.path is None:
-            messagebox.showinfo("SAMBU", self.t["no_file"])
+            messagebox.showinfo("MCL", self.t["no_file"])
             self.save_file()
             if self.path is None:
                 return
         self.save_file()
         self.check_source()
-        command = [sys.executable, "-m", "sambu", str(self.path)]
+        command = [sys.executable, "-m", "mcl", str(self.path)]
         try:
             result = subprocess.run(command, cwd=str(self.path.parent), capture_output=True,
                                     text=True, encoding="utf-8", errors="replace", timeout=30, check=False)
@@ -300,7 +300,7 @@ class DuckStudio:
 
 def main():
     root = tk.Tk()
-    DuckStudio(root)
+    MclWorkbench(root)
     root.mainloop()
 
 
