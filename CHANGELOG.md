@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added Nun initial-condition modeling: immutable bounded snapshots, explicit boundary contracts, deterministic SHA-256 genesis manifests, regression tests and a runnable example. The API records model inputs; it does not enforce physical laws or run simulations.
+
 - Added a read-only Apple Device Toolkit for libimobiledevice discovery, allow-listed iPhone/iPad metadata, existing-pairing validation, Windows USB/service diagnostics and RU/EN CLI output. Hardware coverage requires a controlled USB lab runner.
 - Added a manual self-hosted Windows USB lab workflow and a certificate-gated signed installer workflow; release write permissions are isolated to the tag-publishing job.
 
