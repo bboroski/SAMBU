@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
 from contextlib import redirect_stdout
 from io import StringIO
 from tempfile import TemporaryDirectory
@@ -86,7 +87,7 @@ end.
 
 class DialectCliTests(unittest.TestCase):
     def test_cli_check_and_show_translated_modes(self):
-        source = "program CliDemo;\\nbegin\\n  writeln(42);\\nend."
+        source = "program CliDemo;\nbegin\n  writeln(42);\nend."
         with TemporaryDirectory() as directory:
             path = Path(directory) / "demo.pas"
             path.write_text(source, encoding="utf-8")
