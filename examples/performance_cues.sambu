@@ -1,5 +1,5 @@
 # Neutral synthetic text used to demonstrate explicit written markers.
-let draft = "[Verse:]\\nThe service reads an input record\\n[Spoken Chorus:]\\nSystem status is ready\\n[Chorus:]\\nSystem status is ready\\n(Verse 2)\\nThe client stores the result\\n*Display turns on*\\n(status: ready)\\nThe operator says \\"Open settings\\"\\npre-pre-processing"
+let draft = "[Verse:]\nThe service reads an input record\n[Spoken Chorus:]\nSystem status is ready\n[Chorus:]\nSystem status is ready\n(Verse 2)\nThe client stores the result\n*Display turns on*\n(status: ready)\nThe operator says \"Open settings\"\npre-pre-processing"
 
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
