@@ -48,7 +48,7 @@ if profile.confusable_mixing:
 Run the focused tests with:
 
 ~~~bash
-python -m unittest tests.test_script_profiles -v
+python -m unittest discover -s tests -p 'test_script_profiles.py' -v
 ~~~
 
 ## Extension rules
