@@ -93,7 +93,7 @@ Core elements:
 
 The model can be consumed by a React, Vue, Svelte, Qt or native renderer, but SAMBU does not ship a browser renderer or generate arbitrary JavaScript.
 
-**Security boundary:** Jiu-Jitsu does not authenticate users. The host must establish the principal, load trusted role assignments, validate input and enforce authorization at every protected data boundary.
+**Security boundary:** The UI workflow API does not authenticate users. The host must establish the principal, load trusted role assignments, validate input and enforce authorization at every protected data boundary.
 
 ## How the frameworks compose
 
