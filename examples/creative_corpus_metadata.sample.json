@@ -1,0 +1,180 @@
+[
+  {
+    "cluster_id": "T-001",
+    "theme": "cultural_celebration",
+    "tone": "nostalgic_playfulness",
+    "key_symbols": [
+      "fairground",
+      "communal_gathering",
+      "seasonal_ritual"
+    ],
+    "language": [
+      "ru"
+    ],
+    "linguistic_register": "poetic_colloquial",
+    "stylistic_devices": [
+      "refrain",
+      "visual_imagery",
+      "narrative_intro"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-03-30",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-004",
+    "theme": "emotional_duality",
+    "tone": "resigned_clarity",
+    "key_symbols": [
+      "memory",
+      "distance",
+      "night_station"
+    ],
+    "language": [
+      "uk"
+    ],
+    "linguistic_register": "contemporary_colloquial",
+    "stylistic_devices": [
+      "contrastive_simile",
+      "fragmented_lineation",
+      "repeated_refrain"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-02-a",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-002",
+    "theme": "identity_transformation",
+    "tone": "satirical_narrative",
+    "key_symbols": [
+      "social_expectation",
+      "persona",
+      "family_roles"
+    ],
+    "language": [
+      "ru"
+    ],
+    "linguistic_register": "colloquial_storytelling",
+    "stylistic_devices": [
+      "character_voice",
+      "narrative_reversal",
+      "ironic_exaggeration"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-02-b",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-005",
+    "theme": "spiritual_syncretism",
+    "tone": "ironic_devotion",
+    "key_symbols": [
+      "ladder",
+      "amulet",
+      "folk_ritual"
+    ],
+    "language": [
+      "ru"
+    ],
+    "linguistic_register": "poetic_satirical",
+    "stylistic_devices": [
+      "paradox",
+      "symbolic_juxtaposition",
+      "melodic_refrain"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-05",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-006",
+    "theme": "technological_metaphor",
+    "tone": "surreal_confessional",
+    "key_symbols": [
+      "cable_system",
+      "computer_memory",
+      "forest_shadow"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "experimental_colloquial",
+    "stylistic_devices": [
+      "technical_metaphor",
+      "phonetic_distortion",
+      "associative_wordplay"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-07-a",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-008",
+    "theme": "linguistic_hybridity",
+    "tone": "absurdist_playfulness",
+    "key_symbols": [
+      "neologism",
+      "sound_imitation",
+      "subcultural_reference"
+    ],
+    "language": [
+      "en",
+      "ru"
+    ],
+    "linguistic_register": "mixed_colloquial",
+    "stylistic_devices": [
+      "code_switching",
+      "internal_rhyme",
+      "alliteration",
+      "phonetic_spelling"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-07-b",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-007",
+    "theme": "conflict_resilience",
+    "tone": "satirical_critical",
+    "key_symbols": [
+      "classroom",
+      "map",
+      "institutional_rules"
+    ],
+    "language": [
+      "uk"
+    ],
+    "linguistic_register": "civic_satire",
+    "stylistic_devices": [
+      "refrain",
+      "rhetorical_contrast",
+      "collective_narration"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-10",
+    "ontology_version": "2026.11"
+  },
+  {
+    "cluster_id": "T-006",
+    "theme": "technological_metaphor",
+    "tone": "playful_surrealism",
+    "key_symbols": [
+      "digital_memory",
+      "pop_culture",
+      "ritual_imagery"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "internet_colloquial",
+    "stylistic_devices": [
+      "semantic_collision",
+      "parody",
+      "repeated_hook"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-19",
+    "ontology_version": "2026.11"
+  }
+]
