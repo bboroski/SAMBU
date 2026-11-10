@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .source import SourcePosition, SourceSpan
+from .articulatory import KEYWORD_ALIASES
 
 
 @dataclass(frozen=True)
@@ -21,6 +22,7 @@ class Token:
     end_column: int | None = None
     start_offset: int = 0
     end_offset: int = 0
+    lexeme: str | None = None
 
     @property
     def span(self) -> SourceSpan:
@@ -70,8 +72,15 @@ def tokenize(source: str) -> list[Token]:
         else:
             col += len(text)
 
-    def emit(kind: str, value: object, start: int, start_line: int, start_col: int) -> None:
-        tokens.append(Token(kind, value, start_line, start_col, line, col, start, i))
+    def emit(
+        kind: str,
+        value: object,
+        start: int,
+        start_line: int,
+        start_col: int,
+        lexeme: str | None = None,
+    ) -> None:
+        tokens.append(Token(kind, value, start_line, start_col, line, col, start, i, lexeme))
 
     while i < n:
         ch = source[i]
@@ -179,7 +188,10 @@ def tokenize(source: str) -> list[Token]:
                 i += 1
             raw = source[start:i]
             advance(raw)
-            emit("IDENT", raw, start, start_line, start_col)
+            # Canonicalize only reserved articulatory words. Keep the original
+            # spelling separately so source-aware tools can display what was typed.
+            canonical = KEYWORD_ALIASES.get(raw, raw)
+            emit("IDENT", canonical, start, start_line, start_col, raw)
             continue
         op = next((op for op in _OPERATORS if source.startswith(op, i)), None)
         if op:

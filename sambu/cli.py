@@ -108,6 +108,47 @@ def _machine(argv: list[str]) -> int:
         return 2
 
 
+
+def _lexicon(argv: list[str]) -> int:
+    import json
+    from .articulatory import ARTICULATORY_WORDS, filter_articulatory_words
+
+    parser = argparse.ArgumentParser(prog="sambu lexicon")
+    parser.add_argument("--family", help="family code or name, e.g. V or measure")
+    parser.add_argument(
+        "--status", choices=("active", "keyword", "builtin", "reserved"),
+        help="filter by implementation status",
+    )
+    parser.add_argument("--json", action="store_true", dest="as_json")
+    parser.add_argument("--limit", type=int, default=200)
+    args = parser.parse_args(argv)
+    if isinstance(args.limit, bool) or not 1 <= args.limit <= 200:
+        parser.error("--limit must be from 1 to 200")
+    try:
+        entries = filter_articulatory_words(family=args.family, status=args.status)
+    except ValueError as exc:
+        parser.error(str(exc))
+    selected = entries[:args.limit]
+    if args.as_json:
+        print(json.dumps(
+            [entry.to_dict() for entry in selected],
+            ensure_ascii=False,
+            indent=2,
+        ))
+    else:
+        print(
+            f"SAMBU articulatory lexicon: {len(selected)}/{len(entries)} shown "
+            f"({len(ARTICULATORY_WORDS)} total)"
+        )
+        for entry in selected:
+            target = f" -> {entry.target}" if entry.target else ""
+            print(
+                f"{entry.word:6} {entry.pronunciation:8} "
+                f"{entry.status:8} {entry.meaning}{target}"
+            )
+    return 0
+
+
 def _ide(argv: list[str]) -> int:
     import json
     from .ide import SambuIDE
@@ -171,6 +212,8 @@ def main(argv: list[str] | None = None) -> int:
         return _machine(arguments[1:])
     if arguments and arguments[0] == "ide":
         return _ide(arguments[1:])
+    if arguments and arguments[0] == "lexicon":
+        return _lexicon(arguments[1:])
 
     parser = argparse.ArgumentParser(
         prog="sambu",

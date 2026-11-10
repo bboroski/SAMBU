@@ -15,6 +15,10 @@ from .workflows import WORKFLOW_BUILTINS
 from .ecosystems import ECOSYSTEM_BUILTINS
 from ._version import __version__
 from .concurrency import Actor, Supervisor, TypedChannel
+from .articulatory import (
+    ARTICULATORY_WORDS, BUILTIN_ALIASES, filter_articulatory_words,
+    lookup_articulatory_word,
+)
 
 from .values import (
     ENERGY, MASS, SPEED, TEMP, Quantity, Record, UNITS,
@@ -335,6 +339,29 @@ def _channel_receive(args: list[object]) -> object:
     return _as_channel(args[0]).receive()
 
 
+def _articulatory_word_info(args: list[object]) -> Record:
+    if len(args) != 1 or not isinstance(args[0], str):
+        raise TypeError("word_info(word) expects one articulatory word")
+    entry = lookup_articulatory_word(args[0])
+    if entry is None:
+        raise ValueError(f"unknown articulatory word {args[0]!r}")
+    return Record(entry.to_dict())
+
+
+def _articulatory_wordbook(args: list[object]) -> list[str]:
+    if len(args) > 1 or (args and not isinstance(args[0], str)):
+        raise TypeError("wordbook(filter=null) expects zero or one text filter")
+    if not args:
+        entries = ARTICULATORY_WORDS
+    else:
+        selected = args[0].casefold()
+        entries = filter_articulatory_words(
+            status=selected if selected in {"active", "keyword", "builtin", "reserved"} else None,
+            family=selected if selected not in {"active", "keyword", "builtin", "reserved"} else None,
+        )
+    return [entry.word for entry in entries]
+
+
 _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "maxwell": _maxwell,
     "boltzmann": _boltzmann,
@@ -364,6 +391,8 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "channel": _channel,
     "channel_send": _channel_send,
     "channel_receive": _channel_receive,
+    "word_info": _articulatory_word_info,
+    "wordbook": _articulatory_wordbook,
     **TEXTCRAFT_BUILTINS,
     **FILTERING_BUILTINS,
     **WORKFLOW_BUILTINS,
@@ -373,6 +402,20 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     **VOXEL_BUILTINS,
     **ECOSYSTEM_BUILTINS,
 }
+
+# All articulatory callable forms share the exact implementation and argument
+# contract of their canonical built-in target. The print marker is installed
+# separately because it needs the interpreter's output callback.
+for _articulatory_alias, _canonical_builtin in BUILTIN_ALIASES.items():
+    if _canonical_builtin == "print":
+        continue
+    _implementation = _BUILTINS.get(_canonical_builtin)
+    if _implementation is None:
+        raise RuntimeError(
+            f"articulatory word {_articulatory_alias!r} targets missing built-in "
+            f"{_canonical_builtin!r}"
+        )
+    _BUILTINS[_articulatory_alias] = _implementation
 
 
 class _PrintMarker:
@@ -666,6 +709,9 @@ class Interpreter:
         self.env.define("G", Quantity(6.67430e-11, (-1, 3, -2, 0, 0)))
         self.env.define("version", __version__)
         self.env.define("print", _PRINT)
+        for alias, target in BUILTIN_ALIASES.items():
+            if target == "print":
+                self.env.define(alias, _PRINT)
 
     def run(self, statements: list[tuple]) -> object:
         try:
