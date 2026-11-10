@@ -35,5 +35,19 @@ print(hook.warnings[0])
         )
 
 
+    def test_revision_hints_are_actionable_but_not_a_quality_score(self):
+        output: list[str] = []
+        execute("""
+let hook = hook_profile("Короткий свет\\nТихий шаг")
+print(hook.revision_hints[0])
+print(hook.scope)
+""", output=output.append)
+        self.assertEqual(
+            output[0],
+            "Try one natural end-sound family or internal echo; do not force every line to rhyme.",
+        )
+        self.assertIn("not_musical_or_semantic_quality", output[1])
+
+
 if __name__ == "__main__":
     unittest.main()
