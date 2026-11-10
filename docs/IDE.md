@@ -104,7 +104,7 @@ The document outline currently includes top-level functions, classes, interfaces
 CLI examples:
 
 ~~~bash
-sambu ide inspect examples/scalar_scaling_fixture.sambu
+sambu ide inspect examples/mulberry_charlotte.sambu
 sambu ide inspect examples/mulberry_charlotte.sambu --format json
 sambu ide workspace examples
 sambu ide complete actor
