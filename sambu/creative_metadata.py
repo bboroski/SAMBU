@@ -29,7 +29,7 @@ SAFETY_FLAGS = frozenset(
 )
 _GENERATION_ELIGIBLE_FLAGS = frozenset({"CLEAN", "CLEAN_SATIRE"})
 _SHA256_RE = re.compile(r"^[0-9a-fA-F]{64}$")
-_REVIEW_TIME_RE = re.compile(r"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$")
+_REVIEW_TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$")
 
 
 class CreativeMetadataError(ValueError):
