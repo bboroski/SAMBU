@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "system": "Duck Black / Yellow",
   "scope": "Shared visual contract for web, desktop, diagnostics, developer tools and future application surfaces.",
   "principles": [
@@ -53,17 +53,43 @@
     "user_content": "user_defined_with_text_or_icon_fallback"
   },
   "typography": {
-    "ui": ["Inter", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-    "code": ["JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", "monospace"],
+    "ui": [
+      "Inter",
+      "Segoe UI",
+      "Roboto",
+      "Arial",
+      "sans-serif"
+    ],
+    "code": [
+      "JetBrains Mono",
+      "Cascadia Code",
+      "Fira Code",
+      "Consolas",
+      "monospace"
+    ],
     "body_size_px": 14,
     "body_line_height": 1.5,
     "small_size_px": 12,
     "micro_size_px": 11,
     "heading_weight": 700,
     "body_weight": 400,
-    "numeric_features": ["tabular_numbers", "stable_timecode_width"]
+    "numeric_features": [
+      "tabular_numbers",
+      "stable_timecode_width"
+    ]
   },
-  "spacing_px": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64],
+  "spacing_px": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64
+  ],
   "radii_px": {
     "small": 4,
     "control": 8,
@@ -86,10 +112,16 @@
   },
   "layout": {
     "ui_scale_min": 0.8,
-    "ui_scale_default": 1.0,
+    "ui_scale_default": 1,
     "ui_scale_max": 1.6,
-    "minimum_capture_px": [1280, 720],
-    "target_capture_px": [1920, 1080],
+    "minimum_capture_px": [
+      1280,
+      720
+    ],
+    "target_capture_px": [
+      1920,
+      1080
+    ],
     "compact_navigation_below_px": 1180,
     "collapse_secondary_panels_below_px": 980,
     "mobile_navigation_below_px": 700,
@@ -132,7 +164,10 @@
       "background": "#1D1A0D",
       "border": "#FFD600"
     },
-    "table_rows": ["#171717", "#141414"],
+    "table_rows": [
+      "#171717",
+      "#141414"
+    ],
     "focus_ring": "2px solid #FFD600",
     "focus_offset_px": 3,
     "toast_accent_width_px": 4,
@@ -152,7 +187,7 @@
   },
   "accessibility": {
     "minimum_text_contrast_ratio": 4.5,
-    "large_text_contrast_ratio": 3.0,
+    "large_text_contrast_ratio": 3,
     "focus_visible_required": true,
     "keyboard_navigation_required": true,
     "status_requires_text_and_icon": true,
@@ -162,8 +197,19 @@
     "minimum_touch_target_px": 44
   },
   "behavior": {
-    "yellow_usage": ["primary actions", "selected navigation", "focus", "progress", "active selection", "high-priority warning"],
-    "yellow_not_used_for": ["large decorative backgrounds", "body text", "every icon simultaneously"],
+    "yellow_usage": [
+      "primary actions",
+      "selected navigation",
+      "focus",
+      "progress",
+      "active selection",
+      "high-priority warning"
+    ],
+    "yellow_not_used_for": [
+      "large decorative backgrounds",
+      "body text",
+      "every icon simultaneously"
+    ],
     "animations_must_respect_reduced_motion": true,
     "hover_must_not_be_the_only_feedback": true,
     "operations_must_expose_pending_success_and_error_states": true,
@@ -171,5 +217,264 @@
     "tooltips_must_not_obscure_primary_controls": true,
     "reports_default_to_in_app_preview": true,
     "external_links_default_to_in_app_or_offline": true
+  },
+  "workspace_experience": {
+    "version": "1.0.0",
+    "status": "design_contract",
+    "material_surfaces": {
+      "glass": {
+        "blur_px": 18,
+        "saturation_percent": 135,
+        "tint_opacity_percent": 12,
+        "fallback": "opaque_raised_surface",
+        "gpu_budgeted": true
+      },
+      "metal": {
+        "highlight": "window_relative_soft_specular",
+        "fallback": "static_edge_highlight"
+      },
+      "paper": {
+        "tone": "warm_neutral",
+        "time_shift_max_delta": "subtle"
+      },
+      "texture": {
+        "default": "off",
+        "decorative_noise_max_opacity_percent": 3,
+        "never_reduce_text_contrast": true
+      }
+    },
+    "adaptive_typography": {
+      "ui_scale": "clamp(0.875rem, 0.84rem + 0.18vw, 1rem)",
+      "heading_scale": "clamp(1.25rem, 1rem + 1.3vw, 2.75rem)",
+      "reading_line_length_ch": {
+        "min": 45,
+        "max": 78
+      },
+      "reading_line_height": 1.65,
+      "variable_axes": [
+        "wght",
+        "opsz"
+      ],
+      "user_scale_always_wins": true
+    },
+    "chromatic_context": {
+      "primary_accent": "#FFD600",
+      "contextual_accent_role": "secondary_only",
+      "scopes": [
+        "application",
+        "project",
+        "content_type",
+        "workspace"
+      ],
+      "transition_ms": 240,
+      "state_must_also_have_text_or_shape": true
+    },
+    "cursor_intent": {
+      "text": "text",
+      "action": "pointer",
+      "drag": "grab",
+      "dragging": "grabbing",
+      "resize": "directional_resize",
+      "selection": "crosshair",
+      "trail_default": false,
+      "custom_pointer_must_preserve_native_accessibility": true
+    },
+    "window_memory": {
+      "persistence": "explicit_opt_in",
+      "remember": [
+        "placement",
+        "size",
+        "workspace",
+        "last_safe_focus"
+      ],
+      "restore_unsaved_editing_state": "application_owned_checkpoint_only",
+      "never_restore": [
+        "elevated_privileges",
+        "one_time_permissions",
+        "stale_secrets"
+      ]
+    },
+    "circadian_environment": {
+      "source": "local_clock_or_explicit_solar_provider",
+      "phases": [
+        "dawn",
+        "day",
+        "dusk",
+        "night"
+      ],
+      "wallpaper_fallback": "static_low_power",
+      "manual_override": "always_available",
+      "location_permission_required_for_solar_data": true
+    },
+    "audio_feedback": {
+      "events": [
+        "confirm",
+        "error",
+        "transfer",
+        "complete",
+        "notification"
+      ],
+      "default_volume": "low",
+      "ducking": "only_when_audio_session_state_is_available",
+      "quiet_hours": "user_configured",
+      "muted_by_default_in_sensitive_contexts": true
+    },
+    "progressive_disclosure": {
+      "panels": "edge_reveal_or_context_action",
+      "preserve_keyboard_access": true,
+      "preserve_touch_access": true,
+      "never_hide_critical_status": true
+    },
+    "causal_motion": {
+      "short_ms": 110,
+      "standard_ms": 180,
+      "surface_ms": 240,
+      "convey_origin_and_destination": true,
+      "reduced_motion": "instant_or_fade_without_spatial_travel"
+    },
+    "adaptive_density": {
+      "modes": [
+        "comfortable",
+        "calm",
+        "compact"
+      ],
+      "calm_mode": {
+        "min_target_px": 48,
+        "increase_spacing": true,
+        "mute_secondary_chrome": true
+      },
+      "automatic_behavior": "suggest_only_until_user_opt_in",
+      "never_infer_health_or_emotional_state": true
+    },
+    "shape_language": {
+      "work": {
+        "radius_px": 8,
+        "elevation": "clear"
+      },
+      "leisure": {
+        "radius_px": 14,
+        "elevation": "diffuse"
+      },
+      "warning": {
+        "radius_px": 4,
+        "elevation": "directed"
+      },
+      "transition_ms": 180
+    },
+    "spatial_workspace": {
+      "default_mode": "2d_free_canvas",
+      "optional_mode": "spatial_layers",
+      "depth_effect_requires": "user_opt_in",
+      "keyboard_and_screen_reader_equivalent": true,
+      "no_depth_of_field_on_text": true
+    },
+    "timeline_and_undo": {
+      "snapshot_scope": [
+        "workspace_layout",
+        "open_windows",
+        "document_checkpoints",
+        "focus_context"
+      ],
+      "preview_before_restore": true,
+      "global_undo_requires_operation_journal": true,
+      "destructive_restore_is_transactional": true,
+      "user_data_retention": "user_configured"
+    },
+    "context_clipboard": {
+      "capture": "explicit_user_action",
+      "allowed_metadata": [
+        "source_application",
+        "selected_content_reference",
+        "timestamp",
+        "caret_position_if_supported"
+      ],
+      "deny_by_default": [
+        "password_fields",
+        "private_browsing",
+        "hidden_content",
+        "authentication_tokens"
+      ],
+      "cross_device_transfer": "authenticated_pairing_required"
+    },
+    "temporal_restore": {
+      "requires_versioned_snapshots": true,
+      "inspect_before_restore": true,
+      "restore_granularity": "application_defined",
+      "rollback_must_be_atomic_or_report_partial_failure": true
+    },
+    "resource_governance": {
+      "priority_signal": "foreground_focus_plus_explicit_user_priority",
+      "optional_sensors": "off_by_default",
+      "freeze_only_when_process_contract_allows": true,
+      "preserve_deadlines_and_audio_io": true,
+      "report_resource_pressure": true
+    },
+    "privacy_and_sandbox": {
+      "permissions": "least_privilege_and_scoped",
+      "sandbox_network_default": "deny",
+      "sandbox_filesystem_default": "isolated",
+      "audit_log": "local_and_user_inspectable",
+      "biometric_processing": "not_required_for_core_features"
+    },
+    "semantic_file_mesh": {
+      "index_scope": "user_granted_locations",
+      "default_processing": "local_first",
+      "content_search": "permission_scoped",
+      "source_provenance": "required",
+      "deletion_and_reindex_controls": true
+    },
+    "session_transfer": {
+      "pairing": "explicit_authenticated_pairing",
+      "transfer": [
+        "application_state",
+        "document_checkpoint",
+        "workspace_manifest"
+      ],
+      "never_transfer": [
+        "credentials",
+        "unreviewed_secrets",
+        "privileged_tokens"
+      ],
+      "offline_fallback": "exportable_signed_manifest"
+    },
+    "autonomous_agents": {
+      "execution": "capability_scoped",
+      "resource_budget": "required",
+      "network_access": "deny_until_granted",
+      "destructive_actions": "human_confirmation",
+      "audit_and_cancel": true
+    },
+    "attention_firewall": {
+      "filtering": "user_configured_rules",
+      "explain_removed_content": true,
+      "allowlist_and_bypass": true,
+      "never_suppress": [
+        "security_alerts",
+        "system_failures",
+        "user_marked_urgent"
+      ]
+    },
+    "privacy_shutter": {
+      "detection": "optional_local_presence_signal",
+      "camera_capture": "off_by_default",
+      "reveal": "explicit_user_presence_or_manual_unlock",
+      "never_store_frames": true,
+      "manual_lock": "always_available"
+    },
+    "intent_rewriter": {
+      "input": "explicit_selection_and_user_command",
+      "default_processing": "local_when_available",
+      "preserve_original": true,
+      "apply": "preview_then_confirm",
+      "never_execute_code_automatically": true
+    },
+    "capability_states": [
+      "implemented",
+      "experimental",
+      "specified",
+      "hardware_dependent",
+      "unavailable"
+    ],
+    "release_rule": "A feature is implemented only when code, tests, permissions, failure states, and platform evidence exist."
   }
 }
