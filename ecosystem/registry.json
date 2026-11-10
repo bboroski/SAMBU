@@ -211,7 +211,7 @@
       ]
     },
     {
-      "id": "nun-launcher",
+      "id": "nunlauncher-bootstrap",
       "repository": "bboroski/NUNLauncher",
       "role": "kernel-bootstrap-supervisor-specification",
       "runtime": [
@@ -311,7 +311,7 @@
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
     },
     {
-      "from": "nun-launcher",
+      "from": "nunlauncher-bootstrap",
       "to": "nun-kernel",
       "kind": "kernel-boot-contract",
       "status": "planned",
