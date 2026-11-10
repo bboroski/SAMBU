@@ -156,7 +156,8 @@ class SignalGuardTests(unittest.TestCase):
         )
         too_large = guard.accept(self.envelope(payload={"data": "x" * 100}))
         self.assertEqual(too_large.reason, "payload_invalid_or_too_large")
-        guard.accept(self.envelope(sequence=1))
+        accepted = guard.accept(self.envelope(sequence=1, payload={"ok": True}))
+        self.assertTrue(accepted.accepted)
         with self.assertRaises(SignalCapacityError):
             guard.accept(self.envelope(sequence=2))
 
