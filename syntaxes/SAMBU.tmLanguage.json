@@ -44,23 +44,48 @@
       ]
     },
     "strings": {
-      "name": "string.quoted.double.sambu",
-      "begin": "\"",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.begin.sambu"
-        }
-      },
-      "end": "\"",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.end.sambu"
-        }
-      },
       "patterns": [
         {
-          "name": "constant.character.escape.sambu",
-          "match": "\\\\."
+          "name": "string.quoted.double.sambu",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.sambu"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.sambu"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.sambu",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.sambu",
+          "begin": "'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.sambu"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.sambu"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.sambu",
+              "match": "\\\\."
+            }
+          ]
         }
       ]
     },
@@ -68,7 +93,7 @@
       "patterns": [
         {
           "name": "constant.numeric.sambu",
-          "match": "\\b(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?\\b"
+          "match": "(?:\\\\b\\\\d+(?:\\\\.\\\\d*)?|\\\\.\\\\d+)(?:[eE][+-]?\\\\d+)?"
         }
       ]
     },
@@ -76,7 +101,7 @@
       "patterns": [
         {
           "name": "meta.function.sambu",
-          "match": "\\b(fn|tava)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "match": "\\\\b(fn|tava)\\\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "captures": {
             "1": {
               "name": "storage.type.function.sambu"
@@ -88,7 +113,7 @@
         },
         {
           "name": "meta.class.sambu",
-          "match": "\\b(class|kaven)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "match": "\\\\b(class|kaven)\\\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "captures": {
             "1": {
               "name": "storage.type.class.sambu"
@@ -102,27 +127,27 @@
     },
     "keywords": {
       "name": "keyword.control.sambu",
-      "match": "\\b(?:let|fn|if|else|for|in|return|class|extends|static|interface|trait|implements|abstract|final|public|private|protected|uses|kava|kaven|kavir|kavum|keva|keven|kevir|kevum|kiva|kiven|kivir|kivum|kova|tava|taven|tavir|tavum|teva|teven)\\b"
+      "match": "\\\\b(?:implements|interface|protected|abstract|extends|private|public|return|static|class|false|final|kaven|kavir|kavum|keven|kevir|kevum|kiven|kivir|kivum|raven|ravir|ravum|reven|taven|tavir|tavum|teven|trait|else|kava|keva|kiva|kova|null|rava|reva|tava|teva|true|uses|and|for|let|not|fn|if|in|or)\\\\b"
     },
     "constants": {
       "name": "constant.language.sambu",
-      "match": "\\b(?:true|false|null|and|or|not|ravum|reva|reven|rava|raven|ravir)\\b"
+      "match": "\\\\b(?:true|false|null)\\\\b"
     },
     "builtins": {
       "patterns": [
         {
           "name": "support.function.builtin.sambu",
-          "match": "\\b(?:print|lava|maxwell|boltzmann|thermal_energy|partition|entropy|sample_maxwell|mean|variance|sqrt|exp|log|abs|count|len|range|sum|min|max|actor|actor_send|actor_drain|actor_state|supervisor|supervise|supervisor_status|channel|channel_send|channel_receive|voxel_grid|voxel_set|voxel_remove|voxel_get|voxel_count|voxel_mesh|voxel_chunks|voxel_frame_plan|voxel_raycast|voxel_octree|voxel_octree_get|voxel_export|voxel_spectral_profile|voxel_solve_field|voxel_sparsify|coq_rule|coq_match|coq_explain|coq_filter|coq_pipeline|parse_report|mine_patterns|cluster_glue|pitch_score|syllables|rhyme_key|text_profile|prosody_profile|word_info|wordbook|audio_profile|studio_offer|capture_node|order_pipeline|package_pricing|unit_economics)\\b(?=\\s*\\()"
+          "match": "\\\\b(?:hemispheric_sleep_budget|biometric_taxonomy_sort|countercurrent_exchange|feather_barrier_profile|voxel_spectral_profile|wetland_ecosystem_loop|flight_muscle_profile|oxygen_pressure_ratio|tic_tac_toe_best_move|visual_system_profile|accreditation_record|accreditation_status|flight_energy_budget|avian_air_sac_cycle|bill_lamella_filter|countercurrent_sync|flock_flight_budget|avian_gas_exchange|digestive_grinding|plumage_insulation|imprinting_window|percentage_points|reduce_by_percent|supervisor_status|tic_tac_toe_state|voxel_solve_field|magnetic_heading|percent_to_ratio|ratio_to_percent|tic_tac_toe_move|voxel_frame_plan|voxel_octree_get|channel_metrics|channel_receive|idempotency_key|imprint_closure|migration_speed|network_metrics|package_pricing|prosody_profile|v_vector_stream|weekly_schedule|mimic_distance|order_pipeline|percent_change|retry_schedule|sample_maxwell|thermal_energy|unit_economics|voxel_sparsify|apply_percent|audio_profile|capture_tower|clamp_percent|gift_transfer|mimic_profile|mine_patterns|queue_profile|signal_report|voxel_raycast|capture_node|channel_send|cluster_glue|coq_pipeline|parse_report|salt_balance|studio_offer|text_profile|voxel_chunks|voxel_export|voxel_octree|voxel_remove|actor_drain|actor_state|coq_explain|pitch_score|voxel_count|actor_send|attendance|blast_plan|coq_filter|gift_batch|percent_of|percentage|supervisor|voxel_grid|voxel_mesh|associate|boltzmann|coq_match|influence|negotiate|partition|rhyme_key|rps_round|supervise|syllables|voxel_get|voxel_set|word_info|allocate|coq_rule|variance|wordbook|ab_test|channel|entropy|maxwell|network|funnel|actor|count|daven|davir|davum|deven|devir|devum|koven|kovir|kovum|laven|lavir|lavum|leven|levir|levum|liven|livir|livum|maven|mavir|mavum|meven|mevir|mevum|miven|mivir|mivum|moven|naven|navir|navum|neven|nevir|nevum|niven|paven|pavir|pavum|peven|pevir|pevum|piven|pivir|pivum|poven|povir|print|range|revir|revum|riven|rivir|rivum|roven|rovir|saven|savir|savum|seven|sevir|sevum|siven|sivir|sivum|soven|sovir|sovum|tevir|tevum|tiven|tivir|tivum|toven|tovir|tovum|tuven|tuvir|tuvum|vaven|vavir|vavum|veven|vevir|vevum|viven|vivir|vivum|voven|vovir|vovum|vuven|dava|deva|diva|kuva|lava|leva|liva|lova|mava|mean|meva|miva|mova|nava|neva|niva|pava|peva|piva|pova|riva|rova|sava|seva|siva|sova|sqrt|suva|tiva|tova|tuva|vava|veva|viva|vova|vuva|abs|exp|len|log|max|min|sum)\\\\b(?=\\\\s*\\\\()"
         }
       ]
     },
     "operators": {
       "name": "keyword.operator.sambu",
-      "match": "==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
+      "match": "==|!=|<=|>=|&&|\\\\|\\\\||\\\\*\\\\*|[+*/%<>=!^-]"
     },
     "punctuation": {
       "name": "punctuation.separator.sambu",
-      "match": "[()\\[\\]{}.,;]"
+      "match": "[()\\\\[\\\\]{}.,;]"
     }
   }
 }
