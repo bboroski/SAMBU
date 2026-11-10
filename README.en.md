@@ -230,3 +230,8 @@ SAMBU is the language and developer-tooling layer. Its Tkinter IDE and Duck Stud
 
 
 [Open NUN Mesh portal](https://bboroski.github.io/Klipot/)
+
+
+## Duck UI system
+
+Shared black/graphite and signal-yellow rules are documented in [Duck UI System](docs/DUCK_UI_SYSTEM.md), with [machine-readable tokens](design/duck-ui.tokens.json) and a scalable [duck mark](assets/duck-ui/duck-mark.svg). Static SVG previews are not represented as captures of a running application; embedded cores remain UI-independent.
