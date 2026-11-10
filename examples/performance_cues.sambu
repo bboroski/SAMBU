@@ -1,5 +1,5 @@
 # Explicit performance markup stays separate from lyric content.
-let draft = "[Verse:]\nThe first movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nA different movement\n*Phone rings*\n(Mm-mm)\nSomeone says "go now"\nру-ру-Русско"
+let draft = "[Verse:]\nThe first movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nA different movement\n*Phone rings*\n(Mm-mm)\nSomeone says \"go now\"\nру-ру-Русско"
 
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
