@@ -49,6 +49,34 @@ print(structure.refrain_groups[0].line_count)
 """)
         self.assertEqual(output, ["4", "4", "2", "2", "1"])
 
+    def test_colon_and_parenthesized_section_labels_are_normalized(self):
+        _, output = self.run_sambu("""
+let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA returning line\\n[Chorus:]\\nA returning line\\n(Verse 2)\\nSecond movement"
+let structure = text_structure_profile(draft)
+print(structure.section_kind_counts.verse)
+print(structure.section_kind_counts.chorus)
+print(structure.refrain_groups[0].repeat_count)
+print(structure.sections[1].performance_hint)
+""")
+        self.assertEqual(output, ["2", "2", "2", "melodic"])
+
+    def test_explicit_performance_cues_are_extracted_without_inference(self):
+        _, output = self.run_sambu("""
+let draft = "*Phone rings*\\n(Ad-lib: Mm-mm)\\nThey say \\"go now\\"\\nру-ру-Русско"
+let cues = performance_cues_profile(draft)
+print(cues.stage_direction_count)
+print(cues.parenthetical_aside_count)
+print(cues.quoted_phrase_count)
+print(cues.elongated_spelling_count)
+print(cues.markers[0].kind)
+print(cues.markers[0].line_number)
+print(cues.scope)
+""")
+        self.assertEqual(output, [
+            "1", "1", "1", "1", "stage_direction", "1",
+            "explicit_written_cues_not_performance_or_emotion_inference",
+        ])
+
     def test_multilingual_writing_systems_and_code_switching(self):
         _, output = self.run_sambu("""
 let draft = "Пишу українською today\\nEnglish remains\\nТекст повертається"
@@ -102,6 +130,8 @@ print(mix.word_count)
             execute('syllables("one", "two")')
         with self.assertRaises(TypeError):
             execute("language_mix_profile(42)")
+        with self.assertRaises(TypeError):
+            execute("performance_cues_profile(42)")
 
     def test_is_operator_works_for_classes_and_interfaces(self):
         _, output = self.run_sambu("""
