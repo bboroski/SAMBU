@@ -1,14 +1,14 @@
-# SAMBU frameworks — Judo, Aikido and Jiu-Jitsu
+# SAMBU framework APIs — architecture, inference and UI control
 
 Release target: SAMBU 0.7.0 (experimental alpha).
 
 The three frameworks are independent Python host APIs shipped in the sambu package. They are designed to compose, but they do not silently perform network, deployment, browser or database actions.
 
-## 1. Judo — engineering architecture
+## 1. Architecture validation API (legacy namespace: `Judo`)
 
 Module: sambu.judo
 
-Judo models large systems as an explicit component graph. It is intended for service architectures, data platforms, modular monoliths, event-driven systems, enterprise integration maps and infrastructure blueprints.
+The architecture model represents large systems as an explicit component graph. It is intended for service architectures, data platforms, modular monoliths, event-driven systems, enterprise integration maps and infrastructure blueprints.
 
 Core building blocks:
 
@@ -53,11 +53,11 @@ print(report.to_dict())
 
 Judo is an architecture model and static validator. It does not deploy infrastructure, probe live services, prove real redundancy, execute migrations or verify cloud-provider configuration. A model can be valid while a real deployment is unhealthy.
 
-## 2. Aikido — neural integration and orchestration
+## 2. Inference orchestration API (legacy namespace: `Aikido`)
 
 Module: sambu.aikido
 
-Aikido provides a provider-neutral integration boundary. A host application injects adapters for cloud models, local inference servers, private endpoints or other inference runtimes.
+The inference API provides a provider-neutral integration boundary. A host application injects adapters for cloud models, local inference servers, private endpoints or other inference runtimes.
 
 Capabilities:
 
@@ -108,13 +108,13 @@ print(result.content)
 print(hub.telemetry[-1])
 ~~~
 
-Aikido ships no provider credentials and does not make network calls by itself. The adapter controls the actual connection. Token and cost values returned by a provider are treated as usage reports, not independently audited invoices. Aikido is an orchestration boundary, not a claim that every AI vendor is already integrated.
+This API ships no provider credentials and does not make network calls by itself. The adapter controls the actual connection. Token and cost values returned by a provider are treated as usage reports, not independently audited invoices. Aikido is an orchestration boundary, not a claim that every AI vendor is already integrated.
 
-## 3. Jiu-Jitsu — visual MVC, modal flows and roles
+## 3. UI workflow and access-control API (legacy namespace: `JiuJitsu`)
 
 Module: sambu.jiu_jitsu
 
-Jiu-Jitsu separates a view description from its controller actions and the authorization policy.
+The UI workflow model separates view descriptions, controller actions and authorization policy.
 
 - ViewNode is a renderer-neutral, serializable visual tree. Nodes have stable IDs, semantic component types, JSON-like props and child nodes.
 - ViewDefinition associates a route with its title, root view and optional permission.
@@ -169,17 +169,17 @@ print(app.snapshot().to_dict())
 
 Permission matching supports exact grants, area:* patterns and *. An explicit deny from any inherited or assigned role takes precedence over grants. Assignments are application data; Jiu-Jitsu does not authenticate users or fetch identity claims. The host application must establish the principal and load role assignments from its trusted identity system.
 
-Jiu-Jitsu does not ship a browser renderer or generate arbitrary JavaScript. A React, Vue, Svelte, Qt or native renderer can consume the serialized view model. The host must still validate user input on the server and enforce authorization at every protected data boundary.
+This API does not ship a browser renderer or generate arbitrary JavaScript. A React, Vue, Svelte, Qt or native renderer can consume the serialized view model. The host must still validate user input on the server and enforce authorization at every protected data boundary.
 
 ## 4. How the frameworks compose
 
 A practical division of responsibility:
 
-1. Judo declares system components, dependencies, ownership, reliability assumptions and service contracts.
-2. Aikido provides a controlled AI capability to selected services through explicit provider adapters.
-3. Jiu-Jitsu exposes workflows to people through views, controllers, modals and role-gated actions.
+1. The architecture API declares system components, dependencies, ownership, reliability assumptions and service contracts.
+2. The inference API provides controlled model access through explicit provider adapters.
+3. The UI API exposes workflows through views, controllers, modals and role-gated actions.
 
-The three models can share IDs and contract names, but no implicit coupling is created. For example, a Judo component can be named ai-gateway, while an Aikido hub is injected into its host service and Jiu-Jitsu presents an authorized assistant view.
+The three API models can share IDs and contract names, but no implicit coupling is created. For example, a Judo component can be named ai-gateway, while an Aikido hub is injected into its host service and Jiu-Jitsu presents an authorized assistant view.
 
 ## 5. OOP and games in SAMBU 0.7.0
 
