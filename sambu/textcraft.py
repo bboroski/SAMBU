@@ -16,6 +16,7 @@ from .values import Record
 
 _WORD_RE = re.compile(r"[^\W\d_]+(?:[’'\-][^\W\d_]+)*", re.UNICODE)
 _HEADER_RE = re.compile(r"^\s*\[\s*([^\]]+?)\s*\]\s*:?\s*$")
+_PAREN_HEADER_RE = re.compile(r"^\s*\(\s*([^()]+?)\s*\)\s*:?\s*$")
 _BARE_HEADER_RE = re.compile(
     r"^\s*(intro|verse(?:\s+\d+)?|pre[ -]?chorus|chorus|hook|bridge|outro|"
     r"интро|куплет(?:\s+\d+)?|предприпев|припев|хук|бридж|аутро)\s*:?\s*$",
@@ -30,6 +31,7 @@ _SECTION_ALIASES = {
     "pre chorus": "pre_chorus", "pre-chorus": "pre_chorus",
     "предприпев": "pre_chorus",
     "chorus": "chorus", "hook": "chorus", "припев": "chorus", "хук": "chorus",
+    "melody sing chorus": "chorus", "melodic chorus": "chorus",
     "bridge": "bridge", "бридж": "bridge",
     "outro": "outro", "аутро": "outro",
 }
@@ -80,17 +82,31 @@ def _rhyme_key(word: str) -> str:
 
 def _section_kind(label: str) -> str:
     normalized = re.sub(r"\s+", " ", label.casefold().replace("_", " ").strip())
+    normalized = re.sub(r":+$", "", normalized).strip()
     normalized = re.sub(r"\s+\d+$", "", normalized)
     return _SECTION_ALIASES.get(normalized, "custom")
 
 
-def _section_header(line: str) -> str | None:
-    match = _HEADER_RE.fullmatch(line)
-    if match:
-        return match.group(1).strip()
-    match = _BARE_HEADER_RE.fullmatch(line)
-    return match.group(1).strip() if match else None
+def _section_performance_hint(label: str) -> str:
+    """Extract only explicit delivery hints written in a section label."""
+    normalized = label.casefold()
+    if "melod" in normalized or "sing" in normalized:
+        return "melodic"
+    if "spoken" in normalized or "talk" in normalized:
+        return "spoken"
+    if "adlib" in normalized or "ad-lib" in normalized:
+        return "ad_lib"
+    if "rap" in normalized:
+        return "rap"
+    return "unspecified"
 
+
+def _section_header(line: str) -> str | None:
+    for pattern in (_HEADER_RE, _PAREN_HEADER_RE, _BARE_HEADER_RE):
+        match = pattern.fullmatch(line)
+        if match:
+            return match.group(1).strip()
+    return None
 
 def syllables(args: list[object]) -> int:
     """Return an approximate syllable count for one word."""
@@ -211,6 +227,7 @@ def text_structure_profile(args: list[object]) -> Record:
             "index": len(sections),
             "label": current_label,
             "kind": current_kind,
+            "performance_hint": _section_performance_hint(current_label),
             "start_line": current_lines[0][0],
             "end_line": current_lines[-1][0],
             "line_count": len(current_lines),
@@ -404,6 +421,62 @@ def prosody_profile(args: list[object]) -> Record:
     })
 
 
+
+
+
+def performance_cues_profile(args: list[object]) -> Record:
+    """Report explicit stage, parenthetical, quoted and elongated-word cues.
+
+    This is a markup detector, not speech recognition. It does not infer
+    speaker identity, emotion, pronunciation, or whether a cue should be used.
+    """
+    text = _text_arg(args, "performance_cues_profile(text)")
+    patterns = (
+        ("stage_direction", re.compile(r"\*([^*\n]{1,160})\*")),
+        ("parenthetical_aside", re.compile(r"\(([^()\n]{1,160})\)")),
+        ("quoted_phrase", re.compile(r'"([^"\n]{1,160})"|“([^”\n]{1,160})”|«([^»\n]{1,160})»')),
+        ("elongated_spelling", re.compile(
+            r"\b(?:[^\W\d_]{1,16}[-–]){2,}[^\W\d_]{1,16}\b",
+            re.IGNORECASE,
+        )),
+    )
+    markers: list[Record] = []
+    counts: Counter[str] = Counter()
+    truncated = False
+
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if _section_header(line) is not None:
+            continue
+        for kind, pattern in patterns:
+            for match in pattern.finditer(line):
+                value = next((group for group in match.groups() if group is not None), "")
+                if not value.strip():
+                    continue
+                counts[kind] += 1
+                if len(markers) < 1000:
+                    markers.append(Record({
+                        "kind": kind,
+                        "line_number": line_number,
+                        "start_column": match.start() + 1,
+                        "end_column": match.end() + 1,
+                        "text": value.strip(),
+                    }))
+                else:
+                    truncated = True
+
+    return Record({
+        "marker_count": sum(counts.values()),
+        "stage_direction_count": counts["stage_direction"],
+        "parenthetical_aside_count": counts["parenthetical_aside"],
+        "quoted_phrase_count": counts["quoted_phrase"],
+        "elongated_spelling_count": counts["elongated_spelling"],
+        "kind_counts": Record(dict(sorted(counts.items()))),
+        "markers": markers,
+        "truncated": truncated,
+        "scope": "explicit_written_cues_not_performance_or_emotion_inference",
+    })
+
+
 def hook_profile(args: list[object]) -> Record:
     """Measure compact-hook structure, rhyme echoes and repeated lexical anchors.
 
@@ -515,4 +588,5 @@ TEXTCRAFT_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "language_mix_profile": language_mix_profile,
     "text_structure_profile": text_structure_profile,
     "hook_profile": hook_profile,
+    "performance_cues_profile": performance_cues_profile,
 }
