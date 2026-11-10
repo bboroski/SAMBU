@@ -45,6 +45,23 @@ end.
         parse_ast(result.generated_source)
         self.assertIn("range(1, (3) + 1)", result.generated_source)
 
+    def test_multiline_pascal_and_delphi_comments_are_removed_safely(self):
+        source = """
+program Commented;
+begin
+  { a comment that continues
+    over several source lines }
+  (* another comment
+     with a second line *)
+  writeln(42);
+end.
+"""
+        output: list[str] = []
+        execute_dialect(source, "pascal", output=output.append)
+        self.assertEqual(output, ["42"])
+        with self.assertRaises(DialectSyntaxError):
+            transpile("program Bad;\\nbegin (* never closed", "delphi")
+
     def test_immutable_bindings_reject_reassignment(self):
         source = """
 program Invalid;
