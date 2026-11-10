@@ -58,6 +58,10 @@ class BoundaryProfileTests(unittest.TestCase):
                 with self.assertRaises(NunError):
                     BoundaryProfile(mode=mode, external_inputs=("radiation",))
 
+    def test_rejects_non_string_mode(self):
+        with self.assertRaises(NunError):
+            BoundaryProfile(mode=[])
+
     def test_exchange_mode_requires_explicit_inputs(self):
         with self.assertRaises(NunError):
             BoundaryProfile(mode="exchange")
