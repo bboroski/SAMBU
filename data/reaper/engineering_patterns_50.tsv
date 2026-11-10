@@ -1,0 +1,51 @@
+id	category	term_en	term_ru	engineering_mapping
+1	reaper_biosynthetic	Genetic harvesting	Генетическая переработка	Batch ingestion with source provenance and bounded retention
+2	reaper_biosynthetic	Genetic liquefaction	Генетическое сжижение	Staged transformation with explicit intermediate states
+3	reaper_biosynthetic	Biomass extraction	Экстракция биомассы	Resource accounting and validated input extraction
+4	reaper_biosynthetic	Core reconstruction	Реконструкция ядра	Snapshot-based recovery with integrity checks
+5	reaper_biosynthetic	Indoctrination	Индоктринация	Threat model for gradual configuration or state corruption; never a psychological inference
+6	reaper_biosynthetic	Sub-perceptual signal	Сигнал на пороге восприятия	Low-amplitude signal observation with calibrated thresholds and provenance
+7	reaper_biosynthetic	Neural rewiring	Нейронная перепрошивка	Controlled dependency or state-graph migration
+8	reaper_biosynthetic	Synthetic-organic hybridization	Синтетико-органическая гибридизация	Layered integration between independently governed subsystems
+9	reaper_biosynthetic	Bio-synthetic symbiosis	Био-синтетический симбиоз	Co-design of software behavior and physical platform constraints
+10	reaper_biosynthetic	Neural suppression field	Поле подавления нейронной активности	Explicit rate limiting, isolation, or backpressure boundary
+11	mass_effect_physics	Element Zero (Eezo)	Элемент Ноль	Fictional parameter used only in simulation fixtures; never a real hardware capability
+12	mass_effect_physics	Dark energy	Тёмная энергия	Fictional model variable kept separate from measured physical quantities
+13	mass_effect_physics	Mass effect field	Поле эффекта массы	Abstract field-like state for numerical modeling and visualization
+14	mass_effect_physics	Mass Relay	Ретранслятор массы	Versioned transport endpoint with explicit routing and compatibility
+15	mass_effect_physics	Kinetic barrier	Кинетический барьер	Layered admission or protection boundary with measurable limits
+16	mass_effect_physics	FTL travel	Сверхсветовое движение	Fictional scenario input for simulation; not a propulsion claim
+17	mass_effect_physics	Quantum entanglement	Квантовая запутанность	Correlated-state concept requiring a domain-specific scientific model
+18	mass_effect_physics	Space-time distortion	Искривление пространства-времени	Coordinate-transform or geometry model with declared units
+19	mass_effect_physics	Gravitational anomaly	Гравитационная аномалия	Outlier detection against a documented sensor baseline
+20	mass_effect_physics	Thermal dissipation grid	Сетка рассеивания тепла	Thermal-budget telemetry and heat-flow modeling from validated sensors
+21	reaper_infrastructure	Thanix Cannon	Пушка «Таникс»	Fictional high-energy payload in simulations; not an implementable weapon specification
+22	reaper_infrastructure	Cyclonic Kinetic Barrier	Циклонный кинетический барьер	Defense-in-depth and fault-containment layers
+23	reaper_infrastructure	Ablative hull armor	Абляционная броня корпуса	Graceful degradation and replaceable protective layers
+24	reaper_infrastructure	Self-repairing bio-armor	Самовосстанавливающаяся биоброня	Bounded repair workflow with explicit verification and rollback
+25	reaper_infrastructure	Point-defense laser grid	Лазерная система точечной обороны	Distributed filtering of malformed or unsafe inputs
+26	reaper_infrastructure	Relay Network	Сеть ретрансляторов	Dependency graph with availability and path-health reporting
+27	reaper_infrastructure	Hull integrity field	Поле прочности корпуса	Structural invariant checks and integrity monitoring
+28	reaper_infrastructure	Sensor spoofing field	Поле искажения датчиков	Threat model for stale, forged, or contradictory measurements
+29	reaper_infrastructure	Automated repair drone	Автоматический ремонтный дрон	Supervised repair proposal; mutation requires explicit authorization
+30	reaper_infrastructure	Thermal sink overload	Перегрузка теплоотвода	Resource saturation state with trip limits and evidence
+31	cycle_philosophy	The Harvest Cycle	Цикл Жатвы	Repeatable lifecycle model with explicit phase boundaries
+32	cycle_philosophy	50,000-year cycle	50 000-летний цикл	Fictional cycle parameter; use configurable clocks in real systems
+33	cycle_philosophy	Synthetic-organic conflict	Конфликт между органикой и синтетикой	Compatibility and governance risk between independently evolved subsystems
+34	cycle_philosophy	Technological trap	Технологическая ловушка	Dependency lock-in and single-point-of-failure analysis
+35	cycle_philosophy	The Crucible	Горн	Integration milestone requiring evidence from every contributing subsystem
+36	cycle_philosophy	Cycle of extinction	Цикл вымирания	Failure-propagation scenario used in resilience exercises
+37	cycle_philosophy	Artificially directed evolution	Искусственно направляемая эволюция	Controlled version evolution under reviewable migration rules
+38	cycle_philosophy	Evolutionary deadlock	Эволюционный тупик	Deadlock or incompatible-version detection in dependency resolution
+39	cycle_philosophy	Technological dependency	Технологическая зависимость	Explicit dependency closure and vendor/provenance tracking
+40	cycle_philosophy	Galactic resetting	Галактическая перезагрузка	Disaster-recovery model with verified restore points
+41	synthetic_intelligence	Artificial Intelligence (AI)	Искусственный интеллект (ИИ)	A governed service boundary with auditable inputs, outputs, and resource limits
+42	synthetic_intelligence	Virtual Intelligence (VI)	Виртуальный интеллект (ВИ)	Deterministic decision-support logic distinct from autonomous execution
+43	synthetic_intelligence	Geth Consensus	Консенсус гетов	Distributed agreement model with quorum and split-brain handling
+44	synthetic_intelligence	Neural network	Нейронная сеть	Statistical model with declared training data, version, and evaluation limits
+45	synthetic_intelligence	Logic virus	Логический вирус	Adversarial input or state-corruption scenario for defensive testing
+46	synthetic_intelligence	Code rewriting	Перепись кода	Reviewed migration or patch process with immutable source and rollback
+47	synthetic_intelligence	Consensus override	Переопределение консенсуса	Explicitly authorized override with audit record and bounded scope
+48	synthetic_intelligence	Distributed computing	Распределённые вычисления	Partitioned execution with traceable ownership and failure domains
+49	synthetic_intelligence	Code integrity check	Проверка целостности кода	Digest/signature verification using the correct cryptographic trust model
+50	synthetic_intelligence	Algorithmic threat assessment	Оценка угроз на основе алгоритмов	Explainable risk scoring that cannot independently authorize destructive action
