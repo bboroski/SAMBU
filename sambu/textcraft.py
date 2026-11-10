@@ -645,6 +645,28 @@ def hook_profile(args: list[object]) -> Record:
     if line_count >= 2 and not repeated_terms and not repeated_line_groups:
         warnings.append("NO_CROSS_LINE_LEXICAL_REPETITION")
 
+    revision_hints: list[str] = []
+    if not 2 <= line_count <= 4:
+        revision_hints.append(
+            "Use 2–4 lines as a compact starting point; keep a deliberate shorter or longer form when the composition needs it."
+        )
+    if line_count >= 2 and not rhyme_groups:
+        revision_hints.append(
+            "Try one natural end-sound family or internal echo; do not force every line to rhyme."
+        )
+    if line_count >= 2 and not repeated_terms and not repeated_line_groups:
+        revision_hints.append(
+            "Consider a short anchor phrase or image that returns with a changed meaning."
+        )
+    if syllable_range >= 5:
+        revision_hints.append(
+            "Read the lines aloud and compare breath length; adjust crowded phrasing without flattening intentional contrast."
+        )
+    if line_count >= 2 and internal_echo_lines == 0:
+        revision_hints.append(
+            "Test one restrained internal sound echo where it supports the rhythm."
+        )
+
     return Record({
         "line_count": line_count,
         "within_compact_range": 2 <= line_count <= 4,
@@ -658,6 +680,7 @@ def hook_profile(args: list[object]) -> Record:
         "repeated_terms": repeated_terms[:32],
         "repeated_line_groups": repeated_line_groups[:16],
         "warnings": warnings,
+        "revision_hints": revision_hints,
         "scope": "textual_heuristics_not_musical_or_semantic_quality",
     })
 
