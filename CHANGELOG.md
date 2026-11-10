@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a provenance-aware Language Craft pipeline: source registration, fragment cuts, terminal design, grammar assembly and deterministic audits for collisions, undefined references, reachability and coverage.
+- Added six articulatory aliases, a runnable grammar-design example, regression tests and implementation-boundary documentation. User-defined grammar blueprints do not yet alter the executable parser.
 - Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
 - Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
 
