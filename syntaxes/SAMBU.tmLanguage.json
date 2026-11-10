@@ -54,13 +54,13 @@
         },
         {
           "name": "comment.block.curly.pascal",
-          "begin": "\\\\{",
-          "end": "\\\\}"
+          "begin": "\\{",
+          "end": "\\}"
         },
         {
           "name": "comment.block.parenthesized-pascal",
-          "begin": "\\\\(\\\\*",
-          "end": "\\\\*\\\\)"
+          "begin": "\\(\\*",
+          "end": "\\*\\)"
         }
       ]
     },
