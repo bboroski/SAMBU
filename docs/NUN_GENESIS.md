@@ -4,18 +4,18 @@
 **Module:** `sambu.nun`  
 **Scope:** immutable initial-state snapshots, declarative boundary profiles and deterministic genesis manifests.
 
-## 1. Design translation
+## 1. Initial-state data model
 
-The supplied Nun narrative describes a primordial medium from which an ordered world emerges. SAMBU uses that image as an engineering metaphor, not as an executable mythological model or a claim about physical cosmology.
+The module defines reproducible starting conditions for simulations and system workflows. It separates the declared initial payload from its boundary profile, then derives a canonical manifest and content digest.
 
-| Narrative motif | SAMBU interpretation | Concrete responsibility |
+| Input concept | Technical representation | Responsibility |
 |---|---|---|
-| Nun, the primordial medium | Initial-state snapshot | Capture declared starting values and an explicit random seed |
-| Nun and Naunet as a complementary pair | State plus boundary profile | Keep the initial data separate from its environment and exchange rules |
-| Emergence of an ordered world | Genesis manifest | Validate required inputs and derive a stable content digest |
-| Recurring solar journey and cycles | Existing Continuity controller | Record later lifecycle transitions and evidence; Nun does not own the runtime lifecycle |
+| Starting values | Immutable initial-state snapshot | Capture declared values and an explicit random seed |
+| Boundary conditions | State plus boundary profile | Keep input data separate from external exchange rules |
+| Scenario declaration | Versioned initial-state manifest | Validate required fields and derive a stable content digest |
+| Later execution | Lifecycle controller | Record subsequent state transitions and evidence; initial-state capture does not own runtime lifecycle |
 
-The key rule is **state first, boundaries explicit, emergence reproducible**.
+The core rule is **state first, boundaries explicit, initialization reproducible**.
 
 ## 2. Public API
 
@@ -90,11 +90,11 @@ A digest provides content identity and tamper detection when compared with a tru
 
 ## 5. Composition with existing SAMBU layers
 
-Nun intentionally does not duplicate other subsystems:
+Initial-state capture does not duplicate other subsystems:
 
-- **Judo** validates component architecture, contracts and dependency order.
+- **Architecture validation API** (legacy namespace `Judo`) validates component architecture, contracts and dependency order.
 - **Continuity** governs explicit lifecycle transitions and its evidence hash chain.
-- **Nun** records the initial conditions from which an experiment or system is declared.
+- **NUN** records the initial conditions from which an experiment or system is declared.
 
 A validated report can be supplied as evidence to a separately managed Continuity cycle:
 
@@ -114,7 +114,7 @@ This records a transition; it does not launch a simulation or execute an operati
 
 ## 6. Explicit non-goals
 
-Nun does not solve differential equations, infer missing scientific values, enforce physical conservation, generate random samples, run a simulation, start workers, access files or networks, mutate a project, or grant host/device capabilities. Scientific units and dimensional checks remain the responsibility of the relevant SAMBU scientific APIs and the consuming model.
+The initial-state module does not solve differential equations, infer missing scientific values, enforce physical conservation, generate random samples, run a simulation, start workers, access files or networks, mutate a project, or grant host/device capabilities. Scientific units and dimensional checks remain the responsibility of the relevant SAMBU scientific APIs and the consuming model.
 
 ## 7. Verification
 
