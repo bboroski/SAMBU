@@ -1,6 +1,6 @@
 # SAMBU Text Craft Diagnostics
 
-SAMBU's text-craft layer turns a draft into inspectable evidence without pretending that literature can be reduced to a single quality score. It is useful for lyric writing, spoken-word drafts, prose, scripts, and multilingual experiments.
+SAMBU's text-craft layer turns a draft into inspectable evidence without pretending that writing can be reduced to a single quality score. It is useful for prose, interface copy, reports, scripts, lyric writing and multilingual experiments. All examples in this guide are neutral synthetic snippets, not excerpts from user-authored work.
 
 ## Design principles
 
@@ -25,7 +25,7 @@ Returns line-level records plus aggregate indicators: syllable_counts, average_s
 
 Each line record includes its source line number, original text, word count, estimated syllable count, final word, approximate rhyme key, alliteration flag, and internal rhyme groups. Internal rhyme keys are spelling heuristics, not phonetic transcriptions.
 
-Mixed-case tokens such as вОды are surfaced as marked_case_words. This is a preservation cue: the author may be marking emphasis or performance stress. The analyzer does not decide which syllable is stressed, and it never rewrites the token.
+Mixed-case tokens such as staTUS are surfaced as marked_case_words. This is a preservation cue: the author may be marking emphasis or performance stress. The analyzer does not decide which syllable is stressed, and it never rewrites the token.
 
 ### text_structure_profile(text)
 
@@ -49,7 +49,7 @@ syllables estimates syllables by counting vowel nuclei. rhyme_key produces a rou
 
 ## Example
 
-    let draft = "[Verse 1]\nПишу короткий фрагмент\n[Chorus]\nA melody returns\n[Припев]\nA melody returns"
+    let draft = "[Verse 1]\nThe service reads input\n[Chorus]\nSystem status is ready\n[Припев]\nSystem status is ready"
     let structure = text_structure_profile(draft)
     let mix = language_mix_profile(draft)
     let sound = prosody_profile(draft)
@@ -107,19 +107,19 @@ This built-in extracts explicit written markers that can matter when preparing a
 - `*...*` stage directions (for example, sound effects);
 - `( ... )` parenthetical asides and ad-lib notation;
 - straight, curly or guillemet-quoted phrases;
-- repeated hyphenated word segments such as `О-о-о` or `ру-ру-Русско`.
+- repeated hyphenated word segments such as `pre-pre-processing` or `pre-pre-processing`.
 
 Every marker includes its kind, source line, and start/end columns. The result is capped at 1,000 returned markers; `truncated` reports when more were found. Recognized section headings are not double-counted as parenthetical asides.
 
-`text_structure_profile` also accepts parenthesized section labels such as `(Verse 2)`, bracketed labels with an internal colon such as `[Verse:]`, and explicit delivery labels such as `[Melody sing Chorus:]`. A section's `performance_hint` is descriptive and only reflects explicit words in its heading (`melodic`, `spoken`, `ad_lib`, `rap`, or `unspecified`).
+`text_structure_profile` also accepts parenthesized section labels such as `(Verse 2)`, bracketed labels with an internal colon such as `[Verse:]`, and explicit delivery labels such as `[Spoken Chorus:]`. A section's `performance_hint` is descriptive and only reflects explicit words in its heading (`melodic`, `spoken`, `ad_lib`, `rap`, or `unspecified`).
 
 These are markup observations only. The analyzer does not identify the speaker, infer emotion, predict vocal delivery, transcribe audio, or decide whether a cue is appropriate. It preserves the exact source text.
 
 ### Example
 
-    let draft = "[Verse:]\nFirst movement\n[Melody sing Chorus:]\nA returning line\n[Chorus:]\nA returning line\n(Verse 2)\nSecond movement"
+    let draft = "[Verse:]\nThe request is received\n[Spoken Chorus:]\nSystem status is ready\n[Chorus:]\nSystem status is ready\n(Verse 2)\nThe client stores the result"
     let structure = text_structure_profile(draft)
-    let cues = performance_cues_profile("*Phone rings*\n(Mm-mm)\nру-ру-Русско")
+    let cues = performance_cues_profile("*Display turns on*\n(status: ready)\npre-pre-processing")
 
     print(structure.section_kind_counts.verse)
     print(structure.refrain_groups[0].repeat_count)
