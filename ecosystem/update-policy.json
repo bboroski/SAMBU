@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "ecosystem": "SAMBU",
+  "repository": "bboroski/SAMBU",
+  "module_id": "sambu-core",
+  "layers": [
+    "language-runtime",
+    "developer-tooling",
+    "workflow-orchestration"
+  ],
+  "autonomy": {
+    "status": "independently-buildable",
+    "independent_build": true,
+    "shared_runtime_dependency": false,
+    "release_ownership": "repository-local"
+  },
+  "integration": {
+    "contract_major": 1,
+    "model": "versioned-manifests-and-explicit-adapters",
+    "optional_by_default": true,
+    "dependencies_must_be_declared": true,
+    "compatibility_gate": "CI-before-release",
+    "klipot_is_control_plane_only": true
+  },
+  "updates": {
+    "dependency_manager": "Dependabot",
+    "cadence": "weekly",
+    "delivery": "pull-request-only",
+    "automatic_merge": false,
+    "automatic_installation": false,
+    "require_ci": true,
+    "application_release_source": "GitHub Releases when published",
+    "application_update_verification": "manual signature and compatibility verification required",
+    "rollback": "retain the previous known-good release and revert the update PR or redeploy the pinned release"
+  },
+  "recovery": {
+    "preserve_local_configuration": true,
+    "rollback_required_for_runtime_or_firmware_changes": true,
+    "report_unknown_and_failed_states_separately": true
+  }
+}
