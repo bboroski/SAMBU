@@ -1,14 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="752" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
 <title id="title">SAMBU platform architecture</title>
 <desc id="desc">Layered map of the Python-hosted SAMBU language, runtime, scientific and domain modules, and developer tools. Experimental components are identified.</desc>
 <defs>
-  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f7fbf7"/><stop offset="1" stop-color="#e7f3ed"/></linearGradient>
-  <linearGradient id="head" x2="1"><stop stop-color="#164c49"/><stop offset="1" stop-color="#28756a"/></linearGradient>
+  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0D0D0D"/><stop offset="1" stop-color="#141414"/></linearGradient>
+  <linearGradient id="head" x2="1"><stop stop-color="#1A1A1A"/><stop offset="1" stop-color="#141414"/></linearGradient>
   <style>
-    .h{font:700 24px system-ui,sans-serif;fill:#fff}.sub{font:500 13px system-ui,sans-serif;fill:#d7eee5}
-    .t{font:700 17px system-ui,sans-serif;fill:#173d39}.p{font:500 13px system-ui,sans-serif;fill:#355b54}
-    .tag{font:700 10px system-ui,sans-serif;letter-spacing:1px;fill:#fff}
-    .muted{font:600 12px system-ui,sans-serif;fill:#57746c}
+    .h{font:700 24px system-ui,sans-serif;fill:#E6E6E6}.sub{font:500 13px system-ui,sans-serif;fill:#999999}
+    .t{font:700 17px system-ui,sans-serif;fill:#E6E6E6}.p{font:500 13px system-ui,sans-serif;fill:#999999}
+    .tag{font:700 10px system-ui,sans-serif;letter-spacing:1px;fill:#E6E6E6}
+    .muted{font:600 12px system-ui,sans-serif;fill:#999999}
   </style>
 </defs>
 <rect width="1200" height="470" rx="24" fill="url(#bg)"/>
@@ -16,30 +16,30 @@
 <text x="52" y="54" class="h">SAMBU · A layered language and modeling toolkit</text>
 <text x="52" y="76" class="sub">Python-hosted · interpreted · modular · experimental alpha</text>
 <g>
- <rect x="35" y="112" width="1130" height="72" rx="14" fill="#fff" stroke="#b7d8cc" stroke-width="2"/>
+ <rect x="35" y="112" width="1130" height="72" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
  <text x="60" y="141" class="t">SOURCE &amp; INTERFACE</text>
  <text x="60" y="165" class="p">.sambu programs · articulatory syntax · Python API · CLI · lightweight Tkinter IDE</text>
- <rect x="966" y="129" width="172" height="28" rx="14" fill="#4d897c"/><text x="1052" y="148" text-anchor="middle" class="tag">USER SURFACE</text>
- <path d="M600 184v20" stroke="#6e9d91" stroke-width="3"/><path d="m592 197 8 9 8-9" fill="none" stroke="#6e9d91" stroke-width="3"/>
- <rect x="35" y="207" width="1130" height="82" rx="14" fill="#e6f3ee" stroke="#91c2b2" stroke-width="2"/>
+ <rect x="966" y="129" width="172" height="28" rx="14" fill="#332B00"/><text x="1052" y="148" text-anchor="middle" class="tag">USER SURFACE</text>
+ <path d="M600 184v20" stroke="#BFA100" stroke-width="3"/><path d="m592 197 8 9 8-9" fill="none" stroke="#BFA100" stroke-width="3"/>
+ <rect x="35" y="207" width="1130" height="82" rx="14" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="60" y="238" class="t">LANGUAGE RUNTIME</text>
  <text x="60" y="263" class="p">Lexer → parser → source-aware AST → interpreter → typed values and diagnostics</text>
- <rect x="966" y="224" width="172" height="28" rx="14" fill="#28756a"/><text x="1052" y="243" text-anchor="middle" class="tag">IMPLEMENTED CORE</text>
- <path d="M600 289v20" stroke="#6e9d91" stroke-width="3"/><path d="m592 302 8 9 8-9" fill="none" stroke="#6e9d91" stroke-width="3"/>
+ <rect x="966" y="224" width="172" height="28" rx="14" fill="#141414"/><text x="1052" y="243" text-anchor="middle" class="tag">IMPLEMENTED CORE</text>
+ <path d="M600 289v20" stroke="#BFA100" stroke-width="3"/><path d="m592 302 8 9 8-9" fill="none" stroke="#BFA100" stroke-width="3"/>
 </g>
 <g>
- <rect x="35" y="312" width="354" height="116" rx="14" fill="#fff" stroke="#d1c18c" stroke-width="2"/>
+ <rect x="35" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#BFA100" stroke-width="2"/>
  <text x="58" y="343" class="t">SCIENCE &amp; NUMERICS</text>
  <text x="58" y="369" class="p">SI quantities · dimensions</text><text x="58" y="390" class="p">statistical mechanics · sampling</text>
- <rect x="58" y="400" width="134" height="18" rx="9" fill="#b78a36"/><text x="125" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
- <rect x="423" y="312" width="354" height="116" rx="14" fill="#fff" stroke="#91b9c6" stroke-width="2"/>
+ <rect x="58" y="400" width="134" height="18" rx="9" fill="#BFA100"/><text x="125" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
+ <rect x="423" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
  <text x="446" y="343" class="t">SPARSE VOXEL SYSTEMS</text>
  <text x="446" y="369" class="p">chunks · Morton keys · octrees</text><text x="446" y="390" class="p">meshing · DDA · graph tools</text>
- <rect x="446" y="400" width="134" height="18" rx="9" fill="#447e91"/><text x="513" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
- <rect x="811" y="312" width="354" height="116" rx="14" fill="#fff" stroke="#a8c59a" stroke-width="2"/>
+ <rect x="446" y="400" width="134" height="18" rx="9" fill="#332B00"/><text x="513" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
+ <rect x="811" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
  <text x="834" y="343" class="t">ENGINEERING TOOLKIT</text>
  <text x="834" y="369" class="p">Judo · Aikido · Jiu-Jitsu · trust</text><text x="834" y="390" class="p">workflow · Machine · test runner</text>
- <rect x="834" y="400" width="152" height="18" rx="9" fill="#618c54"/><text x="910" y="413" text-anchor="middle" class="tag">MIXED MATURITY</text>
+ <rect x="834" y="400" width="152" height="18" rx="9" fill="#332B00"/><text x="910" y="413" text-anchor="middle" class="tag">MIXED MATURITY</text>
 </g>
 <text x="600" y="455" text-anchor="middle" class="muted">Diagram is explanatory; it is not a dependency graph or a claim of native compilation.</text>
 </svg>
