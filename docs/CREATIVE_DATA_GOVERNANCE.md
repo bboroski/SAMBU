@@ -113,7 +113,34 @@ print(record.to_jsonld())
 
 The tool validates supplied labels. It does not classify unannotated text, generate embeddings, fine-tune Sentence-BERT, or learn from user corrections.
 
-## 6. Future model and feedback work
+## 6. Corpus fixture and Text Craft crosswalk
+
+The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains eight compact, source-free annotations representing the recurring themes in the supplied March–April 2025 material. Each record is marked \`NEEDS_REVIEW\`: the fixture demonstrates schema shape, not a completed content or safety review.
+
+The corpus maps to the existing modules as follows:
+
+| Observed pattern in the material | SAMBU representation |
+|---|---|
+| Celebration, ritual and fairground imagery | \`T-001\` — cultural celebration |
+| Persona, social roles and identity shifts | \`T-002\` — identity transformation |
+| Institutions, borders and geopolitical commentary | \`T-003\` — geopolitical awareness |
+| Relationship contrast, memory and distance | \`T-004\` — emotional duality |
+| Religious, folk and symbolic imagery | \`T-005\` — spiritual syncretism |
+| Computer, hardware and digital/analogue metaphors | \`T-006\` — technological metaphor |
+| Conflict, education, satire and endurance | \`T-007\` — conflict and resilience |
+| Russian/Ukrainian/English code-switching, dialect and phonetic play | \`T-008\` — linguistic hybridity |
+
+Text Craft supplies measurable, non-semantic features alongside the human annotation: section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing, and explicit performance notation. These are not embeddings, a learned genre classifier or automatic sentiment/safety decisions.
+
+Validate the metadata-only fixture:
+
+\`\`\`bash
+sambu creative validate examples/creative_corpus_metadata.sample.json --json
+\`\`\`
+
+The fixture intentionally contains no raw lyrics, quoted passages, personal identifiers or generated training vectors. It must not be treated as training data or as proof that a human review has occurred.
+
+## 7. Future model and feedback work
 
 Any later semantic encoder must be a separate, optional subsystem with:
 
@@ -127,7 +154,7 @@ Any later semantic encoder must be a separate, optional subsystem with:
 
 Vector dimensions, inference latency, accuracy, training-set size and GPU requirements must be published only after measurements can be reproduced. The earlier design brief's example values are not current SAMBU benchmarks.
 
-## 7. Acceptance checklist
+## 8. Acceptance checklist
 
 - [x] Stable T-001 through T-008 registry.
 - [x] Versioned metadata dataclass and JSON-LD export.
