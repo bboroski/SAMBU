@@ -450,3 +450,9 @@ __all__ = [
     "DualActionButton", "ViewDefinition", "ModalDefinition", "ModalFrame", "ViewSnapshot",
     "ControllerContext", "ViewController", "ModalManager", "JiuJitsuApp", "JiuJitsu",
 ]
+
+# Canonical MCL terminology; the historical symbol remains supported.
+AccessControlledApplication = JiuJitsuApp
+
+# Canonical MCL terminology; the historical symbol remains supported.
+AccessComposition = JiuJitsu
