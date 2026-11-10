@@ -56,7 +56,7 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 | Packaging / dependencies | Implemented partially | pyproject.toml: Python >=3.10, no mandatory dependencies, optional web extras, CLI entry points | Add wheel/sdist build and installed-artifact smoke tests; preserve Python 3.10+ until a tested compatibility decision exists |
 | Documentation / release notes | Implemented partially | README, language, integration, IDE, Magento and native architecture docs; CHANGELOG exists | Quality matrix/policy/catalog were absent at audit start and are added on this branch; link validation and claims-to-code review remain to be added |
 | Autonomy constitution / rule catalog | Implemented and tested | docs/AUTONOMY_CONSTITUTION.md contains 100 ordered AUT rules in ten blocks; docs/LANGUAGE_EVOLUTION.md contains 101 numbered technical contracts; tests/test_autonomy_constitution.py checks IDs, statuses, block counts and the architecture link | Behavioral test traceability is not complete for every rule; preserve source statuses and map implementation tests incrementally |
-| Workflow permissions / security | Implemented partially | At audit start both workflows omitted explicit permissions; this branch adds contents: read and a stdlib regression test | Verify this branch CI before merge; review future workflows with the same least-privilege rule; branch-protection settings remain unclear |
+| Workflow permissions / security | Implemented partially | At audit start both workflows omitted explicit permissions; this branch adds contents: read and a stdlib regression test, passed on Python 3.10–3.13 at the checked candidate SHA | CodeQL aggregate check is neutral because the Rust default code-scanning configuration is missing; Analyze (rust) remained in progress at last check. Review that configuration; branch-protection settings remain unclear |
 | Performance | Implemented partially | benchmarks/benchmark_voxels.py and CI smoke run exist | No comparable SAMBU-vs-PHP benchmark or general runtime profile; make no speed claims without controlled measurements |
 
 ## Open work at audit start
@@ -65,18 +65,24 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 - Open PR [#18](https://github.com/bboroski/SAMBU/pull/18) concerns grammar and GitHub Linguist readiness notes.
 - Open issue [#17](https://github.com/bboroski/SAMBU/issues/17) tracks native snapshots, fault-node graphs and differential dump analysis.
 
+## Current iteration candidate
+
+- Draft PR [#19](https://github.com/bboroski/SAMBU/pull/19) contains the workflow permission hardening, quality policy/matrix, normalized AUT/LANG rule catalog and regression tests. It remains unmerged; live validation is determined from the PR's current head SHA, not from this historical main snapshot.
+- At the last candidate check, Python 3.10–3.13, web-integrations, engine-bridges and native C11 passed. The CodeQL aggregate was neutral because the Rust default setup was missing, and Analyze (rust) was still running. Do not treat that security scan as complete.
+
 ## Ranked backlog
 
 1. P0 — CI security: keep explicit read-only workflow permissions and the regression test; validate the PR's own run before merge.
-2. P1 — Native IR correctness: review and land the already-tested unit-return change only after PR #16 is intentionally marked ready; then add verifier boundary tests.
-3. P1 — Native snapshot foundation: implement a versioned, portable, bounded snapshot format from issue #17, with round-trip, malformed-input and compatibility tests.
-4. P1 — Static semantic analysis: add a pre-runtime type/dimension pass with source-ranged diagnostics; preserve current runtime behavior.
-5. P2 — Language tooling: move completions from static keyword lists to parser/scope-aware results, then add LSP and semantic tokens.
-6. P2 — OOP and games: close missing OOP contracts and exhaustive deterministic game-state coverage.
-7. P2 — Studio/Magento: version metadata and XML checks first; keep GraphQL/MSI/service-contract support explicitly static until a real adapter exists.
-8. P2 — Reliable commerce workflows: model outbox/idempotency/order-state transitions before any broker or checkout adapter.
-9. P3 — REPL/debugging: introduce safe trace primitives before an interactive debugger.
-10. P3 — Performance: add reproducible, comparable benchmarks and publish measurements only with environment and methodology.
+2. P1 — CodeQL configuration: resolve the missing Rust default code-scanning configuration and confirm the Rust analyzer reaches a terminal status.
+3. P1 — Native IR correctness: review and land the already-tested unit-return change only after PR #16 is intentionally marked ready; then add verifier boundary tests.
+4. P1 — Native snapshot foundation: implement a versioned, portable, bounded snapshot format from issue #17, with round-trip, malformed-input and compatibility tests.
+5. P1 — Static semantic analysis: add a pre-runtime type/dimension pass with source-ranged diagnostics; preserve current runtime behavior.
+6. P2 — Language tooling: move completions from static keyword lists to parser/scope-aware results, then add LSP and semantic tokens.
+7. P2 — OOP and games: close missing OOP contracts and exhaustive deterministic game-state coverage.
+8. P2 — Studio/Magento: version metadata and XML checks first; keep GraphQL/MSI/service-contract support explicitly static until a real adapter exists.
+9. P2 — Reliable commerce workflows: model outbox/idempotency/order-state transitions before any broker or checkout adapter.
+10. P3 — REPL/debugging: introduce safe trace primitives before an interactive debugger.
+11. P3 — Performance: add reproducible, comparable benchmarks and publish measurements only with environment and methodology.
 
 ## This iteration
 
