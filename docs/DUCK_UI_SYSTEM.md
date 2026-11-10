@@ -36,13 +36,13 @@ Yellow is reserved for primary actions, active navigation, keyboard focus, progr
 
 ## Scaling and layout
 
-The desktop tools should follow OS DPI scaling and provide an independent UI zoom range of 85–150%. In the IDE and Duck Studio, use **Ctrl +** / **Ctrl −** and **Ctrl 0** to zoom/reset; the preference is stored under `~/.sambu/`. Keep the main workspace usable at 1366×768 and 1920×1080; reduce secondary panels before clipping the editor or report content.
+The desktop tools should follow OS DPI scaling and provide an independent UI zoom range of 85–150%. In the IDE, use the visible **+ / −** toolbar controls; in Duck Studio, use the visible **+ / −** controls in the top bar. Both also support **Ctrl +** / **Ctrl −** and **Ctrl 0**. The preference is stored under `~/.sambu/`. Keep the main workspace usable at 1366×768 and 1920×1080; reduce secondary panels before clipping the editor or report content.
 
 ## Current implementation
 
 - `sambu_ide/app.py`: graphite/yellow editor, contrast-corrected status/output surfaces and persisted UI zoom.
 - `sambu_studio/duck_gui.py`: graphite/yellow navigation, cards, report/diagnostic panes, tables, toast notifications and persisted UI zoom.
-- `docs/DUCK_STUDIO.md`: previous light-theme captures are retained as historical evidence. Vector layout previews are design references, not runtime screenshots.
+- `docs/DUCK_STUDIO.md`: previous light-theme captures are retained as historical evidence. Vector layout previews in `assets/duck-ui/` use a 1920 × 1080 canvas and are design references, not runtime screenshots.
 
 The Tkinter core remains dependency-light. Do not add a web runtime or heavyweight UI framework solely to apply this theme.
 
