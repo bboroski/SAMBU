@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Duck Black / Yellow application interface system</title>
+<desc id="desc">Vector dashboard board showing a graphite application shell, yellow navigation and primary actions, metric cards, a timeline, process curve and diagnostic table.</desc>
+<defs>
+  <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFE34D"/><stop offset="1" stop-color="#BFA100"/></linearGradient>
+  <linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#202020"/><stop offset="1" stop-color="#151515"/></linearGradient>
+  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#303030" stroke-width="1"/></pattern>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1600" height="1000" rx="28" fill="#0D0D0D"/>
+<rect width="1600" height="1000" rx="28" fill="url(#grid)" opacity=".26"/>
+<ellipse cx="1210" cy="50" rx="310" ry="170" fill="#FFD600" opacity=".055" filter="url(#shadow)"/>
+<rect x="34" y="34" width="1532" height="932" rx="20" fill="#101010" stroke="#303030" stroke-width="2"/>
+<rect x="34" y="34" width="258" height="932" rx="20" fill="#141414"/>
+<path d="M292 34V966" stroke="#303030" stroke-width="2"/>
+<rect x="58" y="58" width="52" height="52" rx="15" fill="#FFD600"/>
+<path d="M71 82c8-15 25-19 32-5 4 8-1 18-10 21-7 2-14-2-17-7l-9 2 4-11Z" fill="#0D0D0D"/>
+<circle cx="101" cy="76" r="2.6" fill="#0D0D0D"/>
+<text x="126" y="82" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="24" font-weight="800" letter-spacing="2">DUCK UI</text>
+<text x="126" y="105" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="11" letter-spacing="2">BLACK / YELLOW SYSTEM</text>
+<text x="62" y="163" fill="#777" font-family="Inter,Segoe UI,sans-serif" font-size="12" font-weight="700" letter-spacing="2">WORKSPACE</text>
+<rect x="54" y="184" width="216" height="48" rx="10" fill="#332B00" stroke="#6C5B00"/>
+<rect x="70" y="199" width="17" height="17" rx="4" fill="#FFD600"/>
+<path d="M74 207h9M78.5 202.5v9" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round"/>
+<text x="102" y="214" fill="#FFD600" font-family="Inter,Segoe UI,sans-serif" font-size="15" font-weight="700">Overview</text>
+<g fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="14">
+<text x="102" y="276">Modules</text><text x="102" y="332">Diagnostics</text><text x="102" y="388">Timeline</text><text x="102" y="444">Settings</text>
+</g>
+<g fill="none" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="69" y="259" width="17" height="17" rx="4"/><path d="M73 265h9M73 270h9"/>
+<circle cx="77.5" cy="319" r="8"/><path d="m72 325 11-11"/>
+<path d="M69 377h17M72 371v12M83 371v12"/>
+<circle cx="77.5" cy="432" r="8"/><path d="M77.5 427v6l4 2"/>
+</g>
+<rect x="56" y="850" width="216" height="84" rx="12" fill="#171717" stroke="#303030"/>
+<circle cx="76" cy="876" r="5" fill="#56C477"/><text x="92" y="880" fill="#C4C4C4" font-family="Inter,Segoe UI,sans-serif" font-size="12">SYSTEM READY</text>
+<text x="72" y="908" fill="#777" font-family="Inter,Segoe UI,sans-serif" font-size="11">LOCAL · CONTROLLED · AUDITABLE</text>
+<rect x="316" y="54" width="1226" height="66" rx="13" fill="#171717" stroke="#303030"/>
+<text x="344" y="94" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="13">WORKSPACE / OVERVIEW</text>
+<rect x="1376" y="70" width="140" height="34" rx="17" fill="#142319" stroke="#27563A"/>
+<circle cx="1395" cy="87" r="4" fill="#56C477"/><text x="1410" y="91" fill="#56C477" font-family="Inter,Segoe UI,sans-serif" font-size="11" font-weight="700">READY</text>
+<text x="322" y="176" fill="#FFD600" font-family="Inter,Segoe UI,sans-serif" font-size="12" font-weight="700" letter-spacing="2">CONTROL SURFACE / 01</text>
+<text x="322" y="230" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="44" font-weight="800">Clear signal. Total control.</text>
+<text x="324" y="264" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="16">A consistent interface grammar for every tool and runtime.</text>
+<rect x="324" y="290" width="178" height="50" rx="10" fill="url(#accent)"/>
+<text x="413" y="321" text-anchor="middle" fill="#0D0D0D" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="800">PRIMARY ACTION</text>
+<rect x="516" y="290" width="158" height="50" rx="10" fill="#171717" stroke="#6C5B00"/>
+<text x="595" y="321" text-anchor="middle" fill="#FFD600" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700">SECONDARY</text>
+<g>
+<rect x="324" y="372" width="284" height="126" rx="13" fill="url(#card)" stroke="#303030"/><text x="346" y="406" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">SYSTEM LOAD</text><text x="346" y="457" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="800">42.8%</text><rect x="346" y="475" width="236" height="6" rx="3" fill="#303030"/><rect x="346" y="475" width="101" height="6" rx="3" fill="#FFD600"/>
+<rect x="624" y="372" width="284" height="126" rx="13" fill="url(#card)" stroke="#303030"/><text x="646" y="406" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">ACTIVE MODULES</text><text x="646" y="457" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="800">08</text><text x="646" y="481" fill="#56C477" font-family="Inter,Segoe UI,sans-serif" font-size="12">● ALL CHECKS PASSED</text>
+<rect x="924" y="372" width="284" height="126" rx="13" fill="url(#card)" stroke="#303030"/><text x="946" y="406" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">QUEUE DEPTH</text><text x="946" y="457" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="800">1,024</text><text x="946" y="481" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">bounded capacity</text>
+<rect x="1224" y="372" width="294" height="126" rx="13" fill="url(#card)" stroke="#303030"/><text x="1246" y="406" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">CURRENT PROFILE</text><text x="1246" y="457" fill="#FFD600" font-family="Inter,Segoe UI,sans-serif" font-size="26" font-weight="800">STANDARD</text><text x="1246" y="481" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="12">keyboard + pointer</text>
+</g>
+<rect x="324" y="526" width="760" height="260" rx="14" fill="#171717" stroke="#303030"/>
+<text x="350" y="563" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700">Timeline / signal lanes</text>
+<text x="350" y="585" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="11">Selected region · synchronized markers · clear track ownership</text>
+<g stroke="#303030" stroke-width="1"><path d="M520 606V760M640 606V760M760 606V760M880 606V760M1000 606V760"/><path d="M350 650H1058M350 702H1058M350 754H1058"/></g>
+<g fill="#777" font-family="ui-monospace,monospace" font-size="10"><text x="520" y="602">00:04</text><text x="640" y="602">00:08</text><text x="760" y="602">00:12</text><text x="880" y="602">00:16</text><text x="1000" y="602">00:20</text></g>
+<rect x="564" y="619" width="286" height="26" rx="6" fill="#FFD60022" stroke="#FFD600"/>
+<path d="M574 632l8-5 8 11 8-14 8 10 8-7 8 5 8-12 8 13 8-8 8 7 8-11 8 9 8-4 8 6 8-12 8 10 8-6 8 9 8-10 8 8 8-6 8 7 8-10 8 9 8-5 8 6 8-11 8 9 8-4 8 7" fill="none" stroke="#FFD600" stroke-width="2" stroke-linecap="round"/>
+<rect x="700" y="671" width="254" height="24" rx="6" fill="#332B00" stroke="#6C5B00"/>
+<path d="M710 683l8-4 8 9 8-11 8 8 8-6 8 4 8-9 8 8 8-5 8 7 8-9 8 7 8-3 8 5 8-8 8 6 8-3 8 6 8-6 8 7 8-4 8 5 8-7 8 6 8-3 8 5" fill="none" stroke="#BFA100" stroke-width="2"/>
+<path d="M770 604V758" stroke="#FFD600" stroke-width="2"/><path d="M763 604l7-10 7 10" fill="#FFD600"/>
+<rect x="1100" y="526" width="418" height="260" rx="14" fill="#171717" stroke="#303030"/>
+<text x="1126" y="563" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700">Process curve</text>
+<text x="1126" y="585" fill="#A3A3A3" font-family="Inter,Segoe UI,sans-serif" font-size="11">Adaptive controls · readable numeric values</text>
+<path d="M1140 728H1480M1140 630V728" stroke="#484848" stroke-width="1"/>
+<path d="M1140 711C1200 707 1220 685 1260 657S1350 636 1385 646 1440 690 1480 701" fill="none" stroke="#FFD600" stroke-width="4" stroke-linecap="round"/>
+<g fill="#FFD600"><circle cx="1140" cy="711" r="5"/><circle cx="1260" cy="657" r="5"/><circle cx="1385" cy="646" r="5"/><circle cx="1480" cy="701" r="5"/></g>
+<rect x="324" y="810" width="1194" height="126" rx="14" fill="#171717" stroke="#303030"/>
+<text x="350" y="848" fill="#F2F2F2" font-family="Inter,Segoe UI,sans-serif" font-size="16" font-weight="700">Diagnostics / event stream</text>
+<g font-family="Inter,Segoe UI,sans-serif" font-size="12"><circle cx="360" cy="880" r="5" fill="#56C477"/><text x="378" y="884" fill="#C4C4C4">Integrity checks complete</text><text x="786" y="884" fill="#A3A3A3">00:00:01.204</text><circle cx="360" cy="912" r="5" fill="#FFD600"/><text x="378" y="916" fill="#C4C4C4">Configuration review recommended</text><text x="786" y="916" fill="#A3A3A3">00:00:02.008</text></g>
+<rect x="1262" y="867" width="220" height="44" rx="9" fill="#332B00" stroke="#6C5B00"/><text x="1372" y="894" text-anchor="middle" fill="#FFD600" font-family="Inter,Segoe UI,sans-serif" font-size="12" font-weight="700">OPEN FULL REPORT →</text>
+</svg>
