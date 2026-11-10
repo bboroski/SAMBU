@@ -14,6 +14,7 @@ from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
 from .languagecraft import LANGUAGE_CRAFT_BUILTINS
 from .ecosystems import ECOSYSTEM_BUILTINS
+from .open_system import OPEN_SYSTEM_BUILTINS
 from ._version import __version__
 from .concurrency import Actor, Supervisor, TypedChannel
 from .articulatory import (
@@ -403,6 +404,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     **ANATIDAE_BUILTINS,
     **VOXEL_BUILTINS,
     **ECOSYSTEM_BUILTINS,
+    **OPEN_SYSTEM_BUILTINS,
 }
 
 # All articulatory callable forms share the exact implementation and argument
