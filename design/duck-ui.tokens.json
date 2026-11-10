@@ -113,13 +113,6 @@
     "high_contrast_mode_respected": true
   },
   "behavior": {
-    "yellow_usage": [
-      "primary actions",
-      "selected navigation",
-      "focus",
-      "progress",
-      "high-priority warning"
-    ],
     "reports_default_to_in_app_preview": true,
     "external_links_default_to_in_app_or_offline": true,
     "animations_must_respect_reduced_motion": true,
