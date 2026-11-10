@@ -111,3 +111,8 @@ MIT — див. [LICENSE](LICENSE).
 - [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
 - [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
 - Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
+
+
+## Application UI preview
+
+Open `ui/index.html` for the SAMBU Studio concept. Its abstract node field represents source → AST → model → result, supported by a project explorer, scientific inspector and local output panel. All displayed values are synthetic; the preview does not execute the SAMBU interpreter.
