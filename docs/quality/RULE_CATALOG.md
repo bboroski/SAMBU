@@ -173,3 +173,7 @@ Every AUT rule has version 1 in this catalog, retains its original ID, block/sco
 ## Governance
 
 A new rule may be proposed only from repeated defects, CI incidents, stable security/compatibility requirements or an explicit architectural constraint. Normalize duplicates and cross-reference the canonical AUT/LANG IDs instead of creating near-identical rules. Keep false positives, exceptions, disabled rules and supersession history visible. Documentation metrics must never change executable code.
+
+## Review note — 2026-11-10
+
+A single changelog-history regression was detected in the draft quality PR and covered by `tests/test_changelog.py` after restoring the released sections. No new SAM-Q rule was activated: one incident is not repeated evidence. Retain this test and reconsider a dedicated rule only if the same failure pattern recurs.

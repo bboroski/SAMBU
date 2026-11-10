@@ -67,23 +67,29 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 
 ## Current iteration candidate
 
-- Draft PR [#19](https://github.com/bboroski/SAMBU/pull/19) contains the workflow permission hardening, quality policy/matrix, normalized AUT/LANG rule catalog and regression tests. It remains unmerged; live validation is determined from the PR's current head SHA, not from this historical main snapshot.
-- Candidate SHA 2c87837c736fedb958d1410a90c9073dab30a47b exposed a test-only mismatch: the new catalog assertion expected the second LANG range endpoint to repeat the LANG- prefix, while the canonical index uses the compact form LANG-091–101. Python 3.12 failed that assertion; fail-fast cancelled the other matrix jobs. The native C11 job passed. This was an assertion-format defect, not a SAMBU runtime defect; the expectation is corrected in this follow-up. The next candidate SHA must be rechecked. The CodeQL aggregate remains neutral because the Rust default setup is missing, and Rust analysis has not completed.
+- Draft PR [#19](https://github.com/bboroski/SAMBU/pull/19) remains open and unmerged. Current branch head at this review: `60ef2a38532086faa6cfa3496eba766d57e4047c`.
+- Confirmed documentation regression: the earlier PR candidate `851e7b30fe1fb8fbd732410de8618a5843da57e4` ended CHANGELOG.md after 0.9.0 and removed the 0.8.0 through 0.1.0 release sections. They were restored from the audited main branch. New `tests/test_changelog.py` checks the exact descending release-heading sequence, including 0.5.1, and rejects missing, duplicated or reordered sections.
+- Push-triggered CI for candidate `60ef2a3...` completed successfully:
+  - [SAMBU tests run 42842253984](https://github.com/bboroski/SAMBU/actions/runs/42842253984): Python 3.10, 3.11, 3.12 and 3.13 all passed. Each reports 298 unittest cases, 3 skipped; `sambu-test tests --repeat 2` reports 295 passed, 0 failed, 0 errors and 3 skipped on both repetitions. The configured percentages, Anatidae, remaining language examples, Machine/IDE checks and Magento Studio fixture checks completed.
+  - Web integrations passed (4 tests) and engine bridges passed in the same run.
+  - [SAMBU native IR run 42842253998](https://github.com/bboroski/SAMBU/actions/runs/42842253998): C11 configure/build and CTest passed (1/1).
+- The candidate is not yet a complete CI PASS: duplicate pull-request-triggered runs [42842563093](https://github.com/bboroski/SAMBU/actions/runs/42842563093) and [42842562973](https://github.com/bboroski/SAMBU/actions/runs/42842562973) were queued / in progress at the last observation. The aggregate [PR run 42842256886](https://github.com/bboroski/SAMBU/actions/runs/42842256886) remained in progress: Analyze (actions), (c-cpp), (python) and (csharp) were successful; Analyze (rust) was still in progress and the CodeQL check was neutral. An earlier candidate SHA 851e7b3 had all five analyzer jobs and its CodeQL check complete successfully, but that does not replace verification of the current SHA.
+- The catalog and policy were reviewed but no new rule was activated: one changelog-history regression is now covered by a focused test, and the existing policy requires repeated evidence before adding a new rule.
 
 ## Ranked backlog
 
-1. P0 — CI security: keep explicit read-only workflow permissions and the regression test; validate the PR's own run before merge.
-2. P1 — CodeQL configuration: resolve the missing Rust default code-scanning configuration and confirm the Rust analyzer reaches a terminal status.
-3. P1 — Native IR correctness: review and land the already-tested unit-return change only after PR #16 is intentionally marked ready; then add verifier boundary tests.
-4. P1 — Native snapshot foundation: implement a versioned, portable, bounded snapshot format from issue #17, with round-trip, malformed-input and compatibility tests.
-5. P1 — Static semantic analysis: add a pre-runtime type/dimension pass with source-ranged diagnostics; preserve current runtime behavior.
-6. P2 — Language tooling: move completions from static keyword lists to parser/scope-aware results, then add LSP and semantic tokens.
-7. P2 — OOP and games: close missing OOP contracts and exhaustive deterministic game-state coverage.
-8. P2 — Studio/Magento: version metadata and XML checks first; keep GraphQL/MSI/service-contract support explicitly static until a real adapter exists.
-9. P2 — Reliable commerce workflows: model outbox/idempotency/order-state transitions before any broker or checkout adapter.
-10. P3 — REPL/debugging: introduce safe trace primitives before an interactive debugger.
-11. P3 — Performance: add reproducible, comparable benchmarks and publish measurements only with environment and methodology.
+1. P0 — Finish verification of PR #19 at its current head. Keep it draft/unmerged until all pull-request-triggered test, native and security checks reach terminal successful states; repository branch-protection metadata currently reports required-status enforcement as off.
+2. P1 — Resolve the current CodeQL neutral / Rust-in-progress state with final check-run evidence; do not infer a security pass from the other four analyzer jobs.
+3. P1 — Native snapshot foundation from issue [#17](https://github.com/bboroski/SAMBU/issues/17): bounded deterministic serialization of the implemented scalar IR subset, then round-trip, malformed-input, size-limit and compatibility tests.
+4. P1 — Pre-runtime semantic analysis for types and dimensions with source-ranged diagnostics; preserve interpreter behavior and legacy AST compatibility.
+5. P1 — Review draft PR [#16](https://github.com/bboroski/SAMBU/pull/16) for unit-return MIR/LIR terminators; preserve draft state until intentionally marked ready and all required checks pass.
+6. P2 — Parser/scope-aware completion, semantic tokens and then an LSP transport; current IDE services remain headless and completion is bounded/static.
+7. P2 — Complete OOP contracts and exhaustive RPS/Tic-Tac-Toe terminal-state and turn-order tests.
+8. P2 — Version-aware Magento metadata and static XML/GraphQL/MSI/service-contract validation; do not call the inspector a live Commerce integration.
+9. P2 — Durable outbox, persisted idempotency, retries/DLX and explicit checkout/payment/inventory state transitions before any broker or checkout adapter.
+10. P3 — Safe REPL/trace primitives before a stepping debugger.
+11. P3 — Comparable performance benchmarks with fixed workloads, target/environment metadata and repeatable baselines.
 
 ## This iteration
 
-The main-HEAD audit above was read-only. This branch adds explicit contents: read permissions to both CI workflows, a standard-library regression test, and the quality evidence documents. The existing 100-rule source was found in docs/AUTONOMY_CONSTITUTION.md and normalized as Series I (AUT-01–AUT-50) and Series II (AUT-51–AUT-100); the 101 lower-level contracts in docs/LANGUAGE_EVOLUTION.md are cross-referenced. The PR's own workflow status must be read from its exact head SHA; the main-branch PASS above does not certify this branch.
+The mandatory read-only audit was completed against main HEAD `201b03cfbec6d6337d155151b89496b0f470a39a` before edits. Main-branch Python 3.10–3.13, web integrations, engine bridge and native C11 jobs were successful on that exact SHA. This iteration made one corrective quality change on the existing PR #19 branch: restore deleted historical changelog sections and add a regression test. The matrix, policy and catalog were reconciled with the observed candidate CI. No runtime code, public API, supported Python version, dependency or production integration changed. The rule catalog was not expanded because the single observed documentation regression does not meet the repeated-evidence threshold for a new rule.

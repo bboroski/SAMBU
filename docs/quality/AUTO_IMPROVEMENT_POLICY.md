@@ -39,3 +39,4 @@ This policy governs small, evidence-led repository changes. It does not claim th
 ## Change history
 
 - 2026-11-10 / v1.0: established the evidence-first workflow and safety boundaries from the current project requirements. Added the explicit least-privilege workflow-permission check after the audit found that both existing CI workflows omitted a workflow-level permissions block. The candidate sets only contents: read and adds a standard-library regression test; effective permissions must still be verified through repository settings and the PR's own CI.
+- 2026-11-10 review: a draft change removed the historical 0.8.0–0.1.0 changelog sections. The sections were restored and a release-heading regression test was added. No new policy rule was introduced because this is one observed incident; the existing repeated-evidence threshold remains in force.
