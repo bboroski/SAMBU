@@ -128,7 +128,15 @@ def _fold_identifiers(text: str) -> str:
             end = i + 1
             while end < len(text) and (text[end].isalnum() or text[end] == "_"):
                 end += 1
-            out.append(text[i:end].casefold())
+            identifier = text[i:end]
+            folded = identifier.casefold()
+            # Unit constants retain SAMBU's canonical SI spellings while
+            # ordinary identifiers follow Pascal/Fortran case-insensitivity.
+            units = {
+                "k": "K", "j": "J", "kj": "kJ", "ev": "eV",
+                "pa": "Pa", "hz": "Hz", "n": "N", "l": "L",
+            }
+            out.append(units.get(folded, folded))
             i = end
             continue
         out.append(char)
