@@ -7,7 +7,7 @@ SAMBU provides an optional, read-only Apple device diagnostic adapter. It is a P
 - Detects the supported idevice_id, ideviceinfo and idevicepair command-line tools from PATH or an explicitly supplied binary directory.
 - On Windows, checks Apple Mobile Device Service, the Apple USB driver package and currently enumerated Plug and Play devices using sc.exe and pnputil.exe.
 - Enumerates attached iPhone/iPad UDIDs and reads only a small allow-list of identity fields: DeviceName, ProductType, ProductVersion and BuildVersion.
-- Validates an existing pairing record with idevicepair validate. It never creates, replaces or deletes a pairing record.
+- Validates an existing pairing record with idevicepair validate when that optional utility is available. It never creates, replaces or deletes a pairing record. The core metadata path requires only idevice_id and ideviceinfo.
 - Produces JSON diagnostics and repeatable, non-destructive hardware smoke-test results.
 - Exposes RU/EN language switching through LanguageManager and the CLI --lang option.
 
@@ -17,7 +17,7 @@ The adapter does not install Apple drivers, restart services, pair devices, back
 
 The official libimobiledevice project documents building its Windows stack with MSYS2/MinGW and notes that Windows USB communication depends on Apple Mobile Device Support because usbmuxd is not fully supported on Windows. Install Apple Mobile Device Support through a supported Apple/iTunes distribution, then use a compatible 64-bit Windows build of the libimobiledevice command-line tools.
 
-SAMBU does not download or bundle third-party binaries. Place idevice_id.exe, ideviceinfo.exe and idevicepair.exe on PATH, or pass their directory with --bin-dir.
+SAMBU does not download or bundle third-party binaries. Place idevice_id.exe and ideviceinfo.exe on PATH, or pass their directory with --bin-dir. idevicepair.exe is optional and enables validation of an existing pairing record.
 
 Useful upstream resources:
 
