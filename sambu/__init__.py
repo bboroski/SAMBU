@@ -2,11 +2,11 @@
 
 from ._version import __version__
 
-from .apple_devices import (
+from .apple_devices import (  # noqa: F401
     AppleDevice, AppleDeviceToolkit, AppleDiagnosticReport, Diagnostic,
     HardwareTest, HardwareTestReport, ToolStatus,
 )
-from .i18n import LanguageManager, normalize_language, translate
+from .i18n import LanguageManager, normalize_language, translate  # noqa: F401
 
 from .ast import (  # noqa: F401
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, ExpressionStatement,
@@ -69,6 +69,12 @@ from .autonomy import (  # noqa: F401
     ChangeProposal, ExecutionPlan, ExperimentLedger, ExperimentRecord,
     LedgerFull, ResourceBudget, RiskTier, SambuMachine, TaskManifest,
     fingerprint,
+)
+
+from .continuity import (  # noqa: F401
+    ContinuityError, CycleCapacityError, CycleController, CycleEvent, CyclePhase,
+    SignalCapacityError, SignalDecision, SignalDisposition, SignalEnvelope,
+    SignalGuard, TransitionDenied,
 )
 
 from .articulatory import (  # noqa: F401
