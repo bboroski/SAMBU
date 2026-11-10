@@ -540,6 +540,8 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
 - [Text Craft diagnostics — structure, prosody and multilingual writing](docs/text_craft.md)
+- [Creative data governance and semantic metadata](docs/CREATIVE_DATA_GOVERNANCE.md)
+- [Creative metadata JSON Schema](schemas/creative-metadata.schema.json)
 
 ### Explore the domains
 
@@ -654,7 +656,7 @@ A hardware compatibility matrix should be populated by running the diagnostic ag
 
 ## 🎭 Creative interpretation and semantic metadata
 
-SAMBU now includes a versioned metadata-only ontology for creative text analysis. It defines eight thematic clusters (celebration, identity, geopolitical awareness, emotional duality, spiritual syncretism, technological metaphor, conflict/resilience and linguistic hybridity), validates bounded records, and can export metadata as JSON-LD.
+SAMBU includes a versioned metadata-only ontology (`2026.12`) with nine thematic clusters, including surreal juxtaposition and wordplay. It validates bounded JSON records, preserves existing `2026.11` records, and exports reviewed metadata as JSON-LD. The machine-readable contract is `schemas/creative-metadata.schema.json`.
 
 ```bash
 sambu creative clusters
@@ -662,6 +664,6 @@ sambu creative clusters --json
 sambu creative validate examples/creative_metadata.sample.json
 ```
 
-This is a deterministic annotation and validation layer—not an automatic classifier, trained embedding model, fine-tuning pipeline or claim of model accuracy. Source text is not stored in the metadata record. Missing safety review defaults to `NEEDS_REVIEW`; only explicit `CLEAN` and `CLEAN_SATIRE` labels are eligible at the metadata-policy layer.
+This is a deterministic annotation and validation layer—not an automatic classifier, trained embedding model, fine-tuning pipeline or claim of model accuracy. Source text is not stored in the metadata record. Missing safety review defaults to `NEEDS_REVIEW`; `CLEAN` and `CLEAN_SATIRE` require a pseudonymous `review_ref` and timezone-aware `reviewed_at` before `generation_eligible` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
 
 See [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) for the cluster ontology, JSON contract, safety labels, provenance boundaries and the acceptance roadmap.
