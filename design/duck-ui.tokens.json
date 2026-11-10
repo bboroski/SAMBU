@@ -1,63 +1,175 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "system": "Duck Black / Yellow",
-  "principles": ["clarity over decoration", "yellow is a semantic accent", "keyboard access is first-class", "scale without raster blur", "no color-only status encoding"],
+  "scope": "Shared visual contract for web, desktop, diagnostics, developer tools and future application surfaces.",
+  "principles": [
+    "black and graphite are the permanent structural foundation",
+    "yellow is the primary action, selection and focus signal",
+    "color never carries state without a text or shape cue",
+    "dense professional layouts remain readable and responsive",
+    "controls expose generous hit areas without visual bulk",
+    "motion is short, purposeful and disabled by reduced-motion preferences",
+    "vector graphics remain sharp at every UI scale"
+  ],
   "color": {
     "canvas": "#0D0D0D",
-    "surface": "#1A1A1A",
+    "canvas_elevated": "#101010",
+    "surface": "#171717",
     "surface_alt": "#141414",
-    "surface_hover": "#202020",
+    "surface_raised": "#1D1D1D",
+    "surface_hover": "#242424",
+    "surface_pressed": "#2B2B2B",
     "accent": "#FFD600",
-    "accent_muted": "#BFA100",
+    "accent_hover": "#FFE34D",
+    "accent_pressed": "#BFA100",
     "accent_selected": "#332B00",
-    "text": "#E6E6E6",
-    "text_muted": "#999999",
-    "text_disabled": "#4D4D4D",
-    "border": "#262626",
-    "success": "#4CAF50",
+    "accent_border": "#6C5B00",
+    "text": "#F2F2F2",
+    "text_secondary": "#C4C4C4",
+    "text_muted": "#A3A3A3",
+    "text_disabled": "#777777",
+    "border": "#303030",
+    "border_strong": "#484848",
+    "success": "#56C477",
+    "success_surface": "#142319",
     "warning": "#FFD600",
-    "danger": "#FF4444",
-    "focus": "#FFD600"
+    "warning_surface": "#282200",
+    "danger": "#FF6262",
+    "danger_surface": "#351717",
+    "info": "#C7B34A",
+    "info_surface": "#24200F",
+    "focus": "#FFD600",
+    "overlay": "#000000B8"
+  },
+  "semantic_color": {
+    "primary_action": "accent",
+    "selected": "accent_selected",
+    "focus": "focus",
+    "progress": "accent",
+    "warning": "warning",
+    "success": "success",
+    "error": "danger",
+    "information": "info",
+    "user_content": "user_defined_with_text_or_icon_fallback"
   },
   "typography": {
-    "ui": ["Inter", "Segoe UI", "Roboto", "sans-serif"],
+    "ui": ["Inter", "Segoe UI", "Roboto", "Arial", "sans-serif"],
     "code": ["JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", "monospace"],
     "body_size_px": 14,
     "body_line_height": 1.5,
+    "small_size_px": 12,
+    "micro_size_px": 11,
     "heading_weight": 700,
-    "body_weight": 400
+    "body_weight": 400,
+    "numeric_features": ["tabular_numbers", "stable_timecode_width"]
   },
-  "spacing_px": [4, 8, 12, 16, 20, 24, 32, 40, 48],
-  "radii_px": {"small": 4, "control": 6, "card": 10, "modal": 12},
-  "motion_ms": {"micro": 120, "standard": 200, "maximum": 250},
+  "spacing_px": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64],
+  "radii_px": {
+    "small": 4,
+    "control": 8,
+    "card": 12,
+    "panel": 14,
+    "modal": 16,
+    "pill": 999
+  },
+  "elevation": {
+    "panel": "0 8px 24px #00000040",
+    "floating": "0 16px 44px #00000080",
+    "selected": "0 0 0 1px #FFD600, 0 0 18px #FFD60022"
+  },
+  "motion_ms": {
+    "micro": 110,
+    "standard": 180,
+    "surface": 240,
+    "maximum": 260,
+    "reduced_motion": 0
+  },
   "layout": {
     "ui_scale_min": 0.8,
     "ui_scale_default": 1.0,
     "ui_scale_max": 1.6,
+    "minimum_capture_px": [1280, 720],
     "target_capture_px": [1920, 1080],
-    "minimum_capture_px": [1366, 768],
     "compact_navigation_below_px": 1180,
-    "collapse_secondary_panels_below_px": 980
+    "collapse_secondary_panels_below_px": 980,
+    "mobile_navigation_below_px": 700,
+    "sidebar_width_px": 248,
+    "topbar_height_px": 60,
+    "panel_gap_px": 16
+  },
+  "targets": {
+    "minimum_desktop_hit_area_px": 36,
+    "recommended_hit_area_px": 44,
+    "touch_hit_area_px": 44,
+    "resize_grip_px": 12,
+    "drag_hit_area_px": 16
   },
   "components": {
-    "primary_button": {"background": "#FFD600", "foreground": "#0D0D0D"},
-    "secondary_button": {"background": "#1A1A1A", "border": "#FFD600", "foreground": "#FFD600"},
-    "ghost_button": {"background": "transparent", "foreground": "#999999"},
-    "table_rows": ["#1A1A1A", "#141414"],
+    "primary_button": {
+      "background": "#FFD600",
+      "foreground": "#0D0D0D",
+      "hover": "#FFE34D",
+      "pressed": "#BFA100",
+      "minimum_height_px": 40
+    },
+    "secondary_button": {
+      "background": "#171717",
+      "border": "#6C5B00",
+      "foreground": "#FFD600",
+      "minimum_height_px": 40
+    },
+    "ghost_button": {
+      "background": "transparent",
+      "foreground": "#C4C4C4",
+      "hover_background": "#242424"
+    },
+    "card": {
+      "background": "#171717",
+      "border": "#303030",
+      "radius_px": 12
+    },
+    "selected_card": {
+      "background": "#1D1A0D",
+      "border": "#FFD600"
+    },
+    "table_rows": ["#171717", "#141414"],
     "focus_ring": "2px solid #FFD600",
-    "toast_accent_width_px": 4
+    "focus_offset_px": 3,
+    "toast_accent_width_px": 4,
+    "status_requires_icon_and_text": true
+  },
+  "graphics": {
+    "primary_mark": "assets/duck-ui/duck-mark.svg",
+    "preview": "assets/duck-ui/duck-ui-preview.svg",
+    "format": "SVG",
+    "stroke_width_px": 1.8,
+    "corner_language": "rounded_rectangles_and_pills",
+    "primary_trace": "#FFD600",
+    "secondary_trace": "#BFA100",
+    "muted_trace": "#777777",
+    "selection_overlay": "#FFD60022",
+    "grid": "#303030"
   },
   "accessibility": {
     "minimum_text_contrast_ratio": 4.5,
+    "large_text_contrast_ratio": 3.0,
     "focus_visible_required": true,
-    "status_requires_text_and_icon": true,
     "keyboard_navigation_required": true,
-    "high_contrast_mode_respected": true
+    "status_requires_text_and_icon": true,
+    "color_independent_state_cues": true,
+    "high_contrast_mode_respected": true,
+    "browser_zoom_supported": true,
+    "minimum_touch_target_px": 44
   },
   "behavior": {
-    "yellow_usage": ["primary actions", "selected navigation", "focus", "progress", "high-priority warning"],
+    "yellow_usage": ["primary actions", "selected navigation", "focus", "progress", "active selection", "high-priority warning"],
+    "yellow_not_used_for": ["large decorative backgrounds", "body text", "every icon simultaneously"],
+    "animations_must_respect_reduced_motion": true,
+    "hover_must_not_be_the_only_feedback": true,
+    "operations_must_expose_pending_success_and_error_states": true,
+    "destructive_actions_require_confirmation_or_undo": true,
+    "tooltips_must_not_obscure_primary_controls": true,
     "reports_default_to_in_app_preview": true,
-    "external_links_default_to_in_app_or_offline": true,
-    "animations_must_respect_reduced_motion": true
+    "external_links_default_to_in_app_or_offline": true
   }
 }
