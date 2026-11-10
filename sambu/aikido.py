@@ -293,3 +293,9 @@ __all__ = [
     "ModelProfile", "InferenceRequest", "InferenceResult", "TelemetryEvent",
     "ModelAdapter", "AikidoHub", "Aikido",
 ]
+
+# Canonical MCL terminology; the historical symbol remains supported.
+InferenceRouteHub = AikidoHub
+
+# Canonical MCL terminology; the historical symbol remains supported.
+InferenceBudgetRouter = Aikido
