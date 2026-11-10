@@ -24,7 +24,9 @@
         "architecture-models",
         "policy-and-workflow-descriptions",
         "module-manifest-v1",
-        "ecosystem-registry-v1"
+        "ecosystem-registry-v1",
+        "unicode-script-profiling-v1",
+        "multilingual-signal-metadata-v1"
       ],
       "consumes": [
         "sambu-module-manifest-v1",
@@ -248,5 +250,14 @@
       "status": "adapter-ready",
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
     }
-  ]
+  ],
+  "shared_contracts": {
+    "multilingual_text_signal_v1": {
+      "version": 1,
+      "schema": "schemas/text-signal-envelope.schema.json",
+      "specification": "docs/MULTILINGUAL_SIGNAL_PIPELINE.md",
+      "metadata_only": true,
+      "raw_text_embedded": false
+    }
+  }
 }
