@@ -207,6 +207,8 @@ sambu-test tests --repeat 2 --json
 
 ## SAMBU Ecosystem
 
+<p align="center"><img src="assets/sambu-ecosystem-overview.svg" alt="SAMBU at the center of six independently buildable engineering modules" width="100%" /></p>
+
 SAMBU is the central engineering platform for seven independently buildable repositories. It owns the shared module contract, architecture map, developer tooling and canonical registry; specialized modules retain their own runtimes, APIs, tests and release cadence.
 
 | Module | Responsibility |
