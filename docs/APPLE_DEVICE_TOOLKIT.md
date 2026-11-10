@@ -71,7 +71,7 @@ AppleDiagnosticReport contains the platform, tool availability and versions, dis
 
 Ordinary hosted CI cannot validate physical USB hardware. The manual workflow .github/workflows/apple-device-lab.yml targets a Windows self-hosted runner labelled apple-device-lab. Register that runner on a machine with Apple Mobile Device Support, compatible libimobiledevice tools on PATH, and one or more trusted test devices connected by USB. The workflow runs the read-only smoke suite and uploads a JSON report. Do not put personal devices or personal device data on unattended runners.
 
-The workflow tests every connected device exposed by idevice_id; the reported ProductType and iOS version form the hardware compatibility record. Expanding the lab to named model/OS combinations requires physically available devices and should not be inferred from simulator or mocked test results.
+The workflow tests every connected device exposed by idevice_id, checks Windows Apple service/driver/USB enumeration and records each ProductType and iOS version as the hardware compatibility record. A warning fails the hardware smoke suite; unsupported platform checks are marked skipped. Expanding the lab to named model/OS combinations requires physically available devices and should not be inferred from simulator or mocked test results.
 
 ## RU/EN interface localization
 
