@@ -453,10 +453,11 @@ class SignalGuard:
                     reason = "signature_verifier_unavailable"
                 else:
                     try:
-                        authenticated = bool(self.signature_verifier(
+                        verification_result = self.signature_verifier(
                             envelope.issuer, envelope.sequence,
                             envelope.payload_digest, envelope.signature,
-                        ))
+                        )
+                        authenticated = verification_result is True
                         if not authenticated:
                             reason = "signature_invalid"
                     except Exception:
