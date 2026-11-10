@@ -30,6 +30,7 @@ class CreativeMetadataTests(unittest.TestCase):
         })
         self.assertTrue(item.generation_eligible)
         self.assertEqual(item.to_dict()["ontology_version"], ONTOLOGY_VERSION)
+        self.assertEqual(CreativeMetadata.from_mapping(item.to_dict()), item)
         jsonld = item.to_jsonld()
         self.assertEqual(jsonld["@type"], "CreativeWork")
         self.assertNotIn("text", jsonld)
