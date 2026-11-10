@@ -109,6 +109,72 @@ def _machine(argv: list[str]) -> int:
 
 
 
+def _device(argv: list[str]) -> int:
+    import json
+    from .apple_devices import AppleDeviceToolkit
+
+    parser = argparse.ArgumentParser(prog="sambu device")
+    commands = parser.add_subparsers(dest="action", required=True)
+    diagnose = commands.add_parser("diagnose", help="inspect Apple USB drivers, libimobiledevice and connected devices")
+    diagnose.add_argument("--bin-dir", type=Path, help="directory containing idevice_id, ideviceinfo and idevicepair")
+    diagnose.add_argument("--udid", help="limit inspection to one already connected device")
+    diagnose.add_argument("--lang", choices=("en", "ru"), default="en")
+    diagnose.add_argument("--timeout", type=float, default=8.0)
+    diagnose.add_argument("--json", action="store_true", dest="as_json")
+    smoke = commands.add_parser("test", help="run non-destructive iPhone/iPad hardware smoke tests")
+    smoke.add_argument("--bin-dir", type=Path, help="directory containing libimobiledevice tools")
+    smoke.add_argument("--udid", help="test one already connected device")
+    smoke.add_argument("--lang", choices=("en", "ru"), default="en")
+    smoke.add_argument("--timeout", type=float, default=8.0)
+    smoke.add_argument("--json", action="store_true", dest="as_json")
+    args = parser.parse_args(argv)
+
+    try:
+        toolkit = AppleDeviceToolkit(
+            bin_dir=args.bin_dir,
+            language=args.lang,
+            timeout=args.timeout,
+        )
+        if args.action == "diagnose":
+            report = toolkit.diagnose(udid=args.udid)
+            if args.as_json:
+                print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+            else:
+                print("SAMBU Apple Device Diagnostics")
+                print(f"Platform: {report.platform}")
+                print("Tools:")
+                for item in report.tools:
+                    state = "available" if item.available else "missing"
+                    suffix = f" — {item.version}" if item.version else ""
+                    print(f"  {item.name}: {state}{suffix}")
+                print(f"Devices: {len(report.devices)}")
+                for device in report.devices:
+                    print(
+                        f"  {device.name or device.udid}: {device.family}; "
+                        f"{device.product_type or 'model unavailable'}; "
+                        f"iOS {device.ios_version or 'version unavailable'}; "
+                        f"pairing={device.pairing_valid}"
+                    )
+                for item in report.diagnostics:
+                    print(f"[{item.status.upper()}] {item.message}")
+                    if item.recommendation:
+                        print(f"  -> {item.recommendation}")
+            return 0
+
+        report = toolkit.run_hardware_smoke(udid=args.udid)
+        if args.as_json:
+            print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+        else:
+            print(f"SAMBU Apple hardware smoke tests — {report.devices_tested} device(s)")
+            for item in report.tests:
+                suffix = f" [{item.device_udid}]" if item.device_udid else ""
+                print(f"[{item.status.upper()}] {item.name}{suffix}: {item.message}")
+        return 0 if report.passed else 1
+    except (OSError, ValueError, RuntimeError) as exc:
+        print(f"sambu device: {exc}", file=sys.stderr)
+        return 2
+
+
 def _lexicon(argv: list[str]) -> int:
     import json
     from .articulatory import ARTICULATORY_WORDS, filter_articulatory_words
@@ -204,6 +270,8 @@ def _ide(argv: list[str]) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments and arguments[0] == "device":
+        return _device(arguments[1:])
     if arguments and arguments[0] == "new":
         return _new_project(arguments[1:])
     if arguments and arguments[0] == "generate":
