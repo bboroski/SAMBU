@@ -82,6 +82,14 @@ class AutonomyConstitutionTests(unittest.TestCase):
         )
         self.assertEqual(contracts, [f"{i:03d}" for i in range(1, 102)])
 
+    def test_quality_catalog_indexes_all_constitutional_rules(self):
+        catalog = (ROOT / "docs" / "quality" / "RULE_CATALOG.md").read_text(encoding="utf-8")
+        ids = re.findall(r"^\| (AUT-\d{2,3}) \|", catalog, flags=re.MULTILINE)
+        self.assertEqual(ids, [f"AUT-{i:02d}" for i in range(1, 101)])
+        self.assertIn("SAM-Q-SEC-001", catalog)
+        self.assertIn("LANG-001–LANG-020", catalog)
+        self.assertIn("LANG-091–LANG-101", catalog)
+
     def test_autonomy_boundaries_are_not_overclaimed(self):
         for phrase in (
             "not itself implement every capability",
