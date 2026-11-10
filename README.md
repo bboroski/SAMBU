@@ -37,6 +37,7 @@ SAMBU combines a compact interpreted language for <code>.sambu</code> programs w
 | **Scientific computing** | SI quantities, dimensional checks, physical constants, thermal energy, Maxwell speeds, Boltzmann factors, partition sums, entropy and reproducible sampling. |
 | **Sparse voxel systems** | Bounded chunks, affine frames, Morton keys, exposed-face meshing, 3D DDA, sparse octrees, graph Laplacians and VOX interchange. |
 | **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; evidence-aware workflows, trust checks and reversible patching. |
+| **Creative-text analysis** | Deterministic section/refrain extraction, script-mix inspection, approximate prosody, written performance-cue extraction and reviewed metadata ontology. No trained language model is implied. |
 | **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, restart supervision and typed software channels. Not native parallel execution. |
 | **Developer tools** | <code>sambu</code> CLI, <code>sambu-studio</code> read-only Magento XML inspector, <code>sambu-ide</code> Tkinter desktop shell, <code>sambu-test</code> and SAMBU Machine. |
 
@@ -144,6 +145,42 @@ python -m pip install -e ".[fastapi]"
 
 Authentication, transport security, persistence and authorization remain the host application's responsibility.
 
+## Creative text analysis and corpus annotations
+
+SAMBU separates two tasks that should not be conflated:
+
+1. **Text Craft** computes deterministic, descriptive signals from text: section labels, exact repeated refrains, line/word counts, visible writing-system mix, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance cues.
+2. **Creative Metadata** validates human-supplied theme/tone annotations against the versioned T-001…T-008 ontology. The schema stores no raw lyric text and defaults to \`NEEDS_REVIEW\`.
+
+The March–April 2025 corpus has been represented by a source-free example dataset covering celebration, identity, geopolitical context, emotional contrast, spiritual/folk imagery, technological metaphors, resilience and linguistic hybridity. It is an annotation fixture, not a trained model or a pre-approved training set.
+
+~~~sambu
+let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA melody returns\\n[Chorus:]\\nA melody returns\\n(Verse 2)\\nSecond movement\\n*Phone rings*\\n(Mm-mm)\\nру-ру-Русско"
+let structure = text_structure_profile(draft)
+let scripts = language_mix_profile(draft)
+let sound = prosody_profile(draft)
+let cues = performance_cues_profile(draft)
+
+print(structure.section_kind_counts.verse)
+print(structure.refrain_groups[0].repeat_count)
+print(structure.sections[1].performance_hint)
+print(scripts.dominant_script)
+print(sound.syllable_counts)
+print(cues.marker_count)
+~~~
+
+Validate the source-free corpus metadata:
+
+~~~bash
+sambu creative clusters --json
+sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu examples/performance_cues.sambu
+~~~
+
+All text-analysis heuristics have explicit limitations. Script detection is not language identification; rhyme keys and syllables are spelling-based estimates; performance markers are not speech recognition or emotion inference. SAMBU does not silently rewrite the author's source.
+
+See [Text Craft diagnostics](docs/text_craft.md), [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), [eight-cluster metadata fixture](examples/creative_corpus_metadata.sample.json) and [performance cue example](examples/performance_cues.sambu).
+
 ## Engineering principles
 
 SAMBU's five-part doctrine:
@@ -178,7 +215,7 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Contributing & license
