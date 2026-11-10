@@ -1,23 +1,23 @@
-# Neo-Modern Diplomat: model a stakeholder network and a negotiation zone.
+# Entity Coordination Model: model a stakeholder network and a negotiation zone.
 # The model describes influence paths and bargaining ranges; it does not
 # predict real diplomatic outcomes.
 
-let stakeholders = ["community", "studio", "teachers", "partners", "media"]
-let relations = [
-  ["studio", "community", 0.9],
-  ["teachers", "community", 0.8],
-  ["studio", "teachers", 0.7],
-  ["partners", "studio", 0.6],
-  ["media", "community", 0.5]
+let entities = ["unit_a", "unit_b", "unit_c", "unit_d", "unit_e"]
+let edges = [
+  ["unit_b", "unit_a", 0.9],
+  ["unit_c", "unit_a", 0.8],
+  ["unit_b", "unit_c", 0.7],
+  ["unit_d", "unit_b", 0.6],
+  ["unit_e", "unit_a", 0.5]
 ]
 
-let ecosystem = network(stakeholders, relations)
-let topology = network_metrics(ecosystem)
-let reach = influence(ecosystem, ["studio"], 3, 0.85)
+let graph = network(entities, edges)
+let topology = network_metrics(graph)
+let reach = influence(graph, ["unit_a"], 3, 0.85)
 
-print("Stakeholder network:")
+print("Entity graph metrics:")
 print(topology)
-print("Influence reach by node:")
+print("Signal reach by entity:")
 for i in range(count(stakeholders)) {
   print(stakeholders[i])
   print(reach.scores[i])
@@ -26,10 +26,10 @@ for i in range(count(stakeholders)) {
 # Overlap between the studio's offer and a partner's acceptable range.
 let zone = negotiate(25, 40, 32, 50)
 if (zone.possible) {
-  print("A bargaining interval exists:")
+  print("A valid operating interval exists:")
   print(zone.lower)
   print(zone.upper)
   print(zone.midpoint)
 } else {
-  print("No bargaining overlap; revise the proposal.")
+  print("No interval overlap; revise the input ranges.")
 }
