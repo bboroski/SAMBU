@@ -158,47 +158,103 @@ def text_profile(args: list[object]) -> Record:
     })
 
 
+
+_SCRIPT_NAME_PREFIXES = (
+    ("LATIN ", "latin"),
+    ("CYRILLIC ", "cyrillic"),
+    ("GREEK ", "greek"),
+    ("ARABIC ", "arabic"),
+    ("HEBREW ", "hebrew"),
+    ("HIRAGANA ", "hiragana"),
+    ("KATAKANA ", "katakana"),
+    ("HANGUL ", "hangul"),
+    ("DEVANAGARI ", "devanagari"),
+    ("THAI ", "thai"),
+    ("ARMENIAN ", "armenian"),
+    ("GEORGIAN ", "georgian"),
+    ("BENGALI ", "bengali"),
+    ("TAMIL ", "tamil"),
+    ("TELUGU ", "telugu"),
+    ("ETHIOPIC ", "ethiopic"),
+    ("BOPOMOFO ", "bopomofo"),
+)
+
+
+def _unicode_script(character: str) -> str | None:
+    """Return a coarse Unicode writing-system label, never a language label."""
+    if not character.isalpha():
+        return None
+    name = unicodedata.name(character, "")
+    if name.startswith(("CJK UNIFIED IDEOGRAPH", "CJK COMPATIBILITY IDEOGRAPH")):
+        return "han"
+    for prefix, script in _SCRIPT_NAME_PREFIXES:
+        if name.startswith(prefix):
+            return script
+    return "other" if name else None
+
+
 def language_mix_profile(args: list[object]) -> Record:
-    """Count writing systems and lines that visibly switch between Latin and Cyrillic."""
+    """Count Unicode writing systems without inferring spoken/written language."""
     text = _text_arg(args, "language_mix_profile(text)")
     latin_words = 0
     cyrillic_words = 0
     other_script_words = 0
     mixed_script_words = 0
     switched_lines: list[int] = []
+    multi_script_lines: list[int] = []
+    script_character_counts: Counter[str] = Counter()
+    script_word_counts: Counter[str] = Counter()
 
     for line_number, line in enumerate(text.splitlines(), start=1):
         line_scripts: set[str] = set()
+        for character in line:
+            script = _unicode_script(character)
+            if script is not None:
+                script_character_counts[script] += 1
+                line_scripts.add(script)
+
         for token in _words(line):
-            scripts = set()
-            for character in token:
-                if not character.isalpha():
-                    continue
-                name = unicodedata.name(character, "")
-                if name.startswith("LATIN "):
-                    scripts.add("latin")
-                elif name.startswith("CYRILLIC "):
-                    scripts.add("cyrillic")
-                elif name:
-                    scripts.add("other")
+            scripts = {
+                script for character in token
+                if (script := _unicode_script(character)) is not None
+            }
             if len(scripts) > 1:
                 mixed_script_words += 1
-            elif scripts == {"latin"}:
-                latin_words += 1
-                line_scripts.add("latin")
-            elif scripts == {"cyrillic"}:
-                cyrillic_words += 1
-                line_scripts.add("cyrillic")
-            elif scripts == {"other"}:
-                other_script_words += 1
-                line_scripts.add("other")
+            elif scripts:
+                script = next(iter(scripts))
+                script_word_counts[script] += 1
+                if script == "latin":
+                    latin_words += 1
+                elif script == "cyrillic":
+                    cyrillic_words += 1
+                else:
+                    other_script_words += 1
         if "latin" in line_scripts and "cyrillic" in line_scripts:
             switched_lines.append(line_number)
+        if len(line_scripts) > 1:
+            multi_script_lines.append(line_number)
 
-    counts = {"latin": latin_words, "cyrillic": cyrillic_words, "other": other_script_words}
-    maximum = max(counts.values(), default=0)
-    leaders = [name for name, count in counts.items() if count == maximum and count > 0]
+    legacy_counts = {
+        "latin": latin_words,
+        "cyrillic": cyrillic_words,
+        "other": other_script_words,
+    }
+    maximum = max(legacy_counts.values(), default=0)
+    leaders = [
+        name for name, count in legacy_counts.items()
+        if count == maximum and count > 0
+    ]
     dominant = leaders[0] if len(leaders) == 1 else "balanced" if leaders else "none"
+
+    unicode_maximum = max(script_character_counts.values(), default=0)
+    unicode_leaders = [
+        name for name, count in sorted(script_character_counts.items())
+        if count == unicode_maximum and count > 0
+    ]
+    dominant_unicode = (
+        unicode_leaders[0] if len(unicode_leaders) == 1
+        else "balanced" if unicode_leaders else "none"
+    )
     total = latin_words + cyrillic_words + other_script_words + mixed_script_words
     return Record({
         "word_count": total,
@@ -209,9 +265,14 @@ def language_mix_profile(args: list[object]) -> Record:
         "code_switch_line_count": len(switched_lines),
         "code_switch_lines": switched_lines,
         "dominant_script": dominant,
-        "scope": "writing_systems_not_language_identification",
+        "script_character_counts": Record(dict(sorted(script_character_counts.items()))),
+        "script_word_counts": Record(dict(sorted(script_word_counts.items()))),
+        "dominant_unicode_script": dominant_unicode,
+        "multi_script_line_count": len(multi_script_lines),
+        "multi_script_lines": multi_script_lines,
+        "language_identification": "not_performed",
+        "scope": "unicode_writing_systems_not_language_identification",
     })
-
 
 def text_structure_profile(args: list[object]) -> Record:
     """Extract common song/prose sections and exact repeated refrain blocks."""
