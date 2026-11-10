@@ -1,5 +1,5 @@
 # Entity Coordination Model: build an entity graph and compute an interval overlap.
-# The model describes influence paths and bargaining ranges; it does not
+# The model describes influence paths and configured intervals; it does not
 # infer external intent or real-world outcomes.
 
 let entities = ["unit_a", "unit_b", "unit_c", "unit_d", "unit_e"]
@@ -18,7 +18,7 @@ let reach = influence(graph, ["unit_a"], 3, 0.85)
 print("Entity graph metrics:")
 print(topology)
 print("Signal reach by entity:")
-for i in range(count(entitys)) {
+for i in range(count(entities)) {
   print(entities[i])
   print(reach.scores[i])
 }
