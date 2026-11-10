@@ -270,7 +270,7 @@ def text_structure_profile(args: list[object]) -> Record:
         "header_count": header_count,
         "section_count": len(sections),
         "has_section_headers": header_count > 0,
-        "section_kind_counts": dict(sorted(kind_counts.items())),
+        "section_kind_counts": Record(dict(sorted(kind_counts.items()))),
         "sections": sections,
         "refrain_groups": refrain_groups,
         "repeated_line_groups": repeated_line_groups,
@@ -312,6 +312,8 @@ def prosody_profile(args: list[object]) -> Record:
                 len(consonant_onsets) > 1
                 and len(set(consonant_onsets)) < len(consonant_onsets)
             )
+            if has_alliteration:
+                alliterative_line_count += 1
 
             internal_occurrences: dict[str, list[str]] = defaultdict(list)
             for word in words:
