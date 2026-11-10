@@ -128,9 +128,9 @@ mcl-test tests --repeat 2 --json
 
 ## Документація та участь
 
-- [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Керування творчими даними](docs/CREATIVE_DATA_GOVERNANCE.md) · [Посібник IDE](docs/DUCK_STUDIO.md)
+- [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/MCL_ENGINEERING_DOCTRINE.md)
+- [Системна архітектура](docs/MCL_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Керування творчими даними](docs/CREATIVE_DATA_GOVERNANCE.md) · [Посібник IDE](docs/MCL_WORKBENCH.md)
 - [Вихідний код](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 Ідентифікатори зовнішніх API, платформ і форматів залишаються точними заради сумісності. Міграція внутрішніх імен не повинна змінювати формат уже збережених програм без окремого перехідного механізму.
