@@ -173,8 +173,9 @@ SambuIrStatus sambu_mir_fold_constants(SambuMirFunction *function,
     status = sambu_mir_verify(function, NULL, 0u);
     if (status != SAMBU_IR_OK) return status;
 
-    if ((uint64_t)function->next_value >
-        (uint64_t)(SIZE_MAX / sizeof(*values))) return SAMBU_IR_OUT_OF_MEMORY;
+    if (function->next_value != 0u &&
+        sizeof(*values) > SIZE_MAX / (size_t)function->next_value)
+        return SAMBU_IR_OUT_OF_MEMORY;
     capacity = function->next_value == 0u ? 1u : (size_t)function->next_value;
     values = (FoldValue *)calloc(capacity, sizeof(*values));
     if (values == NULL) return SAMBU_IR_OUT_OF_MEMORY;
