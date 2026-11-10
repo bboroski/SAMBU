@@ -97,3 +97,10 @@ SAMBU is the language and modeling layer in the family: [ToolNG](https://github.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Academic biology glossary
+
+- [500 academic terms EN–RU](data/biology/academic_terms_500.tsv)
+- [Data contract and usage boundaries](docs/BIOLOGY_DOMAIN_PACK.md)
+
+An offline reference pack for education and metadata; it does not control systems, devices or diagnostics.
