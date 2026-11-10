@@ -27,7 +27,7 @@ File: `.github/workflows/black-duck-security-scan-ci.yml`
 - Uses the Black Duck SCA provider only; unconfigured Polaris, Coverity and SRM inputs are not passed.
 - Uses a full/intelligent scan on branch, scheduled and manual runs; pull requests use the action's rapid/differential mode.
 - Names the Black Duck project after the GitHub repository and uses the target branch as the PR version name.
-- Fails the workflow when Black Duck reports CRITICAL or HIGH findings.
+- Fails the workflow when Black Duck reports BLOCKER or CRITICAL findings, using the severity values shown in the official action example.
 - Pins the official Black Duck Security Scan action to the immutable commit for release `v2.11.0`.
 - Does not enable PR comments, automatic fix PRs, GitHub issue creation or SARIF upload. Those features require additional permissions and have intentionally not been enabled.
 - Skips fork-originated `pull_request` runs because GitHub does not expose repository secrets to those runs. It does not use `pull_request_target` to bypass that protection.
