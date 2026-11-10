@@ -268,6 +268,20 @@ SAMBU — мовний та інструментальний шар. Tkinter IDE
 
 ---
 
+## Desktop applications
+
+SAMBU ships two separate Tkinter desktop surfaces. The following are high-resolution **vector design previews** with synthetic SAMPLE DATA, not screenshots captured from a running process.
+
+### SAMBU IDE
+
+<img src="assets/duck-ui/ide-editor-preview.svg" width="100%" alt="SAMBU IDE black and yellow vector design preview with editor, workspace tree, outline and output pane" />
+
+### Duck Studio
+
+<img src="assets/duck-ui/duck-studio-preview.svg" width="100%" alt="Duck Studio black and yellow vector design preview with inspection overview, diagnostics and local report history" />
+
+For real application captures and usage details, see [Duck Studio documentation](docs/DUCK_STUDIO.md).
+
 ## Duck UI system
 
 This repository follows the shared black/graphite and signal-yellow visual contract for its applicable user-facing tools. See [Duck UI System](docs/DUCK_UI_SYSTEM.md), the canonical [design tokens](design/duck-ui.tokens.json), and the scalable [duck mark](assets/duck-ui/duck-mark.svg). UI previews are explicitly distinguished from real runtime screenshots; embedded cores remain presentation-agnostic.
