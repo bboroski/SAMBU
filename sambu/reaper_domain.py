@@ -66,7 +66,7 @@ def assess_metric(
         raise ValueError("minimum_samples must be positive")
     if observation.unit != limits.unit:
         raise ValueError("observation and limit units must match")
-    if not observation.name.strip() or not observation.source.strip():
+    if not isinstance(observation.name, str) or not observation.name.strip() or not isinstance(observation.source, str) or not observation.source.strip():
         raise ValueError("observation name and source are required")
     if not math.isfinite(observation.value):
         raise ValueError("observation value must be finite")
@@ -147,7 +147,7 @@ def decide_consensus(
         raise ValueError("quorum must be between one and the vote count")
     node_ids = [node for node, _ in materialized]
     proposal_ids = [proposal for _, proposal in materialized]
-    if any(not value.strip() for value in node_ids + proposal_ids):
+    if any(not isinstance(value, str) or not value.strip() for value in node_ids + proposal_ids):
         raise ValueError("node and proposal identifiers must be non-empty")
     if len(set(node_ids)) != len(node_ids):
         raise ValueError("duplicate node votes are not permitted")
@@ -181,7 +181,7 @@ def evaluate_evolution_gate(
     """Require complete evidence and a rollback path before promoting a change."""
     required = set(required_evidence)
     available = set(available_evidence)
-    if any(not item.strip() for item in required | available):
+    if any(not isinstance(item, str) or not item.strip() for item in required | available):
         raise ValueError("evidence identifiers must be non-empty")
     missing = tuple(sorted(required - available))
     accepted = not missing and rollback_ready
