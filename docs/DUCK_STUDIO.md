@@ -22,31 +22,37 @@ sambu-studio inspect /path/to/module --format json
 
 ## Current application screenshots
 
-The following images are **screenshots captured from the current, running SAMBU Duck Studio application**. They show the present Tkinter layout and navigation. For a reproducible capture, the application was opened with a local workspace explicitly labelled **DEMO WORKSPACE** and deterministic example XML findings. The interface is real; the example project and its diagnostics are illustrative and must not be interpreted as an inspection of a production Magento installation.
+The following images are **screenshots captured from the current, running SAMBU Duck Studio application**. They show the present Tkinter layout and navigation. Each view is captured at **1280 × 818 pixels** and displayed at its native proportions. For a reproducible capture, the application was opened with a local workspace explicitly labelled **DEMO WORKSPACE** and deterministic example XML findings. The interface is real; the example project and its diagnostics are illustrative and must not be interpreted as an inspection of a production Magento installation.
 
 ### 1. Overview
 
 The overview brings the selected workspace, inspection totals, configuration inventory and high-level workspace status into one screen.
 
-<p align="center">
-  <img src="images/duck-studio-overview.webp" alt="Current SAMBU Duck Studio Overview screen with DEMO WORKSPACE label, project summary cards, configuration map and workspace health" width="100%" />
-</p>
+<div align="center">
+<img src="images/duck-studio-hq/overview-00.webp" width="25%" alt="SAMBU Duck Studio Overview screenshot, upper-left segment" /><img src="images/duck-studio-hq/overview-01.webp" width="25%" alt="" /><img src="images/duck-studio-hq/overview-02.webp" width="25%" alt="" /><img src="images/duck-studio-hq/overview-03.webp" width="25%" alt="" />
+<br />
+<img src="images/duck-studio-hq/overview-10.webp" width="25%" alt="Overview screenshot, lower-left segment" /><img src="images/duck-studio-hq/overview-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/overview-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/overview-13.webp" width="25%" alt="" />
+</div>
 
 ### 2. XML Inspector
 
 The inspector presents supported XML files and the structured configuration records extracted from the local workspace. Findings retain their source paths so the reviewer can return to the originating file.
 
-<p align="center">
-  <img src="images/duck-studio-xml-inspector.webp" alt="Current SAMBU Duck Studio XML Inspector screen showing the recognized XML file list and structured inspection results" width="100%" />
-</p>
+<div align="center">
+<img src="images/duck-studio-hq/xml-inspector-00.webp" width="25%" alt="SAMBU Duck Studio XML Inspector screenshot, upper-left segment" /><img src="images/duck-studio-hq/xml-inspector-01.webp" width="25%" alt="" /><img src="images/duck-studio-hq/xml-inspector-02.webp" width="25%" alt="" /><img src="images/duck-studio-hq/xml-inspector-03.webp" width="25%" alt="" />
+<br />
+<img src="images/duck-studio-hq/xml-inspector-10.webp" width="25%" alt="XML Inspector screenshot, lower-left segment" /><img src="images/duck-studio-hq/xml-inspector-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/xml-inspector-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/xml-inspector-13.webp" width="25%" alt="" />
+</div>
 
 ### 3. Reports & findings
 
 The report view consolidates the review summary and diagnostic messages. Original finding severity, code, source path and message remain visible for follow-up.
 
-<p align="center">
-  <img src="images/duck-studio-reports-findings.webp" alt="Current SAMBU Duck Studio Reports and findings screen with review summary and source-linked demo diagnostics" width="100%" />
-</p>
+<div align="center">
+<img src="images/duck-studio-hq/reports-findings-00.webp" width="25%" alt="SAMBU Duck Studio Reports and findings screenshot, upper-left segment" /><img src="images/duck-studio-hq/reports-findings-01.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-02.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-03.webp" width="25%" alt="" />
+<br />
+<img src="images/duck-studio-hq/reports-findings-10.webp" width="25%" alt="Reports and findings screenshot, lower-left segment" /><img src="images/duck-studio-hq/reports-findings-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-13.webp" width="25%" alt="" />
+</div>
 
 ## Safety and scope
 
