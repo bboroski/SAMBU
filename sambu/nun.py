@@ -199,7 +199,7 @@ class BoundaryProfile:
         invariants: Iterable[str] = (),
         external_inputs: Iterable[str] = (),
     ) -> None:
-        if mode not in _BOUNDARY_MODES:
+        if not isinstance(mode, str) or mode not in _BOUNDARY_MODES:
             raise NunError(
                 "boundary mode must be isolated, exchange, or periodic"
             )
