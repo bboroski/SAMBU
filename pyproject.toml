@@ -38,3 +38,6 @@ include = ["sambu*", "sambu_studio*", "sambu_ide*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.setuptools.data-files]
+"share/sambu/data/biology" = ["data/biology/academic_terms_500.tsv"]
