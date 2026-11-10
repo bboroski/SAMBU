@@ -149,40 +149,38 @@ python -m pip install -e ".[fastapi]"
 
 ## Творчий текст і семантичні метадані
 
-SAMBU містить версійну онтологію creative metadata **2026.12** із дев’ятьма кластерами T-001…T-009. Метадані зберігають людські анотації, а не вихідні тексти. У прикладах корпусу всі записи мають прапорець \`NEEDS_REVIEW\`; це тестові fixtures, а не схвалений набір для навчання.
+Text Craft надає детерміновані описи структури та письмових ознак тексту:
 
-Text Craft надає детерміновані описи структури й звуку:
+- заголовки секцій і точні повтори блоків;
+- змішення латиниці, кирилиці та інших письменностей;
+- приблизні підрахунки складів, орфографічні групи рим, внутрішні співзвуччя й алітерація;
+- явні текстові маркери: сценічні ремарки, дужкові примітки, цитати та дефісні повтори.
 
-- заголовки секцій, точні повтори припіву та компактна структура хуку;
-- видиме змішення латиниці, кирилиці та інших письменностей;
-- приблизні слогові підрахунки, орфографічні групи рим, внутрішні співзвуччя й алітерація;
-- авторські регістрові наголоси та письмові performance-cues: сценічні ремарки, скобкові ad-lib, цитати й фонетичні повтори.
+Усі приклади SAMBU в цьому розділі — синтетичні нейтральні fixtures: службові повідомлення, стани інтерфейсу, каталожні записи та технічні описи. Вони не взяті з користувацьких віршів, пісень чи приватних текстів.
 
-\`hook_profile(text)\` аналізує компактний хук із 2–4 непорожніх рядків, повторювані слова/рядки, наближені рими та розкид кількості складів. Він не прогнозує хітовість або реакцію аудиторії. \`performance_cues_profile(text)\` повертає тип маркера та його позицію у вихідному рядку, але не виводить емоцію, особу мовця чи реальну манеру виконання.
+`hook_profile(text)` аналізує компактний блок із 2–4 непорожніх рядків, повтори, приблизні рими та розкид кількості складів. Він не прогнозує реакцію аудиторії. `performance_cues_profile(text)` повертає тип письмового маркера та його позицію, але не виводить емоцію, особу мовця чи фактичну манеру виконання.
 
-Приклад:
+Приклад із нейтральним технічним текстом:
 
 ~~~sambu
-let draft = "[Verse:]\nПерший рух\n[Melody sing Chorus:]\nМелодія повертається\n[Chorus:]\nМелодія повертається\n(Verse 2)\nІнший рух\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
+let draft = "[Overview:]\\nThe service reads an input record\\n[Chorus:]\\nSystem status is ready\\n[Chorus:]\\nSystem status is ready\\n*Display turns on*\\n(status: ready)\\nThe operator says \\"Open settings\\"\\npre-pre-processing"
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 print(structure.refrain_groups[0].repeat_count)
-print(structure.sections[1].performance_hint)
 print(cues.marker_count)
 ~~~
 
-Перевірка metadata fixture:
+Перевірка нейтральних metadata fixtures:
 
 ~~~bash
 sambu creative clusters --json
-sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu creative validate examples/creative_metadata_examples.sample.json --json
 sambu examples/performance_cues.sambu
 ~~~
 
-Це не автоматичний класифікатор, не embeddings і не fine-tuning pipeline. Мова визначається окремо від письма; рими й скла — приблизні орфографічні евристики. Текст автора не переписується.
+Це не автоматичний класифікатор, не embeddings і не fine-tuning pipeline. Мова визначається окремо від письменності; рими й скла є приблизними орфографічними евристиками. Вихідний текст автора не переписується.
 
 Документація: [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), [Text Craft](docs/text_craft.md), [Hook Craft і моделі відкритих систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md), [JSON Schema](schemas/creative-metadata.schema.json).
-
 ## Інженерна доктрина
 
 - **Safety** — явні дозволи та межі довіри.
