@@ -1,12 +1,12 @@
-# SAMBU frameworks: Judo, Aikido and Jiu-Jitsu
+# SAMBU framework APIs: architecture, inference and UI control
 
 SAMBU ships three independent Python host APIs under the `sambu` package. They are designed to compose, but they do not silently perform network, deployment, browser or database actions.
 
-## Judo — architecture modeling
+## Architecture validation API (legacy namespace: `Judo`)
 
 **Module:** `sambu.judo`
 
-Judo models a system as an explicit directed component graph. It is useful for describing service architectures, modular monoliths, data platforms, event-driven systems and infrastructure blueprints.
+The architecture model represents a system as an explicit directed component graph. It is useful for describing service architectures, modular monoliths, data platforms, event-driven systems and infrastructure blueprints.
 
 Core elements:
 
@@ -55,11 +55,11 @@ print(report.to_dict())
 
 **Boundary:** Judo is a model and static validator. It does not deploy infrastructure, probe live services, prove real redundancy, execute migrations or verify cloud configuration. A valid model does not prove a live deployment is healthy.
 
-## Aikido — provider-neutral AI orchestration
+## Inference orchestration API (legacy namespace: `Aikido`)
 
 **Module:** `sambu.aikido`
 
-Aikido defines a provider-neutral boundary for routing inference requests. A host injects adapters for local inference servers, cloud models, private endpoints or other runtimes.
+The inference API defines a provider-neutral boundary for routing inference requests. A host injects adapters for local inference servers, cloud models, private endpoints or other runtimes.
 
 Capabilities include:
 - model and adapter registries;
@@ -76,11 +76,11 @@ A host implements `ModelAdapter.infer(model, request)` for the provider it choos
 
 **Boundary:** Aikido ships no provider credentials and makes no network call by itself. The adapter owns transport timeouts, TLS, credential handling, cancellation and provider-error normalization. Reported token and cost values are usage reports, not independently audited invoices.
 
-## Jiu-Jitsu — renderer-neutral UI and MVC model
+## UI workflow and access-control API (legacy namespace: `JiuJitsu`)
 
 **Module:** `sambu.jiu_jitsu`
 
-Jiu-Jitsu separates a serializable view description from controller actions and authorization policy.
+The UI workflow API separates a serializable view description from controller actions and authorization policy.
 
 Core elements:
 
@@ -97,11 +97,11 @@ The model can be consumed by a React, Vue, Svelte, Qt or native renderer, but SA
 
 ## How the frameworks compose
 
-A practical division of responsibility:
+A practical technical division of responsibility:
 
-1. **Judo** describes components, dependencies, ownership, contracts and reliability assumptions.
-2. **Aikido** supplies a controlled inference capability through injected provider adapters.
-3. **Jiu-Jitsu** exposes workflows through views, controllers, modals and role-gated actions.
+1. **Architecture validation** describes components, dependencies, ownership, contracts and reliability assumptions.
+2. **Inference orchestration** supplies controlled model access through injected provider adapters.
+3. **UI workflow control** exposes actions through views, controllers, modals and permission gates.
 
 They can share identifiers and contract names, but there is no hidden coupling between them.
 
