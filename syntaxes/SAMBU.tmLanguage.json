@@ -22,6 +22,9 @@
       "include": "#keywords"
     },
     {
+      "include": "#logical"
+    },
+    {
       "include": "#constants"
     },
     {
@@ -48,17 +51,7 @@
         {
           "name": "string.quoted.double.sambu",
           "begin": "\"",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.string.begin.sambu"
-            }
-          },
           "end": "\"",
-          "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.string.end.sambu"
-            }
-          },
           "patterns": [
             {
               "name": "constant.character.escape.sambu",
@@ -69,17 +62,7 @@
         {
           "name": "string.quoted.single.sambu",
           "begin": "'",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.string.begin.sambu"
-            }
-          },
           "end": "'",
-          "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.string.end.sambu"
-            }
-          },
           "patterns": [
             {
               "name": "constant.character.escape.sambu",
@@ -127,11 +110,15 @@
     },
     "keywords": {
       "name": "keyword.control.sambu",
-      "match": "\\\\b(?:implements|interface|protected|abstract|extends|private|public|return|static|class|false|final|kaven|kavir|kavum|keven|kevir|kevum|kiven|kivir|kivum|raven|ravir|ravum|reven|taven|tavir|tavum|teven|trait|else|kava|keva|kiva|kova|null|rava|reva|tava|teva|true|uses|and|for|let|not|fn|if|in|or)\\\\b"
+      "match": "\\\\b(?:implements|interface|protected|abstract|extends|private|public|return|static|class|final|kaven|kavir|kavum|keven|kevir|kevum|kiven|kivir|kivum|taven|tavir|tavum|teven|trait|else|kava|keva|kiva|kova|tava|teva|uses|for|let|fn|if|in)\\\\b"
+    },
+    "logical": {
+      "name": "keyword.operator.logical.sambu",
+      "match": "\\\\b(?:raven|ravir|rava|and|not|or)\\\\b"
     },
     "constants": {
       "name": "constant.language.sambu",
-      "match": "\\\\b(?:true|false|null)\\\\b"
+      "match": "\\\\b(?:false|ravum|reven|true|null|reva)\\\\b"
     },
     "builtins": {
       "patterns": [
