@@ -173,7 +173,7 @@ sambu examples/performance_cues.sambu
 - **Branchable design** — модульные слои и явные контракты.
 - **Unforced interoperability** — стабильные интерфейсы и свобода пользователя.
 
-Machine добавляет capability-профили, детерминированную выборку AST 1:100 и ограниченный Ghost Ledger. Sealed предназначен для инспекции; sandbox разрешает выполнение в интерпретаторе SAMBU. Ни один профиль не является OS sandbox. Host и device резервируют будущие адаптеры и не предоставляют фактический доступ к shell, сети или оборудованию.
+Machine добавляет capability-профили, детерминированную выборку AST 1:100 и ограниченный журнал сигнатур сбоев. Sealed предназначен для инспекции; sandbox разрешает выполнение в интерпретаторе SAMBU. Ни один профиль не является OS sandbox. Host и device резервируют будущие адаптеры и не предоставляют фактический доступ к shell, сети или оборудованию.
 
 ## Проверка качества
 
@@ -195,8 +195,8 @@ sambu-test tests --repeat 2 --json
 
 ## Документация
 
-- [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Системная архитектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel reference](docs/VOXELS.md)
+- [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md) · [Интеграция платформы](docs/PLATFORM_INTEGRATION.md)
+- [Системная архитектура](docs/SYSTEMS_LANGUAGE_ARCHITECTURE.md) · [Voxel reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Исходный код и тесты](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
