@@ -17,6 +17,8 @@ The former **NUN Mesh** label is superseded as the ecosystem's public architectu
 ```mermaid
 flowchart TB
     SAMBU["SAMBU\nLanguage · Policy · Tooling · Registry"]
+    NUNL["NUNLauncher\nImage validation · Boot handoff"]
+    NUN["NUN\nKernel contract · Memory · Execution"]
     KLOZ["Kloz\nPlatform ABI · Memory · Board boundary"]
     CO["CO\nLifecycle · Bounded execution"]
     SAINT["SaintSI\nHealth observation · Integrity"]
@@ -30,6 +32,10 @@ flowchart TB
     SAMBU -->|"profiles + evidence contract"| REAPER
     SAMBU -->|"native C17 policy port"| TOOL
     SAMBU -->|"registry projection"| KLIPOT
+    SAMBU -. "system module contract" .-> NUNL
+    SAMBU -. "kernel module contract" .-> NUN
+    NUNL -->|"validated boot-information handoff"| NUN
+    KLOZ -. "future optional platform adapter" .-> NUN
     KLOZ -. "optional platform adapter" .-> CO
     KLOZ -. "optional clock adapter" .-> SAINT
     KLOZ -. "optional BSP adapter" .-> REAPER
