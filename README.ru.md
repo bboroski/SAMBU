@@ -128,9 +128,9 @@ mcl-test tests --repeat 2 --json
 
 ## Документация и участие
 
-- [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Системная архитектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Управление творческими данными](docs/CREATIVE_DATA_GOVERNANCE.md) · [Руководство IDE](docs/DUCK_STUDIO.md)
+- [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/MCL_ENGINEERING_DOCTRINE.md)
+- [Системная архитектура](docs/MCL_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Управление творческими данными](docs/CREATIVE_DATA_GOVERNANCE.md) · [Руководство IDE](docs/MCL_WORKBENCH.md)
 - [Исходный код](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 Идентификаторы внешних API, платформ и форматов остаются точными ради совместимости. Миграция внутренних названий не должна незаметно менять формат существующих исходных файлов.
