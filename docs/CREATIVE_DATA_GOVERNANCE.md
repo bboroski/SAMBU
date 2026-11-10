@@ -131,7 +131,7 @@ The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) 
 | Russian/Ukrainian/English code-switching, dialect and phonetic play | `T-008` — linguistic hybridity |
 | Abrupt image shifts, absurd associations and phonetic collisions | `T-009` — surreal juxtaposition (ontology `2026.12`) |
 
-Text Craft supplies deterministic, non-semantic signals alongside human annotation: section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. The new `performance_cues_profile` detects stage directions, parenthetical asides, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
+Text Craft supplies deterministic, non-semantic signals alongside human annotation: compact-hook structure through `hook_profile`, section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. The new `performance_cues_profile` detects stage directions, parenthetical asides, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
 
 Validate the metadata-only fixture:
 
