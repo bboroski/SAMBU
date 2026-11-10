@@ -177,7 +177,7 @@ class NeoModernBlueprintTests(unittest.TestCase):
         return result, output
 
     def test_audio_profile_captures_production_constraints(self):
-        _, output = self.run_sambu('''let mix = audio_profile("Neo Modern Diplomat", 150, 60, 15, -0.3, true, true, true, true, true)
+        _, output = self.run_sambu('''let mix = audio_profile("Systems Operations", 150, 60, 15, -0.3, true, true, true, true, true)
 print(mix.bpm)
 print(mix.immediate_entry)
 print(mix.stereo_mastering)
@@ -207,21 +207,21 @@ print(offer.target_met)''')
             execute("studio_offer(10, 11, 0.3, 30, 200, 8)")
 
     def test_capture_node_transfers_owner_only_after_resistance_is_depleted(self):
-        _, output = self.run_sambu('''let partial = capture_node("rival", "diplomat", 40, 25)
-let captured = capture_node("rival", "diplomat", 40, 55)
+        _, output = self.run_sambu('''let partial = capture_node("rival", "unit_b", 40, 25)
+let captured = capture_node("rival", "unit_b", 40, 55)
 print(partial.captured)
 print(partial.owner_after)
 print(partial.resistance_after)
 print(captured.captured)
 print(captured.owner_after)
 print(captured.overflow)''')
-        self.assertEqual(output, ["false", "rival", "15", "true", "diplomat", "15"])
+        self.assertEqual(output, ["false", "rival", "15", "true", "unit_b", "15"])
 
     def test_capture_node_rejects_same_faction_and_negative_pressure(self):
         with self.assertRaises(ValueError):
-            execute('capture_node("diplomat", "diplomat", 10, 20)')
+            execute('capture_node("unit_b", "unit_b", 10, 20)')
         with self.assertRaises(ValueError):
-            execute('capture_node("rival", "diplomat", 10, -1)')
+            execute('capture_node("rival", "unit_b", 10, -1)')
 
     def test_order_pipeline_accepts_safe_outbox_and_acknowledgement_plan(self):
         _, output = self.run_sambu('''let queue = queue_profile("heavy_orders_queue", 4, 8, 3, true)
