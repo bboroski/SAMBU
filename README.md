@@ -58,7 +58,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 ### Language core
 
 - Hand-written lexer and parser.
-- Second, sound-built articulatory syntax with 200 generated lexemes: 25 grammar forms, 129 built-in aliases and 46 reserved future forms.
+- Second, sound-built articulatory syntax with 200 generated lexemes: 25 grammar forms, 123 built-in aliases and 52 reserved future forms.
 - Legacy tuple AST retained for compatibility.
 - Immutable typed AST with source spans.
 - Lexical scopes, immutable `let` bindings and user functions.
@@ -68,14 +68,6 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 - Bounded actor mailboxes, sequential actor-state transitions, dead-letter capture and hierarchical restart supervision.
 - Typed, bounded, non-blocking software channels.
 - Explicit runtime diagnostics with source locations.
-
-### Language design craft
-
-- Provenance-aware source registry and ordered fragment selection.
-- Lexical terminal design with unique symbols, spellings, meanings and token roles.
-- Explicit grammar productions with terminal/nonterminal reference checking.
-- Deterministic audits for collisions, unused material, grammar reachability and source coverage.
-- Design blueprints are inspectable artifacts; they do not rewrite the executable grammar or claim to be a compiler.
 
 ### Science and numeric modeling
 
@@ -103,6 +95,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 | **Jiu-Jitsu** 🖥️ | Serializable UI trees, MVC controllers, modal flows, role-based access and explicit action dispatch |
 | **Workflow models** | Evidence-linked records, relationship graphs, bounded batch plans, prioritization and pattern analysis |
 | **Trust tools** 🛡️ | SHA-256 content-integrity checks, issuer allow-lists, evidence dates and verification coverage |
+| **Continuity & signal governance** | Evidence-bearing lifecycle cycles, hash-chained transitions, authenticated issuer checks, replay rejection and quarantine |
 | **Chunking & patching** | Lazy bounded batches, stale-edit detection, conflict checks and reversible text patches |
 
 ### Sparse voxel systems
@@ -128,6 +121,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
 - Reproducible voxel benchmark scripts.
 - Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
+- **Continuity core**: bounded lifecycle cycles with evidence fingerprints and verifiable event chains, plus fail-closed signal admission with issuer allow-lists, external signature verification and replay checks.
 - **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
 - **Sambu IDE core**: source-aware document diagnostics, function/class outline, keyword completion and workspace inspection.
 - **Effort Amplification**: evidence-backed improvement metric that rejects regressions and incomplete test runs.
@@ -165,7 +159,7 @@ sambu ide workspace examples
 sambu ide complete actor
 ```
 
-The current IDE is a headless editor-service core—not a graphical editor or LSP server. It provides syntax diagnostics, source snapshots, an outline and bounded lexical completion.
+The repository now includes **SAMBU Duck Studio**, a native desktop GUI built with Python's standard-library Tkinter toolkit. It reuses the existing headless IDE services for syntax diagnostics and symbol outlines, and adds a black-and-yellow editor workspace, file open/save, F5 execution, output panel, RU/EN interface switching and an Apple-device diagnostics view. It is a desktop editor shell, not yet an LSP client or a full-featured language server.
 
 ### Capability profiles
 
@@ -236,7 +230,6 @@ sambu examples/anatidae_biophysics.sambu
 sambu examples/voxel_world.sambu
 sambu examples/supervised_runtime.sambu
 sambu examples/articulatory_intro.sambu
-sambu examples/language_craft.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
@@ -472,6 +465,7 @@ SAMBU repository
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
 │   ├── autonomy.py        Bounded task policy, evidence ledger and change preflight
+│   ├── continuity.py     Evidence-fingerprinted cycles and provenance-checked signals
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
@@ -499,6 +493,7 @@ SAMBU is deliberately honest about its current boundaries.
 | Cooperative Python generator scheduler | **Implemented · Python host API; not native fibers** |
 | Reverse-order resource scope and dual-verifier gate | **Implemented · Python host APIs; HSM provider external** |
 | Bounded autonomy policy, task manifests, evidence ledger and change preflight | **Implemented · experimental Python host API; no execution or merge authority** |
+| Continuity lifecycle and signal admission | **Implemented · experimental Python host API; no scheduler, persistent replay store or bundled cryptographic provider** |
 | Runtime SI quantities and scientific helpers | **Implemented** |
 | Sparse voxel core and bounded CPU graph/mesh algorithms | **Implemented** |
 | Starter engine bridge source | **Included · host integration required** |
@@ -526,6 +521,12 @@ The new **Cripple Autonomy Core** adds bounded planning and evidence governance 
 
 This core does **not** execute arbitrary code, modify the repository, grant host permissions, merge pull requests or deploy software. OS-level sandboxing and isolated experiment execution remain planned.
 
+### Continuity cycles and signal governance
+
+`CycleController` provides bounded phases (`dormant → observing → preparing → active → recovering → archived`) with non-null evidence requirements, explicit halting, snapshot fingerprints and a verifiable hash chain. This is a structural evidence check, not validation of approval semantics; the host must verify evidence and authorization before advancing the lifecycle. `SignalGuard` admits bounded JSON signals only from allow-listed issuers, checks strictly increasing issuer sequences, and by default requires a signature verifier supplied by the host. Rejected inputs are quarantined with reason codes. Neither API executes signal content or grants capabilities; cycle state, signal cursors and decisions are in memory unless the host persists them.
+
+The mapping from fictional cyclic-threat concepts to engineering safeguards—and the implementation's limitations—is documented in [Continuity Cycles and Signal Governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md). A runnable host-API example is in `examples/continuity_guard.py`.
+
 See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md) and the [Cripple Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md).
 
 ## 📚 Documentation
@@ -534,7 +535,6 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 - [SAMBU Wiki — project encyclopedia](wiki/README.md)
 - [Language reference](docs/LANGUAGE.md)
-- [Language Craft — provenance-led grammar design](docs/LANGUAGE_CRAFT.md)
 - [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
@@ -557,10 +557,10 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [SAMBU Studio and IDE roadmap](docs/IDE.md)
 - [Cripple archetype engineering charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md)
 - [Test runner and failure autopsy](docs/TEST_AUTOPSY.md)
+- [Continuity cycles and signal governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md)
 
 ### Future architecture
 
-- **Language Craft:** [Source provenance, lexical fragment selection, terminal design, grammar assembly and deterministic audit](docs/LANGUAGE_CRAFT.md). This is a design workbench, not a dynamic parser or compiler.
 - **Native compiler architecture:** [C11 IR kernel, HIR/MIR/LIR contracts, type/ownership design and staged backend roadmap](docs/NATIVE_COMPILER_ARCHITECTURE.md). The current native slice is experimental and does not yet emit machine code.
 - **Native kernel:** [Build and test instructions](native/README.md).
 
@@ -616,3 +616,34 @@ SAMBU is distributed under the MIT License. See [LICENSE](LICENSE).
 *Stay curious. Follow the trail. Keep the flock moving.* 🐣
 
 </div>
+
+
+## 🦆 SAMBU Duck Studio — graphical IDE
+
+Install the project and launch the desktop IDE:
+
+```bash
+python -m pip install -e .
+sambu-ide
+```
+
+On Windows, Tkinter is normally included with the standard Python installer. The interface uses a charcoal-black workspace, vivid yellow duck-brand accents, a source editor, workspace browser, symbol outline, diagnostics and an integrated execution output panel. Use **Ctrl+O** to open, **Ctrl+S** to save and **F5** to run the current `.sambu` file. The interface language can be switched between Russian and English.
+
+### Apple device diagnostics (Windows)
+
+Open **iPhone / iPad** in the right-hand panel. The diagnostic view checks for `idevice_id` and `ideviceinfo`, enumerates devices exposed by the installed libimobiledevice build, and attempts to read `ProductType`, `ProductVersion` and `DeviceName` from an existing trusted pairing. On Windows it also queries Apple Mobile Device Service and present Plug-and-Play devices through PowerShell.
+
+Install a supported Windows build of [libimobiledevice](https://libimobiledevice.org/) and make its command-line tools available on `PATH`. Install or repair [Apple Devices](https://apps.microsoft.com/detail/9np83lwlpz9k) / its Apple USB driver components where appropriate. Unlock the iPhone/iPad and accept the Trust prompt before expecting paired metadata.
+
+**Diagnostic limits:** SAMBU does not bypass Apple's pairing or trust model. Model and iOS version are shown only when the device is enumerated and the pairing API returns those values. USB enumeration can reveal driver/service problems, but software cannot conclusively identify a charge-only cable or prove a physical port is defective. The diagnostic is read-only and does not back up, restore, pair or alter the device.
+
+### Development and hardware validation
+
+Run the desktop and device-diagnostic tests with:
+
+```bash
+python -m unittest discover -s tests -p test_device_diagnostics.py
+python -m unittest discover -s tests
+```
+
+A hardware compatibility matrix should be populated by running the diagnostic against real iPhone/iPad models and supported Windows/libimobiledevice combinations. CI unit tests mock the device layer and do not claim physical-device coverage. Code signing and a signed Windows installer require a release certificate and should be configured as a release-pipeline secret; no unsigned build is represented as signed.
