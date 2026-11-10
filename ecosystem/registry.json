@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "ecosystem": "SAMBU",
+  "canonical_source": "bboroski/SAMBU/ecosystem/registry.json",
+  "manifest_schema": "bboroski/SAMBU/ecosystem/module.schema.json",
+  "governance": {
+    "principle": "Independent repositories integrate through versioned manifests, explicit adapters and testable evidence; no repository is absorbed into a monolith.",
+    "runtime_rule": "SAMBU's Python runtime is not a dependency of freestanding C modules. ToolNG contains a native C17 policy port, not the Python interpreter.",
+    "release_rule": "Each repository owns its releases and validation. Cross-repository compatibility is reported separately from local test status."
+  },
+  "modules": [
+    {
+      "id": "sambu-core",
+      "repository": "bboroski/SAMBU",
+      "role": "central-language-and-engineering-platform",
+      "runtime": [
+        "Python >=3.10"
+      ],
+      "maturity": "experimental-alpha",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "sambu-language-runtime",
+        "developer-tooling",
+        "architecture-models",
+        "policy-and-workflow-descriptions",
+        "module-manifest-v1",
+        "ecosystem-registry-v1"
+      ],
+      "consumes": [
+        "sambu-module-manifest-v1",
+        "versioned-adapter-descriptors",
+        "evidence-reports"
+      ]
+    },
+    {
+      "id": "kloz-platform",
+      "repository": "bboroski/Kloz",
+      "role": "freestanding-platform-substrate",
+      "runtime": [
+        "C11"
+      ],
+      "maturity": "host-tested-core",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "fixed-width-status-abi",
+        "caller-owned-arena-memory",
+        "versioned-platform-ops",
+        "platform-capability-descriptors"
+      ],
+      "consumes": [
+        "board-cpu-port",
+        "caller-owned-storage",
+        "platform-specific-time-and-device-primitives"
+      ]
+    },
+    {
+      "id": "co-lifecycle",
+      "repository": "bboroski/CO",
+      "role": "deterministic-component-lifecycle-runtime",
+      "runtime": [
+        "C11"
+      ],
+      "maturity": "host-tested-core",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "lifecycle-state-machine",
+        "bounded-poll-step",
+        "fault-retention",
+        "partial-init-cleanup",
+        "reentrancy-guards"
+      ],
+      "consumes": [
+        "application-init-step-shutdown-callbacks"
+      ]
+    },
+    {
+      "id": "saintsi-assurance",
+      "repository": "bboroski/SaintSI",
+      "role": "bounded-runtime-assurance-and-integrity-observer",
+      "runtime": [
+        "C11"
+      ],
+      "maturity": "host-tested-core",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "fixed-capacity-heartbeat-registry",
+        "rollover-safe-timeout-observation",
+        "degraded-state-reporting",
+        "crc32-accidental-corruption-check"
+      ],
+      "consumes": [
+        "caller-supplied-monotonic-ticks",
+        "registered-component-identifiers"
+      ]
+    },
+    {
+      "id": "reapercripple-hardware",
+      "repository": "bboroski/ReaperCripple",
+      "role": "embedded-bsp-validation-calibration-and-manufacturing",
+      "runtime": [
+        "C11",
+        "CMake",
+        "target-specific toolchains"
+      ],
+      "maturity": "host-tested-core-hardware-validation-required",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "bsp-family-adapters",
+        "staged-bootstrap-and-rollback",
+        "pinout-governance",
+        "production-profiles",
+        "calibration-records",
+        "fixture-recipes",
+        "bounded-telemetry",
+        "mes-event-bridge"
+      ],
+      "consumes": [
+        "exact-board-and-schematic-revision",
+        "approved-production-profile",
+        "fixture-evidence",
+        "target-toolchain"
+      ]
+    },
+    {
+      "id": "toolng-diagnostics",
+      "repository": "bboroski/ToolNG",
+      "role": "windows-native-apple-device-diagnostics-application",
+      "runtime": [
+        "C17",
+        "Win32 API",
+        "Windows 10/11"
+      ],
+      "maturity": "native-desktop",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "apple-usb-pnp-observation",
+        "local-diagnostic-reports",
+        "evidence-quality-gate",
+        "bounded-local-event-history",
+        "read-only-backup-marker-inspection"
+      ],
+      "consumes": [
+        "windows-pnp-and-service-signals",
+        "user-approved-local-paths",
+        "native-c17-policy-workflow-port"
+      ]
+    },
+    {
+      "id": "klipot-control-plane",
+      "repository": "bboroski/Klipot",
+      "role": "ecosystem-registry-and-operator-control-plane",
+      "runtime": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "maturity": "portal-and-browser-simulations",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "module-discovery",
+        "dependency-graph-presentation",
+        "contract-catalog",
+        "browser-api-simulations",
+        "operator-navigation"
+      ],
+      "consumes": [
+        "sambu-ecosystem-registry-v1",
+        "sambu-module-manifest-v1",
+        "public-repository-metadata"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "sambu-core",
+      "to": "kloz-platform",
+      "kind": "architecture-contract",
+      "status": "defined",
+      "scope": "Manifest, role and evidence contract; no Python runtime linkage."
+    },
+    {
+      "from": "sambu-core",
+      "to": "co-lifecycle",
+      "kind": "architecture-contract",
+      "status": "defined",
+      "scope": "Workflow and lifecycle concepts remain separate from the native C implementation."
+    },
+    {
+      "from": "sambu-core",
+      "to": "saintsi-assurance",
+      "kind": "architecture-contract",
+      "status": "defined",
+      "scope": "Policy descriptions and assurance evidence; no automatic watchdog authority."
+    },
+    {
+      "from": "sambu-core",
+      "to": "reapercripple-hardware",
+      "kind": "architecture-contract",
+      "status": "defined",
+      "scope": "Production profile metadata and evidence boundaries; physical validation stays with target fixtures."
+    },
+    {
+      "from": "sambu-core",
+      "to": "toolng-diagnostics",
+      "kind": "native-policy-port",
+      "status": "implemented",
+      "scope": "Selected engineering rules are ported to C17; no Python interpreter is embedded."
+    },
+    {
+      "from": "sambu-core",
+      "to": "klipot-control-plane",
+      "kind": "registry-projection",
+      "status": "mirrored",
+      "scope": "Klipot displays a mirror of the canonical registry and keeps no firmware dependency."
+    },
+    {
+      "from": "kloz-platform",
+      "to": "co-lifecycle",
+      "kind": "optional-platform-adapter",
+      "status": "adapter-ready",
+      "scope": "Application callback context may carry Kloz platform operations."
+    },
+    {
+      "from": "kloz-platform",
+      "to": "saintsi-assurance",
+      "kind": "optional-clock-adapter",
+      "status": "adapter-ready",
+      "scope": "Clock bridge is optional; tick units and rollover intervals belong to the integrator."
+    },
+    {
+      "from": "kloz-platform",
+      "to": "reapercripple-hardware",
+      "kind": "optional-bsp-adapter",
+      "status": "adapter-ready",
+      "scope": "Board-specific BSP and safety callbacks remain authoritative."
+    },
+    {
+      "from": "co-lifecycle",
+      "to": "saintsi-assurance",
+      "kind": "optional-heartbeat-adapter",
+      "status": "adapter-ready",
+      "scope": "Refresh only after a successful completed poll."
+    },
+    {
+      "from": "saintsi-assurance",
+      "to": "reapercripple-hardware",
+      "kind": "optional-health-observation",
+      "status": "adapter-ready",
+      "scope": "Observation informs policy; it never authorizes an actuator or reset."
+    }
+  ]
+}
