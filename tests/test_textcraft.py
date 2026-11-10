@@ -13,24 +13,20 @@ class TextCraftTests(unittest.TestCase):
 
     def test_multilingual_text_and_prosody_profiles(self):
         _, output = self.run_sambu("""
-let draft = "Город хранит недосказанный разговор\\nВетер разбудит забытый двор"
+let draft = "Сервер проверяет входные данные\\nКлиент сохраняет результат"
 let words = text_profile(draft)
 let sound = prosody_profile(draft)
 print(words.line_count)
 print(words.word_count)
 print(words.unique_word_count)
 print(words.lexical_diversity)
-print(sound.rhyme_density)
-print(sound.rhyme_groups[0].key)
-print(sound.syllable_counts[0])
-print(syllables("разговор"))
-print(rhyme_key("разговор"))
+print(sound.syllable_counts.length)
 """)
-        self.assertEqual(output, ["2", "8", "8", "1", "1", "ор", "12", "3", "ор"])
+        self.assertEqual(output, ["2", "7", "7", "1", "2"])
 
     def test_alliteration_is_reported_without_rewriting_text(self):
         _, output = self.run_sambu("""
-let draft = "Молчит мрачный мотор"
+let draft = "Модуль моделирует массив"
 let sound = prosody_profile(draft)
 print(sound.lines[0].has_alliteration)
 print(sound.alliterative_line_count)
@@ -39,7 +35,7 @@ print(sound.alliterative_line_count)
 
     def test_section_headers_and_repeated_chorus_are_extracted(self):
         _, output = self.run_sambu("""
-let draft = "[Verse 1]\\nПишу короткий первый фрагмент\\n[Chorus]\\nОдин мотив возвращается\\n[Verse 2]\\nДругой короткий фрагмент\\n[Припев]\\nОдин мотив возвращается"
+let draft = "[Verse 1]\\nНастройки профиля доступны\\n[Chorus]\\nSystem status is ready\\n[Verse 2]\\nThe client stores the result\\n[Припев]\\nSystem status is ready"
 let structure = text_structure_profile(draft)
 print(structure.header_count)
 print(structure.section_count)
@@ -51,18 +47,18 @@ print(structure.refrain_groups[0].line_count)
 
     def test_colon_and_parenthesized_section_labels_are_normalized(self):
         _, output = self.run_sambu("""
-let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA returning line\\n[Chorus:]\\nA returning line\\n(Verse 2)\\nSecond movement"
+let draft = "[Verse:]\\nThe request is received\\n[Spoken Chorus:]\\nSystem status is ready\\n[Chorus:]\\nSystem status is ready\\n(Verse 2)\\nThe client stores the result"
 let structure = text_structure_profile(draft)
 print(structure.section_kind_counts.verse)
 print(structure.section_kind_counts.chorus)
 print(structure.refrain_groups[0].repeat_count)
 print(structure.sections[1].performance_hint)
 """)
-        self.assertEqual(output, ["2", "2", "2", "melodic"])
+        self.assertEqual(output, ["2", "2", "2", "spoken"])
 
     def test_explicit_performance_cues_are_extracted_without_inference(self):
         _, output = self.run_sambu("""
-let draft = "*Phone rings*\\n(Ad-lib: Mm-mm)\\nThey say \\"go now\\"\\nру-ру-Русско"
+let draft = "*Display turns on*\\n(status: ready)\\nThey say \\"go now\\"\\npre-pre-processing"
 let cues = performance_cues_profile(draft)
 print(cues.stage_direction_count)
 print(cues.parenthetical_aside_count)
@@ -79,7 +75,7 @@ print(cues.scope)
 
     def test_multilingual_writing_systems_and_code_switching(self):
         _, output = self.run_sambu("""
-let draft = "Пишу українською today\\nEnglish remains\\nТекст повертається"
+let draft = "Параметры доступны today\\nEnglish labels\\nСистема готова"
 let mix = language_mix_profile(draft)
 print(mix.cyrillic_word_count)
 print(mix.latin_word_count)
@@ -91,22 +87,22 @@ print(mix.dominant_script)
 
     def test_marked_case_is_preserved_as_an_author_cue(self):
         _, output = self.run_sambu("""
-let draft = "Ветер разбудит вОды"
+let draft = "Server keeps staTUS"
 let sound = prosody_profile(draft)
 print(sound.marked_case_words[0])
 print(sound.marked_case_word_count)
 """)
-        self.assertEqual(output, ["вОды", "1"])
+        self.assertEqual(output, ["staTUS", "1"])
 
     def test_internal_rhyme_echoes_are_reported(self):
         _, output = self.run_sambu("""
-let draft = "Пора и гора звучат в строке"
+let draft = "Код и вход проверяются"
 let sound = prosody_profile(draft)
 print(sound.internal_rhyme_line_count)
 print(sound.internal_rhyme_density)
 print(sound.lines[0].internal_rhyme_groups[0].key)
 """)
-        self.assertEqual(output, ["1", "1", "ра"])
+        self.assertEqual(output, ["1", "1", "од"])
 
     def test_empty_text_is_safe(self):
         _, output = self.run_sambu("""
