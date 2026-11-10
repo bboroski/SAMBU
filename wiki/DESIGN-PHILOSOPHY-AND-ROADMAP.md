@@ -1,4 +1,4 @@
-# Design philosophy and roadmap
+# Design rationale and technical roadmap
 
 ## Current design identity
 
@@ -51,7 +51,7 @@ Aspirational concepts such as an autonomous evolution engine should be implement
 | Typed AST and source spans | Implemented | Not a complete semantic analyzer or LSP |
 | OOP slice | Implemented in alpha form | Not a native object ABI or static ownership system |
 | Scientific calculations | Implemented | Not a general PDE solver or empirical authority |
-| Judo / Aikido / Jiu-Jitsu | Python host APIs | No automatic deployment, provider access or renderer |
+| Architecture / inference / UI APIs | Python host APIs | No automatic deployment, provider access or renderer |
 | Voxel core | Implemented with bounded CPU references and starter bridges | Not a production GPU engine for all platforms |
 | Studio inspector | Implemented read-only project inspection | Not official XSD validation or operational automation |
 | Web adapters | Optional integrations | Host owns identity, persistence and security |
