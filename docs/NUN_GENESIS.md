@@ -1,8 +1,8 @@
-# Nun — reproducible genesis and initial conditions
+# NUN — reproducible initial-state manifests
 
 **Status:** implemented Python host API, experimental.  
 **Module:** `sambu.nun`  
-**Scope:** immutable initial-state snapshots, declarative boundary profiles and deterministic genesis manifests.
+**Scope:** immutable initial-state snapshots, declarative boundary profiles and deterministic initialization manifests.
 
 ## 1. Initial-state data model
 
@@ -19,13 +19,13 @@ The core rule is **state first, boundaries explicit, initialization reproducible
 
 ## 2. Public API
 
-The module exports:
+The module exports stable compatibility identifiers for the `sambu.nun` API:
 
-- `PrimordialState` — immutable snapshot of a JSON-shaped mapping, an unsigned 64-bit seed, a provenance label and a SHA-256 digest.
+- `PrimordialState` (legacy API identifier) — immutable snapshot of a JSON-shaped mapping, an unsigned 64-bit seed, a provenance label and a SHA-256 digest.
 - `BoundaryProfile` — declarative boundary mode, named invariants and explicit external inputs.
-- `GenesisSpec` — a versioned scenario declaration with required fields and human-readable assumptions.
-- `NunEngine` — validates a specification and produces a `GenesisReport`.
-- `GenesisManifest` — canonical manifest payload and digest, suitable for comparison, cache keys and attaching to a separate evidence record.
+- `GenesisSpec` (legacy API identifier) — a versioned scenario declaration with required fields and human-readable assumptions.
+- `NunEngine` (legacy API identifier) — validates a specification and produces a `GenesisReport`.
+- `GenesisManifest` (legacy API identifier) — canonical manifest payload and digest, suitable for comparison, cache keys and attaching to a separate evidence record.
 - `GenesisFinding`, `GenesisReport`, and `NunError` — structured diagnostics and validation errors.
 
 ### Minimal example
