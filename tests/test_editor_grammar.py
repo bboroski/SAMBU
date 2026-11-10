@@ -89,6 +89,16 @@ class SambuEditorGrammarTests(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertIsNotNone(expression.search(word))
 
+    def test_fortran_dotted_operators_and_logical_constants_are_highlighted(self):
+        operators = re.compile(self.repository["fortran_operators"]["match"])
+        constants = re.compile(self.repository["fortran_constants"]["match"])
+        for token in (".and.", ".or.", ".not.", ".eqv.", ".neqv.", ".eq.", ".ne.", ".lt.", ".le.", ".gt.", ".ge."):
+            with self.subTest(token=token):
+                self.assertEqual(operators.search(token).group(0), token)
+        for token in (".true.", ".false."):
+            with self.subTest(token=token):
+                self.assertEqual(constants.search(token).group(0), token)
+
     def test_pascal_and_fortran_comment_forms_are_registered(self):
         names = {pattern["name"] for pattern in self.repository["comments"]["patterns"]}
         self.assertTrue({
