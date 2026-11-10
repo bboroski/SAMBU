@@ -1,0 +1,23 @@
+name: Duck repository quality gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation-contract:
+    name: Trilingual documentation and brand checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Validate README and product system
+        run: python .github/scripts/duck_quality_gate.py
