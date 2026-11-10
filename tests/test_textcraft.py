@@ -20,7 +20,7 @@ print(words.line_count)
 print(words.word_count)
 print(words.unique_word_count)
 print(words.lexical_diversity)
-print(sound.syllable_counts.length)
+print(sound.nonempty_line_count)
 """)
         self.assertEqual(output, ["2", "7", "7", "1", "2"])
 
