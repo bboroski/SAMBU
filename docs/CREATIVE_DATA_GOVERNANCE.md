@@ -20,15 +20,15 @@ Raw source text is not part of the metadata schema. A caller may attach a source
 
 | ID | Cluster | Stable theme key | Description | Candidate applications |
 |---|---|---|---|---|
-| T-001 | Celebration and ritual | `cultural_celebration` | Festive gatherings, communal joy, market aesthetics and seasonal cycles | Event generation, cultural context tagging, mood analysis |
-| T-002 | Identity and transformation | `identity_transformation` | Masks and faces, self-reinvention and artistic persona construction | Character development, style analysis, persona metadata |
-| T-003 | Geopolitical awareness | `geopolitical_awareness` | Regional dynamics, institutions, borders and technological sovereignty | Entity recognition, neutral context grounding, summarization |
-| T-004 | Emotional duality | `emotional_duality` | Warmth and distance, intimacy and alienation, memory and present reality | Sentiment analysis, dialogue analysis, emotional arc annotation |
-| T-005 | Spiritual syncretism | `spiritual_syncretism` | Religious imagery, folk motifs, ritual language and sacred/profane tension | Cultural literacy, symbolic annotation, metaphor analysis |
-| T-006 | Technological metaphor | `technological_metaphor` | Hardware-as-body imagery, code-as-ritual and digital/analogue fusion | Technical writing, creative coding prompts, UX language analysis |
-| T-007 | Conflict and resilience | `conflict_resilience` | Institutional critique, disruption, endurance and recovery narratives | Crisis communication, educational content, resilience narratives |
-| T-008 | Linguistic hybridity | `linguistic_hybridity` | Code-switching, multilingual rhyme, dialectal texture and mixed registers | Translation assessment, multilingual annotation, register analysis |
-| T-009 | Surreal juxtaposition and wordplay | `surreal_juxtaposition` | Absurd associations, phonetic collisions, abrupt image shifts and unexpected pop-culture or technical references | Wordplay analysis, metaphor annotation, creative register analysis |
+| T-001 | Celebration and ritual | `cultural_celebration` | Public events, shared activities, recurring calendars and community contexts | Event description, context tagging, schedule annotation |
+| T-002 | Identity and transformation | `identity_transformation` | Profile changes, role transitions, representation and lifecycle changes | Profile analysis, entity tracking, state annotation |
+| T-003 | Geopolitical awareness | `geopolitical_awareness` | Regions, jurisdictions, institutional structures and geographic context | Entity recognition, regional comparison, context grounding |
+| T-004 | Emotional duality | `emotional_duality` | Contrasting states, competing conditions, uncertainty and change over time | State comparison, dialogue analysis, change annotation |
+| T-005 | Spiritual syncretism | `spiritual_syncretism` | Symbol systems, inherited conventions, heritage references and cultural classifications | Catalog annotation, symbolic indexing, reference analysis |
+| T-006 | Technological metaphor | `technological_metaphor` | Technical systems, software/hardware mappings and digital/physical analogies | Technical writing, system documentation, interface analysis |
+| T-007 | Conflict and resilience | `conflict_resilience` | Incidents, constraints, fault handling, continuity and recovery sequences | Incident reporting, operational documentation, recovery analysis |
+| T-008 | Linguistic hybridity | `linguistic_hybridity` | Multiple languages, locale switching, terminology variants and mixed registers | Translation assessment, interface localization, terminology analysis |
+| T-009 | Surreal juxtaposition and wordplay | `surreal_juxtaposition` | Unexpected associations, ambiguous labels, category mismatches and controlled wordplay | Label review, ambiguity analysis, controlled wordplay annotation |
 
 The cluster is a navigation and analysis label, not a verdict about the source. T-009 was added in ontology `2026.12`; records tagged with it must declare that version. Existing `2026.11` records remain valid and are not silently rewritten. One work may carry more than one cluster in a future multi-label schema; the current record format deliberately assigns one primary cluster so its first implementation remains deterministic.
 
