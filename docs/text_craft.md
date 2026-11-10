@@ -41,7 +41,11 @@ A refrain is grouped only when its normalized written lines match exactly. Near-
 
 ### language_mix_profile(text)
 
-Counts words written in Latin, Cyrillic, other, or mixed scripts and identifies lines containing both Latin and Cyrillic words. This detects visible writing-system changes, not a definitive natural language. In particular, Russian and Ukrainian both use Cyrillic; the analyzer does not pretend that script alone can reliably distinguish them.
+Counts words written in Latin, Cyrillic, other, or mixed scripts and identifies lines containing both Latin and Cyrillic words. It also returns `script_character_counts` and `script_word_counts` records for named Unicode writing systems, including Han, Hiragana, Katakana, Hangul, Greek, Arabic, Hebrew, Devanagari, Thai, Bopomofo, Armenian, Georgian, Bengali, Tamil, Telugu, and Ethiopic. `multi_script_lines` identifies any line containing more than one writing system, while the legacy Latin/Cyrillic fields remain unchanged.
+
+This detects writing systems, not definitive natural languages. Han does not distinguish Chinese, Japanese kanji, or other Han use by itself; Cyrillic does not distinguish Russian from Ukrainian; Latin script does not prove that a segment is romanization. The output explicitly reports `language_identification = not_performed`. A language hint or transliteration scheme must come from the caller or a human reviewer. Character counts are preferable to whitespace-token counts for scripts that commonly omit spaces between words.
+
+Neutral fixture: `examples/multilingual_signal_profile.sambu`. Full field meanings and metadata states: [Multilingual Signal Pipeline](MULTILINGUAL_SIGNAL_PIPELINE.md).
 
 ### syllables(word) and rhyme_key(word)
 
