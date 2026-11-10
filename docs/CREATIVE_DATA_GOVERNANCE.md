@@ -117,7 +117,7 @@ The tool validates supplied labels. It does not classify unannotated text, gener
 
 ## 6. Corpus fixture and Text Craft crosswalk
 
-The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains nine compact, source-free annotations representing recurring patterns in the supplied March–April 2025 material. Each record is marked `NEEDS_REVIEW`: the fixture demonstrates schema shape, not a completed content or safety review.
+The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains nine compact, source-free annotations representing recurring patterns in the supplied March–April 2025 material. The current sample covers eight of the nine registered clusters; T-003 remains in the ontology but is not represented by a fixture row. The validator checks that every included cluster ID and theme matches the registry; it does not invent missing annotations to force one-row-per-cluster coverage. Each record is marked `NEEDS_REVIEW`: the fixture demonstrates schema shape, not a completed content or safety review.
 
 | Observed pattern in the material | SAMBU representation |
 |---|---|
