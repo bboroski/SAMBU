@@ -438,3 +438,6 @@ ANATIDAE_BUILTINS: dict[str, Callable[[list[object]], object]] = {
 }
 
 __all__ = ["AnatidaeProfile", "ANATIDAE_BUILTINS"]
+
+# Canonical MCL terminology; the historical symbol remains supported.
+BiologicalProfile = AnatidaeProfile
