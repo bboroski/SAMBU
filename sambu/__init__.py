@@ -98,3 +98,9 @@ from .creative_metadata import (  # noqa: F401
 from .creative_learning import (  # noqa: F401
     CREATIVE_PREFERENCE_FEATURES, CreativeLearningError, CreativeLearningProfile,
 )
+
+from .physics import (  # noqa: F401
+    MotionSample, constant_acceleration, first_order_response, kinetic_energy,
+    newton_force, rc_voltage, sample_animatronic_joint,
+    sample_quintic_trajectory, spring_damper_force, thermal_response,
+)
