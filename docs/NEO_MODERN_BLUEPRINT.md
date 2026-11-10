@@ -1,13 +1,13 @@
-# Neo-Modern Diplomat — executable planning blueprint
+# Systems Operations — executable planning blueprint
 
-This document maps the four-pillar manifesto to SAMBU's current deterministic models. The language makes assumptions explicit and testable; it does not claim to run the external products named in the concept.
+This document maps the four-domain technical model to SAMBU's current deterministic models. The language makes assumptions explicit and testable; it does not claim to run the external products named in the concept.
 
 ## 1. Sound production architecture
 
 Use `audio_profile` to turn a creative brief into validated, machine-readable production metadata:
 
 ```sambu
-let mix = audio_profile("Neo Modern Diplomat", 150, 60, 15, -0.3, true, true, true, true, true)
+let mix = audio_profile("Systems Operations", 150, 60, 15, -0.3, true, true, true, true, true)
 print(mix.bpm)
 print(mix.immediate_entry)
 print(mix.stereo_mastering)
