@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bboroski/SAMBU/blob/main/data/physics/closed_domain_metric.schema.json",
+  "title": "SAMBU Closed-Domain Metric Model CDM-1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "domain_id",
+    "coordinates",
+    "metric_tensor",
+    "boundary",
+    "exchange_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "domain_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "interpretation": {
+      "type": "string",
+      "enum": [
+        "phenomenological_model",
+        "simulation_input",
+        "research_hypothesis"
+      ]
+    },
+    "coordinates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dimension",
+        "signature",
+        "basis"
+      ],
+      "properties": {
+        "dimension": {
+          "const": 4
+        },
+        "signature": {
+          "enum": [
+            "-+++",
+            "+---"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "metric_tensor": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "array",
+        "minItems": 4,
+        "maxItems": 4,
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric_variation"
+      ],
+      "properties": {
+        "metric_variation": {
+          "enum": [
+            "dirichlet",
+            "neumann"
+          ]
+        }
+      }
+    },
+    "exchange_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "matter",
+        "energy",
+        "information"
+      ],
+      "properties": {
+        "matter": {
+          "type": "boolean"
+        },
+        "energy": {
+          "type": "boolean"
+        },
+        "information": {
+          "type": "boolean"
+        }
+      }
+    },
+    "energy_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initial_j",
+        "final_j",
+        "tolerance_j"
+      ],
+      "properties": {
+        "initial_j": {
+          "type": "number",
+          "minimum": 0
+        },
+        "final_j": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tolerance_j": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "mass_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "mechanism",
+        "rest_energy_j",
+        "effective_rest_mass_kg"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unverified_hypothesis",
+            "energy_equivalent_only"
+          ]
+        },
+        "mechanism": {
+          "enum": [
+            "metric_stiffness_hypothesis",
+            "declared_rest_energy"
+          ]
+        },
+        "rest_energy_j": {
+          "type": "number",
+          "minimum": 0
+        },
+        "effective_rest_mass_kg": {
+          "type": "number",
+          "minimum": 0
+        },
+        "relative_tolerance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.01
+        }
+      }
+    }
+  }
+}
