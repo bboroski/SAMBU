@@ -22,7 +22,7 @@ The repository now includes the first bounded concurrency and safety primitives 
 
 The language runtime exposes actors, supervision and typed-channel built-ins. The generator scheduler, resource scope and authorization helpers are Python host APIs. This is an experimental containment slice, not a native fiber scheduler or full parallel runtime. It does not add static race/deadlock analysis, RAII, ownership checking, HSM hardware access, device buses, native stacks or multicore execution.
 
-The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md). The six archetype-derived rules are specified in [Cripple Archetype Engineering Charter](CRIPPLE_ARCHETYPE_CHARTER.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
+The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Systems Language Architecture](SYSTEMS_LANGUAGE_ARCHITECTURE.md). The six engineering domains are specified in [Engineering Capability and Reliability Charter](ENGINEERING_CAPABILITY_CHARTER.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
 
 ## 1.1. Autonomy constitution and status audit
 

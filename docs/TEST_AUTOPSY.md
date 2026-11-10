@@ -14,9 +14,9 @@ The autopsy groups tracebacks into heuristic categories (assertion, import or de
 
 Limits: one to five runs per invocation; the runner executes tests in the selected directory with the current Python process permissions. Use isolated environments and trusted test suites.
 
-## Machine Ghost Ledger
+## Machine Failure Ledger
 
-SAMBU Machine includes a bounded in-memory `GhostLedger` for recurring failure signatures. It stores up to 10,000 unique records by default, deduplicates repeated fingerprints, increments occurrence counts and evicts the oldest distinct signature at capacity. Records contain a redacted error message, error class, bounded context and a source hash rather than the full source file.
+SAMBU Machine includes a bounded in-memory `FailureLedger` for recurring failure signatures. It stores up to 10,000 unique records by default, deduplicates repeated fingerprints, increments occurrence counts and evicts the oldest distinct signature at capacity. Records contain a redacted error message, error class, bounded context and a source hash rather than the full source file.
 
 Export and import use a versioned JSON schema. Redaction covers common credential patterns but cannot guarantee detection of every secret or personal datum; error messages and context labels must never be used as secret containers. The ledger is not a forensic vault or automatic telemetry service.
 

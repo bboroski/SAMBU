@@ -3,7 +3,7 @@
 **Baseline:** SAMBU 0.11.0  
 **Status:** Machine and headless IDE services are implemented as experimental Python APIs and CLI commands. This doctrine is the design contract; graphical editor, LSP transport, static type analysis and privileged host/device execution remain roadmap items.
 
-This document turns eight user-supplied concepts into implementable engineering rules. Character archetypes are design metaphors, not copied lore or claims about canon.
+This document defines implementable engineering rules for capability governance, controlled exploration, supervision, extension isolation, modularity and interoperability.
 
 ## 1. The SAMBU five-letter engineering code
 
@@ -13,7 +13,7 @@ SAMBU retains its historical scientific expansion. This is a second, engineering
 |---|---|---|---|
 | **S** | **Safety and staged sovereignty** | What is this component allowed to do? | Capability profiles, bounded inputs, explicit trust boundaries |
 | **A** | **Adaptive exploration** | What can be learned safely and cheaply? | Hypothesis-driven experiments, deterministic 1:100 AST sampling |
-| **M** | **Managed recovery and memory** | How are failures contained and remembered? | Actors, supervisors, bounded ten-thousand-entry Ghost Ledger |
+| **M** | **Managed recovery and memory** | How are failures contained and remembered? | Actors, supervisors, bounded ten-thousand-entry failure ledger |
 | **B** | **Branchable, board-layered design** | Can one layer evolve without destabilizing the whole? | Plywood layering, explicit contracts, dependency graph, reversible changes |
 | **U** | **Unforced interoperability and user sovereignty** | Can users integrate, leave, fork and upgrade without coercion? | Stable interfaces, adapters, compatibility tests and migration records |
 
@@ -21,11 +21,11 @@ The letters define a closed engineering loop:
 
 `S` constrains an experiment → `A` selects evidence → `M` records outcomes → `B` isolates and validates a change → `U` preserves compatibility and user choice → the next cycle begins with better evidence.
 
-## 2. Character-inspired engineering patterns
+## 2. Engineering capability patterns
 
-The supplied character set is converted into six non-literal engineering patterns:
+The six engineering domains are expressed as direct technical responsibilities:
 
-### Alucard — controlled release of capability
+### Capability tiering — controlled access to capability
 
 The metaphor of restriction levels becomes least-privilege profiles. A component receives only the operations it needs. Increasing privilege requires an explicit profile change and must not happen because code asks for it.
 
@@ -40,27 +40,27 @@ Current `MachineProfile` levels:
 
 The `host` and `device` levels are reservation points, not implementations of shell execution, network access, GPIO, MMIO or HSM access. A profile name never grants a capability that lacks an implemented adapter. Unknown profiles fail closed.
 
-### Ging Freecss — exploration with receipts
+### Deterministic exploration — reproducible discovery with evidence
 
 A research-oriented toolchain should make it easy to inspect unfamiliar code, test a hypothesis, branch an experiment and keep the discovery even when the experiment fails. The 1:100 sampler provides a repeatable sample of typed AST statements. It does not randomly rewrite code or silently alter project files.
 
 Every sample carries path, source range, node kind and a SHA-256 fingerprint. The seed and ratio are recorded so another developer can reproduce the same sample against the same source snapshot.
 
-### Raijin — accountable supervision
+### Bounded supervision — accountable recovery
 
 The supervisor tree is the operational authority for actors. Failure is contained within a named boundary, restarts are limited by a rolling budget, and exhausted budgets escalate to a parent. Each recovery action is inspectable. No process is declared healthy merely because it restarted.
 
-### Djinn — hidden capability boundaries
+### Extension isolation — explicit capability boundaries
 
 Extensions, plugins and host callbacks are untrusted until a host has declared and validated what they may access. SAMBU should avoid ambient authority: a module must not receive filesystem, process, network or hardware power simply because it was imported.
 
 The current profiles provide a conservative permission vocabulary. A future plugin sandbox requires OS-level isolation, resource limits, signed provenance and an explicit IPC contract; a Python callback alone is not a sandbox.
 
-### Uchiha Madara — reject the all-controlling monolith
+### Federated module governance — reject the all-controlling monolith
 
 The language must not force one global implementation, one mutable global state or one mandatory deployment shape. Keep layers replaceable, permit independent backends and forks, and use reversible migrations. A central coordinator may report and validate; it must not silently rewrite every project or override local policy.
 
-### Shanks — compatibility as diplomacy
+### Versioned interoperability — compatibility across independent components
 
 A strong ecosystem keeps protocols stable enough for independent tools to cooperate. Prefer adapters and versioned contracts over hard-coded provider assumptions. Breaking changes require a migration guide, deprecation interval and compatibility tests. Users retain the ability to export their source, evidence and project data.
 
@@ -131,9 +131,9 @@ sambu machine sample . --ratio 100 --seed 17 --json
 The result is a sample, never a proof of correctness. Critical modules still require complete tests, review, threat analysis and boundary checks.
 Sample excerpts contain real source text and may include proprietary code or credentials. Keep reports local and review/redact them before sharing; deterministic fingerprints do not make code excerpts safe to publish.
 
-## 5. Ten thousand dead spirits — Ghost Ledger
+## 5. Bounded failure ledger
 
-“Ten thousand dead spirits” is the project's failure-memory metaphor. A `GhostLedger` stores up to **10,000 unique failure fingerprints** by default. It preserves engineering memory without retaining complete source files or arbitrary local program state.
+“Ten thousand dead spirits” is the project's failure-memory metaphor. A `FailureLedger` stores up to **10,000 unique failure fingerprints** by default. It preserves engineering memory without retaining complete source files or arbitrary local program state.
 
 Each record contains:
 - stable SHA-256 fingerprint;
@@ -148,17 +148,17 @@ Repeated identical failures increment a counter instead of filling the ledger wi
 Secrets such as `password=`, `token=`, authorization values and URL credentials are redacted before storage. Redaction is a defense-in-depth filter, not a guarantee that all proprietary or personal data can be detected. Do not put secrets in error messages or context labels.
 
 ~~~python
-from sambu import GhostLedger
+from sambu.machine import FailureLedger
 
-ghosts = GhostLedger()  # default ceiling: 10,000 unique signatures
-ghosts.record(
+failure_ledger = FailureLedger()  # default ceiling: 10,000 unique signatures
+failure_ledger.record(
     RuntimeError("token=do-not-store this request failed"),
     source="let answer = 1 / 0",
     category="runtime",
     context="calculation-example",
 )
-print(ghosts.count)
-snapshot = ghosts.to_json()
+print(failure_ledger.count)
+snapshot = failure_ledger.to_json()
 ~~~
 
 The Machine records parser/workspace failures and runtime failures it executes through `run_source`. It does not upload reports automatically.

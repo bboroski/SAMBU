@@ -19,7 +19,7 @@ from .lexer import SambuSyntaxError
 from .parser import parse_ast
 
 
-MAX_GHOSTS = 10_000
+MAX_FAILURE_RECORDS = 10_000
 MAX_SOURCE_BYTES = 2_000_000
 MAX_TOTAL_SOURCE_BYTES = 32_000_000
 MAX_SAMPLE_EXCERPT_BYTES = 8_192
@@ -473,7 +473,7 @@ class CodeSampler:
 
 
 @dataclass(frozen=True, slots=True)
-class GhostRecord:
+class FailureRecord:
     fingerprint: str
     error_type: str
     category: str
@@ -494,16 +494,16 @@ def _redact(text: str) -> str:
     return value[:512]
 
 
-class GhostLedger:
+class FailureLedger:
     """A bounded, deduplicating ledger of up to ten thousand failure signatures.
 
     It stores redacted messages and source hashes, not source files or local
     variables. It stays in memory unless the caller explicitly exports JSON.
     """
 
-    def __init__(self, *, capacity: int = MAX_GHOSTS):
-        self.capacity = _bounded_int(capacity, "capacity", 1, MAX_GHOSTS)
-        self._records: OrderedDict[str, GhostRecord] = OrderedDict()
+    def __init__(self, *, capacity: int = MAX_FAILURE_RECORDS):
+        self.capacity = _bounded_int(capacity, "capacity", 1, MAX_FAILURE_RECORDS)
+        self._records: OrderedDict[str, FailureRecord] = OrderedDict()
 
     def record(
         self,
@@ -512,7 +512,7 @@ class GhostLedger:
         source: str = "",
         category: str = "runtime",
         context: str = "",
-    ) -> GhostRecord:
+    ) -> FailureRecord:
         error_type = type(error).__name__ if isinstance(error, BaseException) else "Failure"
         message = _redact(str(error))
         safe_category = _redact(category)[:64]
@@ -523,7 +523,7 @@ class GhostLedger:
         ).hexdigest()
         previous = self._records.get(fingerprint)
         if previous is not None:
-            updated = GhostRecord(
+            updated = FailureRecord(
                 previous.fingerprint, previous.error_type, previous.category,
                 previous.message, previous.source_hash, previous.context,
                 previous.occurrences + 1,
@@ -531,7 +531,7 @@ class GhostLedger:
             self._records[fingerprint] = updated
             self._records.move_to_end(fingerprint)
             return updated
-        item = GhostRecord(
+        item = FailureRecord(
             fingerprint, error_type, safe_category, message,
             source_hash, safe_context, 1,
         )
@@ -540,7 +540,7 @@ class GhostLedger:
             self._records.popitem(last=False)
         return item
 
-    def snapshot(self) -> tuple[GhostRecord, ...]:
+    def snapshot(self) -> tuple[FailureRecord, ...]:
         return tuple(self._records.values())
 
     @property
@@ -571,33 +571,33 @@ class GhostLedger:
         )
 
     @classmethod
-    def from_json(cls, raw: str) -> "GhostLedger":
+    def from_json(cls, raw: str) -> "FailureLedger":
         if not isinstance(raw, str) or len(raw.encode("utf-8")) > 32_000_000:
-            raise ValueError("ghost ledger JSON must be text no larger than 32 MB")
+            raise ValueError("failure ledger JSON must be text no larger than 32 MB")
         payload = json.loads(raw)
         if (
             not isinstance(payload, dict)
             or type(payload.get("schema_version")) is not int
             or payload.get("schema_version") != 1
         ):
-            raise ValueError("unsupported ghost ledger schema")
-        capacity = _bounded_int(payload.get("capacity"), "capacity", 1, MAX_GHOSTS)
+            raise ValueError("unsupported failure ledger schema")
+        capacity = _bounded_int(payload.get("capacity"), "capacity", 1, MAX_FAILURE_RECORDS)
         records = payload.get("records")
         if not isinstance(records, list) or len(records) > capacity:
-            raise ValueError("invalid or oversized ghost record list")
+            raise ValueError("invalid or oversized failure record list")
         ledger = cls(capacity=capacity)
         for entry in records:
             if not isinstance(entry, dict):
-                raise ValueError("ghost entry must be an object")
+                raise ValueError("failure entry must be an object")
             fields_required = ("fingerprint", "error_type", "category", "message", "source_hash", "context")
             if any(not isinstance(entry.get(key), str) for key in fields_required):
-                raise ValueError("ghost record text fields are malformed")
+                raise ValueError("failure record text fields are malformed")
             fingerprint = entry["fingerprint"]
             source_hash = entry["source_hash"]
             if not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
-                raise ValueError("ghost fingerprint is malformed")
+                raise ValueError("failure fingerprint is malformed")
             if not re.fullmatch(r"[0-9a-f]{64}", source_hash):
-                raise ValueError("ghost source hash is malformed")
+                raise ValueError("failure source hash is malformed")
             error_type = _redact(entry["error_type"])[:128]
             category = _redact(entry["category"])[:64]
             message = _redact(entry["message"])
@@ -606,9 +606,9 @@ class GhostLedger:
                 f"{error_type}\0{category}\0{message}\0{source_hash}\0{context}".encode("utf-8")
             ).hexdigest()
             if expected != fingerprint:
-                raise ValueError("ghost fingerprint does not match its redacted record")
+                raise ValueError("failure fingerprint does not match its redacted record")
             occurrences = _bounded_int(entry.get("occurrences"), "occurrences", 1, 2**31 - 1)
-            ledger._records[fingerprint] = GhostRecord(
+            ledger._records[fingerprint] = FailureRecord(
                 fingerprint, error_type, category, message, source_hash,
                 context, occurrences,
             )
@@ -775,9 +775,9 @@ class SambuMachine:
     """Headless project control plane for sampling, checks and failure evidence."""
 
     def __init__(
-        self, *, ghost_capacity: int = MAX_GHOSTS, profile: str = "sandbox"
+        self, *, failure_capacity: int = MAX_FAILURE_RECORDS, profile: str = "sandbox"
     ):
-        self.ghosts = GhostLedger(capacity=ghost_capacity)
+        self.failures = FailureLedger(capacity=failure_capacity)
         self.sampler = CodeSampler()
         self.design = default_plywood_design()
         self.profile = MachineProfile.named(profile)
@@ -830,7 +830,7 @@ class SambuMachine:
                 line = getattr(exc, "line", 1)
                 column = getattr(exc, "column", 1)
                 issues.append(WorkspaceIssue(relative, str(code), str(exc)[:512], int(line), int(column)))
-                self.ghosts.record(exc, source="", category="syntax", context=relative)
+                self.failures.record(exc, source="", category="syntax", context=relative)
             else:
                 valid_files += 1
         return WorkspaceCheckReport(
@@ -844,5 +844,5 @@ class SambuMachine:
         try:
             return execute(source, output=output)
         except Exception as exc:
-            self.ghosts.record(exc, source=source, category="execution", context=context)
+            self.failures.record(exc, source=source, category="execution", context=context)
             raise
