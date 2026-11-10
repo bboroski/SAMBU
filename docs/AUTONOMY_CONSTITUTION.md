@@ -160,7 +160,7 @@ A status applies to the evidence stated in that row, not to an aspirational inte
 | AUT-97 | Debug at source level | Partial | AST source spans and stable parser/lexer diagnostics exist; no full stepping debugger or source-mapped native stack unwinder exists. | Deliver source breakpoints, stepping, locals, stack traces and backend source maps. |
 | AUT-98 | Evolve from architectural need | Partial | The roadmap is status-labelled and contract-driven; governance does not yet require a written problem statement for every proposal. | Adopt an RFC template with problem, evidence, alternatives, impact and measurable acceptance criteria. |
 | AUT-99 | Teach through the ecosystem | Planned | Documentation and executable examples exist; no integrated interactive tutorial, progressive learning path or persistent REPL is shipped. | Add offline tutorials and a REPL lesson runner with validated expected results. |
-| AUT-100 | Keep architecture coherent | Planned | The 50-rule constitution, 101 low-level contracts and tests provide a start; there is no single versioned architecture conformance report. | Generate one architecture report from rule IDs, code evidence, tests, statuses and outstanding gates. |
+| AUT-100 | Keep architecture coherent | Planned | The 100-rule constitution, 101 low-level contracts and tests provide a start; there is no single versioned architecture conformance report. | Generate one architecture report from rule IDs, code evidence, tests, statuses and outstanding gates. |
 
 ## Dependency and sovereignty boundary
 

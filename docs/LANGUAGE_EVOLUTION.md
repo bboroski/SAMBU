@@ -26,9 +26,9 @@ The full feature contract, runnable examples, limits and C++-class capability ro
 
 ## 1.1. Autonomy constitution and status audit
 
-The companion [50-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and sovereignty requirements to the 0.11 repository baseline. Each rule has a stable `AUT-01`–`AUT-50` ID, a truthful status, current evidence and an acceptance gate. The companion matrix is independently checked by `tests/test_autonomy_constitution.py`.
+The companion [100-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and sovereignty requirements to the 0.11 repository baseline. It preserves stable AUT-01–AUT-100 IDs, truthful statuses, current evidence and acceptance gates. The matrix is organized into two thematic series of 50 rules across ten blocks and is independently checked by tests/test_autonomy_constitution.py.
 
-The 50-rule matrix complements, rather than replaces, the 101 lower-level language contracts in this document. Its purpose is to prevent architectural aspirations from being reported as shipped capabilities.
+The 100-rule matrix complements, rather than replaces, the 101 lower-level language contracts in this document. Its purpose is to prevent architectural aspirations from being reported as shipped capabilities.
 
 ## 2. Constitutional principles
 

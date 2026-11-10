@@ -54,11 +54,12 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 | Native snapshots / fault-node graph / dump differencing | Specification only | Open issue [#17](https://github.com/bboroski/SAMBU/issues/17) describes portable snapshots, fault-node graphs and differential dump analysis | No implementation evidence yet; start with a versioned portable snapshot format and corruption/round-trip tests |
 | Tests / CI | Implemented and tested | .github/workflows/tests.yml, .github/workflows/native.yml; Python 3.10–3.13, web integrations, Bevy bridge, C11 CTest; exact-HEAD runs above | Main branch protection endpoint reported required-check enforcement as off; do not infer merge gating from green runs alone |
 | Packaging / dependencies | Implemented partially | pyproject.toml: Python >=3.10, no mandatory dependencies, optional web extras, CLI entry points | Add wheel/sdist build and installed-artifact smoke tests; preserve Python 3.10+ until a tested compatibility decision exists |
-| Documentation / release notes | Implemented partially | README, language, integration, IDE, Magento and native architecture docs; CHANGELOG exists | Quality matrix/policy/catalog were absent at audit start; link validation and claims-to-code review remain to be added |
+| Documentation / release notes | Implemented partially | README, language, integration, IDE, Magento and native architecture docs; CHANGELOG exists | Quality matrix/policy/catalog were absent at audit start and are added on this branch; link validation and claims-to-code review remain to be added |
+| Autonomy constitution / rule catalog | Implemented and tested | docs/AUTONOMY_CONSTITUTION.md contains 100 ordered AUT rules in ten blocks; docs/LANGUAGE_EVOLUTION.md contains 101 numbered technical contracts; tests/test_autonomy_constitution.py checks IDs, statuses, block counts and the architecture link | Behavioral test traceability is not complete for every rule; preserve source statuses and map implementation tests incrementally |
 | Workflow permissions / security | Implemented partially | At audit start both workflows omitted explicit permissions; this branch adds contents: read and a stdlib regression test | Verify this branch CI before merge; review future workflows with the same least-privilege rule; branch-protection settings remain unclear |
 | Performance | Implemented partially | benchmarks/benchmark_voxels.py and CI smoke run exist | No comparable SAMBU-vs-PHP benchmark or general runtime profile; make no speed claims without controlled measurements |
 
-## Current pull-request and issue context
+## Open work at audit start
 
 - Open PR [#16](https://github.com/bboroski/SAMBU/pull/16) proposes unit-return MIR/LIR terminators. It is still a draft; its observed check-runs were green, but draft state is preserved and it is not merged.
 - Open PR [#18](https://github.com/bboroski/SAMBU/pull/18) concerns grammar and GitHub Linguist readiness notes.
@@ -79,4 +80,4 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 
 ## This iteration
 
-The main-HEAD audit above was read-only. This branch adds explicit contents: read permissions to both CI workflows, a standard-library regression test, and the quality evidence documents. The PR's own workflow status must be read from its exact head SHA; the main-branch PASS above does not certify this branch.
+The main-HEAD audit above was read-only. This branch adds explicit contents: read permissions to both CI workflows, a standard-library regression test, and the quality evidence documents. The existing 100-rule source was found in docs/AUTONOMY_CONSTITUTION.md and normalized as Series I (AUT-01–AUT-50) and Series II (AUT-51–AUT-100); the 101 lower-level contracts in docs/LANGUAGE_EVOLUTION.md are cross-referenced. The PR's own workflow status must be read from its exact head SHA; the main-branch PASS above does not certify this branch.

@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Added explicit read-only contents: read permissions to both GitHub Actions workflows and a standard-library regression test for least-privilege workflow configuration.
-- Added an evidence-backed quality state matrix, automatic-improvement policy and versioned rule-catalog baseline; the unavailable original 100-rule source is explicitly marked as incomplete.
+- Added an evidence-backed quality state matrix, automatic-improvement policy and versioned rule catalog indexing the existing AUT-01–AUT-100 constitution and cross-referencing the 101 language contracts.
 - Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
 - Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
 
