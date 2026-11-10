@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
+- Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
+
+
+## Unreleased
+
 - Added five deterministic ecosystem-inspired SAMBU built-ins: imprint_closure, v_vector_stream, countercurrent_sync, biometric_taxonomy_sort and wetland_ecosystem_loop, plus exact-name aliases.
 - Added immutable context capture, deterministic worker partition plans, bounded tier-transfer planning, binary trait classification and capacity-based scaling recommendations.
 - Added runnable examples, implementation-boundary documentation and regression tests; actual threads, hardware cache I/O, phylogeny inference and cloud/GC control remain outside these pure planners.
