@@ -1,0 +1,16 @@
+# A compact, multilingual composition-analysis fixture.
+# The source strings are synthetic and contain no personal data.
+let draft = "[Verse 1]\nПишу короткий фрагмент\n[Chorus]\nA melody returns\n[Куплет 2]\nEnglish and українські слова\n[Припев]\nA melody returns"
+
+let structure = text_structure_profile(draft)
+let languages = language_mix_profile(draft)
+let sound = prosody_profile(draft)
+
+print("Sections:")
+print(structure.section_count)
+print("Repeated refrain blocks:")
+print(structure.refrain_groups[0].repeat_count)
+print("Latin/Cyrillic switch lines:")
+print(languages.code_switch_line_count)
+print("Estimated syllables:")
+print(sound.syllable_counts)
