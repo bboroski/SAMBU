@@ -74,6 +74,31 @@ class SambuEditorGrammarTests(unittest.TestCase):
                 self.assertIsNotNone(match)
                 self.assertEqual(match.group(0), name)
 
+    def test_pascal_delphi_and_fortran_keywords_are_highlighted(self):
+        expression = re.compile(self.repository["keywords"]["match"])
+        dialect_words = {
+            "program", "unit", "uses", "var", "const", "type", "begin", "end",
+            "then", "to", "downto", "do", "function", "procedure", "interface",
+            "implementation", "initialization", "finalization", "public",
+            "private", "protected", "published", "property", "implicit", "none",
+            "integer", "int", "real", "double", "precision", "logical",
+            "character", "module", "contains", "recursive", "result",
+            "subroutine", "print", "write", "call", "array",
+        }
+        for word in dialect_words:
+            with self.subTest(word=word):
+                self.assertIsNotNone(expression.search(word))
+
+    def test_pascal_and_fortran_comment_forms_are_registered(self):
+        names = {pattern["name"] for pattern in self.repository["comments"]["patterns"]}
+        self.assertTrue({
+            "comment.line.number-sign.sambu",
+            "comment.line.double-slash.pascal",
+            "comment.line.exclamation.fortran",
+            "comment.block.curly.pascal",
+            "comment.block.parenthesized-pascal",
+        }.issubset(names))
+
     def test_both_string_delimiters_are_supported(self):
         string_patterns = self.repository["strings"]["patterns"]
         self.assertEqual(
