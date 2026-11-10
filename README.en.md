@@ -1,61 +1,54 @@
 <div align="center">
 
-<img src="assets/sambu-ducklings.svg" alt="SAMBU duck family — project illustration" width="100%" />
+<img src="assets/architecture-map.svg" alt="Layered architecture of the computation environment" width="100%" />
 
-# SAMBU
+# MCL — Multidomain Computation Language
 
-### Statistical Analysis · Modeling · Systems · Trust
+### Computation language · scientific modeling · systems workflows
 
-**A small language with a wide horizon.**
+**Formalize. Compute. Verify.**
 
-An experimental, Python-hosted language and toolkit for scientific computing, explicit modeling, systems architecture, workflows and sparse voxel worlds.
+MCL is an experimental interpreted environment and Python toolkit for scientific computing, explicit modeling, systems architecture, bounded workflows, and sparse voxel structures.
 
 [Українська](README.md) · [English](README.en.md) · [Русский](README.ru.md)
 
-[![Version](https://img.shields.io/badge/version-0.11.0--alpha-536D8E?style=for-the-badge)](https://github.com/bboroski/SAMBU)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-26866B?style=for-the-badge)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/bboroski/SAMBU/tests.yml?branch=main&style=for-the-badge&label=checks)](https://github.com/bboroski/SAMBU/actions)
-
-[Quick start](#-quick-start) · [Language](#-the-sambu-language) · [Capabilities](#-capability-map) · [Developer tools](#-developer-tools) · [Documentation](#-documentation)
 
 </div>
 
 ---
 
-> **Maturity: experimental alpha.** The interpreter, selected domain modules and CLI tools are implemented and testable. A native compiler, complete static type/effect system, full LSP IDE and some integrations remain development goals.
+> **Maturity: experimental alpha.** The interpreter, selected domain modules, and command-line tools are implemented and testable. A native compiler, complete static type/effect system, finished LSP IDE, and some integrations remain development goals.
 
-## What is SAMBU?
+## Purpose
 
-SAMBU combines an interpreted language for .sambu programs with a Python package for scientific, architectural and workflow tasks. Its engineering priorities are explicit assumptions, bounded operations, inspectable results and modular evolution.
+MCL combines an interpreted language with a Python package for scientific, engineering-modeling, and workflow tasks. Its priorities are explicit assumptions, bounded operations, reproducible results, inspectable contracts, and modular evolution.
 
 ## Capability map
 
-<img src="assets/architecture-map.svg" alt="SAMBU layered architecture: language surfaces, runtime, scientific modules, voxel systems and engineering toolkit" width="100%" />
-
-| Area | Available capabilities |
+| Area | Implemented capabilities |
 |---|---|
-| **Language core** | Hand-written lexer/parser, immutable source-aware AST, scopes, functions, bounded loops, arrays, records, classes and inheritance. |
-| **Scientific computing** | SI quantities, dimensional checks, physical constants, thermal energy, Maxwell speeds, Boltzmann factors, partition sums, entropy and reproducible sampling. |
-| **Sparse voxel systems** | Bounded chunks, affine frames, Morton keys, surface meshing, 3D DDA, sparse octrees, graph Laplacians and VOX interchange. |
-| **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; workflows, trust checks and reversible patching. |
-| **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, supervision and typed software channels. These are not native parallel execution. |
-| **Developer tools** | sambu CLI, sambu-studio read-only Magento XML inspector, sambu-ide Tkinter IDE shell, sambu-test and SAMBU Machine. |
-| **Creative-text analysis** | Deterministic section/refrain and compact-hook diagnostics, script-mix inspection, approximate prosody, explicit performance cues and nine-cluster metadata ontology (2026.12). |
+| **Language core** | Lexer/parser, immutable source-aware AST, scopes, functions, bounded loops, arrays, records, classes, and inheritance. |
+| **Scientific computing** | SI quantities, dimensional checks, physical constants, thermal energy, velocity distributions, Boltzmann factors, partition sums, entropy, and reproducible sampling. |
+| **Sparse geometry** | Bounded chunks, affine coordinate frames, Morton keys, surface meshing, 3D DDA, sparse octrees, graph Laplacians, and VOX interchange. |
+| **Engineering models** | Architecture graphs, inference routing, UI/MVC/RBAC models, workflows, trust checks, and reversible patches. |
+| **Runtime experiments** | Bounded actor mailboxes, sequential state commits, dead-letter records, supervision, and typed software channels; these are not native parallel execution. |
+| **Developer tools** | Command-line interface, read-only XML catalog inspector, Tkinter IDE, test runner, and architecture-profile inspection. |
+| **Text analysis** | Deterministic section/refrain parsing, script-mix inspection, approximate prosody, written performance cues, and nine metadata clusters. |
 
-### Articulatory syntax
+### Articulatory grammar
 
-A deterministic second syntax surface is generated as a matrix: **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 137 built-ins and 38 reserved forms.
+An additional syntax surface is defined by **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. This is a parser-level formal grammar, not natural-language understanding or model-generated code. See [ARTICULATORY_SYNTAX](docs/ARTICULATORY_SYNTAX.md).
 
-<img src="assets/articulatory-syntax.svg" alt="SAMBU articulatory syntax matrix with ten semantic families, five vowel grades and four grammatical roles" width="100%" />
-
-This is a formal parser-level syntax layer, not natural-language interpretation or model-generated code. Read the [full specification](docs/ARTICULATORY_SYNTAX.md).
+<img src="assets/articulatory-syntax.svg" alt="Formal articulatory grammar matrix" width="100%" />
 
 ### Sparse voxel pipeline
 
-<img src="assets/voxel-pipeline.svg" alt="SAMBU sparse voxel pipeline from occupied cells to spatial structures, geometry and renderer-neutral payloads" width="100%" />
+<img src="assets/voxel-pipeline.svg" alt="Conversion of occupied cells into spatial structures and geometry" width="100%" />
 
-Starter bridge source is available for Unity, Unreal Engine, Godot, Bevy and Open 3D Engine. A bridge profile or starter source does not mean a complete, packaged or hardware-validated plugin.
+Starter adapters are available for Unity, Unreal Engine, Godot, Bevy, and Open 3D Engine. A profile or starter source does not imply a complete or hardware-validated plugin.
 
 ## Quick start
 
@@ -65,7 +58,7 @@ Starter bridge source is available for Unity, Unreal Engine, Godot, Bevy and Ope
 git clone https://github.com/bboroski/SAMBU.git
 cd SAMBU
 python -m pip install -e .
-sambu --version
+mcl --version
 ~~~
 
 Create hello.sambu:
@@ -82,135 +75,66 @@ print(profile.rms)
 Run:
 
 ~~~bash
-sambu hello.sambu
-# or
-sambu -c 'print("Hello from SAMBU")'
+mcl hello.sambu
+mcl -c 'print("Hello from MCL")'
 ~~~
 
-Explore:
-
-~~~bash
-sambu examples/ideal_gas.sambu
-sambu examples/boltzmann_weights.sambu
-sambu examples/oop_and_games.sambu
-sambu examples/voxel_world.sambu
-sambu examples/supervised_runtime.sambu
-~~~
-
-## The SAMBU language
-
-The language supports declarations, expressions, user functions, conditionals, bounded iteration, arrays, records, field access and an experimental object model.
-
-~~~sambu
-fn square(value) {
-  return value * value
-}
-for number in range(1, 5) {
-  print(square(number))
-}
-let distance = 12 * m
-let duration = 3 * s
-print(distance / duration)
-~~~
-
-Physical quantities use SI-normalized values. Addition and comparison require compatible dimensions; multiplication and division combine dimension exponents. Documented loop and range paths enforce a 100,000-item ceiling.
-
-Articulatory example:
-
-~~~sambu
-kava temperature = 300 * K
-kava particle_mass = 6.6e-26 * kg
-kava profile = vava(temperature, particle_mass)
-lava(profile.rms)
-~~~
+The .sambu extension and existing sambu* commands remain for compatibility. The new mcl* commands are the recommended interface.
 
 ## Developer tools
 
 | Command | Purpose |
 |---|---|
-| sambu | Run files or inline code; generate project scaffolds. |
-| sambu-ide | Launch the lightweight Tkinter IDE. |
-| sambu-studio inspect PATH | Read-only inspection of supported Magento / Adobe Commerce XML. |
-| sambu-test tests --repeat 2 | Repeat tests and summarize outcome variation. |
-| sambu machine architecture | Validate declared architecture layers. |
-| sambu machine sample FILE --ratio 100 --seed 17 | Reproducible AST sampling. |
+| mcl | Run files or inline code; generate project scaffolds. |
+| mcl-ide | Launch the lightweight Tkinter IDE. |
+| mcl-studio inspect PATH | Read-only inspection of supported commerce-catalog XML. |
+| mcl-test tests --repeat 2 | Repeat tests and summarize outcome variation. |
+| mcl machine architecture | Validate declared architecture layers. |
+| mcl machine sample FILE --ratio 100 --seed 17 | Reproducible AST sampling. |
 
-The IDE includes editing, file open/save, F5 execution, output, diagnostics and RU/EN switching. It is not yet an LSP client. Machine supports architecture inspection and deterministic sampling, not complete static type/effect analysis or native compilation.
+The IDE supports editing, file open/save, F5 execution, output, diagnostics, and RU/EN switching. It is not yet an LSP client. Complete static type/effect analysis and native compilation are not claimed as implemented.
 
-Optional host adapters:
+## Text analytics and metadata
 
-~~~bash
-python -m pip install -e ".[flask]"
-python -m pip install -e ".[django]"
-python -m pip install -e ".[fastapi]"
-~~~
+Analysis functions describe structure rather than rate artistic quality: sections, exact refrain repeats, compact hooks, writing-system mix, approximate syllables, spelling-based rhyme groups, internal echoes, and written performance cues. They do not predict popularity, infer a speaker's identity or emotional state, or rewrite authored text.
 
-Authentication, transport security, persistence and authorization remain the host application's responsibility.
+The annotation ontology contains nine clusters. Supplied corpus examples are marked NEEDS_REVIEW; they are test fixtures, not approved training data.
 
-## Creative text analysis and corpus annotations
+See [Text Craft](docs/text_craft.md), [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), and [Open System and Hook Craft](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md).
 
-Text Craft provides deterministic, descriptive signals for multilingual creative drafts:
+## Engineering principles
 
-- section headings, exact repeated refrain blocks and compact-hook structure;
-- visible Latin/Cyrillic/other writing-system mix;
-- approximate syllable counts, spelling-based rhyme groups, internal echoes and alliteration;
-- author-marked casing and explicit written performance cues such as stage directions, parenthetical ad-libs, quoted phrases and elongated spellings.
+- **Safety:** explicit permissions and trust boundaries.
+- **Adaptive exploration:** reproducible, hypothesis-driven experiments.
+- **Managed recovery:** bounded memory, queues, work, and retries.
+- **Branchable design:** modular layers and explicit contracts.
+- **Interoperability:** stable interfaces and integrator choice.
 
-`hook_profile(text)` reports whether a hook has 2–4 non-empty lines, approximate rhyme groups, repeated terms/lines and syllable spread. It does not predict catchiness or audience response. `performance_cues_profile(text)` extracts written markers with source positions; it does not infer emotion, speaker identity or actual vocal delivery.
+Inspection and interpreter sandbox profiles are not operating-system security sandboxes. Reserved host/device adapters do not grant automatic shell, network, or hardware access.
 
-The metadata-only creative ontology is versioned at **2026.12** and contains nine human-assigned clusters (T-001…T-009). All supplied corpus examples are marked `NEEDS_REVIEW`; they are fixtures, not approved training data. The validator does not classify unannotated text and does not generate embeddings or fine-tune a model.
-
-~~~bash
-sambu creative clusters --json
-sambu creative validate examples/creative_corpus_metadata.sample.json --json
-sambu examples/performance_cues.sambu
-~~~
-
-See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) and [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
-
-## Engineering doctrine
-
-Five governing principles:
-
-- **Safety** — explicit capabilities and trust boundaries.
-- **Adaptive exploration** — reproducible, hypothesis-driven experiments.
-- **Managed recovery** — bounded memory, queues, work and retries.
-- **Branchable design** — modular layers and explicit contracts.
-- **Unforced interoperability** — stable interfaces and user choice.
-
-Machine adds capability profiles, deterministic 1:100 AST sampling and a bounded Ghost Ledger. Sealed allows inspection; sandbox allows execution in the SAMBU interpreter. Neither is an OS security sandbox. Host and device profiles reserve future adapters; they do not grant shell, network or hardware access.
-
-## Verification
+## Verification and status
 
 ~~~bash
 python -m unittest discover -s tests -v
-sambu-test tests --repeat 2
-sambu-test tests --repeat 2 --json
+mcl-test tests --repeat 2
+mcl-test tests --repeat 2 --json
 ~~~
 
-Reproducible voxel benchmarks are also included. Compare performance only under equivalent workloads and build configurations.
+**Implemented:** interpreted language core, Python modules, scientific helpers, sparse voxel operations, selected actor/channel primitives, CLI tools, architecture inspection, and IDE services.
 
-## Status and roadmap
+**Evolving:** static analysis, ownership/effect semantics, richer IDE integration, native toolchain stages, and host/device adapters.
 
-**Implemented:** interpreted language core, Python domain modules, scientific helpers, sparse voxel operations, selected actor/channel primitives, CLI tools, Machine inspection, IDE services and the Tkinter editor shell.
+**Not claimed as complete:** native compiler, self-hosting, full C++ ABI or other-language compatibility, production web framework, automatic deployment, or full LSP IDE.
 
-**Evolving:** static analysis, ownership/effect semantics, richer IDE integration, native toolchain stages and host/device adapters.
-
-**Not represented as complete:** native compiler, self-hosting, C++ ABI compatibility, full Pascal/Delphi/Fortran compatibility, production web framework, automatic deployment, OS sandbox or full LSP IDE.
-
-## Documentation
+## Documentation and contribution
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
-- [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [IDE Guide](docs/DUCK_STUDIO.md)
+- [Source](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
-## Contributing and license
+External API, platform, and file-format identifiers remain unchanged for interoperability. Internal naming migration must not silently alter the format of existing source files.
 
-Focused pull requests are welcome. Include a minimal reproducer, expected and actual behavior, relevant tests and any domain or security assumptions. MIT — see [LICENSE](LICENSE).
+## License
 
-<div align="center">
-
-**SAMBU — model clearly. compose carefully. verify honestly.** 🦆
-
-</div>
+MIT — see [LICENSE](LICENSE).
