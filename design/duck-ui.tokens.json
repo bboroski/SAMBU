@@ -1,51 +1,109 @@
 {
   "schema_version": "1.0.0",
-  "system": "Duck Black / Yellow",
-  "principles": ["clarity over decoration", "yellow is a semantic accent", "keyboard access is first-class", "scale without raster blur", "no color-only status encoding"],
+  "system": "Amber–Obsidian v2",
+  "principles": [
+    "clarity over decoration",
+    "amber is a semantic accent",
+    "keyboard access is first-class",
+    "scale without raster blur",
+    "no color-only status encoding"
+  ],
   "color": {
-    "canvas": "#0D0D0D",
-    "surface": "#1A1A1A",
-    "surface_alt": "#141414",
-    "surface_hover": "#202020",
-    "accent": "#FFD600",
-    "accent_muted": "#BFA100",
-    "accent_selected": "#332B00",
-    "text": "#E6E6E6",
-    "text_muted": "#999999",
-    "text_disabled": "#4D4D4D",
-    "border": "#262626",
-    "success": "#4CAF50",
-    "warning": "#FFD600",
-    "danger": "#FF4444",
-    "focus": "#FFD600"
+    "canvas": "#0B0B0D",
+    "surface": "#1C1C1E",
+    "surface_alt": "#141416",
+    "surface_hover": "#2C2C30",
+    "accent": "#FF9F0A",
+    "accent_muted": "#D97706",
+    "accent_selected": "#3A2408",
+    "text": "#F5F3EE",
+    "text_muted": "#A6A3AB",
+    "text_disabled": "#77747C",
+    "border": "#34343A",
+    "success": "#64C787",
+    "warning": "#FFBF47",
+    "danger": "#F16D65",
+    "focus": "#FF9F0A",
+    "secondary": "#A78BFA",
+    "unknown": "#A78BFA"
   },
   "typography": {
-    "ui": ["Inter", "Segoe UI", "Roboto", "sans-serif"],
-    "code": ["JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", "monospace"],
+    "ui": [
+      "Inter",
+      "Segoe UI",
+      "Roboto",
+      "sans-serif"
+    ],
+    "code": [
+      "JetBrains Mono",
+      "Cascadia Code",
+      "Fira Code",
+      "Consolas",
+      "monospace"
+    ],
     "body_size_px": 14,
     "body_line_height": 1.5,
     "heading_weight": 700,
     "body_weight": 400
   },
-  "spacing_px": [4, 8, 12, 16, 20, 24, 32, 40, 48],
-  "radii_px": {"small": 4, "control": 6, "card": 10, "modal": 12},
-  "motion_ms": {"micro": 120, "standard": 200, "maximum": 250},
+  "spacing_px": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40,
+    48
+  ],
+  "radii_px": {
+    "small": 6,
+    "control": 8,
+    "card": 14,
+    "modal": 16
+  },
+  "motion_ms": {
+    "micro": 120,
+    "standard": 200,
+    "maximum": 250
+  },
   "layout": {
     "ui_scale_min": 0.8,
-    "ui_scale_default": 1.0,
+    "ui_scale_default": 1,
     "ui_scale_max": 1.6,
-    "target_capture_px": [1920, 1080],
-    "minimum_capture_px": [1366, 768],
+    "target_capture_px": [
+      1920,
+      1080
+    ],
+    "minimum_capture_px": [
+      1366,
+      768
+    ],
     "compact_navigation_below_px": 1180,
     "collapse_secondary_panels_below_px": 980
   },
   "components": {
-    "primary_button": {"background": "#FFD600", "foreground": "#0D0D0D"},
-    "secondary_button": {"background": "#1A1A1A", "border": "#FFD600", "foreground": "#FFD600"},
-    "ghost_button": {"background": "transparent", "foreground": "#999999"},
-    "table_rows": ["#1A1A1A", "#141414"],
-    "focus_ring": "2px solid #FFD600",
-    "toast_accent_width_px": 4
+    "primary_button": {
+      "background": "#FF9F0A",
+      "foreground": "#0B0B0D"
+    },
+    "secondary_button": {
+      "background": "#1C1C1E",
+      "border": "#FF9F0A",
+      "foreground": "#F5F3EE"
+    },
+    "ghost_button": {
+      "background": "transparent",
+      "foreground": "#C8C3BA"
+    },
+    "table_rows": [
+      "#1C1C1E",
+      "#141416"
+    ],
+    "focus_ring": "2px solid #FF9F0A",
+    "toast_accent_width_px": 4,
+    "minimum_target_px": 36
   },
   "accessibility": {
     "minimum_text_contrast_ratio": 4.5,
@@ -55,9 +113,27 @@
     "high_contrast_mode_respected": true
   },
   "behavior": {
-    "yellow_usage": ["primary actions", "selected navigation", "focus", "progress", "high-priority warning"],
+    "yellow_usage": [
+      "primary actions",
+      "selected navigation",
+      "focus",
+      "progress",
+      "high-priority warning"
+    ],
     "reports_default_to_in_app_preview": true,
     "external_links_default_to_in_app_or_offline": true,
-    "animations_must_respect_reduced_motion": true
+    "animations_must_respect_reduced_motion": true,
+    "amber_usage": [
+      "primary actions",
+      "selected navigation",
+      "focus",
+      "progress",
+      "high-priority warning"
+    ],
+    "dim_mode": {
+      "supported_concept": true,
+      "reduce_decorative_glow": true,
+      "never_dim_text_or_warning_states": true
+    }
   }
 }
