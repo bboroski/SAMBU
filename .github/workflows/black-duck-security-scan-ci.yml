@@ -1,54 +1,91 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Black Duck SCA is the only provider enabled in this workflow.
+# Configure BLACKDUCKSCA_URL (Actions variable) and BLACKDUCKSCA_TOKEN (Actions secret)
+# as documented in docs/BLACK_DUCK_SECURITY_SCAN.md.
 
-# Black Duck Security Action allows you to integrate Static Analysis Security Testing (SAST) and Software Composition Analysis (SCA) into your CI/CD pipelines.
-# For more information about configuring your workflow,
-# read our documentation at https://github.com/blackduck-inc/black-duck-security-scan
-
-name: CI Black Duck security scan
+name: CI Black Duck SCA
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '42 18 * * 0'
+    - cron: "42 18 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blackduck-sca-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build:
+  blackduck-sca:
+    name: Black Duck SCA
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: read
-      pull-requests: write
-      security-events: write
-      actions: read
 
     steps:
+      - name: Validate Black Duck SCA configuration
+        id: config
+        shell: bash
+        env:
+          BLACKDUCKSCA_URL: ${{ vars.BLACKDUCKSCA_URL }}
+          BLACKDUCKSCA_TOKEN: ${{ secrets.BLACKDUCKSCA_TOKEN }}
+          IS_FORK_PULL_REQUEST: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork || false }}
+        run: |
+          set -euo pipefail
+
+          # GitHub intentionally withholds repository secrets from fork-originated
+          # pull_request workflows. Never switch to pull_request_target to work around it.
+          if [[ "$IS_FORK_PULL_REQUEST" == "true" ]]; then
+            echo "scan_enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Black Duck SCA skipped: GitHub does not expose repository secrets to fork pull requests."
+            exit 0
+          fi
+
+          missing_url=false
+          missing_token=false
+          if [[ -z "$BLACKDUCKSCA_URL" ]]; then
+            missing_url=true
+            echo "::error::Missing Actions variable BLACKDUCKSCA_URL."
+          fi
+          if [[ -z "$BLACKDUCKSCA_TOKEN" ]]; then
+            missing_token=true
+            echo "::error::Missing Actions secret BLACKDUCKSCA_TOKEN."
+          fi
+          if [[ "$missing_url" == "true" || "$missing_token" == "true" ]]; then
+            echo "::error::Configure both values using docs/BLACK_DUCK_SECURITY_SCAN.md, then rerun this workflow."
+            exit 1
+          fi
+
+          if [[ ! "$BLACKDUCKSCA_URL" =~ ^https://[^[:space:]]+$ ]]; then
+            echo "::error::BLACKDUCKSCA_URL must be an HTTPS base URL supplied by your Black Duck administrator."
+            exit 1
+          fi
+
+          echo "scan_enabled=true" >> "$GITHUB_OUTPUT"
+          echo "Black Duck SCA configuration is present. Credentials are not printed."
+
       - name: Checkout source
+        if: steps.config.outputs.scan_enabled == 'true'
         uses: actions/checkout@v4
+
       - name: Black Duck SCA scan
-        uses: blackduck-inc/black-duck-security-scan@805cbd09e806b01907bbea0f990723c2bb85abe9
+        if: steps.config.outputs.scan_enabled == 'true'
+        uses: blackduck-inc/black-duck-security-scan@152247222aa9cd38124acd5c0cf60f4db71adc3f
+        env:
+          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+          DETECT_PROJECT_VERSION_NAME: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref_name }}
         with:
-          ### ---------- BLACKDUCK SCA SCANNING: REQUIRED FIELDS ----------
           blackducksca_url: ${{ vars.BLACKDUCKSCA_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCKSCA_TOKEN }}
-
-          ### ---------- COVERITY SCANNING: REQUIRED FIELDS ----------
-          coverity_url: ${{ vars.COVERITY_URL }}
-          coverity_user: ${{ secrets.COVERITY_USER }}
-          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
-
-          ### ---------- POLARIS SCANNING: REQUIRED FIELDS ----------
-          polaris_server_url: ${{ vars.POLARIS_SERVER_URL }}
-          polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
-          polaris_assessment_types: "SCA,SAST"
-
-          ### ---------- SRM SCANNING: REQUIRED FIELDS ----------
-          srm_url: ${{ vars.SRM_URL }}
-          srm_apikey: ${{ secrets.SRM_API_KEY }}
-          srm_assessment_types: "SCA,SAST"
-
+          # Full branch scan on push/schedule/manual runs; differential PR scan on pull requests.
+          blackducksca_scan_full: ${{ github.event_name != 'pull_request' }}
+          # Keep the security gate explicit and consistent with the action's default policy.
+          blackducksca_scan_failure_severities: "CRITICAL,HIGH"
+          # Diagnostics are disabled to avoid uploading extra scan logs by default.
+          include_diagnostics: false
