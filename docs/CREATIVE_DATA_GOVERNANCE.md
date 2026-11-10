@@ -146,7 +146,39 @@ sambu examples/performance_cues.sambu
 The fixture contains no original poems, lyrics, quoted source passages, personal identifiers or generated training vectors. Its `source_ref` values are synthetic fixture identifiers, not references to user material. It is not a training set and does not imply that a human review has occurred. Its `2026.12` records use the current schema; existing `2026.11` records remain readable under the compatibility rules above.
 
 
-## 7. Future model and feedback work
+## 7. Opt-in creative preference learning
+
+`CreativeLearningProfile` is a small local preference ledger for iterative writing work. It accepts only explicit choices against a fixed set of dimensions: rhythm, naturalness, internal and multisyllabic rhyme, semantic clarity, refrain development, imagery, language mixing, register control and clean language.
+
+The design deliberately avoids hidden training:
+
+- collection is disabled by default and must be enabled by the caller after explicit opt-in;
+- each feedback action is a single `prefer` or `avoid` choice on a registered dimension;
+- only bounded aggregate counters are stored; drafts, prompts, excerpts, identifiers and raw feedback text are not accepted;
+- the in-memory profile is not persisted automatically; JSON export is an explicit caller action;
+- loading an export does not re-enable collection;
+- the profile is capped at 10,000 decisions and uses a versioned, validated JSON shape.
+
+Example:
+
+```python
+from sambu import CreativeLearningProfile
+
+# Create only after the user explicitly opts in.
+profile = CreativeLearningProfile(enabled=True)
+profile.record_feedback("rhythm", "prefer")
+profile.record_feedback("clean_language", "prefer")
+
+# Inspect aggregate preference signals.
+print(profile.preference("rhythm"))
+snapshot = profile.to_json()  # export only when the caller requests it
+```
+
+The normalized preference score is a descriptive balance of approved choices, not a confidence estimate, model prediction or measure of literary quality. This profile does not train a language model, rewrite a draft or infer preferences from usage. For each revision, the author still chooses whether to accept a proposed change.
+
+See [Creative Learning and the improvement loop](CREATIVE_LEARNING.md) for the end-to-end workflow and API boundaries.
+
+## 8. Future model and feedback work
 
 Any later semantic encoder must be a separate, optional subsystem with:
 
@@ -160,7 +192,7 @@ Any later semantic encoder must be a separate, optional subsystem with:
 
 Vector dimensions, inference latency, accuracy, training-set size and GPU requirements must be published only after measurements can be reproduced. The earlier design brief's example values are not current SAMBU benchmarks.
 
-## 8. Acceptance checklist
+## 9. Acceptance checklist
 
 - [x] Stable T-001 through T-009 registry with a versioned addition in `2026.12`.
 - [x] Backward read compatibility for `2026.11` metadata.
