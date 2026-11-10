@@ -53,13 +53,13 @@ def _strip_comment(
         if quote:
             if char == quote and not escaped:
                 quote = None
-            if char == "\\\\" and not escaped:
+            if char == "\\" and not escaped:
                 escaped = True
             else:
                 escaped = False
             i += 1
             continue
-        if char in "'\\"":
+        if char in "'\"":
             quote = char
             i += 1
             continue
