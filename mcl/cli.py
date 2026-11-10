@@ -4,8 +4,6 @@ from __future__ import annotations
 from typing import Sequence
 
 from sambu.cli import main as _language_main
-from sambu_studio.cli import main as _studio_main
-from sambu_ide.app import main as _ide_main
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -15,9 +13,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def studio_main() -> int:
     """Run the MCL static XML inspection utility."""
-    return _studio_main()
+    from sambu_studio.cli import main as studio_main\n\n    return studio_main()
 
 
 def ide_main() -> None:
     """Launch the MCL desktop editor."""
-    _ide_main()
+    from sambu_ide.app import main as ide_main\n\n    ide_main()
