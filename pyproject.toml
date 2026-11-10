@@ -31,9 +31,13 @@ sambu = "sambu.cli:main"
 sambu-studio = "sambu_studio.cli:main"
 sambu-ide = "sambu_ide.app:main"
 sambu-test = "sambu.testing:main"
+sambu-biology = "sambu.biology_domain:main"
 
 [tool.setuptools.packages.find]
 include = ["sambu*", "sambu_studio*", "sambu_ide*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.setuptools.data-files]
+"share/sambu/data/biology" = ["data/biology/academic_terms_500.tsv"]
