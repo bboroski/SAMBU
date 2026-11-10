@@ -43,7 +43,7 @@ class FakeRunner:
         if "pnputil.exe" in joined:
             return self.completed(
                 command, 0,
-                "Instance ID: USB\\VID_05AC\nDevice Description: Apple iPhone",
+                "Instance ID: USB\\VID_05AC",
             )
         return self.completed(command, 1, "", "not found")
 
@@ -80,7 +80,7 @@ class AppleDeviceToolkitTests(unittest.TestCase):
         self.assertEqual(device.ios_version, "26.1")
         self.assertTrue(device.pairing_valid)
         commands = [" ".join(call).lower() for call in runner.calls]
-        self.assertTrue(any("ideviceinfo" in item and "-k producttype" in item for item in commands))
+        self.assertTrue(any("ideviceinfo" in item and "-s" in item and "-k producttype" in item for item in commands))
         self.assertFalse(any(
             "ideviceinfo" in item and "-k" not in item and "--version" not in item
             for item in commands
