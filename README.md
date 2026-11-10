@@ -106,6 +106,8 @@ MIT — див. [LICENSE](LICENSE).
 Справочный офлайн-набор для обучения и метаданных; он не управляет системами, устройствами и диагностикой.
 
 
-## Verified AI-assisted engineering
+## Reaper-inspired engineering domain pack
 
-This repository's model-assisted review boundary and acceptance rules are documented in [AI-assisted modeling](docs/AI_ASSISTED_MODELING.md). AI output remains advisory until independently validated.
+- [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
+- [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
+- Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
