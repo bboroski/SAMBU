@@ -846,3 +846,6 @@ class SambuMachine:
         except Exception as exc:
             self.ghosts.record(exc, source=source, category="execution", context=context)
             raise
+
+# Canonical MCL terminology; the historical symbol remains supported.
+MclMachine = SambuMachine
