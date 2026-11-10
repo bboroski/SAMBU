@@ -36,6 +36,7 @@ jobs:
           BLACKDUCKSCA_URL: ${{ vars.BLACKDUCKSCA_URL }}
           BLACKDUCKSCA_TOKEN: ${{ secrets.BLACKDUCKSCA_TOKEN }}
           IS_FORK_PULL_REQUEST: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork || false }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
 
@@ -56,6 +57,11 @@ jobs:
           if [[ -z "$BLACKDUCKSCA_TOKEN" ]]; then
             missing_token=true
             echo "::error::Missing Actions secret BLACKDUCKSCA_TOKEN."
+          fi
+          if [[ "$missing_url" == "true" && "$missing_token" == "true" && "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            echo "scan_enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Black Duck SCA skipped for this pull request because repository credentials have not been configured. Configure both settings before relying on the main-branch scan."
+            exit 0
           fi
           if [[ "$missing_url" == "true" || "$missing_token" == "true" ]]; then
             echo "::error::Configure both values using docs/BLACK_DUCK_SECURITY_SCAN.md, then rerun this workflow."
