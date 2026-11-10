@@ -35,6 +35,7 @@ sambu dialect pascal examples/dialect_apps/pascal/probability_lab.sambu --emit-s
 ## Semantic boundary
 
 - Type annotations are parsed only to identify declaration names. They are erased during translation; they do not create a SAMBU static type, layout, or ABI guarantee.
+- Because source types are erased, Pascal `div` currently lowers to SAMBU `/`, not integer truncation; Fortran integer declarations likewise do not change SAMBU's numeric representation or division rules. Code that depends on integer overflow, truncation, kind selection, or exact compiler rounding must be rewritten and verified explicitly.
 - SAMBU `let` bindings are immutable. A source variable may be initialized only once in a translated program. Reassignment is rejected rather than silently translated into different semantics.
 - Pascal and Fortran counted loop bounds are inclusive and are lowered to SAMBU's bounded `range` implementation. The runtime's range limit still applies.
 - Identifier names are case-normalized to match the case-insensitive source conventions of these profiles. Recognized SI unit symbols retain SAMBU's canonical casing (`K`, `J`, `kJ`, `eV`, `Pa`, `Hz`, `N`, `L`).
