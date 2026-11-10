@@ -77,7 +77,7 @@ Queue actions are read-only initially. DLQ replay, purge, cache mutation, deploy
 - LSP: document lifecycle, diagnostics, hover, completion, symbols and versioned text edits.
 - REPL/debugger: incremental sessions, execution trace and optional plots, isolated from the core runtime.
 
-## Diplomat Night theme
+## Graphite Night theme
 
 ## Historical typed-AST milestone (0.5.1)
 
