@@ -230,6 +230,64 @@ def _lexicon(argv: list[str]) -> int:
     return 0
 
 
+
+def _creative(argv: list[str]) -> int:
+    """Inspect the creative ontology or validate metadata-only JSON records."""
+    import json
+    from .creative_metadata import (
+        CREATIVE_CLUSTERS,
+        CreativeMetadataError,
+        validate_metadata_document,
+    )
+
+    parser = argparse.ArgumentParser(prog="sambu creative")
+    commands = parser.add_subparsers(dest="action", required=True)
+    clusters = commands.add_parser("clusters", help="list the eight registered creative clusters")
+    clusters.add_argument("--json", action="store_true", dest="as_json")
+    validate = commands.add_parser("validate", help="validate a metadata-only JSON file")
+    validate.add_argument("path", type=Path)
+    validate.add_argument("--json", action="store_true", dest="as_json")
+    args = parser.parse_args(argv)
+
+    if args.action == "clusters":
+        if args.as_json:
+            print(json.dumps(
+                [cluster.to_dict() for cluster in CREATIVE_CLUSTERS],
+                ensure_ascii=False,
+                indent=2,
+            ))
+        else:
+            print("SAMBU creative ontology")
+            for cluster in CREATIVE_CLUSTERS:
+                print(f"{cluster.cluster_id}  {cluster.name} [{cluster.theme}]")
+                print(f"    {cluster.description}")
+        return 0
+
+    try:
+        payload = json.loads(args.path.read_text(encoding="utf-8"))
+        records = validate_metadata_document(payload)
+    except (OSError, json.JSONDecodeError, CreativeMetadataError) as exc:
+        print(f"sambu creative validate: {exc}", file=sys.stderr)
+        return 2
+
+    if args.as_json:
+        print(json.dumps(
+            [record.to_dict() for record in records],
+            ensure_ascii=False,
+            indent=2,
+        ))
+    else:
+        print(f"Valid metadata: {len(records)} record(s)")
+        for record in records:
+            print(
+                f"  {record.cluster_id} | {record.theme} | {record.tone} | "
+                f"{record.safety_flag} | generation eligible: "
+                f"{'yes' if record.generation_eligible else 'no'}"
+            )
+        print("Source text was not loaded or retained by the metadata validator.")
+    return 0
+
+
 def _ide(argv: list[str]) -> int:
     import json
     from .ide import SambuIDE
@@ -334,6 +392,8 @@ def main(argv: list[str] | None = None) -> int:
         return _device(arguments[1:])
     if arguments and arguments[0] == "lexicon":
         return _lexicon(arguments[1:])
+    if arguments and arguments[0] == "creative":
+        return _creative(arguments[1:])
     if arguments and arguments[0] == "dialect":
         return _dialect(arguments[1:])
 
