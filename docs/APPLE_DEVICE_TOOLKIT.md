@@ -65,7 +65,7 @@ Exit codes: 0 means the diagnostic command completed; 1 means the requested hard
     smoke = toolkit.run_hardware_smoke()
     print(smoke.to_dict())
 
-AppleDiagnosticReport contains the platform, tool availability and versions, discovered devices and diagnostic checks. HardwareTestReport records each smoke test independently. Device identifiers and model/version fields are reported because they are needed to distinguish test targets; serial numbers, phone numbers, user content and backup data are never queried.
+AppleDiagnosticReport contains the platform, tool availability and versions, discovered devices and diagnostic checks. HardwareTestReport records each smoke test independently. Its pass flag is false for detected warnings or failures and remains true for explicitly skipped platform-specific checks. Device identifiers and model/version fields are reported because they are needed to distinguish test targets; serial numbers, phone numbers, user content and backup data are never queried.
 
 ## Hardware lab CI
 
