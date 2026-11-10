@@ -207,6 +207,23 @@ sambu-test tests --repeat 2 --json
 
 **Не заявляється як готове:** нативний компілятор, self-hosting, сумісність із C++ ABI, повна сумісність із Pascal/Delphi/Fortran, production web-framework, автоматичне розгортання, OS sandbox або повноцінна LSP IDE.
 
+## SAMBU Ecosystem
+
+SAMBU is the central engineering platform for seven independently buildable repositories. It owns the shared module contract, architecture map, developer tooling and canonical registry; specialized modules retain their own runtimes, APIs, tests and release cadence.
+
+| Module | Responsibility |
+|---|---|
+| [Kloz](https://github.com/bboroski/Kloz) | Freestanding platform ABI, caller-owned memory and board/CPU boundary |
+| [CO](https://github.com/bboroski/CO) | Deterministic lifecycle and bounded component execution |
+| [SaintSI](https://github.com/bboroski/SaintSI) | Runtime health observation and accidental-corruption checks |
+| [ReaperCripple](https://github.com/bboroski/ReaperCripple) | BSP integrations, calibration, fixtures and manufacturing evidence |
+| [ToolNG](https://github.com/bboroski/ToolNG) | Native Windows diagnostics and local evidence reports |
+| [Klipot](https://github.com/bboroski/Klipot) | Module registry portal and operator-facing browser workbench |
+
+**Integration contracts:** [Ecosystem architecture](docs/ECOSYSTEM_ARCHITECTURE.md) · [Canonical registry](ecosystem/registry.json) · [Module manifest schema](ecosystem/module.schema.json).
+
+Every repository publishes a root `sambu.module.json`. Native C modules remain independently buildable and do not acquire a Python/SAMBU runtime dependency. Cross-project behavior is introduced only through explicit, versioned adapters and separately verified evidence.
+
 ## Документація
 
 - [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
