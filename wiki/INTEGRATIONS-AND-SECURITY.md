@@ -72,6 +72,6 @@ Before production use, verify:
 
 ## Further reading
 
-- [Judo, Aikido and Jiu-Jitsu](FRAMEWORKS.md)
+- [Architecture, inference and UI framework APIs](FRAMEWORKS.md)
 - [Studio and inspection](STUDIO-AND-INSPECTION.md)
 - [Trust and evidence](TRUST-AND-EVIDENCE.md)
