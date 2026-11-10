@@ -155,12 +155,12 @@ sambu creative clusters --json
 sambu creative validate examples/creative_metadata.sample.json
 ```
 
-This is deterministic annotation and validation, not an automatic classifier, embedding model, fine-tuning pipeline or self-learning system. Source text is not stored in metadata records. \`NEEDS_REVIEW\` remains the default; \`CLEAN\` and \`CLEAN_SATIRE\` require a pseudonymous \`review_ref\` and timezone-aware \`reviewed_at\` before \`generation_eligible\` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
+This is deterministic annotation and validation, not an automatic classifier, embedding model, fine-tuning pipeline or self-learning system. Source text is not stored in metadata records. `NEEDS_REVIEW` remains the default; `CLEAN` and `CLEAN_SATIRE` require a pseudonymous `review_ref` and timezone-aware `reviewed_at` before `generation_eligible` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
 
 Text Craft also distinguishes section labels from performance notation. The example below handles colon-suffixed and parenthesized sections, a melodic chorus hint, written stage directions and repeated phonetic spellings:
 
 ~~~sambu
-let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA melody returns\\n[Chorus:]\\nA melody returns\\n(Verse 2)\\nSecond movement\\n*Phone rings*\\n(Mm-mm)\\nру-ру-Русско"
+let draft = "[Verse:]\nFirst movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nSecond movement\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 print(structure.refrain_groups[0].repeat_count)
