@@ -38,7 +38,7 @@
  <rect x="446" y="400" width="134" height="18" rx="9" fill="#332B00"/><text x="513" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
  <rect x="811" y="312" width="354" height="116" rx="14" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="834" y="343" class="t">ENGINEERING TOOLKIT</text>
- <text x="834" y="369" class="p">Judo · Aikido · Jiu-Jitsu · trust</text><text x="834" y="390" class="p">workflow · Machine · test runner</text>
+ <text x="834" y="369" class="p">Architecture · Inference · UI · trust</text><text x="834" y="390" class="p">workflow · Machine · test runner</text>
  <rect x="834" y="400" width="152" height="18" rx="9" fill="#332B00"/><text x="910" y="413" text-anchor="middle" class="tag">MIXED MATURITY</text>
 </g>
 <text x="600" y="455" text-anchor="middle" class="muted">Diagram is explanatory; it is not a dependency graph or a claim of native compilation.</text>
