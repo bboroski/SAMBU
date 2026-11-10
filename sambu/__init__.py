@@ -82,3 +82,10 @@ from .articulatory import (  # noqa: F401
     RESERVED_WORDS, ArticulatoryWord, filter_articulatory_words,
     lookup_articulatory_word,
 )
+
+
+from .creative_metadata import (  # noqa: F401
+    CLUSTER_BY_ID, CREATIVE_CLUSTERS, ONTOLOGY_VERSION, SAFETY_FLAGS,
+    CreativeCluster, CreativeMetadata, CreativeMetadataError,
+    validate_metadata_document,
+)
