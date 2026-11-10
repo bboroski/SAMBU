@@ -10,7 +10,7 @@ import hashlib
 from pathlib import Path
 
 from . import ast as language_ast
-from .articulatory import KEYWORD_ALIASES
+from .articulatory import BUILTIN_ALIASES, KEYWORD_ALIASES
 from .lexer import SambuSyntaxError, tokenize
 from .machine import (
     CodeSamplingReport, SambuMachine, WorkspaceCheckReport,
@@ -31,8 +31,8 @@ _PREDECLARED = (
 )
 _COMPLETIONS = tuple(
     sorted(
-        set(_KEYWORDS) | set(KEYWORD_ALIASES) | set(_RUNTIME_BUILTINS)
-        | set(UNITS) | set(_PREDECLARED)
+        set(_KEYWORDS) | set(KEYWORD_ALIASES) | set(BUILTIN_ALIASES)
+        | set(_RUNTIME_BUILTINS) | set(UNITS) | set(_PREDECLARED)
     )
 )
 
