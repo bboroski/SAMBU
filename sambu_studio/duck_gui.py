@@ -261,7 +261,7 @@ class DuckStudioApp:
         )
 
     def _label(self, parent: Any, text: str, *, size: int = 10, color: str | None = None,
-               weight: str = "normal", bg: str = "white", **kwargs: Any) -> Any:
+               weight: str = "normal", bg: str = PALETTE["card"], **kwargs: Any) -> Any:
         font = ("TkDefaultFont", size, "bold") if weight == "bold" else ("TkDefaultFont", size)
         return self.tk.Label(parent, text=text, bg=bg, fg=color or PALETTE["ink"],
                              font=font, **kwargs)
@@ -269,7 +269,7 @@ class DuckStudioApp:
     def _button(self, parent: Any, text: str, command: Any, *, primary: bool = False,
                 compact: bool = False) -> Any:
         bg = PALETTE["teal"] if primary else "#1A1A1A"
-        fg = "white" if primary else PALETTE["ink"]
+        fg = "#0D0D0D" if primary else PALETTE["ink"]
         return self.tk.Button(
             parent, text=text, command=command, bg=bg, fg=fg,
             activebackground="#BFA100" if primary else "#262626",
