@@ -12,7 +12,8 @@ import re
 from typing import Mapping, Sequence
 
 
-ONTOLOGY_VERSION = "2026.11"
+ONTOLOGY_VERSION = "2026.12"
+SUPPORTED_ONTOLOGY_VERSIONS = frozenset({"2026.11", "2026.12"})
 JSONLD_CONTEXT = "https://schema.org/"
 
 SAFETY_FLAGS = frozenset(
