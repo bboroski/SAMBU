@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 
 from sambu.articulatory import (
     ACTIVE_WORDS,
@@ -134,6 +136,25 @@ kava active_words = levir("active")
             execute('count(levir("reserved"))'),
             len(RESERVED_WORDS),
         )
+
+    def test_lexicon_cli_lists_filtered_words_as_text_and_json(self):
+        from sambu.cli import main
+
+        text_output = StringIO()
+        with redirect_stdout(text_output):
+            self.assertEqual(
+                main(["lexicon", "--status", "reserved", "--limit", "2"]),
+                0,
+            )
+        self.assertIn("SAMBU articulatory lexicon", text_output.getvalue())
+
+        json_output = StringIO()
+        with redirect_stdout(json_output):
+            self.assertEqual(
+                main(["lexicon", "--family", "V", "--json", "--limit", "1"]),
+                0,
+            )
+        self.assertIn('"word": "vava"', json_output.getvalue())
 
     def test_ide_completion_includes_active_articulatory_forms(self):
         ide = SambuIDE()
