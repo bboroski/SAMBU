@@ -119,7 +119,7 @@ Nun does not solve differential equations, infer missing scientific values, enfo
 ## 7. Verification
 
 ```bash
-python -m unittest tests.test_nun -v
+python -m unittest discover -s tests -p "test_nun.py" -v
 python -m unittest discover -s tests -v
 ```
 
