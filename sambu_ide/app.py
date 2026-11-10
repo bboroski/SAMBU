@@ -15,7 +15,10 @@ DARK = "#0D0D0D"
 PANEL = "#1A1A1A"
 PANEL_ALT = "#141414"
 YELLOW = "#FFD600"
-YELLOW_HOVER = "#BFA100"
+YELLOW_HOVER = "#FFE34D"
+YELLOW_PRESSED = "#BFA100"
+SURFACE_HOVER = "#242424"
+BORDER = "#303030"
 TEXT = "#E6E6E6"
 MUTED = "#999999"
 GREEN = "#4CAF50"
@@ -107,10 +110,26 @@ class DuckStudio:
         style.configure("TFrame", background=DARK)
         style.configure("Panel.TFrame", background=PANEL)
         style.configure("TLabel", background=PANEL, foreground=TEXT)
-        style.configure("TButton", background=PANEL_ALT, foreground=TEXT, padding=(10, 7), borderwidth=0)
-        style.map("TButton", background=[("active", YELLOW_HOVER)], foreground=[("active", DARK)])
-        style.configure("Accent.TButton", background=YELLOW, foreground=DARK, font=("Segoe UI", 10, "bold"))
+        style.configure(
+            "TButton", background=PANEL_ALT, foreground=TEXT,
+            padding=(12, 9), borderwidth=0, focuscolor=YELLOW,
+        )
+        style.map(
+            "TButton",
+            background=[("pressed", YELLOW_PRESSED), ("active", SURFACE_HOVER)],
+            foreground=[("pressed", DARK), ("active", TEXT)],
+        )
+        style.configure(
+            "Accent.TButton", background=YELLOW, foreground=DARK,
+            font=("Segoe UI", 10, "bold"), padding=(15, 9), borderwidth=0,
+        )
+        style.map(
+            "Accent.TButton",
+            background=[("pressed", YELLOW_PRESSED), ("active", YELLOW_HOVER)],
+            foreground=[("pressed", DARK), ("active", DARK)],
+        )
         style.configure("TCombobox", fieldbackground=PANEL_ALT, foreground=TEXT, arrowcolor=YELLOW)
+        style.map("TCombobox", fieldbackground=[("readonly", PANEL_ALT)], foreground=[("readonly", TEXT)])
 
         header = tk.Frame(self.root, bg=DARK, height=58)
         header.pack(fill="x", padx=14, pady=(12, 8))
@@ -145,7 +164,7 @@ class DuckStudio:
 
         self.project_title = self._section(left, "WORKSPACE")
         self.files = tk.Listbox(left, bg=PANEL, fg=TEXT, selectbackground=YELLOW, selectforeground=DARK,
-                                relief="flat", highlightthickness=0, font=("Consolas", 10))
+                                relief="flat", highlightthickness=1, highlightbackground=BORDER, highlightcolor=YELLOW, font=("Consolas", 10))
         self.files.pack(fill="both", expand=True, padx=10, pady=8)
         self.files.bind("<Double-Button-1>", self.open_selected)
 
@@ -154,7 +173,8 @@ class DuckStudio:
         self.file_label = tk.Label(editor_head, text="untitled.sambu", bg=PANEL, fg=YELLOW, padx=12, pady=8)
         self.file_label.pack(side="left")
         self.editor = tk.Text(center, bg="#141414", fg=TEXT, insertbackground=YELLOW,
-                              selectbackground="#332B00", relief="flat", undo=True, wrap="none",
+                              selectbackground="#332B00", relief="flat", undo=True, wrap="none", highlightthickness=1,
+                              highlightbackground=BORDER, highlightcolor=YELLOW,
                               font=("Cascadia Code", 11), padx=14, pady=12, tabs=("4c",))
         self.editor.pack(fill="both", expand=True)
         self.editor.insert("1.0", '# Welcome to SAMBU Duck Studio\n\nlet greeting = "Hello, duck!"\nprint(greeting)\n')
@@ -167,16 +187,19 @@ class DuckStudio:
         bottom.pack(fill="both", expand=False)
         self.output_title = self._section(bottom, "OUTPUT")
         self.output = tk.Text(bottom, height=8, bg=DARK, fg=GREEN, relief="flat",
-                              font=("Consolas", 10), padx=10, pady=8, state="disabled")
+                              font=("Consolas", 10), padx=10, pady=8, highlightthickness=1,
+                              highlightbackground=BORDER, highlightcolor=YELLOW, state="disabled")
         self.output.pack(fill="both", expand=True, padx=8, pady=(0, 8))
 
         self.outline_title = self._section(right, "OUTLINE")
         self.outline = tk.Listbox(right, bg=PANEL, fg=TEXT, relief="flat", highlightthickness=0,
-                                  font=("Consolas", 10), height=12)
+                                  font=("Consolas", 10), height=12, highlightthickness=1,
+                                  highlightbackground=BORDER, highlightcolor=YELLOW)
         self.outline.pack(fill="both", expand=True, padx=10, pady=8)
         self.diag_title = self._section(right, "DIAGNOSTICS")
         self.diagnostics = tk.Listbox(right, bg=PANEL, fg=RED, relief="flat", highlightthickness=0,
-                                      font=("Segoe UI", 9), height=10)
+                                      font=("Segoe UI", 9), height=10, highlightthickness=1,
+                                      highlightbackground=BORDER, highlightcolor=YELLOW)
         self.diagnostics.pack(fill="both", expand=True, padx=10, pady=8)
         self.devices_btn = ttk.Button(right, command=self.show_devices)
         self.devices_btn.pack(fill="x", padx=10, pady=(2, 10))
