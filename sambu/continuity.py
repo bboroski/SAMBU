@@ -407,7 +407,7 @@ class SignalGuard:
         self.max_decisions = _positive_int(max_decisions, "max_decisions", 1_000_000)
         self._last_sequence: dict[str, int] = {}
         self._decisions: list[SignalDecision] = []
-        self._lock = threading.RLock()
+        self._lock = threading.Lock()
 
     @property
     def decisions(self) -> tuple[SignalDecision, ...]:
@@ -422,53 +422,63 @@ class SignalGuard:
     def accept(self, envelope: SignalEnvelope) -> SignalDecision:
         if not isinstance(envelope, SignalEnvelope):
             raise TypeError("accept() requires a SignalEnvelope")
+
+        # Never hold the guard lock while calling a host verifier. The final
+        # sequence check below closes the race between verification and commit.
         with self._lock:
             if len(self._decisions) >= self.max_decisions:
                 raise SignalCapacityError("signal decision history capacity reached")
+            last_sequence = self._last_sequence.get(envelope.issuer, 0)
 
-            reason = "accepted"
-            authenticated = False
-            encoded = envelope.payload_json
-            try:
-                decoded = json.loads(encoded)
-                canonical = _canonical_json(decoded, max_bytes=self.max_payload_bytes)
-                if canonical != encoded:
-                    reason = "payload_not_canonical"
-                elif not hmac.compare_digest(_digest(canonical), envelope.payload_digest):
-                    reason = "payload_digest_mismatch"
-            except (TypeError, ValueError, RecursionError):
-                reason = "payload_invalid_or_too_large"
+        reason = "accepted"
+        authenticated = False
+        encoded = envelope.payload_json
+        try:
+            decoded = json.loads(encoded)
+            canonical = _canonical_json(decoded, max_bytes=self.max_payload_bytes)
+            if canonical != encoded:
+                reason = "payload_not_canonical"
+            elif not hmac.compare_digest(_digest(canonical), envelope.payload_digest):
+                reason = "payload_digest_mismatch"
+        except (TypeError, ValueError, RecursionError):
+            reason = "payload_invalid_or_too_large"
 
-            if reason == "accepted" and envelope.issuer not in self.allowed_issuers:
-                reason = "issuer_not_allowed"
+        if reason == "accepted" and envelope.issuer not in self.allowed_issuers:
+            reason = "issuer_not_allowed"
+        if reason == "accepted" and envelope.sequence <= last_sequence:
+            reason = "replay_or_out_of_order"
+        if reason == "accepted":
+            if envelope.signature is None:
+                if self.require_authentication:
+                    reason = "signature_required"
+            elif self.signature_verifier is None:
+                reason = "signature_verifier_unavailable"
+            else:
+                try:
+                    verification_result = self.signature_verifier(
+                        envelope.issuer, envelope.sequence,
+                        envelope.payload_digest, envelope.signature,
+                    )
+                    authenticated = verification_result is True
+                    if not authenticated:
+                        reason = "signature_invalid"
+                except Exception:
+                    reason = "signature_verifier_error"
+
+        with self._lock:
+            if len(self._decisions) >= self.max_decisions:
+                raise SignalCapacityError("signal decision history capacity reached")
             if reason == "accepted":
-                last = self._last_sequence.get(envelope.issuer, 0)
-                if envelope.sequence <= last:
+                committed_sequence = self._last_sequence.get(envelope.issuer, 0)
+                if envelope.sequence <= committed_sequence:
                     reason = "replay_or_out_of_order"
-            if reason == "accepted":
-                if envelope.signature is None:
-                    if self.require_authentication:
-                        reason = "signature_required"
-                elif self.signature_verifier is None:
-                    reason = "signature_verifier_unavailable"
                 else:
-                    try:
-                        verification_result = self.signature_verifier(
-                            envelope.issuer, envelope.sequence,
-                            envelope.payload_digest, envelope.signature,
-                        )
-                        authenticated = verification_result is True
-                        if not authenticated:
-                            reason = "signature_invalid"
-                    except Exception:
-                        reason = "signature_verifier_error"
+                    self._last_sequence[envelope.issuer] = envelope.sequence
             if reason == "accepted":
-                self._last_sequence[envelope.issuer] = envelope.sequence
                 disposition = SignalDisposition.ACCEPTED
             else:
                 disposition = SignalDisposition.QUARANTINED
                 authenticated = False
-
             decision = SignalDecision(
                 issuer=envelope.issuer,
                 sequence=envelope.sequence,
