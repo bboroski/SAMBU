@@ -224,23 +224,24 @@ No stage is considered complete because its syntax appears in a design document.
 **Final law:** make the safe path the easy path, the unsafe path visible, failures recoverable, and every performance promise measurable.
 
 
-## 8. Evidence-led autonomy: six archetype design lenses
+## 8. Evidence-led autonomy controls
 
-The six project archetypes are formalized one letter at a time in the
-[Cripple Archetype Engineering Charter](CRIPPLE_ARCHETYPE_CHARTER.md). Their
-purpose is to add engineering constraints, not fictional superpowers:
+The [Cripple Systems Engineering Constraints](CRIPPLE_ARCHETYPE_CHARTER.md)
+consolidate six implementation domains:
 
-- **ALUCARD:** adaptive quotas, leased capabilities, undoable transitions,
-  containment, auditable evidence, recovery ceilings and deterministic inputs.
-- **GING:** goal-bound inquiry, isolated trials, novelty memory and graduation gates.
-- **RAIDEN:** recovery tiers, controlled degradation, incident supervision,
-  deterministic restoration, escalation budgets and neutral telemetry.
-- **DJINN:** declared capabilities, immutable job capsules, isolation profiles,
-  narrow interfaces and non-interference verification.
-- **MADARA:** competing models, adversarial challenge, deterministic semantics,
-  architecture records, reversible changes and acceptance evidence.
-- **SHANKS:** scoped trust, explicit handoffs, authority separation, native
-  interoperability contracts, knowledge continuity and human stewardship.
+- **Resource and authority control:** adaptive quotas, leased capabilities,
+  reversible transitions, containment, audit chains, recovery ceilings and
+  deterministic replay inputs.
+- **Systematic discovery:** falsifiable goals, isolated trials, evidence
+  retention and explicit maturity gates.
+- **Fault management:** bounded restart tiers, controlled degradation,
+  supervision, deterministic restoration and neutral telemetry.
+- **Isolation and capability control:** declared permissions, immutable task
+  manifests, process isolation, narrow interfaces and non-interference tests.
+- **Adversarial design review:** competing models, threat analysis,
+  deterministic semantics, decision records and rollback evidence.
+- **Handoff and authority governance:** scoped trust, ownership transfer,
+  separated approval roles, native ABI contracts and human release control.
 
 ### 8.1. Current autonomy implementation
 
