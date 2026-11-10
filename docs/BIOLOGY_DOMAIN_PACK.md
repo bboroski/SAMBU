@@ -42,6 +42,10 @@ Scientific and educational reference data for biology, cell biology, genetics, e
 - Keep this pack optional and offline. Core system, boot, manufacturing, device-diagnostic and lifecycle behavior must remain independent of it.
 - Any future parser or UI must handle unknown terms gracefully and retain the original source entry for traceability.
 
+## Local validation
+
+Run `python tools/validate_biology_terms.py` from the repository root. The validator uses only the Python standard library and checks the header, 500-record count, contiguous unique IDs, category coverage and non-empty bilingual fields.
+
 ## Change policy
 
 Keep all nine repository copies byte-for-byte aligned when updating the shared pack. Review changes to scientific wording separately from software changes. Validate exactly 500 data rows and IDs 1–500 after every update.
