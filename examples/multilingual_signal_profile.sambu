@@ -1,0 +1,12 @@
+# Neutral Unicode-script example; script profile is not language identification.
+let sample = "清晨 qīng\n朝日"
+let profile = language_mix_profile(sample)
+
+print("Han characters:")
+print(profile.script_character_counts.han)
+print("Latin characters:")
+print(profile.script_character_counts.latin)
+print("Mixed-script lines:")
+print(profile.multi_script_line_count)
+print("Language identification:")
+print(profile.language_identification)
