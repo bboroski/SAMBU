@@ -23,11 +23,19 @@ class PassageCurtainPatternTests(unittest.TestCase):
         output: list[str] = []
         execute("""
 class PassageCurtain {
-  fn init(self) { self.occupants = 0 self.is_open = false }
+  fn init(self) {
+    self.occupants = 0
+    self.is_open = false
+  }
   fn leave(self) {
-    if self.occupants > 0 { self.occupants = self.occupants - 1 }
+    if self.occupants > 0 {
+      self.occupants = self.occupants - 1
+    }
     if self.occupants == 0 {
-      if self.is_open { self.is_open = false return "closed" }
+      if self.is_open {
+        self.is_open = false
+        return "closed"
+      }
       return "already_closed"
     }
     return "held_open"
