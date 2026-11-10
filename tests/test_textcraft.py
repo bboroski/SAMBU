@@ -85,6 +85,35 @@ print(mix.dominant_script)
 """)
         self.assertEqual(output, ["4", "3", "1", "1", "cyrillic"])
 
+    def test_han_and_latin_romanization_are_counted_as_scripts_not_languages(self):
+        _, output = self.run_sambu("""
+let draft = "清晨 qīng\\n朝日"
+let mix = language_mix_profile(draft)
+print(mix.script_character_counts.han)
+print(mix.script_character_counts.latin)
+print(mix.script_word_counts.han)
+print(mix.script_word_counts.latin)
+print(mix.multi_script_line_count)
+print(mix.multi_script_lines[0])
+print(mix.dominant_unicode_script)
+print(mix.language_identification)
+""")
+        self.assertEqual(
+            output,
+            ["4", "4", "2", "1", "1", "1", "balanced", "not_performed"],
+        )
+
+    def test_japanese_and_korean_scripts_are_distinguished(self):
+        _, output = self.run_sambu("""
+let mix = language_mix_profile("漢字 かな カナ 한글")
+print(mix.script_character_counts.han)
+print(mix.script_character_counts.hiragana)
+print(mix.script_character_counts.katakana)
+print(mix.script_character_counts.hangul)
+print(mix.multi_script_line_count)
+""")
+        self.assertEqual(output, ["2", "2", "2", "2", "1"])
+
     def test_marked_case_is_preserved_as_an_author_cue(self):
         _, output = self.run_sambu("""
 let draft = "Server keeps staTUS"
