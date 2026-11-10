@@ -134,28 +134,6 @@
     "ontology_version": "2026.12"
   },
   {
-    "cluster_id": "T-006",
-    "theme": "technological_metaphor",
-    "tone": "playful_surrealism",
-    "key_symbols": [
-      "digital_memory",
-      "pop_culture",
-      "ritual_imagery"
-    ],
-    "language": [
-      "en"
-    ],
-    "linguistic_register": "internet_colloquial",
-    "stylistic_devices": [
-      "semantic_collision",
-      "parody",
-      "repeated_hook"
-    ],
-    "safety_flag": "NEEDS_REVIEW",
-    "source_ref": "corpus-item-2025-04-19",
-    "ontology_version": "2026.12"
-  },
-  {
     "cluster_id": "T-007",
     "theme": "conflict_resilience",
     "tone": "satirical_critical",
