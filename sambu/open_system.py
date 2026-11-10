@@ -129,8 +129,9 @@ def microcanonical_ensemble(args: list[object]) -> Record:
     if not selected:
         raise ValueError("no microstates fall within the supplied energy window")
     probability = 1.0 / len(selected)
+    selected_set = set(selected)
     populations = [
-        probability if index in set(selected) else 0.0
+        probability if index in selected_set else 0.0
         for index in range(len(energies))
     ]
     mean_energy = math.fsum(energies[index].value for index in selected) / len(selected)
