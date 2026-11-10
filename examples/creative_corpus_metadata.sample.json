@@ -22,28 +22,6 @@
     "ontology_version": "2026.12"
   },
   {
-    "cluster_id": "T-004",
-    "theme": "emotional_duality",
-    "tone": "resigned_clarity",
-    "key_symbols": [
-      "memory",
-      "distance",
-      "night_station"
-    ],
-    "language": [
-      "uk"
-    ],
-    "linguistic_register": "contemporary_colloquial",
-    "stylistic_devices": [
-      "contrastive_simile",
-      "fragmented_lineation",
-      "repeated_refrain"
-    ],
-    "safety_flag": "NEEDS_REVIEW",
-    "source_ref": "corpus-item-2025-04-02-a",
-    "ontology_version": "2026.12"
-  },
-  {
     "cluster_id": "T-002",
     "theme": "identity_transformation",
     "tone": "satirical_narrative",
@@ -63,6 +41,28 @@
     ],
     "safety_flag": "NEEDS_REVIEW",
     "source_ref": "corpus-item-2025-04-02-b",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-004",
+    "theme": "emotional_duality",
+    "tone": "resigned_clarity",
+    "key_symbols": [
+      "memory",
+      "distance",
+      "night_station"
+    ],
+    "language": [
+      "uk"
+    ],
+    "linguistic_register": "contemporary_colloquial",
+    "stylistic_devices": [
+      "contrastive_simile",
+      "fragmented_lineation",
+      "repeated_refrain"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-04-02-a",
     "ontology_version": "2026.12"
   },
   {
@@ -110,27 +110,25 @@
     "ontology_version": "2026.12"
   },
   {
-    "cluster_id": "T-008",
-    "theme": "linguistic_hybridity",
-    "tone": "absurdist_playfulness",
+    "cluster_id": "T-006",
+    "theme": "technological_metaphor",
+    "tone": "playful_surrealism",
     "key_symbols": [
-      "neologism",
-      "sound_imitation",
-      "subcultural_reference"
+      "digital_memory",
+      "pop_culture",
+      "ritual_imagery"
     ],
     "language": [
-      "en",
-      "ru"
+      "en"
     ],
-    "linguistic_register": "mixed_colloquial",
+    "linguistic_register": "internet_colloquial",
     "stylistic_devices": [
-      "code_switching",
-      "internal_rhyme",
-      "alliteration",
-      "phonetic_spelling"
+      "semantic_collision",
+      "parody",
+      "repeated_hook"
     ],
     "safety_flag": "NEEDS_REVIEW",
-    "source_ref": "corpus-item-2025-04-07-b",
+    "source_ref": "corpus-item-2025-04-19",
     "ontology_version": "2026.12"
   },
   {
@@ -156,25 +154,27 @@
     "ontology_version": "2026.12"
   },
   {
-    "cluster_id": "T-006",
-    "theme": "technological_metaphor",
-    "tone": "playful_surrealism",
+    "cluster_id": "T-008",
+    "theme": "linguistic_hybridity",
+    "tone": "absurdist_playfulness",
     "key_symbols": [
-      "digital_memory",
-      "pop_culture",
-      "ritual_imagery"
+      "neologism",
+      "sound_imitation",
+      "subcultural_reference"
     ],
     "language": [
-      "en"
+      "en",
+      "ru"
     ],
-    "linguistic_register": "internet_colloquial",
+    "linguistic_register": "mixed_colloquial",
     "stylistic_devices": [
-      "semantic_collision",
-      "parody",
-      "repeated_hook"
+      "code_switching",
+      "internal_rhyme",
+      "alliteration",
+      "phonetic_spelling"
     ],
     "safety_flag": "NEEDS_REVIEW",
-    "source_ref": "corpus-item-2025-04-19",
+    "source_ref": "corpus-item-2025-04-07-b",
     "ontology_version": "2026.12"
   },
   {
