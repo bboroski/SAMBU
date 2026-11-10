@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bboroski/SAMBU/blob/main/schemas/text-signal-envelope.schema.json",
+  "title": "SAMBU Multilingual Text Signal Envelope",
+  "description": "Versioned metadata-only exchange record. Source text and translated text are deliberately excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "representations",
+    "language_identification",
+    "translation_status",
+    "semantic_status",
+    "normalization_form",
+    "raw_text_stored"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "source_ref": {
+      "type": ["string", "null"],
+      "maxLength": 160,
+      "description": "Opaque caller-owned reference; never place source text or personal data here."
+    },
+    "representations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/representation" }
+    },
+    "language_identification": {
+      "enum": ["not_performed", "caller_supplied", "human_reviewed"]
+    },
+    "translation_status": {
+      "enum": ["not_requested", "not_performed", "pending_review", "human_reviewed"]
+    },
+    "semantic_status": {
+      "enum": ["not_assessed", "proposed", "human_reviewed"]
+    },
+    "normalization_form": {
+      "enum": ["NFC", "NFD", "NFKC", "NFKD", "preserved"]
+    },
+    "structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "section_kinds": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "type": "string", "minLength": 1, "maxLength": 48 },
+          "uniqueItems": true
+        },
+        "repeated_line_groups": { "type": "integer", "minimum": 0 },
+        "return_cycles": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mixed_script_segments": { "type": "integer", "minimum": 0 },
+        "unresolved_segments": { "type": "integer", "minimum": 0 },
+        "review_required": { "type": "boolean" }
+      }
+    },
+    "raw_text_stored": {
+      "const": false,
+      "description": "The interchange record must not contain original, translated, or transcribed text."
+    }
+  },
+  "$defs": {
+    "representation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "language_hint", "script_profile", "source_ref"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "source_text",
+            "romanization",
+            "phonetic_transcription",
+            "nonlexical_vocalization",
+            "translation",
+            "markup",
+            "unknown"
+          ]
+        },
+        "language_hint": {
+          "type": ["string", "null"],
+          "maxLength": 64,
+          "description": "An explicit caller-supplied or reviewed hint, not a model inference."
+        },
+        "script_profile": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "Latin", "Cyrillic", "Han", "Hiragana", "Katakana", "Hangul",
+              "Greek", "Arabic", "Hebrew", "Devanagari", "Thai", "Bopomofo",
+              "Armenian", "Georgian", "Bengali", "Tamil", "Telugu", "Ethiopic",
+              "Other", "Common", "Unknown"
+            ]
+          }
+        },
+        "transliteration_scheme": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      }
+    }
+  }
+}
