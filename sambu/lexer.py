@@ -218,3 +218,6 @@ def tokenize(source: str) -> list[Token]:
 
     tokens.append(Token("EOF", None, line, col, line, col, n, n))
     return tokens
+
+# Canonical MCL terminology; the historical symbol remains supported.
+MclSyntaxError = SambuSyntaxError
