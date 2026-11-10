@@ -58,6 +58,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 ### Language core
 
 - Hand-written lexer and parser.
+- Second, sound-built articulatory syntax with 200 generated lexemes: 25 grammar forms, 123 built-in aliases and 52 reserved future forms.
 - Legacy tuple AST retained for compatibility.
 - Immutable typed AST with source spans.
 - Lexical scopes, immutable `let` bindings and user functions.
@@ -229,6 +230,35 @@ sambu examples/supervised_runtime.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
+
+## 🗣️ Articulatory syntax — 200 native words
+
+SAMBU has a second deterministic source surface built from ten semantic sound families, five vowel grades and four grammatical endings. Old spellings remain valid; new grammar words normalize to the same parser terminals, while built-in words call the existing runtime functions.
+
+```sambu
+kava temperature = 300 * K
+kava particle_mass = 6.6e-26 * kg
+kava profile = vava(temperature, particle_mass)
+
+tava square(value) {
+  tavum value * value
+}
+
+lava(profile.rms)
+lava(square(5))
+```
+
+The complete 200-word wordbook, phonology, meanings and implementation status are in the [Articulatory Syntax specification](docs/ARTICULATORY_SYNTAX.md).
+
+Explore the lexicon:
+
+```bash
+sambu lexicon
+sambu lexicon --status active
+sambu lexicon --status reserved
+sambu lexicon --family V
+sambu lexicon --json
+```
 
 ## 🧭 A quick language tour
 
@@ -494,6 +524,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 - [SAMBU Wiki — project encyclopedia](wiki/README.md)
 - [Language reference](docs/LANGUAGE.md)
+- [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
 
