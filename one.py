@@ -27,6 +27,8 @@ def build_native() -> None:
 
 
 def check() -> None:
+    run("Validate academic biology glossary", [sys.executable, "tools/validate_biology_terms.py"])
+    run("Validate Reaper-inspired engineering catalogue", [sys.executable, "tools/validate_reaper_domain.py"])
     run("Python unit tests", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"])
     for sample in (
         "examples/percentages.sambu",
