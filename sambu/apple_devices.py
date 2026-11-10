@@ -283,7 +283,8 @@ class AppleDeviceToolkit:
         apple_usb_present = None
         if devices is not None and devices.returncode == 0:
             apple_usb_present = (
-                "apple iphone" in pnp_text
+                "vid_05ac" in pnp_text
+                or "apple iphone" in pnp_text
                 or "apple mobile device usb" in pnp_text
                 or "apple mobile device" in pnp_text
             )
@@ -320,7 +321,7 @@ class AppleDeviceToolkit:
         # ideviceinfo output, which can contain serial and other personal data.
         properties: dict[str, str] = {}
         for key in ("DeviceName", "ProductType", "ProductVersion", "BuildVersion"):
-            result = self._run_tool("ideviceinfo", ["-u", udid, "-k", key])
+            result = self._run_tool("ideviceinfo", ["-s", "-u", udid, "-k", key])
             if result is not None and result.returncode == 0:
                 properties[key] = result.stdout.strip()
 
