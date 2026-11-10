@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "system": "Duck Black / Yellow",
+  "principles": ["clarity over decoration", "yellow is a semantic accent", "keyboard access is first-class", "scale without raster blur", "no color-only status encoding"],
+  "color": {
+    "canvas": "#0D0D0D",
+    "surface": "#1A1A1A",
+    "surface_alt": "#141414",
+    "surface_hover": "#202020",
+    "accent": "#FFD600",
+    "accent_muted": "#BFA100",
+    "accent_selected": "#332B00",
+    "text": "#E6E6E6",
+    "text_muted": "#999999",
+    "text_disabled": "#4D4D4D",
+    "border": "#262626",
+    "success": "#4CAF50",
+    "warning": "#FFD600",
+    "danger": "#FF4444",
+    "focus": "#FFD600"
+  },
+  "typography": {
+    "ui": ["Inter", "Segoe UI", "Roboto", "sans-serif"],
+    "code": ["JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", "monospace"],
+    "body_size_px": 14,
+    "body_line_height": 1.5,
+    "heading_weight": 700,
+    "body_weight": 400
+  },
+  "spacing_px": [4, 8, 12, 16, 20, 24, 32, 40, 48],
+  "radii_px": {"small": 4, "control": 6, "card": 10, "modal": 12},
+  "motion_ms": {"micro": 120, "standard": 200, "maximum": 250},
+  "layout": {
+    "ui_scale_min": 0.85,
+    "ui_scale_default": 1.0,
+    "ui_scale_max": 1.5,
+    "target_capture_px": [1920, 1080],
+    "minimum_capture_px": [1366, 768],
+    "compact_navigation_below_px": 1180,
+    "collapse_secondary_panels_below_px": 980
+  },
+  "components": {
+    "primary_button": {"background": "#FFD600", "foreground": "#0D0D0D"},
+    "secondary_button": {"background": "#1A1A1A", "border": "#FFD600", "foreground": "#FFD600"},
+    "ghost_button": {"background": "transparent", "foreground": "#999999"},
+    "table_rows": ["#1A1A1A", "#141414"],
+    "focus_ring": "2px solid #FFD600",
+    "toast_accent_width_px": 4
+  },
+  "accessibility": {
+    "minimum_text_contrast_ratio": 4.5,
+    "focus_visible_required": true,
+    "status_requires_text_and_icon": true,
+    "keyboard_navigation_required": true,
+    "high_contrast_mode_respected": true
+  },
+  "behavior": {
+    "yellow_usage": ["primary actions", "selected navigation", "focus", "progress", "high-priority warning"],
+    "reports_default_to_in_app_preview": true,
+    "external_links_default_to_in_app_or_offline": true,
+    "animations_must_respect_reduced_motion": true
+  }
+}
