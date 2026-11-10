@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="624" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
 <title id="title">SAMBU articulatory syntax construction</title>
 <desc id="desc">The deterministic 200-word grammar is a product of ten semantic consonant families, five vowel grades and four grammatical endings.</desc>
-<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#173f3b"/><stop offset="1" stop-color="#286c61"/></linearGradient>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0D0D0D"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
 <style>
- .h{font:700 27px system-ui,sans-serif;fill:#fff}.s{font:500 14px system-ui,sans-serif;fill:#d9eee5}
- .k{font:700 17px system-ui,sans-serif;fill:#18443d}.v{font:700 16px system-ui,sans-serif;fill:#fff}
- .p{font:500 12px system-ui,sans-serif;fill:#315e53}.n{font:800 27px system-ui,sans-serif;fill:#fff}
+ .h{font:700 27px system-ui,sans-serif;fill:#E6E6E6}.s{font:500 14px system-ui,sans-serif;fill:#E6E6E6}
+ .k{font:700 17px system-ui,sans-serif;fill:#141414}.v{font:700 16px system-ui,sans-serif;fill:#E6E6E6}
+ .p{font:500 12px system-ui,sans-serif;fill:#262626}.n{font:800 27px system-ui,sans-serif;fill:#E6E6E6}
 </style></defs>
 <rect width="1200" height="390" rx="24" fill="url(#bg)"/>
 <text x="42" y="52" class="h">ARTICULATORY SYNTAX · A CLOSED LEXICAL MATRIX</text>
 <text x="42" y="78" class="s">One regular construction rule turns sound families into consistent semantic roles.</text>
 <g transform="translate(42 112)">
- <rect width="325" height="204" rx="17" fill="#f3faf5"/>
+ <rect width="325" height="204" rx="17" fill="#141414"/>
  <text x="22" y="34" class="k">10 CONSONANT FAMILIES</text>
  <text x="22" y="65" class="p">K · structure</text><text x="22" y="89" class="p">T · flow</text><text x="22" y="113" class="p">R · value</text><text x="22" y="137" class="p">M · memory</text>
  <text x="178" y="65" class="p">S · safeguard</text><text x="178" y="89" class="p">V · measure</text><text x="178" y="113" class="p">D · evidence</text><text x="178" y="137" class="p">N · coordination</text>
@@ -19,24 +19,24 @@
 </g>
 <text x="392" y="224" class="n">×</text>
 <g transform="translate(435 112)">
- <rect width="260" height="204" rx="17" fill="#f3faf5"/>
+ <rect width="260" height="204" rx="17" fill="#141414"/>
  <text x="22" y="34" class="k">5 VOWEL GRADES</text>
- <g><rect x="22" y="54" width="38" height="26" rx="7" fill="#dba53f"/><text x="41" y="73" text-anchor="middle" class="v">A</text><text x="75" y="73" class="p">initiate</text></g>
- <g><rect x="22" y="86" width="38" height="26" rx="7" fill="#548a79"/><text x="41" y="105" text-anchor="middle" class="v">E</text><text x="75" y="105" class="p">inspect</text></g>
- <g><rect x="22" y="118" width="38" height="26" rx="7" fill="#477c9b"/><text x="41" y="137" text-anchor="middle" class="v">I</text><text x="75" y="137" class="p">transform</text></g>
- <g><rect x="22" y="150" width="38" height="26" rx="7" fill="#846b9a"/><text x="41" y="169" text-anchor="middle" class="v">O</text><text x="75" y="169" class="p">compose</text></g>
+ <g><rect x="22" y="54" width="38" height="26" rx="7" fill="#FFD600"/><text x="41" y="73" text-anchor="middle" class="v">A</text><text x="75" y="73" class="p">initiate</text></g>
+ <g><rect x="22" y="86" width="38" height="26" rx="7" fill="#BFA100"/><text x="41" y="105" text-anchor="middle" class="v">E</text><text x="75" y="105" class="p">inspect</text></g>
+ <g><rect x="22" y="118" width="38" height="26" rx="7" fill="#262626"/><text x="41" y="137" text-anchor="middle" class="v">I</text><text x="75" y="137" class="p">transform</text></g>
+ <g><rect x="22" y="150" width="38" height="26" rx="7" fill="#332B00"/><text x="41" y="169" text-anchor="middle" class="v">O</text><text x="75" y="169" class="p">compose</text></g>
  <text x="167" y="73" class="p">U · complete</text>
 </g>
 <text x="718" y="224" class="n">×</text>
 <g transform="translate(758 112)">
- <rect width="170" height="204" rx="17" fill="#f3faf5"/>
+ <rect width="170" height="204" rx="17" fill="#141414"/>
  <text x="18" y="34" class="k">4 CODAS</text>
  <text x="18" y="72" class="p">-va · action</text><text x="18" y="103" class="p">-ven · entity</text><text x="18" y="134" class="p">-vir · relation</text><text x="18" y="165" class="p">-vum · state</text>
 </g>
 <text x="948" y="224" class="n">=</text>
 <g transform="translate(990 112)">
- <rect width="168" height="204" rx="17" fill="#e9c768"/>
- <text x="84" y="70" text-anchor="middle" class="n" style="fill:#173f3b">200</text>
+ <rect width="168" height="204" rx="17" fill="#BFA100"/>
+ <text x="84" y="70" text-anchor="middle" class="n" style="fill:#0D0D0D">200</text>
  <text x="84" y="100" text-anchor="middle" class="k">LEXICAL FORMS</text>
  <text x="84" y="137" text-anchor="middle" class="p">25 grammar</text>
  <text x="84" y="158" text-anchor="middle" class="p">129 built-ins</text>
