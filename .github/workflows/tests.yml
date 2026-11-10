@@ -44,6 +44,7 @@ jobs:
       - run: sambu examples/commerce_queue.sambu
       - run: sambu examples/neo_modern_blueprint.sambu
       - run: sambu examples/text_craft.sambu
+      - run: sambu examples/language_craft.sambu
       - run: sambu examples/workflows.sambu
       - run: sambu examples/04coq_filtering.sambu
       - run: sambu-studio inspect examples/magento_reference
