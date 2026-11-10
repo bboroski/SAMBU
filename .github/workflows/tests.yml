@@ -20,6 +20,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e .
+      - name: Compile desktop IDE entry point
+        run: python -m py_compile sambu_ide/app.py
       - run: python -m unittest discover -s tests -v
       - run: sambu-test tests --repeat 2
       - run: sambu examples/percentages.sambu
