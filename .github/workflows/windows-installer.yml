@@ -1,0 +1,78 @@
+name: Signed Windows installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pyinstaller
+          choco install innosetup --no-progress -y
+      - name: Build standalone CLI
+        shell: pwsh
+        run: |
+          pyinstaller --clean --onefile --name sambu --collect-submodules sambu packaging/windows/sambu_launcher.py
+      - name: Require signing certificate
+        shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_CERTIFICATE_BASE64)) {
+            throw "WINDOWS_CERTIFICATE_BASE64 is required. Unsigned installers are not published."
+          }
+      - name: Sign executable and build installer
+        shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_REF_TYPE: ${{ github.ref_type }}
+        run: |
+          $certificatePath = Join-Path $env:RUNNER_TEMP "sambu-codesign.pfx"
+          [IO.File]::WriteAllBytes($certificatePath, [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE_BASE64))
+          $signTool = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $signTool) { throw "Windows SDK signtool.exe was not found." }
+          if ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME.StartsWith("v")) {
+            $version = $env:GITHUB_REF_NAME.Substring(1)
+          } else {
+            $version = python -c "from importlib.metadata import version; print(version('sambu-language'))"
+          }
+          & $signTool.FullName sign /fd SHA256 /td SHA256 /tr "http://timestamp.digicert.com" /f $certificatePath /p $env:WINDOWS_CERTIFICATE_PASSWORD "dist\sambu.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Signing sambu.exe failed." }
+          & $signTool.FullName verify /pa /v "dist\sambu.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Executable signature verification failed." }
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          & $iscc "/DAppVersion=$version" "/DAppOutput=SAMBU-$version-x64-Setup" "packaging\windows\SAMBU.iss"
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
+          $installer = Get-ChildItem "dist-installer\*.exe" | Select-Object -First 1
+          if (-not $installer) { throw "Installer artifact was not generated." }
+          & $signTool.FullName sign /fd SHA256 /td SHA256 /tr "http://timestamp.digicert.com" /f $certificatePath /p $env:WINDOWS_CERTIFICATE_PASSWORD $installer.FullName
+          if ($LASTEXITCODE -ne 0) { throw "Signing installer failed." }
+          & $signTool.FullName verify /pa /v $installer.FullName
+          if ($LASTEXITCODE -ne 0) { throw "Installer signature verification failed." }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SAMBU-Windows-Signed-Installer
+          path: dist-installer/*.exe
+          if-no-files-found: error
+      - name: Publish signed release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist-installer/*.exe
