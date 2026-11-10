@@ -14,6 +14,10 @@ tool, not a wet-lab, clinical or diagnostic system.
 - `annotation_digest(annotations)`: deterministic SHA-256 digest for metadata comparison.
 - `validate_catalogue(path)`: verify 500 records, contiguous IDs and category coverage.
 
+## Complete term-to-capability index
+
+The machine-readable `data/domain/term-capability-map.tsv` maps all 500 biology glossary records and the 50 curated Reaper engineering patterns to owning repository, interface/API, feature family and scope boundary. `tools/validate_term_capability_map.py` verifies exact source coverage and bilingual labels.
+
 ## CLI
 
 ```sh
@@ -21,6 +25,7 @@ python -m sambu.biology_domain validate
 python -m sambu.biology_domain summary
 python -m sambu.biology_domain search transcription --language en
 python -m sambu.biology_domain search транскрипция --language ru
+python tools/validate_term_capability_map.py
 ```
 
 ## Boundaries
