@@ -538,7 +538,7 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
 
 def execute_dialect(source: str, dialect: DialectName | str, *, output=None):
     """Translate and execute a supported dialect source file with SAMBU."""
-    from .runtime import execute
+    from .interpreter import execute
 
     translated = transpile(source, dialect)
     return execute(translated.generated_source, output=output)
