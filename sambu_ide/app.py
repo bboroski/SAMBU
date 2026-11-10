@@ -1070,8 +1070,11 @@ class SambuStudio:
             except tk.TclError:
                 selected = ""
             if selected.casefold() == needle.casefold():
-                editor.insert("sel.first", replace_entry.get())
-                editor.delete("sel.first", "sel.last")
+                start = editor.index("sel.first")
+                end = editor.index("sel.last")
+                editor.delete(start, end)
+                editor.insert(start, replace_entry.get())
+                editor.mark_set("insert", f"{start}+{len(replace_entry.get())}c")
             find_next()
 
         def replace_all() -> None:
