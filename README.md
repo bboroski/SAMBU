@@ -245,3 +245,6 @@ Every repository publishes a root `sambu.module.json`. Native C modules remain i
 <p align="center"><img src="assets/nun-mesh.svg" width="100%" alt="SAMBU у спільній екосистемі NUN Mesh"></p>
 
 SAMBU — мовний та інструментальний шар. Tkinter IDE і Duck Studio залишаються окремими застосунками; ToolNG вбудовує лише переносиме ядро policy/workflow, а не Python-інтерпретатор. [Посібник інтеграції](docs/ECOSYSTEM_INTEGRATION.md) · [Портал Klipot](https://github.com/bboroski/Klipot) · [Спільний протокол](https://github.com/bboroski/Klipot/blob/main/docs/INTEGRATION_PROTOCOL.md)
+
+
+[Відкрити NUN Mesh portal](https://bboroski.github.io/Klipot/)
