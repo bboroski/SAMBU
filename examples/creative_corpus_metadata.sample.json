@@ -44,6 +44,30 @@
     "ontology_version": "2026.12"
   },
   {
+    "cluster_id": "T-003",
+    "theme": "geopolitical_awareness",
+    "tone": "critical_observational",
+    "key_symbols": [
+      "institutions",
+      "borders",
+      "regional_power",
+      "technological_sovereignty"
+    ],
+    "language": [
+      "ru",
+      "en"
+    ],
+    "linguistic_register": "satirical_commentary",
+    "stylistic_devices": [
+      "contrastive_framing",
+      "rhetorical_question",
+      "ironic_understatement"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "corpus-item-2025-03-30-context",
+    "ontology_version": "2026.12"
+  },
+  {
     "cluster_id": "T-004",
     "theme": "emotional_duality",
     "tone": "resigned_clarity",
