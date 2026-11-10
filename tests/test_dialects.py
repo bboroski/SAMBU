@@ -136,6 +136,39 @@ class DialectCliTests(unittest.TestCase):
 
 
 class FortranDialectTests(unittest.TestCase):
+    def test_declared_identifiers_take_precedence_over_casefolded_si_symbols(self):
+        source = """
+program IndexNames
+implicit none
+integer :: n
+integer :: k
+n = 3
+k = 4
+print *, n + k
+end program IndexNames
+"""
+        output: list[str] = []
+        execute_dialect(source, "fortran", output=output.append)
+        self.assertEqual(output, ["7"])
+
+    def test_fortran_function_parameters_may_use_si_symbol_spellings(self):
+        source = """
+program FunctionNames
+implicit none
+integer :: answer
+answer = add_kn(2, 3)
+print *, answer
+end program FunctionNames
+
+integer function add_kn(k, n)
+integer :: k, n
+add_kn = k + n
+end function add_kn
+"""
+        output: list[str] = []
+        execute_dialect(source, "fortran", output=output.append)
+        self.assertEqual(output, ["5"])
+
     def test_program_declarations_do_loop_and_logical_operators(self):
         source = """
 program LoopDemo
