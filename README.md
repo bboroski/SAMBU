@@ -163,7 +163,7 @@ Text Craft надає детерміновані описи структури �
 Приклад із нейтральним технічним текстом:
 
 ~~~sambu
-let draft = "[Overview:]\\nThe service reads an input record\\n[Chorus:]\\nSystem status is ready\\n[Chorus:]\\nSystem status is ready\\n*Display turns on*\\n(status: ready)\\nThe operator says \\"Open settings\\"\\npre-pre-processing"
+let draft = "[Overview:]\nThe service reads an input record\n[Chorus:]\nSystem status is ready\n[Chorus:]\nSystem status is ready\n*Display turns on*\n(status: ready)\nThe operator says \"Open settings\"\npre-pre-processing"
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 print(structure.refrain_groups[0].repeat_count)
