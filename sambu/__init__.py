@@ -89,3 +89,7 @@ from .creative_metadata import (  # noqa: F401
     CreativeCluster, CreativeMetadata, CreativeMetadataError,
     validate_metadata_document,
 )
+
+from .creative_learning import (  # noqa: F401
+    CREATIVE_PREFERENCE_FEATURES, CreativeLearningError, CreativeLearningProfile,
+)
