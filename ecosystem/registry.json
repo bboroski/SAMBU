@@ -6,7 +6,25 @@
   "governance": {
     "principle": "Independent repositories integrate through versioned manifests, explicit adapters and testable evidence; no repository is absorbed into a monolith.",
     "runtime_rule": "SAMBU's Python runtime is not a dependency of freestanding C modules. ToolNG contains a native C17 policy port, not the Python interpreter.",
-    "release_rule": "Each repository owns its releases and validation. Cross-repository compatibility is reported separately from local test status."
+    "release_rule": "Each repository owns its releases and validation. Cross-repository compatibility is reported separately from local test status.",
+    "layers": [
+      "system-entry: NUNLauncher owns image validation and versioned boot handoff",
+      "kernel-core: NUN owns architecture entry, memory, execution and protection",
+      "platform-substrate: Kloz owns portable platform operations and caller-owned memory",
+      "runtime-services: CO owns component lifecycle and bounded execution",
+      "assurance: SaintSI observes progress and accidental corruption without actuation",
+      "hardware-manufacturing: ReaperCripple owns BSP, calibration, fixtures and production evidence",
+      "developer-platform: SAMBU owns language and engineering tooling",
+      "desktop-diagnostics: ToolNG owns Windows device evidence and local reports",
+      "control-plane: Klipot owns discovery and operator-facing registry projection"
+    ],
+    "updates": {
+      "dependency_updates": "Dependabot weekly pull requests; CI required",
+      "automatic_merge": false,
+      "automatic_installation": false,
+      "software_release_updates": "GitHub Releases are the planned distribution source; verify provenance, signature and compatibility before operator-approved installation",
+      "rollback": "retain previous known-good release and provide a tested recovery path for runtime, kernel and firmware changes"
+    }
   },
   "modules": [
     {
@@ -170,6 +188,48 @@
         "sambu-module-manifest-v1",
         "public-repository-metadata"
       ]
+    },
+    {
+      "id": "nun-kernel",
+      "repository": "bboroski/NUN",
+      "role": "minimal-kernel-substrate-specification",
+      "runtime": [
+        "specification-only",
+        "architecture-specific target toolchains"
+      ],
+      "maturity": "specification-only",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "kernel-boot-contract-v1",
+        "architecture-entry-contract",
+        "memory-map-handoff-contract",
+        "kernel-layer-boundaries"
+      ],
+      "consumes": [
+        "versioned-boot-information-block",
+        "architecture-specific-loader-handoff"
+      ]
+    },
+    {
+      "id": "nun-launcher",
+      "repository": "bboroski/NUNLauncher",
+      "role": "kernel-bootstrap-supervisor-specification",
+      "runtime": [
+        "specification-only",
+        "firmware/bootloader-specific implementation"
+      ],
+      "maturity": "specification-only",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "kernel-image-validation-contract-v1",
+        "versioned-boot-information-block",
+        "controlled-kernel-handoff"
+      ],
+      "consumes": [
+        "nun-kernel-image-contract-v1",
+        "platform-memory-map",
+        "boot-verification-material"
+      ]
     }
   ],
   "edges": [
@@ -249,6 +309,27 @@
       "kind": "optional-health-observation",
       "status": "adapter-ready",
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
+    },
+    {
+      "from": "nun-launcher",
+      "to": "nun-kernel",
+      "kind": "kernel-boot-contract",
+      "status": "planned",
+      "scope": "NUNLauncher validates the NUN image and constructs the versioned handoff; both repositories are specification-only."
+    },
+    {
+      "from": "kloz-platform",
+      "to": "nun-kernel",
+      "kind": "optional-platform-adapter",
+      "status": "planned",
+      "scope": "A future kernel port may adapt Kloz capabilities; NUN must remain independently buildable."
+    },
+    {
+      "from": "saintsi-assurance",
+      "to": "nun-kernel",
+      "kind": "optional-assurance-adapter",
+      "status": "planned",
+      "scope": "Future runtime observations are optional and cannot authorize resets or actuator actions."
     }
   ],
   "shared_contracts": {
