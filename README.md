@@ -111,3 +111,9 @@ MIT — див. [LICENSE](LICENSE).
 - [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
 - [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
 - Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
+
+## Closed-domain metric and boundary model
+
+- [CDM-1 specification, assumptions, and physics limits](docs/CLOSED_DOMAIN_METRIC.md)
+- [JSON Schema](data/physics/closed_domain_metric.schema.json) · [Example input](data/physics/closed_domain_metric.example.json)
+- Validate with `python tools/validate_closed_domain.py data/physics/closed_domain_metric.example.json` or run `python tools/validate_closed_domain.py --self-test`.
