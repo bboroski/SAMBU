@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "record_id": "neutral-demo-001",
+  "source_ref": "fixture-source-001",
+  "representations": [
+    {
+      "kind": "source_text",
+      "language_hint": "zh-Hans",
+      "script_profile": ["Han"],
+      "source_ref": "fixture-source-001"
+    },
+    {
+      "kind": "romanization",
+      "language_hint": null,
+      "script_profile": ["Latin"],
+      "transliteration_scheme": "caller-supplied scheme label",
+      "source_ref": "fixture-romanization-001"
+    },
+    {
+      "kind": "nonlexical_vocalization",
+      "language_hint": null,
+      "script_profile": ["Latin"],
+      "source_ref": "fixture-vocalization-001"
+    }
+  ],
+  "language_identification": "caller_supplied",
+  "translation_status": "not_performed",
+  "semantic_status": "not_assessed",
+  "normalization_form": "NFC",
+  "structure": {
+    "section_kinds": ["verse", "chorus"],
+    "repeated_line_groups": 1,
+    "return_cycles": 1
+  },
+  "quality": {
+    "mixed_script_segments": 1,
+    "unresolved_segments": 0,
+    "review_required": true
+  },
+  "raw_text_stored": false
+}
