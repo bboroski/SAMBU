@@ -12,11 +12,12 @@ CHANGELOG = ROOT / "CHANGELOG.md"
 class ChangelogHistoryTests(unittest.TestCase):
     def test_all_published_release_sections_remain_present_once(self):
         content = CHANGELOG.read_text(encoding="utf-8")
-        versions = re.findall(r"^## (0\\.\\d+\\.\\d+) — ", content, flags=re.MULTILINE)
-        expected = [f"0.{minor}.0" for minor in range(11, 0, -1)]
-        expected[1] = "0.10.0"
+        versions = re.findall(r"^## (0\.\d+\.\d+) — ", content, flags=re.MULTILINE)
+        expected = [
+            "0.11.0", "0.10.0", "0.9.0", "0.8.0", "0.7.0", "0.6.0",
+            "0.5.1", "0.5.0", "0.4.0", "0.3.0", "0.2.0", "0.1.0",
+        ]
         self.assertEqual(versions, expected)
-        self.assertIn("## 0.5.1 — 2026-11-09", content)
 
 
 if __name__ == "__main__":
