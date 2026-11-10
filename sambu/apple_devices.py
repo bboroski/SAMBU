@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from pathlib import Path
 import platform as host_platform
+import math
 import shutil
 import subprocess
 from typing import Callable, Sequence
@@ -126,8 +127,8 @@ class AppleDeviceToolkit:
         runner: Runner = subprocess.run,
         platform_name: str | None = None,
     ) -> None:
-        if timeout <= 0:
-            raise ValueError("timeout must be greater than zero")
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("timeout must be a finite number greater than zero")
         self.bin_dir = Path(bin_dir).expanduser() if bin_dir is not None else None
         self.locale = LanguageManager(language)
         self.timeout = float(timeout)
@@ -198,14 +199,15 @@ class AppleDeviceToolkit:
             version_result = self._run([path, "--version"])
             version = None
             error = None
+            runnable = version_result is not None and version_result.returncode == 0
             if version_result is not None:
                 candidate = (version_result.stdout or version_result.stderr).strip()
-                if version_result.returncode == 0 and candidate:
+                if runnable and candidate:
                     version = candidate.splitlines()[0][:120]
-                elif version_result.returncode != 0:
-                    error = self._short_error(version_result)
+                elif not runnable:
+                    error = self._short_error(version_result) or "The utility did not pass its version probe."
             tools.append(ToolStatus(
-                name=name, available=True, path=path, version=version, error=error
+                name=name, available=runnable, path=path, version=version, error=error
             ))
         return tuple(tools)
 
@@ -224,7 +226,7 @@ class AppleDeviceToolkit:
         elif "1060" in service_text or "does not exist" in service_text:
             diagnostics.append(Diagnostic(
                 "apple_service", "warning", self._message("windows_service_missing"),
-                "Install Apple Mobile Device Support from a supported iTunes distribution, then reconnect the device.",
+                self._message("recommend_install_driver"),
             ))
         elif "running" in service_text:
             diagnostics.append(Diagnostic(
@@ -416,7 +418,7 @@ class AppleDeviceToolkit:
                     diagnostics.append(Diagnostic(
                         f"pairing_{device.udid}", "warning",
                         self._message("pairing_invalid"),
-                        "This diagnostic only validates an existing record; it does not create or replace pairing records.",
+                        self._message("recommend_pair_readonly"),
                     ))
                 else:
                     diagnostics.append(Diagnostic(
@@ -468,7 +470,8 @@ class AppleDeviceToolkit:
                 ))
             else:
                 tests.append(HardwareTest(
-                    "device_family", "pass", f"Detected {device.family}.", prefix
+                    "device_family", "pass",
+                    self._message("device_detected", family=device.family), prefix
                 ))
             metadata_ok = bool(device.product_type and device.ios_version)
             tests.append(HardwareTest(
@@ -491,5 +494,21 @@ class AppleDeviceToolkit:
                 "pairing_validation", pairing_status,
                 self._message(pairing_key), prefix,
             ))
+
+        # Promote Windows transport checks into the physical hardware suite.
+        # An unsupported check is explicitly skipped; a detected warning fails
+        # the suite so driver/service regressions are visible in the lab.
+        windows_codes = {
+            "apple_service", "apple_service_check", "apple_usb_driver",
+            "apple_usb_enumeration", "usb_transport", "cable_port",
+        }
+        status_map = {"ok": "pass", "warning": "warn", "error": "fail", "unsupported": "skip"}
+        for diagnostic in report.diagnostics:
+            if diagnostic.code in windows_codes:
+                tests.append(HardwareTest(
+                    diagnostic.code,
+                    status_map.get(diagnostic.status, "skip"),
+                    diagnostic.message,
+                ))
 
         return HardwareTestReport(self.platform, tuple(tests), len(report.devices))
