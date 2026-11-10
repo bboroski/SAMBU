@@ -1,0 +1,192 @@
+[
+  {
+    "cluster_id": "T-001",
+    "theme": "cultural_celebration",
+    "tone": "neutral_informational",
+    "key_symbols": [
+      "event_calendar",
+      "public_schedule",
+      "seasonal_date"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "informational_prose",
+    "stylistic_devices": [
+      "chronological_listing",
+      "descriptive_labeling"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-001",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-002",
+    "theme": "identity_transformation",
+    "tone": "neutral_explanatory",
+    "key_symbols": [
+      "account_profile",
+      "role_mapping",
+      "state_transition"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "technical_documentation",
+    "stylistic_devices": [
+      "process_description",
+      "state_transition_summary"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-002",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-003",
+    "theme": "geopolitical_awareness",
+    "tone": "neutral_analytical",
+    "key_symbols": [
+      "service_region",
+      "network_zone",
+      "routing_policy"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "analytical_prose",
+    "stylistic_devices": [
+      "regional_comparison",
+      "structured_listing"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-003",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-004",
+    "theme": "emotional_duality",
+    "tone": "neutral_comparative",
+    "key_symbols": [
+      "status_before",
+      "status_after",
+      "comparison_table"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "technical_summary",
+    "stylistic_devices": [
+      "before_after_contrast",
+      "tabular_comparison"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-004",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-005",
+    "theme": "spiritual_syncretism",
+    "tone": "formal_descriptive",
+    "key_symbols": [
+      "museum_catalog",
+      "symbol_index",
+      "historical_record"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "catalog_description",
+    "stylistic_devices": [
+      "classification",
+      "reference_linking"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-005",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-006",
+    "theme": "technological_metaphor",
+    "tone": "neutral_explanatory",
+    "key_symbols": [
+      "service_request",
+      "queue_state",
+      "cache_entry"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "technical_documentation",
+    "stylistic_devices": [
+      "process_description",
+      "precise_labeling"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-006",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-007",
+    "theme": "conflict_resilience",
+    "tone": "neutral_procedural",
+    "key_symbols": [
+      "incident_ticket",
+      "recovery_plan",
+      "service_restoration"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "operational_report",
+    "stylistic_devices": [
+      "incident_timeline",
+      "recovery_checklist"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-007",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-008",
+    "theme": "linguistic_hybridity",
+    "tone": "neutral_instructional",
+    "key_symbols": [
+      "interface_label",
+      "translation_key",
+      "locale_fallback"
+    ],
+    "language": [
+      "en",
+      "uk"
+    ],
+    "linguistic_register": "bilingual_interface_text",
+    "stylistic_devices": [
+      "parallel_labeling",
+      "terminology_alignment"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-008",
+    "ontology_version": "2026.12"
+  },
+  {
+    "cluster_id": "T-009",
+    "theme": "surreal_juxtaposition",
+    "tone": "neutral_analytical",
+    "key_symbols": [
+      "weather_station",
+      "asset_catalog",
+      "label_collision"
+    ],
+    "language": [
+      "en"
+    ],
+    "linguistic_register": "technical_commentary",
+    "stylistic_devices": [
+      "unexpected_pairing",
+      "category_comparison"
+    ],
+    "safety_flag": "NEEDS_REVIEW",
+    "source_ref": "synthetic-demo-009",
+    "ontology_version": "2026.12"
+  }
+]
