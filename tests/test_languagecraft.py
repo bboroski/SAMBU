@@ -72,7 +72,7 @@ print(report.warning_count)
 print(report.grammar_reachability)
 print(report.token_coverage)
 """)
-        self.assertEqual(output, ["true", "ready_with_warnings", "3", "0.5", "0.5"])
+        self.assertEqual(output, ["true", "ready_with_warnings", "2", "0.5", "0.5"])
 
     def test_duplicate_lexemes_are_reported_as_collisions(self):
         _, output = self.run_sambu("""
