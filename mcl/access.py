@@ -2,8 +2,8 @@
 from sambu.jiu_jitsu import (
     AccessDenied,
     DualActionButton,
-    JiuJitsu as AccessComposition,
-    JiuJitsuApp as AccessControlledApplication,
+    AccessComposition,
+    AccessControlledApplication,
     ModalDefinition,
     ModalManager,
     Role,
