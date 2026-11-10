@@ -2,21 +2,21 @@
 
 **Status:** implemented as experimental Python-host APIs in SAMBU 0.11.x. These primitives are not language keywords, an autonomous scheduler, a cryptographic implementation or a security sandbox.
 
-This design note translates several systems ideas from a fictional cyclical machine threat into safeguards for ordinary software. It intentionally does not reproduce the source fiction's destructive solution. In SAMBU, continuity means preserving validated state and institutional memory without coercion, hidden control or irreversible destructive actions.
+This design note defines bounded lifecycle and signal-integrity safeguards for software systems. It uses observable state transitions, authenticated inputs, explicit authority boundaries and recoverable snapshots; it makes no assumptions about external narratives or actor intent.
 
-## Design translation
+## Design model
 
-| Source idea | SAMBU engineering interpretation |
+| Technical pattern | SAMBU engineering interpretation |
 |---|---|
-| Repeated galactic cycles | Explicit, bounded finite-state workflows with auditable transitions |
-| A central relay and control hub | Make central dependencies visible; prefer replaceable interfaces and independent failure domains |
-| A dormant vanguard that activates a larger system | Separate observation, preparation and activation; require evidence at each operational boundary |
-| Indoctrination through persistent signals | Authenticate issuer provenance, reject replay, bound payloads and quarantine failures |
-| A harvested civilization preserved as a machine archive | Preserve a digest of an approved snapshot; keep the payload and retention policy under host/user control |
-| Modified thralls and proxy forces | Treat transformed external agents as untrusted; never inherit capabilities merely from their origin or role |
-| An assumed organic/synthetic conflict | Do not encode inevitable conflict as a system premise; support cooperation through explicit, inspectable contracts |
+| Recurring fault sequences | Explicit, bounded finite-state workflows with auditable transitions |
+| Central coordination service | Visible dependencies, replaceable interfaces and independent failure domains |
+| Staged activation | Separate observation, preparation and activation; require evidence at each boundary |
+| Persistent or replayed signals | Authenticate issuer provenance, reject replay, bound payloads and quarantine failures |
+| Approved state archival | Preserve a digest of an approved snapshot; keep payload and retention under host control |
+| Third-party worker processes | Treat external agents as untrusted; grant only declared capabilities |
+| Independently evolving subsystems | Manage compatibility through versioned, inspectable contracts |
 
-The key inversion is deliberate: preservation is not permission to harm, deceive, coerce or silently override an operator. A system may stop, degrade safely, request review or archive a state; it must not claim that destructive action is necessary for continuity.
+The invariant is explicit: state preservation never grants authority to harm, deceive, coerce or silently override an operator. A system may stop, degrade safely, request review or archive a state; destructive action is never presumed necessary for continuity.
 
 ## 1. CycleController
 
