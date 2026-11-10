@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+<title id="title">SAMBU IDE — black and yellow vector UI preview</title>
+<desc id="desc">High-resolution layout preview of a SAMBU code editor with synthetic source and output. This is not a screenshot of a running application.</desc>
+<rect width="1920" height="1080" fill="#0D0D0D"/><rect width="1920" height="74" fill="#141414"/>
+<rect x="22" y="14" width="44" height="44" rx="10" fill="#FFD600"/><path d="M31 39c0-10 8-18 18-18 10 0 18 8 18 18 0 3-1 5-3 8H42c-7 0-11-3-11-8z" fill="#0D0D0D"/>
+<text x="84" y="46" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="24" font-weight="700">SAMBU IDE</text>
+<rect x="275" y="16" width="96" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="323" y="43" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="14">Open</text>
+<rect x="382" y="16" width="100" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="432" y="43" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="14">Save</text>
+<rect x="502" y="16" width="118" height="42" rx="7" fill="#FFD600"/><text x="561" y="43" text-anchor="middle" fill="#0D0D0D" font-family="Segoe UI,Arial" font-size="14" font-weight="700">Run ▶</text>
+<rect x="632" y="16" width="164" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="714" y="43" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="14">Check syntax</text>
+<rect x="1680" y="16" width="64" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="1712" y="43" text-anchor="middle" fill="#FFD600" font-family="Segoe UI,Arial" font-size="14">−</text>
+<rect x="1752" y="16" width="74" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="1789" y="43" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="13">100%</text>
+<rect x="1834" y="16" width="64" height="42" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="1866" y="43" text-anchor="middle" fill="#FFD600" font-family="Segoe UI,Arial" font-size="14">+</text>
+<rect x="0" y="74" width="270" height="956" fill="#0D0D0D" stroke="#262626"/>
+<text x="24" y="120" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">WORKSPACE</text>
+<g fill="#E6E6E6" font-family="Cascadia Code,Consolas,monospace" font-size="14"><text x="30" y="164">▾  examples</text><text x="56" y="202">hello.sambu</text><text x="56" y="240">numeric.sambu</text><text x="30" y="290">▾  src</text><text x="56" y="328">runtime.sambu</text><text x="56" y="366">lexer.sambu</text><text x="30" y="420">README.md</text><text x="30" y="458">pyproject.toml</text></g>
+<rect x="270" y="74" width="1320" height="44" fill="#1A1A1A"/><text x="294" y="102" fill="#FFD600" font-family="Cascadia Code,Consolas,monospace" font-size="14">hello.sambu</text><text x="1548" y="102" text-anchor="end" fill="#999999" font-family="Segoe UI,Arial" font-size="12">UTF-8 · LF · SAMPLE SOURCE</text>
+<rect x="1590" y="74" width="330" height="956" fill="#1A1A1A" stroke="#262626"/>
+<rect x="270" y="118" width="1320" height="610" fill="#0D0D0D"/>
+<g font-family="Cascadia Code,Consolas,monospace" font-size="18">
+<g fill="#999999"><text x="300" y="166">1</text><text x="300" y="206">2</text><text x="300" y="246">3</text><text x="300" y="286">4</text><text x="300" y="326">5</text><text x="300" y="366">6</text><text x="300" y="406">7</text><text x="300" y="446">8</text><text x="300" y="486">9</text></g>
+<text x="354" y="166" fill="#999999"># Minimal deterministic example</text>
+<text x="354" y="246" fill="#FFD600">let</text><text x="398" y="246" fill="#E6E6E6"> message = </text><text x="515" y="246" fill="#4CAF50">"Hello from SAMBU"</text>
+<text x="354" y="286" fill="#FFD600">let</text><text x="398" y="286" fill="#E6E6E6"> samples = [3, 5, 8, 13]</text>
+<text x="354" y="326" fill="#FFD600">let</text><text x="398" y="326" fill="#E6E6E6"> total = sum(samples)</text>
+<text x="354" y="366" fill="#FFD600">print</text><text x="420" y="366" fill="#E6E6E6">(message)</text>
+<text x="354" y="406" fill="#FFD600">print</text><text x="420" y="406" fill="#E6E6E6">(total)</text>
+</g>
+<rect x="270" y="728" width="1320" height="302" fill="#141414" stroke="#262626"/>
+<text x="294" y="768" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">OUTPUT</text>
+<text x="294" y="818" fill="#4CAF50" font-family="Cascadia Code,Consolas,monospace" font-size="17">Hello from SAMBU</text>
+<text x="294" y="856" fill="#E6E6E6" font-family="Cascadia Code,Consolas,monospace" font-size="17">29</text>
+<text x="294" y="916" fill="#999999" font-family="Cascadia Code,Consolas,monospace" font-size="14">Process exited with code 0 · synthetic illustration</text>
+<text x="1618" y="120" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">OUTLINE</text>
+<g fill="#E6E6E6" font-family="Cascadia Code,Consolas,monospace" font-size="14"><text x="1620" y="164">variable  message</text><text x="1620" y="202">variable  samples</text><text x="1620" y="240">variable  total</text></g>
+<path d="M1618 280H1892" stroke="#262626"/>
+<text x="1618" y="324" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">DIAGNOSTICS</text>
+<text x="1620" y="368" fill="#4CAF50" font-family="Cascadia Code,Consolas,monospace" font-size="13">✓ Syntax valid</text>
+<text x="1620" y="408" fill="#999999" font-family="Segoe UI,Arial" font-size="12">Tokens: 18</text>
+<text x="1620" y="438" fill="#999999" font-family="Segoe UI,Arial" font-size="12">SHA256: demo…</text>
+<rect x="0" y="1030" width="1920" height="50" fill="#141414"/><text x="24" y="1060" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700">READY</text><text x="1890" y="1060" text-anchor="end" fill="#999999" font-family="Segoe UI,Arial" font-size="12">Ctrl + / Ctrl − / Ctrl 0 · UI PREVIEW · SAMPLE SOURCE</text>
+</svg>
