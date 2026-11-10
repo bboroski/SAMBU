@@ -1,9 +1,9 @@
-# Neo-Modern Diplomat blueprint: deterministic domain planning only.
+# Systems Operations blueprint: deterministic domain planning only.
 # No audio is rendered, no external commerce service is called, and no real
 # calendar, CRM, telephony or smart-light action is performed.
 
 # I. Sound production profile — a specification, not a DSP engine.
-let mix = audio_profile("Neo Modern Diplomat", 150, 60, 15, -0.3, true, true, true, true, true)
+let mix = audio_profile("Systems Operations", 150, 60, 15, -0.3, true, true, true, true, true)
 print("Production profile:")
 print(mix.name)
 print(mix.bpm)
