@@ -111,3 +111,11 @@ MIT — див. [LICENSE](LICENSE).
 - [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
 - [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
 - Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
+
+
+## Reaper and biology engineering capabilities
+
+- [Reaper-inspired domain runtime and API](docs/DOMAIN_CAPABILITIES.md)
+- [Executable biology catalogue and 500-term search API](docs/BIOLOGY_CAPABILITIES.md)
+- [550-record bilingual term-to-capability map](data/domain/term-capability-map.tsv)
+- [Validate the full mapping](tools/validate_term_capability_map.py)
