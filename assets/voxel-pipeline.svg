@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="370" viewBox="0 0 1200 370" role="img" aria-labelledby="title desc">
+<title id="title">SAMBU sparse voxel processing pipeline</title>
+<desc id="desc">The sparse voxel subsystem progresses from occupied cells through chunked spatial indexing to octrees, ray traversal, surface meshing, graph utilities and renderer-neutral engine payloads.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#eff7f3"/><stop offset="1" stop-color="#dceee8"/></linearGradient>
+<style>.h{font:700 25px system-ui,sans-serif;fill:#17463f}.t{font:700 16px system-ui,sans-serif;fill:#17463f}.p{font:500 13px system-ui,sans-serif;fill:#3e675d}.a{stroke:#5b9986;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}</style></defs>
+<rect width="1200" height="370" rx="24" fill="url(#bg)"/>
+<text x="42" y="54" class="h">SPARSE VOXEL PIPELINE</text>
+<text x="42" y="80" class="p">Sparse storage preserves occupied space; spatial structures support bounded geometry and inspection.</text>
+<g transform="translate(36 130)">
+ <rect width="205" height="162" rx="16" fill="#fff" stroke="#a7cdbf" stroke-width="2"/>
+ <text x="102" y="29" text-anchor="middle" class="t">01 · VOXEL CELLS</text>
+ <g fill="#e2b956" stroke="#a7802a" stroke-width="2">
+ <path d="M50 66 78 50 106 66 78 82Z"/><path d="M50 66v33l28 16V82Z"/><path d="M78 82v33l28-16V66Z"/>
+ <path d="M105 101 133 85 161 101 133 117Z"/><path d="M105 101v33l28 16v-33Z"/><path d="M133 117v33l28-16v-33Z"/>
+ </g><text x="102" y="154" text-anchor="middle" class="p">occupied-cell storage</text>
+ <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
+</g>
+<g transform="translate(265 130)">
+ <rect width="205" height="162" rx="16" fill="#fff" stroke="#a7cdbf" stroke-width="2"/>
+ <text x="102" y="29" text-anchor="middle" class="t">02 · SPATIAL INDEX</text>
+ <g stroke="#559482" stroke-width="2" fill="#d6ebe3">
+  <path d="M57 55h92v73H57z"/><path d="M87 55v73m31-73v73M57 91h92"/>
+ </g><g fill="#e2b956"><rect x="62" y="60" width="19" height="25"/><rect x="123" y="96" width="21" height="27"/></g>
+ <text x="102" y="154" text-anchor="middle" class="p">chunks · affine frames · Morton keys</text>
+ <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
+</g>
+<g transform="translate(494 130)">
+ <rect width="205" height="162" rx="16" fill="#fff" stroke="#a7cdbf" stroke-width="2"/>
+ <text x="102" y="29" text-anchor="middle" class="t">03 · STRUCTURES</text>
+ <g stroke="#559482" stroke-width="2" fill="#d6ebe3"><path d="M102 50 57 82h90Z"/><path d="M102 50v32M57 82l-22 42h44Zm90 0-22 42h44ZM80 124v-31h44v31Z" fill="#b5d9cd"/></g>
+ <text x="102" y="154" text-anchor="middle" class="p">octrees · DDA · graph Laplacians</text>
+ <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
+</g>
+<g transform="translate(723 130)">
+ <rect width="205" height="162" rx="16" fill="#fff" stroke="#a7cdbf" stroke-width="2"/>
+ <text x="102" y="29" text-anchor="middle" class="t">04 · GEOMETRY</text>
+ <g fill="#73a895" stroke="#366d5d" stroke-width="2"><path d="M48 112 80 58h55l29 54-29 21H80Z"/><path d="M80 58 92 77h55M48 112h116M92 77l-12 56"/></g>
+ <text x="102" y="154" text-anchor="middle" class="p">exposed-face surface meshing</text>
+ <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
+</g>
+<g transform="translate(952 130)">
+ <rect width="212" height="162" rx="16" fill="#174f47"/>
+ <text x="106" y="29" text-anchor="middle" class="t" style="fill:#fff">05 · OUTPUT</text>
+ <text x="106" y="62" text-anchor="middle" class="p" style="fill:#d7eee5">renderer-neutral payloads</text>
+ <text x="106" y="89" text-anchor="middle" class="p" style="fill:#d7eee5">VOX interchange</text>
+ <text x="106" y="116" text-anchor="middle" class="p" style="fill:#d7eee5">starter engine bridges</text>
+ <text x="106" y="144" text-anchor="middle" class="p" style="fill:#d7eee5">Unity · Unreal · Godot · Bevy · O3DE</text>
+</g>
+<text x="600" y="337" text-anchor="middle" class="p">Conceptual flow; specific bridge maturity and supported operations are documented separately.</text>
+</svg>
