@@ -105,6 +105,13 @@ MIT — див. [LICENSE](LICENSE).
 
 Справочный офлайн-набор для обучения и метаданных; он не управляет системами, устройствами и диагностикой.
 
+
+## Reaper-inspired engineering domain pack
+
+- [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
+- [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
+- Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
+
 ## Reaper cycle simulation
 
 [Simulation adapter contract](docs/REAPER_SIMULATION_ADAPTER.md) — deterministic 64-bit state evolution, seeded experiments, and a strict 6666-iteration ceiling. The model is synthetic, not a physical or quantum process.
