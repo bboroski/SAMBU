@@ -1,0 +1,17 @@
+# SAMBU articulatory syntax: words express grammar through sound shape.
+# Canonical forms (let/fn/if/return/print/maxwell) remain valid alongside these.
+
+kava temperature = 300 * K
+kava particle_mass = 6.6e-26 * kg
+kava profile = vava(temperature, particle_mass)
+
+tava square(value) {
+  tavum value * value
+}
+
+teva square(5) > 0 {
+  lava(profile.rms)
+  lava(square(5))
+} teven {
+  lava(0)
+}
