@@ -128,9 +128,9 @@ mcl-test tests --repeat 2 --json
 
 ## Documentation and contribution
 
-- [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [IDE Guide](docs/DUCK_STUDIO.md)
+- [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/MCL_ENGINEERING_DOCTRINE.md)
+- [Systems Architecture](docs/MCL_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [IDE Guide](docs/MCL_WORKBENCH.md)
 - [Source](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 External API, platform, and file-format identifiers remain unchanged for interoperability. Internal naming migration must not silently alter the format of existing source files.
