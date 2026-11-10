@@ -214,3 +214,9 @@ Focused pull requests are welcome. Include a minimal reproducer, expected and ac
 **SAMBU — model clearly. compose carefully. verify honestly.** 🦆
 
 </div>
+
+## NUN Mesh integration
+
+<p align="center"><img src="assets/nun-mesh.svg" width="100%" alt="SAMBU highlighted within the NUN Mesh project ecosystem"></p>
+
+SAMBU is the language and developer-tooling layer. Its Tkinter IDE and Duck Studio remain separate applications; ToolNG embeds only the portable policy/workflow core, not the Python interpreter. [Integration guide](docs/ECOSYSTEM_INTEGRATION.md) · [Klipot portal](https://github.com/bboroski/Klipot) · [Shared protocol](https://github.com/bboroski/Klipot/blob/main/docs/INTEGRATION_PROTOCOL.md)
