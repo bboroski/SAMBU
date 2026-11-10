@@ -140,23 +140,31 @@ def _device(argv: list[str]) -> int:
             if args.as_json:
                 print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
             else:
-                print("SAMBU Apple Device Diagnostics")
-                print(f"Platform: {report.platform}")
-                print("Tools:")
+                print(toolkit.locale.gettext("report_title"))
+                print(f"{toolkit.locale.gettext('platform_label')}: {report.platform}")
+                print(f"{toolkit.locale.gettext('tools_label')}:")
                 for item in report.tools:
-                    state = "available" if item.available else "missing"
+                    state = toolkit.locale.gettext(
+                        "tool_state_available" if item.available else "tool_state_missing"
+                    )
                     suffix = f" — {item.version}" if item.version else ""
                     print(f"  {item.name}: {state}{suffix}")
-                print(f"Devices: {len(report.devices)}")
+                print(f"{toolkit.locale.gettext('devices_label')}: {len(report.devices)}")
                 for device in report.devices:
                     print(
                         f"  {device.name or device.udid}: {device.family}; "
                         f"{device.product_type or 'model unavailable'}; "
-                        f"iOS {device.ios_version or 'version unavailable'}; "
-                        f"pairing={device.pairing_valid}"
+                        f"{toolkit.locale.gettext('device_ios_label')} {device.ios_version or 'version unavailable'}; "
+                        f"{toolkit.locale.gettext('pairing_label')}={device.pairing_valid}"
                     )
                 for item in report.diagnostics:
-                    print(f"[{item.status.upper()}] {item.message}")
+                    status_key = {
+                        "ok": "test_status_ok",
+                        "warning": "test_status_warning",
+                        "error": "test_status_error",
+                        "unsupported": "test_status_unsupported",
+                    }.get(item.status, "test_status_warning")
+                    print(f"[{toolkit.locale.gettext(status_key)}] {item.message}")
                     if item.recommendation:
                         print(f"  -> {item.recommendation}")
             return 0
@@ -165,10 +173,16 @@ def _device(argv: list[str]) -> int:
         if args.as_json:
             print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
         else:
-            print(f"SAMBU Apple hardware smoke tests — {report.devices_tested} device(s)")
+            print(f"{toolkit.locale.gettext('smoke_title')} — {report.devices_tested}")
             for item in report.tests:
                 suffix = f" [{item.device_udid}]" if item.device_udid else ""
-                print(f"[{item.status.upper()}] {item.name}{suffix}: {item.message}")
+                status_key = {
+                    "pass": "test_status_pass",
+                    "fail": "test_status_fail",
+                    "skip": "test_status_skip",
+                    "warn": "test_status_warn",
+                }.get(item.status, "test_status_warning")
+                print(f"[{toolkit.locale.gettext(status_key)}] {item.name}{suffix}: {item.message}")
         return 0 if report.passed else 1
     except (OSError, ValueError, RuntimeError) as exc:
         print(f"sambu device: {exc}", file=sys.stderr)
