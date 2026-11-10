@@ -1,6 +1,7 @@
 include README.md LICENSE CHANGELOG.md PUBLISH_TO_GITHUB.md
 recursive-include docs *.md
-recursive-include examples *.sambu
+recursive-include schemas *.json
+recursive-include examples *.sambu *.json
 recursive-include tests *.py
 recursive-include .github *.yml
 
