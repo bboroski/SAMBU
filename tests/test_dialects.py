@@ -58,6 +58,15 @@ end.
             transpile(source, "pascal")
 
 
+class DefaultOutputDialectTests(unittest.TestCase):
+    def test_execute_dialect_uses_print_when_no_callback_is_supplied(self):
+        source = "program OutputDemo;\nbegin\n  writeln(42);\nend."
+        captured = StringIO()
+        with redirect_stdout(captured):
+            execute_dialect(source, "pascal")
+        self.assertEqual(captured.getvalue(), "42\n")
+
+
 class DelphiDialectTests(unittest.TestCase):
     def test_object_pascal_function_and_actor_builtins_work(self):
         source = """
