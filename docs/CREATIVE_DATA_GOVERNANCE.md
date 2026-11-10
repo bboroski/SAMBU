@@ -117,30 +117,30 @@ The tool validates supplied labels. It does not classify unannotated text, gener
 
 ## 6. Corpus fixture and Text Craft crosswalk
 
-The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains nine compact, source-free annotations representing recurring patterns in the supplied March–April 2025 material. Each record is marked \`NEEDS_REVIEW\`: the fixture demonstrates schema shape, not a completed content or safety review.
+The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains nine compact, source-free annotations representing recurring patterns in the supplied March–April 2025 material. Each record is marked `NEEDS_REVIEW`: the fixture demonstrates schema shape, not a completed content or safety review.
 
 | Observed pattern in the material | SAMBU representation |
 |---|---|
-| Celebration, ritual and fairground imagery | \`T-001\` — cultural celebration |
-| Persona, social roles and identity shifts | \`T-002\` — identity transformation |
-| Institutions, borders and geopolitical commentary | \`T-003\` — geopolitical awareness |
-| Relationship contrast, memory and distance | \`T-004\` — emotional duality |
-| Religious, folk and symbolic imagery | \`T-005\` — spiritual syncretism |
-| Computer, hardware and digital/analogue metaphors | \`T-006\` — technological metaphor |
-| Conflict, education, satire and endurance | \`T-007\` — conflict and resilience |
-| Russian/Ukrainian/English code-switching, dialect and phonetic play | \`T-008\` — linguistic hybridity |
-| Abrupt image shifts, absurd associations and phonetic collisions | \`T-009\` — surreal juxtaposition (ontology \`2026.12\`) |
+| Celebration, ritual and fairground imagery | `T-001` — cultural celebration |
+| Persona, social roles and identity shifts | `T-002` — identity transformation |
+| Institutions, borders and geopolitical commentary | `T-003` — geopolitical awareness |
+| Relationship contrast, memory and distance | `T-004` — emotional duality |
+| Religious, folk and symbolic imagery | `T-005` — spiritual syncretism |
+| Computer, hardware and digital/analogue metaphors | `T-006` — technological metaphor |
+| Conflict, education, satire and endurance | `T-007` — conflict and resilience |
+| Russian/Ukrainian/English code-switching, dialect and phonetic play | `T-008` — linguistic hybridity |
+| Abrupt image shifts, absurd associations and phonetic collisions | `T-009` — surreal juxtaposition (ontology `2026.12`) |
 
-Text Craft supplies deterministic, non-semantic signals alongside human annotation: section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. The new \`performance_cues_profile\` detects stage directions, parenthetical asides, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
+Text Craft supplies deterministic, non-semantic signals alongside human annotation: section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. The new `performance_cues_profile` detects stage directions, parenthetical asides, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
 
 Validate the metadata-only fixture:
 
-\`\`\`bash
+```bash
 sambu creative validate examples/creative_corpus_metadata.sample.json --json
 sambu examples/performance_cues.sambu
-\`\`\`
+```
 
-The fixture contains no raw lyrics, quoted passages, personal identifiers or generated training vectors. It is not a training set and does not prove that a human review has occurred. Its \`2026.12\` records use the current schema; existing \`2026.11\` records remain readable under the compatibility rules above.
+The fixture contains no raw lyrics, quoted passages, personal identifiers or generated training vectors. It is not a training set and does not prove that a human review has occurred. Its `2026.12` records use the current schema; existing `2026.11` records remain readable under the compatibility rules above.
 
 ## 7. Future model and feedback work
 
