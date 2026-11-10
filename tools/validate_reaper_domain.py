@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Validate the curated Reaper-inspired engineering pattern catalogue.
+"""Validate the 50-entry engineering reference catalogue.
 
-The catalogue is a terminology and design-reference dataset, not executable
+The catalogue is a technical terminology and design-reference dataset, not executable
 code, a hardware specification, or a source of operational authority.
 """
 from __future__ import annotations
@@ -20,11 +20,11 @@ DATA_FILE = (
 FIELDS = ["id", "category", "term_en", "term_ru", "engineering_mapping"]
 EXPECTED_COUNT = 50
 EXPECTED_CATEGORIES = {
-    "reaper_biosynthetic",
-    "mass_effect_physics",
-    "reaper_infrastructure",
-    "cycle_philosophy",
-    "synthetic_intelligence",
+    "data_pipeline",
+    "physical_modeling",
+    "infrastructure_resilience",
+    "lifecycle_governance",
+    "distributed_intelligence",
 }
 
 
@@ -81,7 +81,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("OK: 50 curated Reaper-inspired engineering patterns validated.")
+    print("OK: 50 engineering reference patterns validated.")
     return 0
 
 
