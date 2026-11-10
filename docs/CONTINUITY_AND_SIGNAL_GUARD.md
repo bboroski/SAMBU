@@ -117,7 +117,7 @@ assert decision.accepted and decision.authenticated
 Run:
 
 ```bash
-python -m unittest tests.test_continuity -v
+python -m unittest discover -s tests -p 'test_continuity.py' -v
 ```
 
 The tests cover legal and illegal lifecycle transitions, missing evidence, event and cycle ceilings, hash-chain tampering, issuer denial, missing/invalid signatures, verifier failure, replay rejection, defensive payload copies and bounded decision history.
