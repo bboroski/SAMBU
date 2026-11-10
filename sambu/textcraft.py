@@ -436,7 +436,7 @@ def performance_cues_profile(args: list[object]) -> Record:
         ("parenthetical_aside", re.compile(r"\(([^()\n]{1,160})\)")),
         ("quoted_phrase", re.compile(r'"([^"\n]{1,160})"|“([^”\n]{1,160})”|«([^»\n]{1,160})»')),
         ("elongated_spelling", re.compile(
-            r"\b(?:[^\W\d_]{1,4}[-–]){2,}[^\W\d_]{1,4}\b",
+            r"\b(?:[^\W\d_]{1,16}[-–]){2,}[^\W\d_]{1,16}\b",
             re.IGNORECASE,
         )),
     )
