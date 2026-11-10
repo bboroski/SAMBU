@@ -8,7 +8,7 @@
 
 **A small language with a wide horizon.**
 
-An experimental, Python-hosted language and toolkit for scientific calculation, explicit models, system architecture, workflows and sparse voxel worlds.
+An experimental, Python-hosted language and toolkit for scientific calculation, explicit models, system architecture, workflows, sparse voxel worlds and read-only Apple device diagnostics.
 
 [![Version](https://img.shields.io/badge/version-0.11.0--alpha-536D8E?style=for-the-badge)](https://github.com/bboroski/SAMBU)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -49,7 +49,7 @@ It is important to distinguish the language from the Python toolkit:
 |---|---|---|
 | **SAMBU language** | Write and run `.sambu` files | `let`, `fn`, `if`, `for`, classes, quantities, percentage and voxel built-ins |
 | **SAMBU Python toolkit** | Import modules from Python | Judo, Aikido, Jiu-Jitsu, trust, chunking, patching and voxel data structures |
-| **Command-line tools** | Run installed commands | `sambu`, `sambu-studio`, `sambu-test` |
+| **Command-line tools** | Run installed commands | `sambu`, `sambu-studio`, `sambu-test`, `sambu device` |
 
 A Python API is not automatically a language keyword or built-in. Each capability is documented on the surface where it actually runs.
 
@@ -96,6 +96,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 | **Workflow models** | Evidence-linked records, relationship graphs, bounded batch plans, prioritization and pattern analysis |
 | **Trust tools** 🛡️ | SHA-256 content-integrity checks, issuer allow-lists, evidence dates and verification coverage |
 | **Chunking & patching** | Lazy bounded batches, stale-edit detection, conflict checks and reversible text patches |
+| **Apple Device Toolkit** 🍎 | Read-only iPhone/iPad discovery, ProductType/iOS version, pairing validation, Windows Apple USB driver/service checks and RU/EN reports |
 
 ### Sparse voxel systems
 
@@ -118,6 +119,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu` — execute SAMBU programs and create project scaffolds.
 - `sambu-studio` — read-only inspection of selected Magento / Adobe Commerce XML configuration.
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
+- `sambu device` — read-only Apple device diagnostics, iPhone/iPad metadata and non-destructive hardware smoke tests.
 - Reproducible voxel benchmark scripts.
 - Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
 - **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
@@ -405,6 +407,24 @@ The scaffold generator is implemented. **SAMBU Rails is not yet a running web fr
 | `sambu generate scaffold MODEL fields...` | Generate starter application files |
 | `sambu-studio inspect PATH` | Inspect selected Magento XML configuration |
 | `sambu-test tests --repeat 2` | Repeat the test suite and report outcome variation |
+| `sambu device diagnose --lang ru` | Diagnose Apple USB/libimobiledevice connectivity in Russian |
+| `sambu device diagnose --json` | Export a structured Apple device diagnostic report |
+| `sambu device test --json` | Run read-only iPhone/iPad hardware smoke tests |
+
+### Apple device diagnostics
+
+The optional Apple Device Toolkit uses compatible libimobiledevice command-line utilities and, on Windows, checks Apple Mobile Device Support, the USB driver package and Plug and Play enumeration. It reads model/iOS metadata only when the device and existing pairing permissions allow it. It never initiates pairing, changes device settings, installs drivers or accesses personal content.
+
+```powershell
+sambu device diagnose --lang en
+sambu device diagnose --lang ru --json
+sambu device diagnose --bin-dir C:\\tools\\libimobiledevice --json
+sambu device test --json
+```
+
+The locale API is available to host applications through LanguageManager. The hardware-lab workflow requires a Windows self-hosted runner with physical test devices; mocked CI tests do not count as device-compatibility evidence. Signed Windows releases require an organization-owned Authenticode certificate configured in GitHub Actions secrets.
+
+See [Apple Device Toolkit](docs/APPLE_DEVICE_TOOLKIT.md) for Windows prerequisites, diagnostics, hardware-lab setup and signing configuration.
 
 ### Optional web adapters
 
@@ -462,6 +482,8 @@ SAMBU repository
 │   ├── aikido.py          Inference orchestration
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
+│   ├── apple_devices.py   Read-only Apple device discovery and USB diagnostics
+│   ├── i18n.py            Shared RU/EN locale provider
 │   ├── autonomy.py        Bounded task policy, evidence ledger and change preflight
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
@@ -496,6 +518,8 @@ SAMBU is deliberately honest about its current boundaries.
 | Judo, Aikido and Jiu-Jitsu | **Python host APIs** |
 | Studio Magento XML inspection | **Implemented · read-only and limited** |
 | Project/scaffold generator | **Implemented · generated framework files are starters** |
+| Read-only Apple device toolkit and RU/EN diagnostics | **Implemented · experimental; physical device validation requires a hardware lab** |
+| Signed Windows installer workflow | **Implemented · requires an organization-owned Authenticode certificate** |
 | Native machine-code compiler and self-hosted runtime | **Planned** |
 | Full static type/effect/ownership checker | **Planned** |
 | Native green fibers, OS-thread scheduler and multicore parallelism | **Planned** |
@@ -543,6 +567,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [Sparse voxel architecture](docs/VOXELS.md)
 - [Game-engine adapter matrix](engine_adapters/README.md)
 - [Django, Flask and FastAPI integrations](docs/INTEGRATIONS.md)
+- [Apple Device Toolkit: libimobiledevice, Windows USB, RU/EN, hardware lab and signed installer](docs/APPLE_DEVICE_TOOLKIT.md)
 - [Magento / Adobe Commerce architecture and inspector](docs/MAGENTO_COMMERCE.md)
 - [SAMBU Studio and IDE roadmap](docs/IDE.md)
 - [Cripple archetype engineering charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md)
