@@ -1,22 +1,38 @@
-# SAMBU — Scientific Modeling & Automation Environment
+<p align="center">
+  <img src="assets/duck-ui/duck-mark.svg" alt="Duck mark" width="104" />
+</p>
+<h1 align="center">SAMBU</h1>
+<p align="center"><strong>Scientific Modeling &amp; Automation Environment</strong></p>
+<p align="center">
+  <img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL%20ALPHA-FFD600?style=for-the-badge&labelColor=111111" alt="Project status" />
+  <img src="https://img.shields.io/badge/CORE-PYTHON%20%2B%20C11-FFD600?style=for-the-badge&labelColor=111111" alt="Core technologies" />
+  <img src="https://img.shields.io/badge/LICENSE-MIT-FFD600?style=for-the-badge&labelColor=111111" alt="MIT license" />
+</p>
+<p align="center">
+  <a href="README.md">🇺🇦 Українська</a> ·
+  <a href="README.en.md">🇬🇧 English</a> ·
+  <a href="README.ru.md">🇷🇺 Русский</a>
+</p>
+<hr />
 
-**Наукова мовна та інженерна середа для відтворюваних обчислень, моделювання й автоматизації.**
+**Одна експериментальна середа для програмування, наукових моделей, просторових даних і відтворюваних workflow.** SAMBU поєднує інтерпретоване мовне ядро, Python-інструментарій та окремий ранній native-компіляторний напрям.
 
-SAMBU — експериментальна інтерпретована мова та Python-інструментарій. Вона об'єднує мовне ядро, наукові обчислення, предметні модулі, sparse-voxel моделювання, workflow-моделі й інструменти розробника.
+## Для чого SAMBU
 
-[Українська](README.md) · [English](README.en.md) · [Русский](README.ru.md) · [Вихідний репозиторій](https://github.com/bboroski/SAMBU)
+SAMBU створюється для інженерів і дослідників, яким потрібні читабельні моделі, контрольовані обчислення та інструменти, що можна перевіряти. Мета — звести мову, наукові домени й робочі процеси в одну узгоджену середу, не приховуючи межі реалізації.
 
 ## Можливості
 
 - **Мовне ядро:** lexer/parser, AST із source spans, функції, області видимості, масиви, записи, класи та обмежені цикли.
-- **Наукові моделі:** SI-величини, перевірка розмірностей, фізичні константи, статистична механіка та відтворюване семплювання.
-- **Просторові дані:** sparse voxel grids, чанки, Morton keys, octrees, геометрія поверхонь і графові операції.
-- **Системні інструменти:** CLI, Tkinter IDE, тестовий runner, архітектурні перевірки й workflow-інструментарій.
-- **Текстові метадані:** детермінований аналіз структури, повторів, приблизної просодії та семантичних маркерів. Це аналіз даних, а не генерація тексту чи оцінка його художньої якості.
+- **Наукові обчислення:** SI-величини, перевірка розмірностей, фізичні константи, статистична механіка та відтворюване семплювання.
+- **Просторові моделі:** sparse voxel grids, чанки, Morton keys, octrees, геометрія поверхонь і графові операції.
+- **Workflow та інструменти:** CLI, Tkinter IDE, тестовий runner, архітектурні перевірки й моделі workflow.
+- **Текстові метадані:** детермінований аналіз структури, повторів, приблизної просодії та семантичних маркерів. Це аналіз даних, а не генерація тексту чи оцінювання художньої якості.
+- **Native compiler slice:** ізольований C11-напрям із типізованими HIR/MIR/LIR та перевірками IR; це ще не повний native-компілятор.
 
 ## Швидкий старт
 
-Потрібні Python 3.10+ і Git. Інтерпретатор не потребує обов'язкових сторонніх runtime-залежностей.
+Потрібні Python 3.10+ і Git. Обов'язкових сторонніх runtime-залежностей для інтерпретатора немає.
 
 ~~~bash
 git clone https://github.com/bboroski/SAMBU.git
@@ -32,37 +48,52 @@ sambu examples/ideal_gas.sambu
 sambu -c 'print("Hello from SAMBU")'
 ~~~
 
-Команда <code>sambu</code>, пакет <code>sambu</code> та розширення <code>.sambu</code> поки збережені як сумісні інтерфейси. Новий CLI-аліас — <code>sambu</code>.
-
-## Інструменти та перевірка
+Стандартна перевірка та one-knob запуск:
 
 ~~~bash
 python -m pytest
-sambu --help
+python one.py check
 ~~~
 
-Інтерфейс IDE надає редагування файлів, запуск, вивід і базову діагностику. Поточна реалізація **не є** повноцінною LSP-IDE; нативний компілятор і повна статична система типів/ефектів залишаються напрямами розвитку.
+У Windows доступний файл <code>one.cmd</code>. Звичайний <code>python one.py</code> виконує стандартний сценарій проєкту.
 
-## Архітектура та межі
+## Інструменти та візуальна система
 
-SAMBU є Python-hosted alpha-проєктом. Розширення для Flask, Django та FastAPI необов'язкові. Наявність адаптера або профілю інтеграції не означає завершену production-інтеграцію.
+IDE зараз надає редагування файлів, запуск, вивід і базову діагностику. Це корисний робочий інтерфейс, але ще не повноцінна LSP-IDE.
 
+<p align="center">
+  <img src="assets/duck-ui/duck-studio-preview.svg" alt="SAMBU Studio preview" width="49%" />
+  <img src="assets/duck-ui/ide-editor-preview.svg" alt="SAMBU IDE editor preview" width="49%" />
+</p>
+
+## Управління розробкою та критерії готовності
+
+| Контрольна точка | Поточна політика |
+|---|---|
+| Зрілість | Experimental alpha; API та можливості можуть змінюватися |
+| Перевірки | pytest, CLI smoke tests і архітектурні перевірки |
+| Native path | Окремий експериментальний зріз; не замінює Python-інтерпретатор |
+| Інтеграції | Наявність адаптера або профілю не означає завершену production-інтеграцію |
+| Зміни API | Сумісні шляхи зберігаються до окремої міграції з явними примітками |
+
+## Архітектура та обмеження
+
+SAMBU — Python-hosted alpha-проєкт. Розширення для Flask, Django та FastAPI необов'язкові. Нативний compiler path поки не має повного source parser bridge, CFG/phi-node підтримки, оптимізаційного конвеєра, object writer або генерації машинного коду. Повна статична система типів/ефектів і LSP залишаються напрямами розвитку.
+
+Документація:
 - [Артикуляційна граматика](docs/ARTICULATORY_SYNTAX.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 - [Мультимовний конвеєр сигналів](docs/MULTILINGUAL_SIGNAL_PIPELINE.md)
+- [Енциклопедія SAMBU](wiki/README.md)
 
-## Технічна ідентичність
+## Екосистема
 
-**SAMBU** — канонічна назва середовища та новий CLI-аліас. Історичні назви дистрибутива, Python-пакета й мовного розширення збережені для сумісності з наявними скриптами та імпортами; їхня заміна потребує окремої міграції API.
+SAMBU є мовним і modeling-шаром сімейства: [ToolNG](https://github.com/bboroski/ToolNG) · [ReaperCripple](https://github.com/bboroski/ReaperCripple) · [Kloz](https://github.com/bboroski/Kloz) · [CO](https://github.com/bboroski/CO) · [SaintSI](https://github.com/bboroski/SaintSI) · [Klipot](https://github.com/bboroski/Klipot) · [NUN](https://github.com/bboroski/NUN) · [NUNLauncher](https://github.com/bboroski/NUNLauncher).
+
+## Назва та сумісність
+
+**SAMBU** — канонічна назва середовища й CLI-аліас. Історичні назви дистрибутива, Python-пакета та розширення .sambu збережені для сумісності; їх заміна потребує окремої міграції API.
 
 ## Ліцензія
 
-MIT. Деталі — у файлі [LICENSE](LICENSE).
-
-
-## Запуск однією командою
-
-- **Windows:** двічі клацніть `one.cmd` або запустіть його з термінала.
-- **Будь-яка ОС:** `python one.py` виконує стандартний сценарій цього проєкту; `python one.py check` запускає перевірки без графічного інтерфейсу.
-- Для desktop/IDE застосунків стандартний сценарій запускає програму після перевірок; для системних та embedded-модулів він збирає і тестує host-версію.
-- Host-тести не замінюють кваліфікацію на цільовій платі, пристрої чи виробничому стенді.
+MIT — див. [LICENSE](LICENSE).
