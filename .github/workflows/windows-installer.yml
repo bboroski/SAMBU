@@ -27,6 +27,8 @@ jobs:
         shell: pwsh
         run: |
           pyinstaller --clean --onefile --name sambu --collect-submodules sambu packaging/windows/sambu_launcher.py
+          & .\dist\sambu.exe --version
+          if ($LASTEXITCODE -ne 0) { throw "Standalone CLI smoke test failed." }
       - name: Require signing certificate
         shell: pwsh
         env:
@@ -58,7 +60,9 @@ jobs:
           & $signTool.FullName verify /pa /v "dist\sambu.exe"
           if ($LASTEXITCODE -ne 0) { throw "Executable signature verification failed." }
           $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
-          & $iscc "/DAppVersion=$version" "/DAppOutput=SAMBU-$version-x64-Setup" "packaging\windows\SAMBU.iss"
+          $outputDirectory = Join-Path $env:GITHUB_WORKSPACE "dist-installer"
+          New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
+          & $iscc "/O$outputDirectory" "/DAppVersion=$version" "/DAppOutput=SAMBU-$version-x64-Setup" "packaging\windows\SAMBU.iss"
           if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
           $installer = Get-ChildItem "dist-installer\*.exe" | Select-Object -First 1
           if (-not $installer) { throw "Installer artifact was not generated." }
