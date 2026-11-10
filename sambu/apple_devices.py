@@ -461,6 +461,7 @@ class AppleDeviceToolkit:
             tests.append(HardwareTest(
                 "connected_device", "fail", self._message("smoke_no_device")
             ))
+            tests.extend(self._windows_smoke_tests(report.diagnostics))
             return HardwareTestReport(self.platform, tuple(tests), 0)
 
         for device in report.devices:
@@ -496,20 +497,28 @@ class AppleDeviceToolkit:
                 self._message(pairing_key), prefix,
             ))
 
-        # Promote Windows transport checks into the physical hardware suite.
-        # An unsupported check is explicitly skipped; a detected warning fails
-        # the suite so driver/service regressions are visible in the lab.
+        tests.extend(self._windows_smoke_tests(report.diagnostics))
+        return HardwareTestReport(self.platform, tuple(tests), len(report.devices))
+
+    @staticmethod
+    def _windows_smoke_tests(diagnostics: Sequence[Diagnostic]) -> list[HardwareTest]:
+        """Convert Windows USB/service diagnostics into hardware-lab assertions."""
         windows_codes = {
             "apple_service", "apple_service_check", "apple_usb_driver",
             "apple_usb_enumeration", "usb_transport", "cable_port",
         }
-        status_map = {"ok": "pass", "warning": "warn", "error": "fail", "unsupported": "skip"}
-        for diagnostic in report.diagnostics:
-            if diagnostic.code in windows_codes:
-                tests.append(HardwareTest(
-                    diagnostic.code,
-                    status_map.get(diagnostic.status, "skip"),
-                    diagnostic.message,
-                ))
-
-        return HardwareTestReport(self.platform, tuple(tests), len(report.devices))
+        status_map = {
+            "ok": "pass",
+            "warning": "warn",
+            "error": "fail",
+            "unsupported": "skip",
+        }
+        return [
+            HardwareTest(
+                diagnostic.code,
+                status_map.get(diagnostic.status, "skip"),
+                diagnostic.message,
+            )
+            for diagnostic in diagnostics
+            if diagnostic.code in windows_codes
+        ]
