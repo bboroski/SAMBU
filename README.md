@@ -95,7 +95,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 | **Jiu-Jitsu** 🖥️ | Serializable UI trees, MVC controllers, modal flows, role-based access and explicit action dispatch |
 | **Workflow models** | Evidence-linked records, relationship graphs, bounded batch plans, prioritization and pattern analysis |
 | **Trust tools** 🛡️ | SHA-256 content-integrity checks, issuer allow-lists, evidence dates and verification coverage |
-| **Continuity & signal governance** | Evidence-gated lifecycle cycles, hash-chained transitions, authenticated issuer checks, replay rejection and quarantine |
+| **Continuity & signal governance** | Evidence-bearing lifecycle cycles, hash-chained transitions, authenticated issuer checks, replay rejection and quarantine |
 | **Chunking & patching** | Lazy bounded batches, stale-edit detection, conflict checks and reversible text patches |
 
 ### Sparse voxel systems
@@ -121,7 +121,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
 - Reproducible voxel benchmark scripts.
 - Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
-- **Continuity core**: bounded lifecycle cycles with verifiable event chains, plus fail-closed signal admission with issuer allow-lists, external signature verification and replay checks.
+- **Continuity core**: bounded lifecycle cycles with evidence fingerprints and verifiable event chains, plus fail-closed signal admission with issuer allow-lists, external signature verification and replay checks.
 - **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
 - **Sambu IDE core**: source-aware document diagnostics, function/class outline, keyword completion and workspace inspection.
 - **Effort Amplification**: evidence-backed improvement metric that rejects regressions and incomplete test runs.
@@ -465,7 +465,7 @@ SAMBU repository
 │   ├── jiu_jitsu.py       UI / MVC / RBAC model
 │   ├── concurrency.py     Cooperative fibers, actors, supervision and channels
 │   ├── autonomy.py        Bounded task policy, evidence ledger and change preflight
-│   ├── continuity.py     Evidence-gated cycles and provenance-checked signals
+│   ├── continuity.py     Evidence-fingerprinted cycles and provenance-checked signals
 │   ├── voxels/            Sparse voxel and graph systems
 │   └── integrations/      Optional web-framework adapters
 │
@@ -523,7 +523,7 @@ This core does **not** execute arbitrary code, modify the repository, grant host
 
 ### Continuity cycles and signal governance
 
-`CycleController` provides bounded phases (`dormant → observing → preparing → active → recovering → archived`) with evidence-gated transitions, explicit halting, snapshot fingerprints and a verifiable hash chain. `SignalGuard` admits bounded JSON signals only from allow-listed issuers, checks strictly increasing issuer sequences, and by default requires a signature verifier supplied by the host. Rejected inputs are quarantined with reason codes. Neither API executes signal content or grants capabilities; signal cursors and decisions remain in memory unless the host persists them.
+`CycleController` provides bounded phases (`dormant → observing → preparing → active → recovering → archived`) with non-null evidence requirements, explicit halting, snapshot fingerprints and a verifiable hash chain. This is a structural evidence check, not validation of approval semantics; the host must verify evidence and authorization before advancing the lifecycle. `SignalGuard` admits bounded JSON signals only from allow-listed issuers, checks strictly increasing issuer sequences, and by default requires a signature verifier supplied by the host. Rejected inputs are quarantined with reason codes. Neither API executes signal content or grants capabilities; cycle state, signal cursors and decisions are in memory unless the host persists them.
 
 The mapping from fictional cyclic-threat concepts to engineering safeguards—and the implementation's limitations—is documented in [Continuity Cycles and Signal Governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md). A runnable host-API example is in `examples/continuity_guard.py`.
 
