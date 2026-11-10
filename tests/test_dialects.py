@@ -153,17 +153,17 @@ end program IndexNames
 
     def test_fortran_function_parameters_may_use_si_symbol_spellings(self):
         source = """
+integer function add_kn(k, n)
+integer :: k, n
+add_kn = k + n
+end function add_kn
+
 program FunctionNames
 implicit none
 integer :: answer
 answer = add_kn(2, 3)
 print *, answer
 end program FunctionNames
-
-integer function add_kn(k, n)
-integer :: k, n
-add_kn = k + n
-end function add_kn
 """
         output: list[str] = []
         execute_dialect(source, "fortran", output=output.append)
