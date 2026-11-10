@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/duck-ui/duck-mark.svg" alt="Duck mark" width="104" />
+  <img src="assets/amber-obsidian-mark.svg" alt="Duck mark" width="104" />
 </p>
 <h1 align="center">SAMBU</h1>
 <p align="center"><strong>Scientific Modeling &amp; Automation Environment</strong></p>
@@ -14,6 +14,15 @@
   <a href="README.ru.md">🇷🇺 Русский</a>
 </p>
 <hr />
+
+## Візуальна система · Amber–Obsidian v2
+
+Індивідуальна графічна мова **SAMBU**: обсидіановий фон, багаторівневий графіт, сигнальний бурштин і окремий колір доменних даних. Панелі, стани, навігація та числові індикатори мають узгоджені правила, але зберігають власну інформаційну ієрархію цього проєкту.
+
+<p align="center"><img src="assets/amber-obsidian-preview.svg" alt="SAMBU interface concept preview" width="100%"></p>
+
+Деталі палітри, контрасту, типографіки, навігації, руху та меж реалізації: [специфікація інтерфейсу](docs/INTERFACE_DESIGN.md).
+
 
 **Одна експериментальна середа для програмування, наукових моделей, просторових даних і відтворюваних workflow.** SAMBU поєднує інтерпретоване мовне ядро, Python-інструментарій та окремий ранній native-компіляторний напрям.
 
