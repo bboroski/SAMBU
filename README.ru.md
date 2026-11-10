@@ -33,7 +33,7 @@ SAMBU объединяет интерпретируемый язык для пр
 | **Ядро языка** | Lexer/parser, неизменяемый AST с source spans, области видимости, функции, ограниченные циклы, массивы, записи, классы и наследование. |
 | **Научные вычисления** | SI-величины, проверка размерностей, физические константы, тепловая энергия, скорости Максвелла, факторы Больцмана, статистические суммы, энтропия и воспроизводимая выборка. |
 | **Разреженные voxel-системы** | Ограниченные чанки, аффинные координатные системы, Morton keys, построение поверхностей, 3D DDA, sparse octrees, графовые лапласианы и обмен VOX. |
-| **Инженерные модули** | Judo — графы архитектуры; Aikido — маршрутизация inference; Jiu-Jitsu — UI/MVC/RBAC-модели; workflow, проверки доверия и обратимые патчи. |
+| **Инженерные модули** | Nun — воспроизводимые исходные состояния и граничные контракты; Judo — графы архитектуры; Aikido — маршрутизация inference; Jiu-Jitsu — UI/MVC/RBAC-модели; workflow, проверки доверия и обратимые патчи. |
 | **Экспериментальный runtime** | Ограниченные actor-mailbox, последовательная фиксация состояния, dead-letter записи, supervision и типизированные программные каналы. Это не нативное параллельное исполнение. |
 | **Инструменты** | CLI sambu, read-only анализатор Magento XML sambu-studio, Tkinter IDE sambu-ide, sambu-test и SAMBU Machine. |
 | **Анализ творческого текста** | Детерминированный разбор секций, припевов и компактных хуков, письменностей, приблизительной просодии, performance-cues и девятикластерной онтологии метаданных (2026.12). |
@@ -196,7 +196,7 @@ sambu-test tests --repeat 2 --json
 ## Документация
 
 - [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Системная архитектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel reference](docs/VOXELS.md)
+- [Системная архитектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Nun: genesis и начальные условия](docs/NUN_GENESIS.md) · [Voxel reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Исходный код и тесты](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
