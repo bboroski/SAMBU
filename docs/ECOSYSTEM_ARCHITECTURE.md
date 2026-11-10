@@ -12,6 +12,8 @@ The former **NUN Mesh** label is superseded as the ecosystem's public architectu
 
 ## 2. System map
 
+![SAMBU Ecosystem architecture](../assets/sambu-ecosystem-overview.svg)
+
 ```mermaid
 flowchart TB
     SAMBU["SAMBU\nLanguage · Policy · Tooling · Registry"]
