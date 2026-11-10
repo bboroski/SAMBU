@@ -2,8 +2,10 @@
 
 ## Unreleased
 
-- Added a read-only Apple Device Toolkit for iPhone/iPad discovery, allow-listed metadata reads, existing-pairing validation and Windows USB/service diagnostics with RU/EN CLI messages and mocked tests.
-- Added non-destructive device smoke tests, a manual self-hosted Windows USB lab workflow and a certificate-gated Windows installer workflow; real hardware coverage still requires a connected device and controlled runner.
+- Added a read-only Apple Device Toolkit for libimobiledevice discovery, allow-listed iPhone/iPad metadata, existing-pairing validation, Windows USB/service diagnostics and RU/EN CLI output. Hardware coverage requires a controlled USB lab runner.
+- Added a manual self-hosted Windows USB lab workflow and a certificate-gated signed installer workflow; release write permissions are isolated to the tag-publishing job.
+
+- Added the provenance-aware Language Craft pipeline for source registration, fragment selection, terminal design, grammar assembly and deterministic blueprint audits; six new articulatory built-ins remain design-audit tools and do not rewrite the executable parser.
 
 - Added explicit read-only contents: read permissions to both GitHub Actions workflows and a standard-library regression test for least-privilege workflow configuration.
 - Added an evidence-backed quality state matrix, automatic-improvement policy and versioned rule catalog indexing the existing AUT-01–AUT-100 constitution and cross-referencing the 101 language contracts.
