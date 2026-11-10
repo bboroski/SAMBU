@@ -15,6 +15,19 @@ It is intentionally separate from the existing Python-hosted interpreter.
 - Recursive HIR-expression → MIR lowering and MIR → LIR lowering.
 - CMake/CTest tests for alignment, interning, type rejection, lowering and invalid SSA.
 
+## Deterministic micro-pass
+
+The native IR exposes an in-place, deterministic constant-folding pass:
+`sambu_mir_fold_constants`. It folds local integer and finite floating-point
+operations when both operands are known constants, preserves SSA result IDs,
+and reports the number of rewritten instructions. Signed integer overflow,
+integer division by zero, `INT64_MIN / -1`, floating division by zero, and
+non-finite floating-point inputs/results are deliberately left unchanged.
+The pass does not reorder instructions, speculate across effects, or claim a
+general optimization pipeline; MIR v1 remains a single-block experimental IR.
+
+See [the pass contract](OPTIMIZATION_PASSES.md).
+
 ## Build and test
 
 From this directory:
