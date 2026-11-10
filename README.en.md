@@ -41,10 +41,11 @@ SAMBU combines an interpreted language for .sambu programs with a Python package
 | **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; workflows, trust checks and reversible patching. |
 | **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, supervision and typed software channels. These are not native parallel execution. |
 | **Developer tools** | sambu CLI, sambu-studio read-only Magento XML inspector, sambu-ide Tkinter IDE shell, sambu-test and SAMBU Machine. |
+| **Creative-text analysis** | Deterministic section/refrain and compact-hook diagnostics, script-mix inspection, approximate prosody, explicit performance cues and nine-cluster metadata ontology (2026.12). |
 
 ### Articulatory syntax
 
-A deterministic second syntax surface is generated as a matrix: **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 129 built-ins and 46 reserved forms.
+A deterministic second syntax surface is generated as a matrix: **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 137 built-ins and 38 reserved forms.
 
 <img src="assets/articulatory-syntax.svg" alt="SAMBU articulatory syntax matrix with ten semantic families, five vowel grades and four grammatical roles" width="100%" />
 
@@ -145,6 +146,27 @@ python -m pip install -e ".[fastapi]"
 ~~~
 
 Authentication, transport security, persistence and authorization remain the host application's responsibility.
+
+## Creative text analysis and corpus annotations
+
+Text Craft provides deterministic, descriptive signals for multilingual creative drafts:
+
+- section headings, exact repeated refrain blocks and compact-hook structure;
+- visible Latin/Cyrillic/other writing-system mix;
+- approximate syllable counts, spelling-based rhyme groups, internal echoes and alliteration;
+- author-marked casing and explicit written performance cues such as stage directions, parenthetical ad-libs, quoted phrases and elongated spellings.
+
+`hook_profile(text)` reports whether a hook has 2–4 non-empty lines, approximate rhyme groups, repeated terms/lines and syllable spread. It does not predict catchiness or audience response. `performance_cues_profile(text)` extracts written markers with source positions; it does not infer emotion, speaker identity or actual vocal delivery.
+
+The metadata-only creative ontology is versioned at **2026.12** and contains nine human-assigned clusters (T-001…T-009). All supplied corpus examples are marked `NEEDS_REVIEW`; they are fixtures, not approved training data. The validator does not classify unannotated text and does not generate embeddings or fine-tune a model.
+
+~~~bash
+sambu creative clusters --json
+sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu examples/performance_cues.sambu
+~~~
+
+See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) and [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
 
 ## Engineering doctrine
 
