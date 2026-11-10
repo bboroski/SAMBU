@@ -125,9 +125,9 @@ kava active_words = levir("active")
         self.assertEqual(result[2], len(ACTIVE_WORDS))
 
     def test_reserved_words_are_discoverable_but_not_executable_aliases(self):
-        from sambu.lexer import SambuSyntaxError
+        from sambu.runtime import SambuRuntimeError
 
-        with self.assertRaises(SambuSyntaxError):
+        with self.assertRaises(SambuRuntimeError):
             execute("kava value = kava")
         self.assertEqual(execute('leven("kava").status'), "keyword")
         self.assertEqual(
