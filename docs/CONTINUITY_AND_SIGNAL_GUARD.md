@@ -33,7 +33,7 @@ OBSERVING -> PREPARING -> ACTIVE -> RECOVERING -> ARCHIVED
 
 Any non-terminal phase may transition to `HALTED`. `HALTED` is terminal. A new cycle begins only through an explicit `ARCHIVED -> OBSERVING` transition.
 
-Operational and archival transitions require JSON-shaped evidence. Evidence contents are not retained; a SHA-256 digest is attached to the event. Events are linked into a hash chain, and `verify()` recomputes ordering, legal transitions, cycle numbers and digests.
+Operational and archival transitions require a non-null, bounded JSON-shaped evidence value. This is a structural gate, not an approval engine: the controller fingerprints the supplied value but does not decide whether a ticket, test report or human approval is genuine. The host must validate evidence origin and authorization before requesting a transition. Evidence contents are not retained; a SHA-256 digest is attached to the event. Events are linked into a hash chain, and `verify()` recomputes ordering, legal transitions, cycle numbers and digests. Cycle state and events are in memory; the host owns durable storage when restart continuity is required.
 
 ```python
 from sambu import CycleController, CyclePhase
@@ -63,7 +63,7 @@ assert cycle.verify()
 print(archive.evidence_digest)
 ```
 
-The controller validates lifecycle metadata only. The host application owns execution, snapshot storage, retention, access control and operator approval. The digest is not a backup and cannot reconstruct the archived payload.
+The controller validates lifecycle metadata only. The host application owns execution, snapshot storage, retention, access control and operator approval. The digest is not a backup and cannot reconstruct the archived payload. The example's `approval_ref` is an evidence reference, not an authorization token interpreted by `CycleController`.
 
 ## 2. SignalEnvelope and SignalGuard
 
