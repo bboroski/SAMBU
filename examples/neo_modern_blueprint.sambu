@@ -23,17 +23,17 @@ print(order.delivery_semantics)
 print(order.invariants_satisfied)
 print(order.steps)
 
-# III. Community space — weekly rhythm, intro conversion target, eight-session offer.
+# III. Schedule metrics — recurrence, conversion ratio and bounded package parameters.
 let calendar = weekly_schedule([
-  ["Monday", "18:30", "Movement practice", 18],
-  ["Wednesday", "19:00", "Sound and breathwork", 16],
-  ["Friday", "19:30", "Tea and reflection", 14],
-  ["Sunday", "11:00", "Slow practice", 18]
+  ["Monday", "18:30", "service_a", 18],
+  ["Wednesday", "19:00", "service_b", 16],
+  ["Friday", "19:30", "service_c", 14],
+  ["Sunday", "11:00", "service_d", 18]
 ])
 let monthly_sessions_estimate = calendar.session_count * 4
 let offer = studio_offer(200, 60, 0.30, 30, 200, 8)
 let channel = channel_metrics(180, 12000, 240, 36)
-print("Community operations:")
+print("Schedule metrics:")
 print(calendar.session_count)
 print(monthly_sessions_estimate)
 print(offer.intro_conversion)
@@ -41,10 +41,10 @@ print(offer.target_met)
 print(offer.effective_session_price)
 print(channel.cost_per_customer)
 
-# IV. Territory game loop — allocate pressure, then transfer ownership at zero resistance.
+# IV. Ownership state transition — allocate input pressure, then update state at the threshold.
 let shares = allocate(50, [0.5, 0.3, 0.2])
-let node = capture_node("rival", "diplomat", 35, shares[0])
-print("Territory round:")
+let node = capture_node("node_a", "unit_b", 35, shares[0])
+print("Ownership transition result:")
 print(node.captured)
 print(node.owner_after)
 print(node.resistance_after)
