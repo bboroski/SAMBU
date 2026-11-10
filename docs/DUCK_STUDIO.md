@@ -20,9 +20,9 @@ sambu-studio inspect /path/to/module
 sambu-studio inspect /path/to/module --format json
 ~~~
 
-## Current application screenshots
+## Historical application screenshots — previous visual revision
 
-The following images are **screenshots captured from the current, running SAMBU Duck Studio application**. They show the present Tkinter layout and navigation. Each view is captured at **1280 × 818 pixels** and displayed at its native proportions. For a reproducible capture, the application was opened with a local workspace explicitly labelled **DEMO WORKSPACE** and deterministic example XML findings. The interface is real; the example project and its diagnostics are illustrative and must not be interpreted as an inspection of a production Magento installation.
+The following images are **authentic captures of an earlier light-theme revision** of the running Tkinter application, recorded at **1280 × 818 pixels**. They are retained as historical reference only and must not be mistaken for the current black/yellow visual system. The updated interface is implemented in `sambu_studio/duck_gui.py`; see [Duck UI system](DUCK_UI_SYSTEM.md) and the vector layout previews under `../assets/duck-ui/`. The previews are design references, not runtime screenshots. Capture fresh runtime screenshots on the target desktop after launching the updated application. The example project and diagnostics remain illustrative SAMPLE DATA.
 
 ### 1. Overview
 
