@@ -54,6 +54,20 @@ The report view consolidates the review summary and diagnostic messages. Origina
 <img src="images/duck-studio-hq/reports-findings-10.webp" width="25%" alt="Reports and findings screenshot, lower-left segment" /><img src="images/duck-studio-hq/reports-findings-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-13.webp" width="25%" alt="" />
 </div>
 
+## Current black/yellow vector layout previews
+
+The following assets are **1920 × 1080 vector design previews** using the shared Duck palette. They show the intended layout of the current application surfaces, use synthetic SAMPLE DATA, and are not screenshots captured from a running process.
+
+### Duck Studio workspace
+
+<img src="../assets/duck-ui/duck-studio-preview.svg" width="100%" alt="SAMBU Duck Studio black and yellow vector layout preview with project overview, sample metrics, file inventory and findings" />
+
+### SAMBU IDE editor
+
+<img src="../assets/duck-ui/ide-editor-preview.svg" width="100%" alt="SAMBU IDE black and yellow vector layout preview with code editor, workspace tree, outline and output pane" />
+
+For real runtime captures, launch the installed application on the target desktop, use a deterministic DEMO WORKSPACE, and capture at 1920 × 1080 and 1366 × 768. Keep those captures separate from vector design illustrations.
+
 ## Safety and scope
 
 - Inspection is local and read-only. The UI does not modify the selected project.
