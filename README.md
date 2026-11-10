@@ -631,7 +631,7 @@ Install a supported Windows build of [libimobiledevice](https://libimobiledevice
 Run the desktop and device-diagnostic tests with:
 
 ```bash
-python -m unittest tests.test_device_diagnostics
+python -m unittest discover -s tests -p test_device_diagnostics.py
 python -m unittest discover -s tests
 ```
 
