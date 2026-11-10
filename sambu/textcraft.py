@@ -338,8 +338,10 @@ def prosody_profile(args: list[object]) -> Record:
 
         for raw in raw_words:
             letters = [character for character in raw if character.isalpha()]
+            # A normal sentence-initial capital is not an authorial cue.
+            # Detect an uppercase letter after the first character instead.
             if any(character.islower() for character in letters) and any(
-                character.isupper() for character in letters
+                character.isupper() for character in letters[1:]
             ):
                 marked_case_words.append(raw)
 
