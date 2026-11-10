@@ -164,6 +164,12 @@ sambu examples/performance_cues.sambu
 ~~~
 
 См. [Text Craft](docs/text_craft.md), [Hook Craft и модели открытых систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) и [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
+### Профиль Unicode-сигналов
+
+`language_mix_profile` теперь отдельно считает Han, Hiragana, Katakana, Hangul, Greek, Arabic и другие письменности на уровне символов и токенов. Это анализ письменности, а не определение языка: Han не означает автоматически «китайский», а латинская запись не считается транслитерацией без явной подсказки.
+
+См. [контракт мультиязычного конвейера](docs/MULTILINGUAL_SIGNAL_PIPELINE.md), [JSON Schema v1](schemas/text-signal-envelope.schema.json) и [нейтральный пример](examples/multilingual_signal_profile.sambu).
+
 ## Инженерная доктрина
 
 Пять принципов SAMBU:
