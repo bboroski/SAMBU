@@ -18,9 +18,15 @@ It does **not** claim that geometric closure creates inertial mass, replace the 
 
 The profile in the supplied example is *isolated*: it explicitly forbids matter, energy, and information exchange. “Closed” in thermodynamics is often narrower: a closed system forbids matter exchange but may exchange energy. The three channels are therefore separate flags, not one implicit property.
 
+Isolation alone does not force metric perturbations to vanish at the boundary, nor does it automatically create curvature or bend geodesics. Those outcomes require specified field equations, sources, gauge choices, and boundary data. A boundary condition is a modeling choice, not a consequence of merely declaring a system isolated.
+
 A boundary condition is selected, not stacked: `dirichlet` fixes the chosen boundary metric data; `neumann` specifies normal-derivative data. They are alternative model choices. A production GR variational problem must define the actual boundary variables, gauge treatment, action, and boundary terms. For the Einstein–Hilbert action with fixed induced boundary metric, the Gibbons–Hawking–York term is part of the well-posed variational setup; a bare statement that the bulk curvature integral is “cancelled” by surface terms is not a complete derivation.
 
 The standard matter stress-energy tensor is obtained by varying the **matter action** with respect to the inverse metric (sign conventions vary). Varying the gravitational Einstein–Hilbert action instead yields the Einstein tensor plus boundary contributions; it is not the same definition of (T_{\mu\nu}).
+
+The claim that the Higgs field is unnecessary for the origin of mass is not established by this model. In the Standard Model, elementary-particle masses arise through interactions with the Higgs field; most of a proton's rest mass, by contrast, comes from QCD dynamics and binding energy. Composite mass therefore includes substantial energy contributions, but that fact does not show that enclosure or metric stiffness alone generates mass.
+
+The optional energy ledger is application-level bookkeeping for the quantities declared in a CDM-1 input. It is not a general-relativistic theorem of global energy conservation: defining a conserved total energy in curved spacetime requires additional geometric and boundary assumptions.
 
 The relativistic mass-shell relation is
 `E² = (pc)² + (mc²)²`.
