@@ -16,7 +16,7 @@
 <text x="52" y="54" class="h">SAMBU · A layered language and modeling toolkit</text>
 <text x="52" y="76" class="sub">Python-hosted · interpreted · modular · experimental alpha</text>
 <g>
- <rect x="35" y="112" width="1130" height="72" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
+ <rect x="35" y="112" width="1130" height="72" rx="14" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="60" y="141" class="t">SOURCE &amp; INTERFACE</text>
  <text x="60" y="165" class="p">.sambu programs · articulatory syntax · Python API · CLI · lightweight Tkinter IDE</text>
  <rect x="966" y="129" width="172" height="28" rx="14" fill="#332B00"/><text x="1052" y="148" text-anchor="middle" class="tag">USER SURFACE</text>
@@ -28,15 +28,15 @@
  <path d="M600 289v20" stroke="#BFA100" stroke-width="3"/><path d="m592 302 8 9 8-9" fill="none" stroke="#BFA100" stroke-width="3"/>
 </g>
 <g>
- <rect x="35" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#BFA100" stroke-width="2"/>
+ <rect x="35" y="312" width="354" height="116" rx="14" fill="#1A1A1A" stroke="#BFA100" stroke-width="2"/>
  <text x="58" y="343" class="t">SCIENCE &amp; NUMERICS</text>
  <text x="58" y="369" class="p">SI quantities · dimensions</text><text x="58" y="390" class="p">statistical mechanics · sampling</text>
  <rect x="58" y="400" width="134" height="18" rx="9" fill="#BFA100"/><text x="125" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
- <rect x="423" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
+ <rect x="423" y="312" width="354" height="116" rx="14" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="446" y="343" class="t">SPARSE VOXEL SYSTEMS</text>
  <text x="446" y="369" class="p">chunks · Morton keys · octrees</text><text x="446" y="390" class="p">meshing · DDA · graph tools</text>
  <rect x="446" y="400" width="134" height="18" rx="9" fill="#332B00"/><text x="513" y="413" text-anchor="middle" class="tag">DOMAIN MODULES</text>
- <rect x="811" y="312" width="354" height="116" rx="14" fill="#E6E6E6" stroke="#262626" stroke-width="2"/>
+ <rect x="811" y="312" width="354" height="116" rx="14" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="834" y="343" class="t">ENGINEERING TOOLKIT</text>
  <text x="834" y="369" class="p">Judo · Aikido · Jiu-Jitsu · trust</text><text x="834" y="390" class="p">workflow · Machine · test runner</text>
  <rect x="834" y="400" width="152" height="18" rx="9" fill="#332B00"/><text x="910" y="413" text-anchor="middle" class="tag">MIXED MATURITY</text>
