@@ -64,3 +64,9 @@ from .autonomy import (  # noqa: F401
     LedgerFull, ResourceBudget, RiskTier, SambuMachine, TaskManifest,
     fingerprint,
 )
+
+from .articulatory import (  # noqa: F401
+    ACTIVE_WORDS, ARTICULATORY_WORDS, BUILTIN_ALIASES, KEYWORD_ALIASES,
+    RESERVED_WORDS, ArticulatoryWord, filter_articulatory_words,
+    lookup_articulatory_word,
+)
