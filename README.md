@@ -58,7 +58,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 ### Language core
 
 - Hand-written lexer and parser.
-- Second, sound-built articulatory syntax with 200 generated lexemes: 25 grammar forms, 123 built-in aliases and 52 reserved future forms.
+- Second, sound-built articulatory syntax with 200 generated lexemes: 25 grammar forms, 129 built-in aliases and 46 reserved future forms.
 - Legacy tuple AST retained for compatibility.
 - Immutable typed AST with source spans.
 - Lexical scopes, immutable `let` bindings and user functions.
@@ -68,6 +68,14 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 - Bounded actor mailboxes, sequential actor-state transitions, dead-letter capture and hierarchical restart supervision.
 - Typed, bounded, non-blocking software channels.
 - Explicit runtime diagnostics with source locations.
+
+### Language design craft
+
+- Provenance-aware source registry and ordered fragment selection.
+- Lexical terminal design with unique symbols, spellings, meanings and token roles.
+- Explicit grammar productions with terminal/nonterminal reference checking.
+- Deterministic audits for collisions, unused material, grammar reachability and source coverage.
+- Design blueprints are inspectable artifacts; they do not rewrite the executable grammar or claim to be a compiler.
 
 ### Science and numeric modeling
 
@@ -228,6 +236,7 @@ sambu examples/anatidae_biophysics.sambu
 sambu examples/voxel_world.sambu
 sambu examples/supervised_runtime.sambu
 sambu examples/articulatory_intro.sambu
+sambu examples/language_craft.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
@@ -525,6 +534,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 - [SAMBU Wiki — project encyclopedia](wiki/README.md)
 - [Language reference](docs/LANGUAGE.md)
+- [Language Craft — provenance-led grammar design](docs/LANGUAGE_CRAFT.md)
 - [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
@@ -550,6 +560,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 ### Future architecture
 
+- **Language Craft:** [Source provenance, lexical fragment selection, terminal design, grammar assembly and deterministic audit](docs/LANGUAGE_CRAFT.md). This is a design workbench, not a dynamic parser or compiler.
 - **Native compiler architecture:** [C11 IR kernel, HIR/MIR/LIR contracts, type/ownership design and staged backend roadmap](docs/NATIVE_COMPILER_ARCHITECTURE.md). The current native slice is experimental and does not yet emit machine code.
 - **Native kernel:** [Build and test instructions](native/README.md).
 
