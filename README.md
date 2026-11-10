@@ -104,3 +104,7 @@ MIT — див. [LICENSE](LICENSE).
 - [Контракт и правила использования](docs/BIOLOGY_DOMAIN_PACK.md)
 
 Справочный офлайн-набор для обучения и метаданных; он не управляет системами, устройствами и диагностикой.
+
+## Reaper cycle simulation
+
+[Simulation adapter contract](docs/REAPER_SIMULATION_ADAPTER.md) — deterministic 64-bit state evolution, seeded experiments, and a strict 6666-iteration ceiling. The model is synthetic, not a physical or quantum process.
