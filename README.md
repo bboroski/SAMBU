@@ -41,10 +41,11 @@ SAMBU поєднує мову для програм <code>.sambu</code> з Pytho
 | **Інженерні модулі** | Judo — архітектурні графи; Aikido — маршрутизація inference; Jiu-Jitsu — UI/MVC/RBAC-моделі; workflow, trust-перевірки та оборотні патчі. |
 | **Runtime-експерименти** | Обмежені actor-mailbox, послідовна фіксація стану, dead-letter записи, supervision і типізовані програмні канали. Це не нативне паралельне виконання. |
 | **Інструменти** | CLI sambu, read-only аналізатор Magento XML sambu-studio, Tkinter IDE sambu-ide, sambu-test і SAMBU Machine. |
+| **Аналіз творчого тексту** | Детермінований розбір секцій, повторів припіву та компактних хуків, змішення письменностей, приблизна просодія, письмові performance-cues і дев’ять кластерів перевірюваних метаданих. |
 
 ### Артикуляційний синтаксис
 
-Друга детермінована поверхня синтаксису утворюється матрицею: **10 семантичних приголосних сімейств × 5 голосних градацій × 4 граматичні закінчення = 200 форм**. Поточний словник містить 25 граматичних форм, 129 вбудованих і 46 зарезервованих.
+Друга детермінована поверхня синтаксису утворюється матрицею: **10 семантичних приголосних сімейств × 5 голосних градацій × 4 граматичні закінчення = 200 форм**. Поточний словник містить 25 граматичних форм, 137 вбудованих і 38 зарезервованих.
 
 <img src="assets/articulatory-syntax.svg" alt="Матриця артикуляційного синтаксису SAMBU: фонетичні сімейства та граматичні ролі" width="100%" />
 
@@ -146,6 +147,42 @@ python -m pip install -e ".[fastapi]"
 
 Автентифікація, транспортна безпека, збереження даних і авторизація залишаються відповідальністю host-застосунку.
 
+## Творчий текст і семантичні метадані
+
+SAMBU містить версійну онтологію creative metadata **2026.12** із дев’ятьма кластерами T-001…T-009. Метадані зберігають людські анотації, а не вихідні тексти. У прикладах корпусу всі записи мають прапорець \`NEEDS_REVIEW\`; це тестові fixtures, а не схвалений набір для навчання.
+
+Text Craft надає детерміновані описи структури й звуку:
+
+- заголовки секцій, точні повтори припіву та компактна структура хуку;
+- видиме змішення латиниці, кирилиці та інших письменностей;
+- приблизні слогові підрахунки, орфографічні групи рим, внутрішні співзвуччя й алітерація;
+- авторські регістрові наголоси та письмові performance-cues: сценічні ремарки, скобкові ad-lib, цитати й фонетичні повтори.
+
+\`hook_profile(text)\` аналізує компактний хук із 2–4 непорожніх рядків, повторювані слова/рядки, наближені рими та розкид кількості складів. Він не прогнозує хітовість або реакцію аудиторії. \`performance_cues_profile(text)\` повертає тип маркера та його позицію у вихідному рядку, але не виводить емоцію, особу мовця чи реальну манеру виконання.
+
+Приклад:
+
+~~~sambu
+let draft = "[Verse:]\nПерший рух\n[Melody sing Chorus:]\nМелодія повертається\n[Chorus:]\nМелодія повертається\n(Verse 2)\nІнший рух\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
+let structure = text_structure_profile(draft)
+let cues = performance_cues_profile(draft)
+print(structure.refrain_groups[0].repeat_count)
+print(structure.sections[1].performance_hint)
+print(cues.marker_count)
+~~~
+
+Перевірка metadata fixture:
+
+~~~bash
+sambu creative clusters --json
+sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu examples/performance_cues.sambu
+~~~
+
+Це не автоматичний класифікатор, не embeddings і не fine-tuning pipeline. Мова визначається окремо від письма; рими й скла — приблизні орфографічні евристики. Текст автора не переписується.
+
+Документація: [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), [Text Craft](docs/text_craft.md), [Hook Craft і моделі відкритих систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md), [JSON Schema](schemas/creative-metadata.schema.json).
+
 ## Інженерна доктрина
 
 - **Safety** — явні дозволи та межі довіри.
@@ -174,7 +211,7 @@ sambu-test tests --repeat 2 --json
 
 - [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Вихідний код і тести](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Участь і ліцензія

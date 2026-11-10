@@ -1,0 +1,17 @@
+# Explicit performance markup stays separate from lyric content.
+let draft = "[Verse:]\nThe first movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nA different movement\n*Phone rings*\n(Mm-mm)\nSomeone says \"go now\"\nру-ру-Русско"
+
+let structure = text_structure_profile(draft)
+let cues = performance_cues_profile(draft)
+let sound = prosody_profile(draft)
+
+print("Verse sections:")
+print(structure.section_kind_counts.verse)
+print("Repeated chorus blocks:")
+print(structure.refrain_groups[0].repeat_count)
+print("Chorus delivery hint:")
+print(structure.sections[1].performance_hint)
+print("Explicit performance markers:")
+print(cues.marker_count)
+print("Approximate syllable counts:")
+print(sound.syllable_counts)
