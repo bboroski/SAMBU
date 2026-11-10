@@ -140,9 +140,12 @@ class CreativeMetadataTests(unittest.TestCase):
         payload = json.loads(sample_path.read_text(encoding="utf-8"))
         records = validate_metadata_document(payload)
         self.assertEqual(len(records), 9)
-        self.assertEqual({item.cluster_id for item in records}, {
-            f"T-{number:03d}" for number in range(1, 10)
-        })
+        registered_themes = {
+            cluster.cluster_id: cluster.theme for cluster in CREATIVE_CLUSTERS
+        }
+        for item in records:
+            self.assertIn(item.cluster_id, registered_themes)
+            self.assertEqual(item.theme, registered_themes[item.cluster_id])
         self.assertTrue(all(item.ontology_version == "2026.12" for item in records))
         self.assertTrue(all(item.safety_flag == "NEEDS_REVIEW" for item in records))
         self.assertTrue(all(not item.generation_eligible for item in records))
