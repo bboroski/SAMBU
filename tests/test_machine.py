@@ -9,7 +9,7 @@ from sambu.machine import (
     CodeSampler,
     CodeSamplingError,
     EffortAmplification,
-    GhostLedger,
+    FailureLedger,
     PlywoodDesign,
     PlywoodLayer,
     SambuMachine,
@@ -117,9 +117,9 @@ class CodeSamplerTests(unittest.TestCase):
             self.assertTrue(report.samples[0].excerpt.startswith("let label = "))
 
 
-class GhostLedgerTests(unittest.TestCase):
-    def test_ghosts_are_deduplicated_redacted_and_roundtrip(self):
-        ledger = GhostLedger(capacity=4)
+class FailureLedgerTests(unittest.TestCase):
+    def test_failures_are_deduplicated_redacted_and_roundtrip(self):
+        ledger = FailureLedger(capacity=4)
         first = ledger.record(
             RuntimeError("token=secret-value failure"),
             source="let x = 1",
@@ -135,13 +135,13 @@ class GhostLedgerTests(unittest.TestCase):
         self.assertEqual(first.fingerprint, repeated.fingerprint)
         self.assertEqual(repeated.occurrences, 2)
         self.assertNotIn("secret-value", repeated.message)
-        restored = GhostLedger.from_json(ledger.to_json())
+        restored = FailureLedger.from_json(ledger.to_json())
         self.assertEqual(restored.snapshot(), ledger.snapshot())
 
-    def test_ghost_ledger_is_bounded_to_ten_thousand(self):
+    def test_failure_ledger_is_bounded_to_ten_thousand(self):
         with self.assertRaises(ValueError):
-            GhostLedger(capacity=10_001)
-        ledger = GhostLedger(capacity=2)
+            FailureLedger(capacity=10_001)
+        ledger = FailureLedger(capacity=2)
         ledger.record("first")
         ledger.record("second")
         ledger.record("third")
@@ -150,21 +150,21 @@ class GhostLedgerTests(unittest.TestCase):
 
     def test_invalid_ledger_schema_is_rejected(self):
         with self.assertRaises(ValueError):
-            GhostLedger.from_json('{"schema_version": 99, "capacity": 2, "records": []}')
+            FailureLedger.from_json('{"schema_version": 99, "capacity": 2, "records": []}')
 
     def test_ledger_import_rejects_tampered_fingerprint(self):
         import json
 
-        ledger = GhostLedger()
+        ledger = FailureLedger()
         ledger.record("original failure", source="let x = 1", context="fixture")
         payload = json.loads(ledger.to_json())
         payload["records"][0]["message"] = "tampered failure"
         with self.assertRaisesRegex(ValueError, "fingerprint"):
-            GhostLedger.from_json(json.dumps(payload))
+            FailureLedger.from_json(json.dumps(payload))
 
     def test_ledger_schema_rejects_boolean_version(self):
         with self.assertRaises(ValueError):
-            GhostLedger.from_json('{"schema_version": true, "capacity": 1, "records": []}')
+            FailureLedger.from_json('{"schema_version": true, "capacity": 1, "records": []}')
 
 
 class AmplificationEffortTests(unittest.TestCase):
@@ -217,7 +217,7 @@ class SambuMachineTests(unittest.TestCase):
             self.assertEqual(report.files_checked, 2)
             self.assertEqual(report.valid_files, 1)
             self.assertEqual(len(report.issues), 1)
-            self.assertEqual(machine.ghosts.count, 1)
+            self.assertEqual(machine.failures.count, 1)
             self.assertTrue(report.architecture.valid)
 
     def test_machine_runs_source_and_records_runtime_failures(self):
@@ -225,7 +225,7 @@ class SambuMachineTests(unittest.TestCase):
         self.assertEqual(machine.run_source("let x = 4 + 5\nprint(x)", output=lambda _: None), 9)
         with self.assertRaises(ZeroDivisionError):
             machine.run_source("let x = 1 / 0", context="broken.sambu")
-        self.assertEqual(machine.ghosts.count, 1)
+        self.assertEqual(machine.failures.count, 1)
 
     def test_restriction_levels_deny_capabilities_by_default(self):
         sealed = SambuMachine(profile="sealed")
