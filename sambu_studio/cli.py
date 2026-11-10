@@ -1,4 +1,4 @@
-"""Command-line interface for the first SAMBU Studio inspection service."""
+"""Command-line interface for the first MCL Studio inspection service."""
 from __future__ import annotations
 
 import argparse
@@ -11,8 +11,8 @@ from .magento import inspect_module
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="sambu-studio",
-        description="Static Magento XML inspection for SAMBU Studio (no Magento runtime required).",
+        prog="mcl-studio",
+        description="Static Magento XML inspection for MCL Studio (no Magento runtime required).",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     inspect = subparsers.add_parser("inspect", help="inspect Magento DI and message-queue XML")
@@ -23,14 +23,14 @@ def main(argv: list[str] | None = None) -> int:
     try:
         report = inspect_module(args.path)
     except (OSError, ValueError) as exc:
-        print(f"sambu-studio: {exc}", file=sys.stderr)
+        print(f"mcl-studio: {exc}", file=sys.stderr)
         return 2
 
     if args.output_format == "json":
         print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     else:
         summary = report.to_dict()["summary"]
-        print(f"SAMBU Studio Magento inspection: {report.root}")
+        print(f"MCL Studio Magento inspection: {report.root}")
         print(
             "Files: {files_scanned} | preferences: {preferences} | plugins: {plugins} | "
             "topics: {topics} | consumers: {consumers} | exchanges: {exchanges} | "
