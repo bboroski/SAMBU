@@ -11,15 +11,15 @@ from tkinter import filedialog, messagebox, ttk
 
 from sambu.ide import SambuIDE
 
-DARK = "#0D0D0D"
-PANEL = "#1A1A1A"
-PANEL_ALT = "#141414"
-YELLOW = "#FFD600"
-YELLOW_HOVER = "#BFA100"
-TEXT = "#E6E6E6"
-MUTED = "#999999"
-GREEN = "#4CAF50"
-RED = "#FF4444"
+DARK = "#0B0B0D"
+PANEL = "#1C1C1E"
+PANEL_ALT = "#141416"
+YELLOW = "#FF9F0A"
+YELLOW_HOVER = "#D97706"
+TEXT = "#F5F3EE"
+MUTED = "#A6A3AB"
+GREEN = "#64C787"
+RED = "#F16D65"
 
 STRINGS = {
     "en": {
@@ -108,7 +108,7 @@ class DuckStudio:
         style.configure("Panel.TFrame", background=PANEL)
         style.configure("TLabel", background=PANEL, foreground=TEXT)
         style.configure("TButton", background=PANEL_ALT, foreground=TEXT, padding=(10, 7), borderwidth=0)
-        style.map("TButton", background=[("active", YELLOW_HOVER)], foreground=[("active", DARK)])
+        style.map("TButton", background=[("pressed", YELLOW_HOVER), ("active", YELLOW_HOVER)], foreground=[("pressed", DARK), ("active", DARK)], relief=[("pressed", "sunken"), ("!pressed", "flat")])
         style.configure("Accent.TButton", background=YELLOW, foreground=DARK, font=("Segoe UI", 10, "bold"))
         style.configure("TCombobox", fieldbackground=PANEL_ALT, foreground=TEXT, arrowcolor=YELLOW)
 
@@ -153,8 +153,8 @@ class DuckStudio:
         editor_head.pack(fill="x")
         self.file_label = tk.Label(editor_head, text="untitled.sambu", bg=PANEL, fg=YELLOW, padx=12, pady=8)
         self.file_label.pack(side="left")
-        self.editor = tk.Text(center, bg="#141414", fg=TEXT, insertbackground=YELLOW,
-                              selectbackground="#332B00", relief="flat", undo=True, wrap="none",
+        self.editor = tk.Text(center, bg="#141416", fg=TEXT, insertbackground=YELLOW,
+                              selectbackground="#3A2408", relief="flat", undo=True, wrap="none",
                               font=("Cascadia Code", 11), padx=14, pady=12, tabs=("4c",))
         self.editor.pack(fill="both", expand=True)
         self.editor.insert("1.0", '# Welcome to SAMBU Duck Studio\n\nlet greeting = "Hello, duck!"\nprint(greeting)\n')
