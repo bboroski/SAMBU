@@ -546,6 +546,12 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
             continue
         emit(_expression(line, normalized), line_number)
 
+    if block_comment[0] is not None:
+        raise DialectSyntaxError(
+            normalized,
+            max(1, len(source.splitlines())),
+            f"unclosed block comment: {block_comment[0]}",
+        )
     if pending_if_close:
         emit("}", max(1, len(source.splitlines())))
         if block_stack and block_stack[-1] == "if":
