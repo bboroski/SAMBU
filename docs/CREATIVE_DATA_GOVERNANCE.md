@@ -1,9 +1,10 @@
 # Creative Data Governance and Semantic Metadata
 
-**Ontology version:** `2026.11`  
+**Current ontology version:** `2026.12`  
+**Backward compatibility:** existing `2026.11` records remain readable; `T-009` is available only in `2026.12`.  
 **Status:** the metadata model, cluster registry and validator are implemented in Python. Automated text classification, embedding generation, model training and online adaptation are not implemented by this module.
 
-This document turns the March–April 2025 creative corpus interpretation brief into a versioned, reviewable data contract for SAMBU. It preserves the source vocabulary and eight thematic clusters while avoiding unsupported claims about trained models or classifier performance.
+This document turns the March–April 2025 creative corpus interpretation brief into a versioned, reviewable data contract for SAMBU. It preserves the source vocabulary and nine thematic clusters while avoiding unsupported claims about trained models or classifier performance.
 
 ## 1. Purpose and boundary
 
@@ -27,8 +28,9 @@ Raw source text is not part of the metadata schema. A caller may attach a source
 | T-006 | Technological metaphor | `technological_metaphor` | Hardware-as-body imagery, code-as-ritual and digital/analogue fusion | Technical writing, creative coding prompts, UX language analysis |
 | T-007 | Conflict and resilience | `conflict_resilience` | Institutional critique, disruption, endurance and recovery narratives | Crisis communication, educational content, resilience narratives |
 | T-008 | Linguistic hybridity | `linguistic_hybridity` | Code-switching, multilingual rhyme, dialectal texture and mixed registers | Translation assessment, multilingual annotation, register analysis |
+| T-009 | Surreal juxtaposition and wordplay | `surreal_juxtaposition` | Absurd associations, phonetic collisions, abrupt image shifts and unexpected pop-culture or technical references | Wordplay analysis, metaphor annotation, creative register analysis |
 
-The cluster is a navigation and analysis label, not a verdict about the source. One work may carry more than one cluster in a future multi-label schema; the current record format deliberately assigns one primary cluster so its first implementation remains deterministic.
+The cluster is a navigation and analysis label, not a verdict about the source. T-009 was added in ontology `2026.12`; records tagged with it must declare that version. Existing `2026.11` records remain valid and are not silently rewritten. One work may carry more than one cluster in a future multi-label schema; the current record format deliberately assigns one primary cluster so its first implementation remains deterministic.
 
 ## 3. Safety and review labels
 
@@ -36,14 +38,14 @@ The validator accepts these explicit labels:
 
 | Label | Meaning | Generation treatment |
 |---|---|---|
-| `CLEAN` | Reviewed metadata with no unresolved safety concern | Eligible at the metadata-policy layer |
-| `CLEAN_SATIRE` | Satirical material reviewed in context | Eligible at the metadata-policy layer |
+| `CLEAN` | Reviewed metadata with no unresolved safety concern | Eligible only with `review_ref` and `reviewed_at` evidence |
+| `CLEAN_SATIRE` | Satirical material reviewed in context | Eligible only with `review_ref` and `reviewed_at` evidence |
 | `SANITIZED_ARGOT_ONLY` | Only neutralized argot descriptors are retained | Not eligible by this label alone |
 | `SANITIZED_INTIMACY` | Only neutralized intimacy descriptors are retained | Not eligible by this label alone |
 | `NEEDS_REVIEW` | Review has not been completed | Not eligible |
 | `EXCLUDED_FROM_GENERATION` | Explicitly withheld from generation workflows | Not eligible |
 
-Eligibility is deliberately conservative and does not replace downstream policy checks. A `CLEAN` flag is an annotation from an authorized review process, not a classifier result. Negative or harmful examples may be used in a separate, access-controlled evaluation set when lawful and appropriate; they must not be silently promoted into generative examples.
+Eligibility is deliberately conservative and does not replace downstream policy checks. A `CLEAN` or `CLEAN_SATIRE` label alone is not enough: the record must also contain a pseudonymous `review_ref` and a timezone-aware ISO-8601 `reviewed_at` timestamp. These fields provide an auditable review reference, not proof that the source is licensed, truthful or universally safe. The system never infers them automatically. Negative or harmful examples may be used in a separate, access-controlled evaluation set when lawful and appropriate; they must not be silently promoted into generative examples.
 
 Profanity, dialect, political references, religion, sexuality or conflict are not automatically equivalent to harmful content. Review should evaluate meaning, target, context, intent and likely use. Neutral academic discussion and creative expression must not be suppressed merely because they mention a sensitive subject.
 
@@ -53,10 +55,10 @@ The Python API is `sambu.creative_metadata.CreativeMetadata`. The record contain
 
 - `cluster_id`, `theme`, `tone`;
 - bounded `key_symbols`, `language` and `stylistic_devices` arrays;
-- optional `linguistic_register`, `source_ref` and `content_sha256`;
+- optional `linguistic_register`, `source_ref`, `content_sha256`, `review_ref` and `reviewed_at`;
 - an explicit `safety_flag` and immutable `ontology_version`.
 
-The validator rejects unknown fields, unknown cluster identifiers, unbounded arrays, malformed hashes and unsupported ontology versions. Missing safety labels default to `NEEDS_REVIEW`, never to a permissive state.
+The validator rejects unknown fields, unknown cluster identifiers, unbounded arrays, malformed hashes, invalid review timestamps and unsupported ontology versions. Both review fields must be present together. Missing safety labels default to `NEEDS_REVIEW`, never to a permissive state. A `2026.11` record cannot use `T-009`. The machine-readable Draft 2020-12 contract is [schemas/creative-metadata.schema.json](../schemas/creative-metadata.schema.json).
 
 Example JSON record (metadata only):
 
@@ -71,11 +73,11 @@ Example JSON record (metadata only):
   "stylistic_devices": ["visual_imagery", "nostalgic_address"],
   "safety_flag": "NEEDS_REVIEW",
   "source_ref": "corpus-item-001",
-  "ontology_version": "2026.11"
+  "ontology_version": "2026.12"
 }
 ```
 
-JSON-LD export uses Schema.org's `CreativeWork` type and adds the SAMBU cluster, tone and safety fields. It contains metadata, not the original lyric or prose.
+JSON-LD export uses the Schema.org `CreativeWork` type and adds the SAMBU cluster, tone, safety fields and (when available) review reference/date. It contains metadata, not the original lyric or prose.
 
 ## 5. CLI and Python usage
 
@@ -111,7 +113,7 @@ print(record.to_dict())
 print(record.to_jsonld())
 ```
 
-The tool validates supplied labels. It does not classify unannotated text, generate embeddings, fine-tune Sentence-BERT, or learn from user corrections.
+The tool validates supplied labels. It does not classify unannotated text, generate embeddings, fine-tune Sentence-BERT, or learn from user corrections. Text Craft diagnostics (`text_profile`, `prosody_profile`, `text_structure_profile` and `language_mix_profile`) surface measurable writing patterns, but do not assign thematic clusters or safety labels. Keep the layers separate: diagnostics produce evidence; a human curator assigns metadata.
 
 ## 6. Future model and feedback work
 
@@ -129,11 +131,14 @@ Vector dimensions, inference latency, accuracy, training-set size and GPU requir
 
 ## 7. Acceptance checklist
 
-- [x] Stable T-001 through T-008 registry.
+- [x] Stable T-001 through T-009 registry with a versioned addition in `2026.12`.
+- [x] Backward read compatibility for `2026.11` metadata.
+- [x] Machine-readable JSON Schema for objects and bounded arrays.
+- [x] Audited review reference/time pair gates generation eligibility.
 - [x] Versioned metadata dataclass and JSON-LD export.
 - [x] Strict bounds and unknown-field rejection.
 - [x] Conservative safety defaults and generation eligibility flag.
-- [x] Unit tests for cluster identity, validation, bounds and safety labels.
+- [x] Unit tests for cluster identity, legacy compatibility, validation, bounds, review evidence and safety labels.
 - [ ] Reviewed source-corpus ingestion and provenance tooling.
 - [ ] Human-in-the-loop annotation interface.
 - [ ] Optional embedding/classifier adapter with reproducible evaluation.
