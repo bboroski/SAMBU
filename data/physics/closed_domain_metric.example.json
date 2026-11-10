@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "domain_id": "minkowski-isolated-domain-example",
+  "interpretation": "phenomenological_model",
+  "coordinates": {
+    "dimension": 4,
+    "signature": "-+++",
+    "basis": "x0 = c*t; x1,x2,x3 are Cartesian spatial coordinates in metres"
+  },
+  "metric_tensor": [
+    [
+      -1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "boundary": {
+    "metric_variation": "dirichlet"
+  },
+  "exchange_policy": {
+    "matter": false,
+    "energy": false,
+    "information": false
+  },
+  "energy_ledger": {
+    "initial_j": 1,
+    "final_j": 1,
+    "tolerance_j": 1e-12
+  },
+  "mass_model": {
+    "status": "unverified_hypothesis",
+    "mechanism": "metric_stiffness_hypothesis",
+    "rest_energy_j": 1,
+    "effective_rest_mass_kg": 1.1126500560536185e-17,
+    "relative_tolerance": 1e-9
+  }
+}
