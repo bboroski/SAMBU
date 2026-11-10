@@ -1,7 +1,8 @@
 """Deterministic, language-aware text and prosody diagnostics for SAMBU.
 
-The analysis is intentionally descriptive: it reports measurable patterns and
-never claims to score literary quality or infer lexical stress from spelling.
+The analysis is descriptive: it reports measurable patterns and never claims
+to score literary quality, identify a definitive language, or infer lexical
+stress from spelling.
 """
 from __future__ import annotations
 
@@ -14,8 +15,24 @@ from .values import Record
 
 
 _WORD_RE = re.compile(r"[^\W\d_]+(?:[’'\-][^\W\d_]+)*", re.UNICODE)
+_HEADER_RE = re.compile(r"^\s*\[\s*([^\]]+?)\s*\]\s*:?\s*$")
+_BARE_HEADER_RE = re.compile(
+    r"^\s*(intro|verse(?:\s+\d+)?|pre[ -]?chorus|chorus|hook|bridge|outro|"
+    r"интро|куплет(?:\s+\d+)?|предприпев|припев|хук|бридж|аутро)\s*:?\s*$",
+    re.IGNORECASE,
+)
 _VOWELS = frozenset("аеёиоуыэюяіїєaeiouy")
 _MAX_TEXT_LENGTH = 1_000_000
+
+_SECTION_ALIASES = {
+    "intro": "intro", "интро": "intro",
+    "verse": "verse", "куплет": "verse",
+    "pre chorus": "pre_chorus", "pre-chorus": "pre_chorus",
+    "предприпев": "pre_chorus",
+    "chorus": "chorus", "hook": "chorus", "припев": "chorus", "хук": "chorus",
+    "bridge": "bridge", "бридж": "bridge",
+    "outro": "outro", "аутро": "outro",
+}
 
 
 def _text_arg(args: list[object], signature: str) -> str:
@@ -31,6 +48,10 @@ def _text_arg(args: list[object], signature: str) -> str:
 
 def _words(text: str) -> list[str]:
     return [match.group(0).casefold() for match in _WORD_RE.finditer(text)]
+
+
+def _raw_words(text: str) -> list[str]:
+    return [match.group(0) for match in _WORD_RE.finditer(text)]
 
 
 def _syllable_count(word: str) -> int:
@@ -52,10 +73,23 @@ def _rhyme_key(word: str) -> str:
     if vowel_index < 0:
         return ""
     tail = normalized[vowel_index:]
-    # Preserve one preceding consonant for open-vowel endings (e.g. пора/гора).
     if len(tail) == 1 and vowel_index > 0:
         tail = normalized[vowel_index - 1:]
     return tail
+
+
+def _section_kind(label: str) -> str:
+    normalized = re.sub(r"\s+", " ", label.casefold().replace("_", " ").strip())
+    normalized = re.sub(r"\s+\d+$", "", normalized)
+    return _SECTION_ALIASES.get(normalized, "custom")
+
+
+def _section_header(line: str) -> str | None:
+    match = _HEADER_RE.fullmatch(line)
+    if match:
+        return match.group(1).strip()
+    match = _BARE_HEADER_RE.fullmatch(line)
+    return match.group(1).strip() if match else None
 
 
 def syllables(args: list[object]) -> int:
@@ -103,20 +137,164 @@ def text_profile(args: list[object]) -> Record:
     })
 
 
+def language_mix_profile(args: list[object]) -> Record:
+    """Count writing systems and lines that visibly switch between Latin and Cyrillic."""
+    text = _text_arg(args, "language_mix_profile(text)")
+    latin_words = 0
+    cyrillic_words = 0
+    other_script_words = 0
+    mixed_script_words = 0
+    switched_lines: list[int] = []
+
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        line_scripts: set[str] = set()
+        for token in _words(line):
+            scripts = set()
+            for character in token:
+                if not character.isalpha():
+                    continue
+                name = unicodedata.name(character, "")
+                if name.startswith("LATIN "):
+                    scripts.add("latin")
+                elif name.startswith("CYRILLIC "):
+                    scripts.add("cyrillic")
+                elif name:
+                    scripts.add("other")
+            if len(scripts) > 1:
+                mixed_script_words += 1
+            elif scripts == {"latin"}:
+                latin_words += 1
+                line_scripts.add("latin")
+            elif scripts == {"cyrillic"}:
+                cyrillic_words += 1
+                line_scripts.add("cyrillic")
+            elif scripts == {"other"}:
+                other_script_words += 1
+                line_scripts.add("other")
+        if "latin" in line_scripts and "cyrillic" in line_scripts:
+            switched_lines.append(line_number)
+
+    counts = {"latin": latin_words, "cyrillic": cyrillic_words, "other": other_script_words}
+    maximum = max(counts.values(), default=0)
+    leaders = [name for name, count in counts.items() if count == maximum and count > 0]
+    dominant = leaders[0] if len(leaders) == 1 else "balanced" if leaders else "none"
+    total = latin_words + cyrillic_words + other_script_words + mixed_script_words
+    return Record({
+        "word_count": total,
+        "latin_word_count": latin_words,
+        "cyrillic_word_count": cyrillic_words,
+        "other_script_word_count": other_script_words,
+        "mixed_script_word_count": mixed_script_words,
+        "code_switch_line_count": len(switched_lines),
+        "code_switch_lines": switched_lines,
+        "dominant_script": dominant,
+        "scope": "writing_systems_not_language_identification",
+    })
+
+
+def text_structure_profile(args: list[object]) -> Record:
+    """Extract common song/prose sections and exact repeated refrain blocks."""
+    text = _text_arg(args, "text_structure_profile(text)")
+    lines = text.splitlines()
+    sections: list[Record] = []
+    current_label = "Body"
+    current_kind = "body"
+    current_lines: list[tuple[int, str]] = []
+    header_count = 0
+
+    def flush() -> None:
+        if not current_lines:
+            return
+        section_text = "\n".join(line for _, line in current_lines)
+        normalized = "\n".join(" ".join(_words(line)) for _, line in current_lines).strip()
+        sections.append(Record({
+            "index": len(sections),
+            "label": current_label,
+            "kind": current_kind,
+            "start_line": current_lines[0][0],
+            "end_line": current_lines[-1][0],
+            "line_count": len(current_lines),
+            "word_count": len(_words(section_text)),
+            "text": section_text,
+            "normalized_text": normalized,
+        }))
+
+    for line_number, line in enumerate(lines, start=1):
+        header = _section_header(line)
+        if header is not None:
+            flush()
+            current_lines = []
+            current_label = header
+            current_kind = _section_kind(header)
+            header_count += 1
+        else:
+            current_lines.append((line_number, line))
+    flush()
+
+    kind_counts = Counter(str(section.get("kind")) for section in sections)
+    refrain_occurrences: dict[str, list[Record]] = defaultdict(list)
+    for section in sections:
+        normalized = str(section.get("normalized_text") or "")
+        if section.get("kind") == "chorus" and normalized:
+            refrain_occurrences[normalized].append(section)
+
+    refrain_groups = []
+    for normalized, occurrences in refrain_occurrences.items():
+        if len(occurrences) < 2:
+            continue
+        refrain_groups.append(Record({
+            "repeat_count": len(occurrences),
+            "section_indices": [item.get("index") for item in occurrences],
+            "labels": [item.get("label") for item in occurrences],
+            "line_count": occurrences[0].get("line_count"),
+            "normalized_text": normalized,
+        }))
+    refrain_groups.sort(key=lambda group: (-int(group.get("repeat_count")), str(group.get("normalized_text"))))
+
+    line_occurrences: dict[str, list[int]] = defaultdict(list)
+    line_originals: dict[str, str] = {}
+    for line_number, line in enumerate(lines, start=1):
+        normalized = " ".join(_words(line))
+        if normalized:
+            line_occurrences[normalized].append(line_number)
+            line_originals.setdefault(normalized, line.strip())
+    repeated_line_groups = [
+        Record({"text": line_originals[key], "lines": locations, "repeat_count": len(locations)})
+        for key, locations in line_occurrences.items()
+        if len(locations) > 1
+    ]
+    repeated_line_groups.sort(key=lambda group: (-int(group.get("repeat_count")), str(group.get("text"))))
+
+    return Record({
+        "line_count": len(lines),
+        "header_count": header_count,
+        "section_count": len(sections),
+        "has_section_headers": header_count > 0,
+        "section_kind_counts": dict(sorted(kind_counts.items())),
+        "sections": sections,
+        "refrain_groups": refrain_groups,
+        "repeated_line_groups": repeated_line_groups,
+    })
+
+
 def prosody_profile(args: list[object]) -> Record:
-    """Report rough syllable rhythm, line endings, rhyme groups and alliteration."""
+    """Report rough syllable rhythm, rhyme groups, internal echoes and marked casing."""
     text = _text_arg(args, "prosody_profile(text)")
     source_lines = text.splitlines()
     line_records: list[Record] = []
     syllable_counts: list[int] = []
     rhyme_occurrences: dict[str, list[tuple[int, str]]] = defaultdict(list)
     alliterative_line_count = 0
+    internal_rhyme_line_count = 0
     total_words = 0
     nonempty_line_count = 0
+    marked_case_words: list[str] = []
 
     for line_number, line in enumerate(source_lines, start=1):
         words = _words(line)
+        raw_words = _raw_words(line)
         total_words += len(words)
+        line_internal_groups = []
         if words:
             nonempty_line_count += 1
             count = sum(_syllable_count(word) for word in words)
@@ -134,13 +312,35 @@ def prosody_profile(args: list[object]) -> Record:
                 len(consonant_onsets) > 1
                 and len(set(consonant_onsets)) < len(consonant_onsets)
             )
-            if has_alliteration:
-                alliterative_line_count += 1
+
+            internal_occurrences: dict[str, list[str]] = defaultdict(list)
+            for word in words:
+                word_key = _rhyme_key(word)
+                if word_key:
+                    internal_occurrences[word_key].append(word)
+            for rhyme, matches in internal_occurrences.items():
+                unique_matches = list(dict.fromkeys(matches))
+                if len(unique_matches) >= 2:
+                    line_internal_groups.append(Record({
+                        "key": rhyme,
+                        "words": unique_matches,
+                        "line_number": line_number,
+                    }))
+            if line_internal_groups:
+                internal_rhyme_line_count += 1
         else:
             count = 0
             ending = ""
             key = ""
             has_alliteration = False
+
+        for raw in raw_words:
+            letters = [character for character in raw if character.isalpha()]
+            if any(character.islower() for character in letters) and any(
+                character.isupper() for character in letters
+            ):
+                marked_case_words.append(raw)
+
         line_records.append(Record({
             "line_number": line_number,
             "text": line,
@@ -149,7 +349,11 @@ def prosody_profile(args: list[object]) -> Record:
             "end_word": ending,
             "rhyme_key": key,
             "has_alliteration": has_alliteration,
+            "internal_rhyme_groups": line_internal_groups,
         }))
+
+        if len(marked_case_words) > 256:
+            marked_case_words = marked_case_words[:256]
 
     rhyme_groups: list[Record] = []
     participating_lines: set[int] = set()
@@ -188,6 +392,10 @@ def prosody_profile(args: list[object]) -> Record:
         "rhyme_density": len(participating_lines) / nonempty_line_count if nonempty_line_count else 0.0,
         "alliterative_line_count": alliterative_line_count,
         "alliteration_density": alliterative_line_count / nonempty_line_count if nonempty_line_count else 0.0,
+        "internal_rhyme_line_count": internal_rhyme_line_count,
+        "internal_rhyme_density": internal_rhyme_line_count / nonempty_line_count if nonempty_line_count else 0.0,
+        "marked_case_words": marked_case_words,
+        "marked_case_word_count": len(marked_case_words),
         "lines": line_records,
     })
 
@@ -197,4 +405,6 @@ TEXTCRAFT_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "rhyme_key": rhyme_key,
     "text_profile": text_profile,
     "prosody_profile": prosody_profile,
+    "language_mix_profile": language_mix_profile,
+    "text_structure_profile": text_structure_profile,
 }
