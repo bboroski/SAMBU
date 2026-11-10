@@ -25,11 +25,14 @@ class FakeRunner:
         if "idevicepair" in joined and "validate" in joined:
             return self.completed(command, 0, "")
         if "ideviceinfo" in joined:
-            return self.completed(
-                command, 0,
-                "DeviceName: Test iPhone\nProductType: iPhone18,1\n"
-                "ProductVersion: 26.1\nBuildVersion: 23B74\n",
-            )
+            key = command[command.index("-k") + 1]
+            values = {
+                "DeviceName": "Test iPhone",
+                "ProductType": "iPhone18,1",
+                "ProductVersion": "26.1",
+                "BuildVersion": "23B74",
+            }
+            return self.completed(command, 0, values[key])
         if "sc.exe" in joined:
             return self.completed(command, 0, "STATE : 4 RUNNING")
         if "pnputil.exe" in joined and "/enum-drivers" in joined:
@@ -66,8 +69,9 @@ class LocalizationTests(unittest.TestCase):
 class AppleDeviceToolkitTests(unittest.TestCase):
     def test_discovers_model_ios_and_existing_pairing_without_mutation(self):
         runner = FakeRunner()
-        toolkit = AppleDeviceToolkit(runner=runner, platform_name="Linux")
-        report = toolkit.diagnose()
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=runner, platform_name="Linux")
+            report = toolkit.diagnose()
         self.assertEqual(len(report.devices), 1)
         device = report.devices[0]
         self.assertEqual(device.family, "iPhone")
@@ -75,6 +79,11 @@ class AppleDeviceToolkitTests(unittest.TestCase):
         self.assertEqual(device.ios_version, "26.1")
         self.assertTrue(device.pairing_valid)
         commands = [" ".join(call).lower() for call in runner.calls]
+        self.assertTrue(any("ideviceinfo" in item and "-k producttype" in item for item in commands))
+        self.assertFalse(any(
+            "ideviceinfo" in item and "-k" not in item and "--version" not in item
+            for item in commands
+        ))
         self.assertFalse(any(
             "idevicepair" in item and "validate" not in item and "--version" not in item
             for item in commands
@@ -82,8 +91,9 @@ class AppleDeviceToolkitTests(unittest.TestCase):
 
     def test_windows_diagnostics_check_driver_service_and_usb_visibility(self):
         runner = FakeRunner()
-        toolkit = AppleDeviceToolkit(runner=runner, platform_name="Windows")
-        report = toolkit.diagnose()
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=runner, platform_name="Windows")
+            report = toolkit.diagnose()
         codes = {item.code for item in report.diagnostics}
         self.assertIn("apple_service", codes)
         self.assertIn("apple_usb_driver", codes)
@@ -112,14 +122,16 @@ class AppleDeviceToolkitTests(unittest.TestCase):
         self.assertTrue(any(item.status == "error" for item in report.diagnostics))
 
     def test_requested_udid_must_match_discovery(self):
-        toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Linux")
-        report = toolkit.diagnose(udid="NOT-CONNECTED")
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Linux")
+            report = toolkit.diagnose(udid="NOT-CONNECTED")
         self.assertEqual(report.devices, ())
         self.assertTrue(any(item.code == "requested_device" for item in report.diagnostics))
 
     def test_hardware_smoke_runs_for_each_device(self):
-        toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Linux")
-        report = toolkit.run_hardware_smoke()
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Linux")
+            report = toolkit.run_hardware_smoke()
         self.assertEqual(report.devices_tested, 1)
         self.assertTrue(report.passed)
         self.assertTrue(any(
@@ -127,10 +139,25 @@ class AppleDeviceToolkitTests(unittest.TestCase):
             for item in report.tests
         ))
 
+    def test_pairing_tool_is_optional_when_metadata_api_is_available(self):
+        runner = FakeRunner()
+        def available(name):
+            return None if name == "idevicepair" else "/fake/" + name
+        with patch("sambu.apple_devices.shutil.which", side_effect=available):
+            toolkit = AppleDeviceToolkit(runner=runner, platform_name="Linux")
+            report = toolkit.diagnose()
+        self.assertEqual(len(report.devices), 1)
+        self.assertIsNone(report.devices[0].pairing_valid)
+        self.assertTrue(any(
+            item.code == "tool_idevicepair" and item.status == "warning"
+            for item in report.diagnostics
+        ))
+
     def test_diagnostic_does_not_run_pair_or_device_write_commands(self):
         runner = FakeRunner()
-        toolkit = AppleDeviceToolkit(runner=runner, platform_name="Linux")
-        toolkit.diagnose()
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=runner, platform_name="Linux")
+            toolkit.diagnose()
         commands = [" ".join(call).lower() for call in runner.calls]
         self.assertFalse(any(
             "idevicepair" in item and "validate" not in item and "--version" not in item
