@@ -19,6 +19,12 @@
       "include": "#declarations"
     },
     {
+      "include": "#fortran_operators"
+    },
+    {
+      "include": "#fortran_constants"
+    },
+    {
       "include": "#keywords"
     },
     {
@@ -153,6 +159,14 @@
     "punctuation": {
       "name": "punctuation.separator.sambu",
       "match": "[()\\[\\]{}.,;]"
+    },
+    "fortran_operators": {
+      "name": "keyword.operator.logical.fortran",
+      "match": "\\.(?:and|or|not|eqv|neqv|eq|ne|lt|le|gt|ge)\\."
+    },
+    "fortran_constants": {
+      "name": "constant.language.fortran",
+      "match": "\\.(?:true|false)\\."
     }
   }
 }
