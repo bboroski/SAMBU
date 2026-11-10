@@ -151,6 +151,8 @@ class DuckStudioApp:
             )
         except (OSError, self.tk.TclError):
             pass
+        if hasattr(self, "zoom_label"):
+            self.zoom_label.configure(text=f"{round(self.ui_scale * 100)}%")
         self._notify(f"UI scale: {round(self.ui_scale * 100)}%  ·  Ctrl + / Ctrl − / Ctrl 0", "teal")
 
     def _configure_styles(self) -> None:
@@ -235,6 +237,27 @@ class DuckStudioApp:
             padx=12, pady=6, font=("TkDefaultFont", 8, "bold"),
         )
         self.status_pill.pack(side="right", pady=12)
+        scale_controls = tk.Frame(top, bg=PALETTE["card"])
+        scale_controls.pack(side="right", padx=(0, 16))
+        tk.Button(
+            scale_controls, text="−", command=lambda: self.adjust_ui_scale(-0.10),
+            bg=PALETTE["surface_alt"] if "surface_alt" in PALETTE else "#141414",
+            fg=PALETTE["accent"] if "accent" in PALETTE else "#FFD600",
+            activebackground="#BFA100", activeforeground="#0D0D0D",
+            relief="flat", bd=0, padx=10, pady=5, cursor="hand2",
+        ).pack(side="left", padx=2)
+        self.zoom_label = tk.Label(
+            scale_controls, text=f"{round(self.ui_scale * 100)}%",
+            bg=PALETTE["card"], fg=PALETTE["muted"], width=5,
+            font=("Segoe UI", 9, "bold"),
+        )
+        self.zoom_label.pack(side="left", padx=4)
+        tk.Button(
+            scale_controls, text="+", command=lambda: self.adjust_ui_scale(0.10),
+            bg="#FFD600", fg="#0D0D0D", activebackground="#BFA100",
+            activeforeground="#0D0D0D", relief="flat", bd=0,
+            padx=10, pady=5, cursor="hand2",
+        ).pack(side="left", padx=2)
         self.body = tk.Frame(self.main, bg=PALETTE["page"], padx=30, pady=25)
         self.body.pack(fill="both", expand=True)
         self._build_toast()
