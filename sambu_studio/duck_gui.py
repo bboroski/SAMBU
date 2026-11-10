@@ -16,13 +16,16 @@ from typing import Any
 
 
 PALETTE = {
-    # Duck UI tokens: restrained yellow accents over deep graphite surfaces.
-    "sidebar": "#0D0D0D", "sidebar_muted": "#999999", "sidebar_active": "#332B00",
-    "page": "#0D0D0D", "card": "#1A1A1A", "ink": "#E6E6E6", "muted": "#999999",
-    "line": "#262626", "teal": "#FFD600", "teal_soft": "#332B00",
-    "amber": "#FFD600", "amber_soft": "#332B00", "red": "#FF4444",
-    "red_soft": "#351717", "blue": "#BFA100", "blue_soft": "#282300",
-    "green": "#4CAF50", "green_soft": "#17251A",
+    # Shared Duck Black / Yellow tokens; semantic state colors remain distinct.
+    "sidebar": "#0D0D0D", "sidebar_muted": "#A3A3A3", "sidebar_active": "#332B00",
+    "page": "#0D0D0D", "card": "#171717", "surface_alt": "#141414",
+    "ink": "#F2F2F2", "muted": "#A3A3A3", "line": "#303030",
+    "accent": "#FFD600", "accent_hover": "#FFE34D", "accent_pressed": "#BFA100",
+    "focus": "#FFD600", "teal": "#FFD600", "teal_soft": "#332B00",
+    "amber": "#FFD600", "amber_soft": "#282200",
+    "red": "#FF6262", "red_soft": "#351717",
+    "blue": "#C7B34A", "blue_soft": "#24200F",
+    "green": "#56C477", "green_soft": "#142319",
 }
 
 
@@ -166,21 +169,37 @@ class DuckStudioApp:
         except self.tk.TclError:
             pass
         style.configure(
-            "Treeview", background=PALETTE["card"], foreground=PALETTE["ink"],
-            fieldbackground=PALETTE["card"], rowheight=34, borderwidth=0,
-            font=("TkDefaultFont", 9),
+            ".", background=PALETTE["card"], foreground=PALETTE["ink"],
+            fieldbackground=PALETTE["surface_alt"], font=("TkDefaultFont", 10),
         )
         style.configure(
-            "Treeview.Heading", background="#141414", foreground=PALETTE["muted"],
-            font=("TkDefaultFont", 8), relief="flat",
+            "Treeview", background=PALETTE["card"], foreground=PALETTE["ink"],
+            fieldbackground=PALETTE["card"], rowheight=38, borderwidth=0,
+            font=("TkDefaultFont", 10), relief="flat",
+        )
+        style.configure(
+            "Treeview.Heading", background=PALETTE["surface_alt"],
+            foreground=PALETTE["muted"], font=("TkDefaultFont", 9, "bold"),
+            relief="flat", padding=(10, 8),
         )
         style.map(
-            "Treeview", background=[("selected", "#332B00")],
-            foreground=[("selected", PALETTE["ink"])],
+            "Treeview",
+            background=[("selected", PALETTE["sidebar_active"])],
+            foreground=[("selected", PALETTE["accent"])],
         )
         style.configure(
-            "Vertical.TScrollbar", background="#262626", troughcolor="#0D0D0D",
-            bordercolor="#0D0D0D", arrowcolor="#999999",
+            "Vertical.TScrollbar", background=PALETTE["line"],
+            troughcolor=PALETTE["page"], bordercolor=PALETTE["page"],
+            arrowcolor=PALETTE["muted"],
+        )
+        style.configure(
+            "TButton", background=PALETTE["card"], foreground=PALETTE["ink"],
+            padding=(12, 8), borderwidth=0, focuscolor=PALETTE["focus"],
+        )
+        style.map(
+            "TButton",
+            background=[("pressed", PALETTE["accent_pressed"]), ("active", "#242424")],
+            foreground=[("pressed", PALETTE["page"]), ("active", PALETTE["ink"])],
         )
 
     def _build_shell(self) -> None:
@@ -295,16 +314,22 @@ class DuckStudioApp:
 
     def _button(self, parent: Any, text: str, command: Any, *, primary: bool = False,
                 compact: bool = False) -> Any:
-        bg = PALETTE["teal"] if primary else "#1A1A1A"
-        fg = "#0D0D0D" if primary else PALETTE["ink"]
-        return self.tk.Button(
+        bg = PALETTE["accent"] if primary else PALETTE["card"]
+        fg = PALETTE["page"] if primary else PALETTE["ink"]
+        hover_bg = PALETTE["accent_hover"] if primary else "#242424"
+        active_fg = PALETTE["page"] if primary else PALETTE["ink"]
+        button = self.tk.Button(
             parent, text=text, command=command, bg=bg, fg=fg,
-            activebackground="#BFA100" if primary else "#262626",
-            activeforeground=PALETTE["ink"] if primary else PALETTE["ink"],
-            relief="flat", bd=0, padx=14 if not compact else 10,
-            pady=9 if not compact else 6, font=("TkDefaultFont", 9),
-            cursor="hand2", highlightthickness=0,
+            activebackground=PALETTE["accent_pressed"] if primary else "#2B2B2B",
+            activeforeground=active_fg, relief="flat", bd=0,
+            padx=14 if not compact else 10, pady=10 if not compact else 7,
+            font=("TkDefaultFont", 10), cursor="hand2",
+            highlightthickness=1, highlightbackground=PALETTE["line"],
+            highlightcolor=PALETTE["focus"], takefocus=1,
         )
+        button.bind("<Enter>", lambda _event: button.configure(bg=hover_bg), add="+")
+        button.bind("<Leave>", lambda _event: button.configure(bg=bg), add="+")
+        return button
 
     def _heading(self, title: str, subtitle: str) -> Any:
         row = self.tk.Frame(self.body, bg=PALETTE["page"])
