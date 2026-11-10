@@ -15,12 +15,13 @@ from typing import Any
 
 
 PALETTE = {
-    "sidebar": "#142235", "sidebar_muted": "#91A2B7", "sidebar_active": "#243A52",
-    "page": "#F3F6FA", "card": "#FFFFFF", "ink": "#18283B", "muted": "#718096",
-    "line": "#E3EAF1", "teal": "#23877E", "teal_soft": "#E5F4F1",
-    "amber": "#C28A32", "amber_soft": "#FFF4E1", "red": "#C45B60",
-    "red_soft": "#FCEDEF", "blue": "#557EB2", "blue_soft": "#EAF1FA",
-    "green": "#328466", "green_soft": "#E7F4ED",
+    # Duck UI tokens: restrained yellow accents over deep graphite surfaces.
+    "sidebar": "#0D0D0D", "sidebar_muted": "#999999", "sidebar_active": "#332B00",
+    "page": "#0D0D0D", "card": "#1A1A1A", "ink": "#E6E6E6", "muted": "#999999",
+    "line": "#262626", "teal": "#FFD600", "teal_soft": "#332B00",
+    "amber": "#FFD600", "amber_soft": "#332B00", "red": "#FF4444",
+    "red_soft": "#351717", "blue": "#BFA100", "blue_soft": "#282300",
+    "green": "#4CAF50", "green_soft": "#17251A",
 }
 
 
@@ -99,10 +100,11 @@ class DuckStudioApp:
         self.ttk = ttk
         self.root = root
         self.root.title("SAMBU Duck Studio")
-        self.root.geometry("1440x920")
-        self.root.minsize(1120, 740)
+        self.root.geometry("1440x900")
+        self.root.minsize(1024, 640)
         self.root.configure(bg=PALETTE["page"])
-        self.root.option_add("*Font", "TkDefaultFont 10")
+        self.root.option_add("*Font", "Segoe UI 10")
+        self._init_ui_scale()
 
         self.workspace: Path | None = None
         self.report: Any | None = None
@@ -115,6 +117,42 @@ class DuckStudioApp:
         self._show_overview()
         self.root.after(100, self._drain_events)
 
+
+    def _init_ui_scale(self) -> None:
+        """Apply a user-controlled Tk scaling factor without rasterising the UI."""
+        self.scale_file = Path.home() / ".sambu" / "duck-studio.json"
+        self.ui_scale = 1.0
+        try:
+            config = json.loads(self.scale_file.read_text(encoding="utf-8"))
+            self.ui_scale = float(config.get("ui_scale", 1.0))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+        self.ui_scale = max(0.85, min(1.50, self.ui_scale))
+        try:
+            self.base_tk_scaling = float(self.root.tk.call("tk", "scaling"))
+            self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
+        except (self.tk.TclError, AttributeError):
+            self.base_tk_scaling = 1.0
+        for sequence, delta in (
+            ("<Control-plus>", 0.10), ("<Control-equal>", 0.10),
+            ("<Control-minus>", -0.10),
+        ):
+            self.root.bind_all(sequence, lambda _event, value=delta: self.adjust_ui_scale(value))
+        self.root.bind_all("<Control-0>", lambda _event: self.adjust_ui_scale(0, reset=True))
+
+    def adjust_ui_scale(self, delta: float = 0.0, *, reset: bool = False) -> None:
+        self.ui_scale = 1.0 if reset else max(0.85, min(1.50, round(self.ui_scale + delta, 2)))
+        try:
+            self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
+            self.scale_file.parent.mkdir(parents=True, exist_ok=True)
+            self.scale_file.write_text(
+                json.dumps({"ui_scale": self.ui_scale}, indent=2),
+                encoding="utf-8",
+            )
+        except (OSError, self.tk.TclError):
+            pass
+        self._notify(f"UI scale: {round(self.ui_scale * 100)}%  ·  Ctrl + / Ctrl − / Ctrl 0", "teal")
+
     def _configure_styles(self) -> None:
         style = self.ttk.Style()
         try:
@@ -122,21 +160,21 @@ class DuckStudioApp:
         except self.tk.TclError:
             pass
         style.configure(
-            "Treeview", background="white", foreground=PALETTE["ink"],
-            fieldbackground="white", rowheight=34, borderwidth=0,
+            "Treeview", background=PALETTE["card"], foreground=PALETTE["ink"],
+            fieldbackground=PALETTE["card"], rowheight=34, borderwidth=0,
             font=("TkDefaultFont", 9),
         )
         style.configure(
-            "Treeview.Heading", background="#F5F8FB", foreground=PALETTE["muted"],
+            "Treeview.Heading", background="#141414", foreground=PALETTE["muted"],
             font=("TkDefaultFont", 8), relief="flat",
         )
         style.map(
-            "Treeview", background=[("selected", "#E9F2F7")],
+            "Treeview", background=[("selected", "#332B00")],
             foreground=[("selected", PALETTE["ink"])],
         )
         style.configure(
-            "Vertical.TScrollbar", background="#D8E1EA", troughcolor="#F5F7FA",
-            bordercolor="#F5F7FA", arrowcolor="#7F91A6",
+            "Vertical.TScrollbar", background="#262626", troughcolor="#0D0D0D",
+            bordercolor="#0D0D0D", arrowcolor="#999999",
         )
 
     def _build_shell(self) -> None:
@@ -148,14 +186,14 @@ class DuckStudioApp:
         self.sidebar.pack_propagate(False)
         brand = tk.Frame(self.sidebar, bg=PALETTE["sidebar"], padx=22, pady=24)
         brand.pack(fill="x")
-        tk.Label(brand, text="🦆", bg=PALETTE["sidebar"], fg="white",
+        tk.Label(brand, text="🦆", bg=PALETTE["sidebar"], fg=PALETTE["ink"],
                  font=("TkDefaultFont", 26)).pack(anchor="w")
-        tk.Label(brand, text="SAMBU", bg=PALETTE["sidebar"], fg="white",
+        tk.Label(brand, text="SAMBU", bg=PALETTE["sidebar"], fg=PALETTE["ink"],
                  font=("TkDefaultFont", 19, "bold")).pack(anchor="w", pady=(5, 0))
-        tk.Label(brand, text="DUCK STUDIO", bg=PALETTE["sidebar"], fg="#82C8BE",
+        tk.Label(brand, text="DUCK STUDIO", bg=PALETTE["sidebar"], fg="#FFD600",
                  font=("TkDefaultFont", 8, "bold")).pack(anchor="w", pady=(1, 0))
-        tk.Frame(self.sidebar, bg="#31445B", height=1).pack(fill="x", padx=20, pady=(2, 18))
-        tk.Label(self.sidebar, text="WORKSPACE", bg=PALETTE["sidebar"], fg="#70849B",
+        tk.Frame(self.sidebar, bg="#262626", height=1).pack(fill="x", padx=20, pady=(2, 18))
+        tk.Label(self.sidebar, text="WORKSPACE", bg=PALETTE["sidebar"], fg="#999999",
                  font=("TkDefaultFont", 8, "bold")).pack(anchor="w", padx=22, pady=(0, 10))
         self.nav_buttons: dict[str, Any] = {}
         for key, title, glyph in [
@@ -166,8 +204,8 @@ class DuckStudioApp:
             button = tk.Button(
                 self.sidebar, text=f"  {glyph}    {title}", anchor="w",
                 command=lambda view=key: self.show_view(view),
-                bg=PALETTE["sidebar"], fg="#CFD8E3",
-                activebackground=PALETTE["sidebar_active"], activeforeground="white",
+                bg=PALETTE["sidebar"], fg="#E6E6E6",
+                activebackground=PALETTE["sidebar_active"], activeforeground=PALETTE["ink"],
                 relief="flat", bd=0, padx=18, pady=12, font=("TkDefaultFont", 10),
                 cursor="hand2", highlightthickness=0,
             )
@@ -175,9 +213,9 @@ class DuckStudioApp:
             self.nav_buttons[key] = button
         footer = tk.Frame(self.sidebar, bg=PALETTE["sidebar"], padx=20, pady=18)
         footer.pack(side="bottom", fill="x")
-        tk.Frame(footer, bg="#31445B", height=1).pack(fill="x", pady=(0, 15))
+        tk.Frame(footer, bg="#262626", height=1).pack(fill="x", pady=(0, 15))
         tk.Label(footer, text="LOCAL · READ ONLY", bg=PALETTE["sidebar"],
-                 fg="#82C8BE", font=("TkDefaultFont", 8, "bold")).pack(anchor="w")
+                 fg="#FFD600", font=("TkDefaultFont", 8, "bold")).pack(anchor="w")
         tk.Label(
             footer, text="No production writes\nNo network calls", bg=PALETTE["sidebar"],
             fg=PALETTE["sidebar_muted"], font=("TkDefaultFont", 8), justify="left",
@@ -185,11 +223,11 @@ class DuckStudioApp:
 
         self.main = tk.Frame(self.shell, bg=PALETTE["page"])
         self.main.pack(side="left", fill="both", expand=True)
-        top = tk.Frame(self.main, bg="white", height=62, padx=28)
+        top = tk.Frame(self.main, bg=PALETTE["card"], height=62, padx=28)
         top.pack(fill="x")
         top.pack_propagate(False)
         tk.Label(
-            top, text="Workspace  /  Static inspection", bg="white",
+            top, text="Workspace  /  Static inspection", bg=PALETTE["card"],
             fg=PALETTE["muted"], font=("TkDefaultFont", 9),
         ).pack(side="left", anchor="center")
         self.status_pill = tk.Label(
@@ -203,7 +241,7 @@ class DuckStudioApp:
 
     def _build_toast(self) -> None:
         self.toast = self.tk.Label(
-            self.main, text="", bg=PALETTE["teal"], fg="white",
+            self.main, text="", bg=PALETTE["teal"], fg=PALETTE["ink"],
             padx=14, pady=8, font=("TkDefaultFont", 9),
         )
 
@@ -230,12 +268,12 @@ class DuckStudioApp:
 
     def _button(self, parent: Any, text: str, command: Any, *, primary: bool = False,
                 compact: bool = False) -> Any:
-        bg = PALETTE["teal"] if primary else "#FFFFFF"
+        bg = PALETTE["teal"] if primary else "#1A1A1A"
         fg = "white" if primary else PALETTE["ink"]
         return self.tk.Button(
             parent, text=text, command=command, bg=bg, fg=fg,
-            activebackground="#1C7069" if primary else "#EDF2F7",
-            activeforeground="white" if primary else PALETTE["ink"],
+            activebackground="#BFA100" if primary else "#262626",
+            activeforeground=PALETTE["ink"] if primary else PALETTE["ink"],
             relief="flat", bd=0, padx=14 if not compact else 10,
             pady=9 if not compact else 6, font=("TkDefaultFont", 9),
             cursor="hand2", highlightthickness=0,
@@ -347,7 +385,7 @@ class DuckStudioApp:
         else:
             self._label(detail, "No inspection run yet", size=9, color=PALETTE["muted"]).pack(anchor="w", pady=(4, 12))
             diagnostics = []
-        text = self.tk.Text(detail, height=14, bg="#F8FAFC", fg=PALETTE["ink"],
+        text = self.tk.Text(detail, height=14, bg="#141414", fg=PALETTE["ink"],
                             relief="flat", bd=0, wrap="word", padx=12, pady=10,
                             font=("TkFixedFont", 9))
         text.pack(fill="both", expand=True)
@@ -374,7 +412,7 @@ class DuckStudioApp:
         self._label(card, "Review summary", size=12, weight="bold").pack(anchor="w")
         self._label(card, f"{summary.errors} errors   ·   {summary.warnings} warnings",
                     size=9, color=PALETTE["muted"]).pack(anchor="w", pady=(4, 14))
-        text = self.tk.Text(card, bg="#F8FAFC", fg=PALETTE["ink"], relief="flat", bd=0,
+        text = self.tk.Text(card, bg="#141414", fg=PALETTE["ink"], relief="flat", bd=0,
                             wrap="word", padx=14, pady=12, font=("TkFixedFont", 9))
         text.pack(fill="both", expand=True)
         diagnostics = self.payload.get("diagnostics", []) if self.payload else []
@@ -395,7 +433,7 @@ class DuckStudioApp:
         self.active_view = view
         for key, button in self.nav_buttons.items():
             button.configure(bg=PALETTE["sidebar_active"] if key == view else PALETTE["sidebar"],
-                             fg="white" if key == view else "#CFD8E3")
+                             fg=PALETTE["ink"] if key == view else "#E6E6E6")
         {"overview": self._show_overview, "inspector": self._show_inspector,
          "reports": self._show_reports}[view]()
 
