@@ -550,6 +550,10 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 ### Future architecture
 
+- **Native compiler architecture:** [C11 IR kernel, HIR/MIR/LIR contracts, type/ownership design and staged backend roadmap](docs/NATIVE_COMPILER_ARCHITECTURE.md). The current native slice is experimental and does not yet emit machine code.
+- **Native kernel:** [Build and test instructions](native/README.md).
+
+
 - [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md)
 - [Cripple Systems Architecture — C++-class capability roadmap](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md)
 - [SAMBU Engineering Doctrine, Machine and IDE](docs/SAMBU_ENGINEERING_DOCTRINE.md)
