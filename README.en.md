@@ -166,7 +166,7 @@ sambu creative validate examples/creative_corpus_metadata.sample.json --json
 sambu examples/performance_cues.sambu
 ~~~
 
-See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) and [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
+See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), and [Creative Learning](docs/CREATIVE_LEARNING.md).
 
 ## Engineering doctrine
 
@@ -202,7 +202,7 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Creative Learning](docs/CREATIVE_LEARNING.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Contributing and license
