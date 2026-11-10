@@ -1,6 +1,6 @@
 # SAMBU domain models — 0.5
 
-SAMBU combines its original physics core with transparent systems, commerce, production-brief, community and territory models. The additions are deterministic calculators and scenario tools. They are not autonomous agents, CRM integrations, forecasting services, or validated game-balance engines.
+SAMBU combines its original physics core with transparent systems, commerce, audio-specification, scheduling and resource-ownership models. The additions are deterministic calculators and scenario tools. They are deterministic calculators and scenario tools, not autonomous agents, live integrations, forecasting services or production control systems.
 
 ## Entity graph and bounded coordination model
 
@@ -17,8 +17,8 @@ The model exposes four measurable operations:
 | Technical domain | SAMBU model | Computed result |
 |---|---|---|
 | Entity and dependency graphs | `network`, `network_metrics`, `influence` | Directed ties, degree counts, density, and strongest-path propagation |
-| Range negotiation and resource allocation | `negotiate`, `allocate` | Overlap between two bargaining ranges and proportional resource splits |
-| Graph connectivity and signal propagation | Explicit entity labels plus network paths | A transparent topology for discussing who connects whom; no semantic interpretation is inferred |
+| Range negotiation and resource allocation | `negotiate`, `allocate` | Overlap between two configured operating intervals and proportional resource splits |
+| Graph connectivity and signal propagation | Explicit entity labels plus network paths | A transparent topology for discussing which nodes are connected; no semantic interpretation is inferred |
 | Scheduling and conversion metrics | `weekly_schedule`, `attendance`, `funnel`, `ab_test` | Repeating events, capacity use, stage losses, and a simple experiment comparison |
 | Stateful resource allocation | `capture_tower`, `capture_node`, `allocate`, `network` | Resistance depletion, ownership transfer and resource distribution |
 | Audio signal specification | `audio_profile` | Validated tempo, groove, timing, entry and mix-intent metadata; no audio rendering |
@@ -30,11 +30,11 @@ The model exposes four measurable operations:
 
 Nodes are unique strings. Each directed edge is `[source, target]` or `[source, target, weight]`, with a weight in `(0, 1]`. Self-links are not useful for the current degree model and are rejected. Duplicate directed edges and references to unknown nodes are errors.
 
-`network_metrics(graph)` reports node and edge counts, directed graph density, in-degree, out-degree, and normalized degree centrality. `influence(graph, seeds, steps=3, decay=0.8)` performs a bounded strongest-path diffusion. A seed is either a node name (strength 1) or `[node_name, strength]`; strengths and decay must lie in `[0, 1]`. At each round a node keeps the maximum signal received along any path. It does not sum signals or model persuasion, trust, strategic deception, or causal behavior.
+`network_metrics(graph)` reports node and edge counts, directed graph density, in-degree, out-degree, and normalized degree centrality. `influence(graph, seeds, steps=3, decay=0.8)` performs a bounded strongest-path diffusion. A seed is either a node name (strength 1) or `[node_name, strength]`; strengths and decay must lie in `[0, 1]`. At each round a node keeps the maximum signal received along any path. It does not sum signals or infer intent, trust, decision rationale or causality.
 
 ## Negotiation model
 
-`negotiate(a_min, a_max, b_min, b_max)` computes the intersection of two acceptable intervals. Endpoints must be comparable and dimensionally compatible when expressed as physical quantities. The record returns `possible`, `lower`, `upper`, `midpoint`, and `overlap_width`. A non-empty overlap is only a mathematical bargaining zone; it does not guarantee an agreement.
+`negotiate(a_min, a_max, b_min, b_max)` computes the intersection of two acceptable intervals. Endpoints must be comparable and dimensionally compatible when expressed as physical quantities. The record returns `possible`, `lower`, `upper`, `midpoint`, and `overlap_width`. A non-empty overlap is only a mathematical overlap interval; it does not guarantee an agreement.
 
 ## Conversion and scheduling metrics
 
@@ -44,11 +44,11 @@ Nodes are unique strings. Each directed edge is `[source, target]` or `[source, 
 
 `weekly_schedule([[weekday, "HH:MM", title, capacity?], ...])` validates a weekly recurring schedule and sorts it by weekday and time. Days use full English names and times use 24-hour format. `attendance(capacity, bookings)` returns remaining seats and a fill rate. `channel_metrics(spend, impressions, leads, customers)` calculates lead rate, close rate, cost per lead, and cost per customer; it validates `customers <= leads <= impressions`. `package_pricing(single_price, package_price, sessions)` compares a prepaid package with the same number of single sessions. `unit_economics(revenue, variable_cost, acquisition_cost)` estimates contribution per customer before and after acquisition cost. Monetary inputs are plain numbers in one consistent currency unit; SAMBU does not perform FX conversion or tax calculations. These functions do not create calendar events, accept payments, or contact customers.
 
-## Resource and territory mechanics
+## Resource allocation and ownership-state mechanics
 
 `allocate(resource, weights)` distributes a non-negative amount in proportion to non-negative weights. If the resource is a physical quantity, dimensional units are preserved in the outputs.
 
-`capture_tower(defense, incoming_pressure)` resolves one abstract attack: incoming pressure is subtracted from resistance. It returns whether the target is captured, remaining defense, and overflow. It is a one-step mechanic, not yet a full real-time game simulation with factions, regeneration, pathfinding, enemy turns, or special towers.
+`capture_tower(defense, incoming_pressure)` resolves one abstract state update: incoming pressure is subtracted from resistance. It returns whether the target is captured, remaining defense, and overflow. It is a one-step mechanic, not yet a full full concurrent state simulation with multiple writers, regeneration, routing or event scheduling.
 
 ## Language control flow
 
@@ -75,9 +75,9 @@ SAMBU 0.3 adds deterministic planning primitives for asynchronous commerce workf
 For the recommended Magento / Adobe Commerce boundaries, message envelope, outbox pattern, inventory and payment ordering, retry classification, dead-letter operations, and deployment considerations, see [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md).
 
 
-## Neo-Modern blueprint models (0.5)
+## Systems operations models (0.5)
 
-SAMBU 0.5 adds four deterministic models that make the strategic blueprint executable as a planning specification. They are domain calculators, not production integrations.
+SAMBU 0.5 adds four deterministic models that make the systems model executable as a planning specification. They are domain calculators, not production integrations.
 
 ### Sound-production brief
 
@@ -95,4 +95,4 @@ SAMBU 0.5 adds four deterministic models that make the strategic blueprint execu
 
 `capture_node(current_owner, attacking_faction, resistance, incoming_pressure)` extends `capture_tower` with factions and ownership output. Pressure reduces resistance; ownership changes only when resistance reaches zero. Excess pressure is returned as overflow for a possible next target. It is a single deterministic round: it does not model regeneration, simultaneous attacks, pathfinding, enemy turns, dynamic events, bosses or multiplayer concurrency.
 
-See [Neo-Modern Diplomat Blueprint](NEO_MODERN_BLUEPRINT.md) for the full four-pillar mapping and [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md) for enterprise integration boundaries.
+See [Systems Operations Blueprint](NEO_MODERN_BLUEPRINT.md) for the full four-pillar mapping and [Magento / Adobe Commerce architecture](MAGENTO_COMMERCE.md) for enterprise integration boundaries.
