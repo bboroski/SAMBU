@@ -94,7 +94,7 @@ class CreativeLearningProfile:
         if not self._enabled:
             raise CreativeLearningError("creative learning is disabled; explicit opt-in is required")
         name = self._validate_feature(feature)
-        if choice not in _CHOICES:
+        if not isinstance(choice, str) or choice not in _CHOICES:
             raise CreativeLearningError("choice must be 'prefer' or 'avoid'")
         if self._event_count >= self._max_events:
             raise CreativeLearningError("creative feedback budget is exhausted")
