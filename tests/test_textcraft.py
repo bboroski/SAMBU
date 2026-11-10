@@ -58,7 +58,7 @@ print(structure.sections[1].performance_hint)
 
     def test_explicit_performance_cues_are_extracted_without_inference(self):
         _, output = self.run_sambu("""
-let draft = "*Display turns on*\\n(status: ready)\\nThey say \\"go now\\"\\npre-pre-processing"
+let draft = "*Display turns on*\\n(status: ready)\\nThe operator says \\"Open settings\\"\\npre-pre-processing"
 let cues = performance_cues_profile(draft)
 print(cues.stage_direction_count)
 print(cues.parenthetical_aside_count)
