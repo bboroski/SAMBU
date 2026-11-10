@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sambu:domain-term:1",
+  "title": "SAMBU Domain Term",
+  "description": "A provenance-aware bilingual term record. Lore classification and engineering transfer are kept separate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "domain",
+    "term_en",
+    "term_ru",
+    "classification",
+    "source_kind"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9-]+)+$"
+    },
+    "domain": {
+      "enum": [
+        "reaper.bio",
+        "reaper.physics",
+        "reaper.systems",
+        "reaper.history",
+        "reaper.ai"
+      ]
+    },
+    "term_en": {
+      "type": "string",
+      "minLength": 1
+    },
+    "term_ru": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "enum": [
+        "canon-name",
+        "canon-mechanic",
+        "descriptive-extension",
+        "speculative-fiction",
+        "engineering-analogy"
+      ]
+    },
+    "source_kind": {
+      "enum": [
+        "game-text",
+        "codex-or-dialogue",
+        "user-supplied-reference",
+        "editorial-normalization",
+        "engineering-transfer"
+      ]
+    },
+    "source_note": {
+      "type": "string"
+    },
+    "definition": {
+      "type": "string"
+    },
+    "engineering_analogy": {
+      "type": "string"
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relation",
+          "target"
+        ],
+        "properties": {
+          "relation": {
+            "enum": [
+              "part-of",
+              "derived-from",
+              "controls",
+              "opposes",
+              "related-to",
+              "appears-in",
+              "analogy-for"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9-]+)+$"
+          }
+        }
+      }
+    },
+    "reviewed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
