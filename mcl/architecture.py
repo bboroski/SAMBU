@@ -5,8 +5,8 @@ from sambu.judo import (
     Component,
     Connection,
     Finding,
-    JudoArchitecture as ArchitectureGraph,
-    JudoPolicy as ArchitecturePolicy,
+    ArchitectureGraph,
+    ArchitecturePolicy,
 )
 
 __all__ = [
