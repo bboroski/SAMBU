@@ -70,6 +70,62 @@ static bool test_hir_mir_lir(void) {
     return true;
 }
 
+static bool test_mir_constant_folding(void) {
+    SambuArena arena;
+    CHECK(sambu_arena_init(&arena, 512u) == SAMBU_IR_OK);
+    const SambuSourceSpan span = {0u, 1u};
+    const SambuHirExpr *six = sambu_hir_i64(&arena, 6, span);
+    const SambuHirExpr *seven = sambu_hir_i64(&arena, 7, span);
+    const SambuHirExpr *one = sambu_hir_i64(&arena, 1, span);
+    CHECK(six != NULL && seven != NULL && one != NULL);
+    const SambuHirExpr *product = sambu_hir_binary(&arena, SAMBU_HIR_MUL, six, seven, span);
+    const SambuHirExpr *sum = product != NULL
+        ? sambu_hir_binary(&arena, SAMBU_HIR_ADD, product, one, span) : NULL;
+    CHECK(sum != NULL);
+
+    SambuMirFunction *mir = NULL;
+    CHECK(sambu_lower_hir_expression(&arena, "folded", sum, &mir) == SAMBU_IR_OK);
+    size_t folded = 0u;
+    CHECK(sambu_mir_fold_constants(mir, &folded) == SAMBU_IR_OK);
+    CHECK(folded == 2u);
+    CHECK(mir->blocks[0].instructions[2].opcode == SAMBU_MIR_CONST_I64);
+    CHECK(mir->blocks[0].instructions[2].immediate.i64 == 42);
+    CHECK(mir->blocks[0].instructions[4].opcode == SAMBU_MIR_CONST_I64);
+    CHECK(mir->blocks[0].instructions[4].immediate.i64 == 43);
+    CHECK(sambu_mir_verify(mir, NULL, 0u) == SAMBU_IR_OK);
+    CHECK(sambu_mir_fold_constants(mir, &folded) == SAMBU_IR_OK);
+    CHECK(folded == 0u);
+
+    SambuLirFunction *lir = NULL;
+    CHECK(sambu_lir_lower(&arena, mir, &lir) == SAMBU_IR_OK);
+    CHECK(sambu_lir_verify(lir, NULL, 0u) == SAMBU_IR_OK);
+
+    const SambuHirExpr *maximum = sambu_hir_i64(&arena, INT64_MAX, span);
+    const SambuHirExpr *overflow = sambu_hir_binary(&arena, SAMBU_HIR_ADD,
+                                                     maximum, one, span);
+    CHECK(overflow != NULL);
+    SambuMirFunction *overflow_mir = NULL;
+    CHECK(sambu_lower_hir_expression(&arena, "overflow", overflow,
+                                     &overflow_mir) == SAMBU_IR_OK);
+    CHECK(sambu_mir_fold_constants(overflow_mir, &folded) == SAMBU_IR_OK);
+    CHECK(folded == 0u);
+    CHECK(overflow_mir->blocks[0].instructions[2].opcode == SAMBU_MIR_ADD_I64);
+
+    const SambuHirExpr *zero = sambu_hir_i64(&arena, 0, span);
+    const SambuHirExpr *division = sambu_hir_binary(&arena, SAMBU_HIR_DIV,
+                                                     one, zero, span);
+    CHECK(division != NULL);
+    SambuMirFunction *division_mir = NULL;
+    CHECK(sambu_lower_hir_expression(&arena, "division", division,
+                                     &division_mir) == SAMBU_IR_OK);
+    CHECK(sambu_mir_fold_constants(division_mir, &folded) == SAMBU_IR_OK);
+    CHECK(folded == 0u);
+    CHECK(division_mir->blocks[0].instructions[2].opcode == SAMBU_MIR_DIV_I64);
+
+    sambu_arena_dispose(&arena);
+    return true;
+}
+
 static bool test_unit_returns(void) {
     SambuArena arena;
     CHECK(sambu_arena_init(&arena, 256u) == SAMBU_IR_OK);
@@ -113,7 +169,7 @@ static bool test_unit_returns(void) {
 }
 
 int main(void) {
-    if (!test_arena_and_interner() || !test_hir_mir_lir() || !test_unit_returns()) return 1;
+    if (!test_arena_and_interner() || !test_hir_mir_lir() || !test_mir_constant_folding() || !test_unit_returns()) return 1;
     puts("SAMBU native IR tests passed");
     return 0;
 }
