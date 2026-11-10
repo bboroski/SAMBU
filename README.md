@@ -104,3 +104,10 @@ MIT — див. [LICENSE](LICENSE).
 - [Контракт и правила использования](docs/BIOLOGY_DOMAIN_PACK.md)
 
 Справочный офлайн-набор для обучения и метаданных; он не управляет системами, устройствами и диагностикой.
+
+
+## Reaper-inspired engineering domain pack
+
+- [50 curated engineering patterns](data/reaper/engineering_patterns_50.tsv)
+- [Domain pack and scientific scope](docs/REAPER_DOMAIN_PACK.md)
+- Validate the reference datasets with `python tools/validate_biology_terms.py` and `python tools/validate_reaper_domain.py`.
