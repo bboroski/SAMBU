@@ -1,3 +1,9 @@
+<p align="center"><img src="../assets/duck-ui/duck-mark.svg" alt="SAMBU duck mark" width="88" /></p>
+<p align="center"><strong>SAMBU · NATIVE COMPILER KERNEL</strong></p>
+<p align="center"><em>Early portable C11 compiler path</em></p>
+<p align="center"><a href="../README.md">Project overview</a> · <a href="../README.en.md">English overview</a> · <a href="../README.ru.md">Russian overview</a></p>
+<hr />
+
 # SAMBU Native Kernel
 
 This directory starts a backend-independent native compiler path in portable C11.
