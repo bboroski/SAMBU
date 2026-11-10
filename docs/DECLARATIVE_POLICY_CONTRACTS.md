@@ -16,7 +16,7 @@ A policy intended for another repository should pass through these stages:
 
 The current SAMBU interpreter, CLI, workflow and Machine APIs provide only selected pieces of this path. A production-ready NUN policy compiler/exporter and complete static effect system are not claimed as implemented here.
 
-## Ging Freecss — domain rules without opacity
+## DSL semantics and domain clarity
 
 A DSL is useful when it reduces accidental complexity and makes domain rules explicit. It should not hide behavior behind puzzles or undocumented conventions. Names, source spans, error messages and documentation must expose the rule being applied.
 
@@ -30,25 +30,25 @@ Use:
 
 Never treat a manifest or user-authored policy as trusted executable code.
 
-## Alucard — resource budgets as policy data
+## Resource budgets and hard ceilings
 
 A policy may declare the maximum resources it requests: memory bytes, queue slots and caller-defined work units. The target runtime decides whether the request fits its approved profile. An emergency policy may omit optional work but may not enlarge the board's memory, current, voltage, clock or thermal limits.
 
 A declarative resource request does not enforce itself. Kloz provides fixed-capacity accounting; ReaperCripple remains responsible for board-specific electrical and production constraints.
 
-## Shanks — explicit replication semantics
+## Replication consistency and fencing
 
 Policies are immutable artifacts identified by version or digest. Distribution of a policy may be asynchronous, but each node must state which version it has admitted. Eventual consistency is acceptable for non-critical policy catalogs; it is not acceptable for an unresolved firmware or actuator policy revision.
 
 Where multiple controllers can act on one target, policy admission must be coupled to the target's authoritative epoch/fencing mechanism. A stale policy holder must not continue destructive work.
 
-## Nun — reproducible inputs and event traces
+## Reproducible inputs and event traces
 
 Record the policy version, schema version, relevant input hashes, deterministic seed where applicable, and decision result. Use checkpoints only when their schema and provenance are retained. Log rotation and retention remain explicit; append-only does not mean infinite storage or automatic immutability.
 
 The same policy version and same declared inputs should produce the same plan unless the policy explicitly declares nondeterminism. Hardware measurements, wall-clock time and external services must be explicit inputs rather than hidden globals.
 
-## Jinn — sandboxing is layered
+## Execution isolation and sandbox boundaries
 
 SAMBU's in-process restricted execution modes are not OS process isolation. A policy evaluator must still enforce operation allow-lists, memory and iteration bounds. A host that loads an untrusted extension must execute it out of process or in a reviewed VM/WASM sandbox with explicit I/O permissions and resource quotas.
 
