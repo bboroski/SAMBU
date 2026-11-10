@@ -29,6 +29,8 @@ def build_native() -> None:
 def check() -> None:
     run("Validate academic biology glossary", [sys.executable, "tools/validate_biology_terms.py"])
     run("Validate Reaper-inspired engineering catalogue", [sys.executable, "tools/validate_reaper_domain.py"])
+    run("Validate closed-domain metric model", [sys.executable, "tools/validate_closed_domain.py", "data/physics/closed_domain_metric.example.json"])
+    run("Self-test closed-domain metric validator", [sys.executable, "tools/validate_closed_domain.py", "--self-test"])
     run("Python unit tests", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"])
     for sample in (
         "examples/percentages.sambu",
