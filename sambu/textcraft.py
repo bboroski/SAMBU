@@ -404,6 +404,109 @@ def prosody_profile(args: list[object]) -> Record:
     })
 
 
+def hook_profile(args: list[object]) -> Record:
+    """Measure compact-hook structure, rhyme echoes and repeated lexical anchors.
+
+    This is a textual diagnostic, not a prediction of musical catchiness,
+    natural stress, semantic coherence or audience response.
+    """
+    text = _text_arg(args, "hook_profile(text)")
+    source_lines = text.splitlines()
+    line_items = [
+        (line_number, line.strip(), _words(line))
+        for line_number, line in enumerate(source_lines, start=1)
+        if line.strip()
+    ]
+    line_count = len(line_items)
+    syllable_counts = [
+        sum(_syllable_count(word) for word in words)
+        for _, _, words in line_items
+    ]
+    endings: dict[str, list[tuple[int, str]]] = defaultdict(list)
+    term_lines: dict[str, set[int]] = defaultdict(set)
+    internal_echo_lines = 0
+    repeated_lines: dict[str, list[int]] = defaultdict(list)
+    originals: dict[str, str] = {}
+
+    for line_number, original, words in line_items:
+        normalized = " ".join(words)
+        repeated_lines[normalized].append(line_number)
+        originals.setdefault(normalized, original)
+        for word in words:
+            term_lines[word].add(line_number)
+        if words:
+            key = _rhyme_key(words[-1])
+            if key:
+                endings[key].append((line_number, words[-1]))
+        internal_keys: dict[str, set[str]] = defaultdict(set)
+        for word in words:
+            key = _rhyme_key(word)
+            if key:
+                internal_keys[key].add(word)
+        if any(len(matches) >= 2 for matches in internal_keys.values()):
+            internal_echo_lines += 1
+
+    rhyme_groups: list[Record] = []
+    rhyming_lines: set[int] = set()
+    for key, occurrences in endings.items():
+        distinct_words = list(dict.fromkeys(word for _, word in occurrences))
+        distinct_lines = sorted({line for line, _ in occurrences})
+        if len(distinct_words) < 2 or len(distinct_lines) < 2:
+            continue
+        rhyming_lines.update(distinct_lines)
+        rhyme_groups.append(Record({
+            "key": key,
+            "words": distinct_words,
+            "lines": distinct_lines,
+            "count": len(occurrences),
+        }))
+    rhyme_groups.sort(key=lambda group: (-int(group.get("count")), str(group.get("key"))))
+
+    repeated_terms = [
+        Record({"word": word, "line_count": len(locations), "lines": sorted(locations)})
+        for word, locations in term_lines.items()
+        if len(locations) >= 2
+    ]
+    repeated_terms.sort(key=lambda item: (-int(item.get("line_count")), str(item.get("word"))))
+    repeated_line_groups = [
+        Record({
+            "text": originals[normalized],
+            "lines": locations,
+            "repeat_count": len(locations),
+        })
+        for normalized, locations in repeated_lines.items()
+        if normalized and len(locations) > 1
+    ]
+    repeated_line_groups.sort(
+        key=lambda item: (-int(item.get("repeat_count")), str(item.get("text")))
+    )
+
+    syllable_range = max(syllable_counts) - min(syllable_counts) if syllable_counts else 0
+    warnings: list[str] = []
+    if not 2 <= line_count <= 4:
+        warnings.append("HOOK_OUTSIDE_COMPACT_2_TO_4_LINE_RANGE")
+    if line_count >= 2 and not rhyme_groups:
+        warnings.append("NO_REPEATED_END_RHYME_KEY")
+    if line_count >= 2 and not repeated_terms and not repeated_line_groups:
+        warnings.append("NO_CROSS_LINE_LEXICAL_REPETITION")
+
+    return Record({
+        "line_count": line_count,
+        "within_compact_range": 2 <= line_count <= 4,
+        "recommended_min_lines": 2,
+        "recommended_max_lines": 4,
+        "syllable_counts": syllable_counts,
+        "syllable_range": syllable_range,
+        "end_rhyme_groups": rhyme_groups,
+        "end_rhyme_density": len(rhyming_lines) / line_count if line_count else 0.0,
+        "internal_echo_line_count": internal_echo_lines,
+        "repeated_terms": repeated_terms[:32],
+        "repeated_line_groups": repeated_line_groups[:16],
+        "warnings": warnings,
+        "scope": "textual_heuristics_not_musical_or_semantic_quality",
+    })
+
+
 TEXTCRAFT_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "syllables": syllables,
     "rhyme_key": rhyme_key,
@@ -411,4 +514,5 @@ TEXTCRAFT_BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "prosody_profile": prosody_profile,
     "language_mix_profile": language_mix_profile,
     "text_structure_profile": text_structure_profile,
+    "hook_profile": hook_profile,
 }

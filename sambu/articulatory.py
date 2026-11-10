@@ -106,6 +106,7 @@ _BUILTIN_TARGETS_BY_FAMILY = {
         "maxwell", "boltzmann", "thermal_energy", "partition", "entropy",
         "sample_maxwell", "mean", "variance", "sqrt", "exp", "log", "abs",
         "count", "len", "range", "sum", "min", "max",
+        "canonical_ensemble", "microcanonical_ensemble",
     ),
     # Actors, supervisors and typed channels.
     "n": (
@@ -130,6 +131,7 @@ _BUILTIN_TARGETS_BY_FAMILY = {
         "print", "syllables", "rhyme_key", "text_profile", "prosody_profile",
         "word_info", "wordbook", "audio_profile", "studio_offer",
         "capture_node", "order_pipeline", "package_pricing", "unit_economics", "craft_source",
+        "hook_profile",
     ),
     # Workflow memory and ecosystem models.
     "m": (
@@ -137,7 +139,8 @@ _BUILTIN_TARGETS_BY_FAMILY = {
         "accreditation_status", "associate", "signal_report", "blast_plan",
         "mimic_profile", "mimic_distance", "imprint_closure",
         "v_vector_stream", "countercurrent_sync", "biometric_taxonomy_sort",
-        "wetland_ecosystem_loop",
+        "wetland_ecosystem_loop", "markov_relaxation", "lindblad_dephase",
+        "onsager_flux", "phonon_decay", "planck_time",
     ),
     # Domain systems and planning operations.
     "t": (

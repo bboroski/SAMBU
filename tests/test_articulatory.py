@@ -41,9 +41,9 @@ class ArticulatoryWordbookTests(unittest.TestCase):
 
     def test_keyword_and_builtin_aliases_resolve_to_existing_targets(self):
         self.assertEqual(len(KEYWORD_ALIASES), 25)
-        self.assertEqual(len(BUILTIN_ALIASES), 129)
+        self.assertEqual(len(BUILTIN_ALIASES), 137)
         self.assertEqual(len(ARTICULATORY_WORDS), 200)
-        self.assertEqual(len(RESERVED_WORDS), 46)
+        self.assertEqual(len(RESERVED_WORDS), 38)
         # Language Craft is part of the executable wordbook, not an untracked
         # runtime-only extension.
         self.assertEqual(
