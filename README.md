@@ -649,3 +649,18 @@ python -m unittest discover -s tests
 ```
 
 A hardware compatibility matrix should be populated by running the diagnostic against real iPhone/iPad models and supported Windows/libimobiledevice combinations. CI unit tests mock the device layer and do not claim physical-device coverage. Code signing and a signed Windows installer require a release certificate and should be configured as a release-pipeline secret; no unsigned build is represented as signed.
+
+
+## 🎭 Creative interpretation and semantic metadata
+
+SAMBU now includes a versioned metadata-only ontology for creative text analysis. It defines eight thematic clusters (celebration, identity, geopolitical awareness, emotional duality, spiritual syncretism, technological metaphor, conflict/resilience and linguistic hybridity), validates bounded records, and can export metadata as JSON-LD.
+
+```bash
+sambu creative clusters
+sambu creative clusters --json
+sambu creative validate examples/creative_metadata.sample.json
+```
+
+This is a deterministic annotation and validation layer—not an automatic classifier, trained embedding model, fine-tuning pipeline or claim of model accuracy. Source text is not stored in the metadata record. Missing safety review defaults to `NEEDS_REVIEW`; only explicit `CLEAN` and `CLEAN_SATIRE` labels are eligible at the metadata-policy layer.
+
+See [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) for the cluster ontology, JSON contract, safety labels, provenance boundaries and the acceptance roadmap.
