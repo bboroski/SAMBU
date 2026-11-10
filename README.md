@@ -157,7 +157,7 @@ sambu creative validate examples/creative_metadata.sample.json
 
 This is deterministic annotation and validation, not an automatic classifier, embedding model, fine-tuning pipeline or self-learning system. Source text is not stored in metadata records. `NEEDS_REVIEW` remains the default; `CLEAN` and `CLEAN_SATIRE` require a pseudonymous `review_ref` and timezone-aware `reviewed_at` before `generation_eligible` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
 
-Text Craft also distinguishes section labels from performance notation. The example below handles colon-suffixed and parenthesized sections, a melodic chorus hint, written stage directions and repeated phonetic spellings:
+Text Craft also includes `hook_profile(text)`, which measures a compact 2–4-line hook's approximate end-rhyme groups, repeated terms/lines and syllable-count spread without predicting musical catchiness. It distinguishes section labels from performance notation as well. The example below handles colon-suffixed and parenthesized sections, a melodic chorus hint, written stage directions and repeated phonetic spellings:
 
 ~~~sambu
 let draft = "[Verse:]\nFirst movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nSecond movement\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
