@@ -65,6 +65,12 @@ from .autonomy import (  # noqa: F401
     fingerprint,
 )
 
+from .continuity import (  # noqa: F401
+    ContinuityError, CycleCapacityError, CycleController, CycleEvent, CyclePhase,
+    SignalCapacityError, SignalDecision, SignalDisposition, SignalEnvelope,
+    SignalGuard, TransitionDenied,
+)
+
 from .articulatory import (  # noqa: F401
     ACTIVE_WORDS, ARTICULATORY_WORDS, BUILTIN_ALIASES, KEYWORD_ALIASES,
     RESERVED_WORDS, ArticulatoryWord, filter_articulatory_words,
