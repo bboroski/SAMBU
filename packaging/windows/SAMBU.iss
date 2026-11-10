@@ -21,7 +21,7 @@ UninstallDisplayIcon={app}\sambu.exe
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
-VersionInfoVersion={#AppVersion}
+VersionInfoVersion={#AppVersion}.0
 VersionInfoProductName=SAMBU
 VersionInfoDescription=SAMBU language and developer toolkit
 
