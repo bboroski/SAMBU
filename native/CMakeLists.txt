@@ -4,10 +4,7 @@ project(sambu_native_ir VERSION 0.1.0 LANGUAGES C)
 include(CTest)
 
 add_library(sambu_ir STATIC src/ir.c)
-target_include_directories(sambu_ir PUBLIC
-    $<BUILD_INTERFACE:\${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-)
+target_include_directories(sambu_ir PUBLIC include)
 target_compile_features(sambu_ir PUBLIC c_std_11)
 set_target_properties(sambu_ir PROPERTIES
     C_STANDARD 11
