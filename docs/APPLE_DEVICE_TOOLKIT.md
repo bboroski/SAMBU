@@ -6,7 +6,7 @@ SAMBU provides an optional, read-only Apple device diagnostic adapter. It is a P
 
 - Detects the supported idevice_id, ideviceinfo and idevicepair command-line tools from PATH or an explicitly supplied binary directory.
 - On Windows, checks Apple Mobile Device Service, the Apple USB driver package and currently enumerated Plug and Play devices using sc.exe and pnputil.exe.
-- Enumerates attached iPhone/iPad UDIDs and reads only a small allow-list of identity fields: DeviceName, ProductType, ProductVersion and BuildVersion.
+- Enumerates attached iPhone/iPad UDIDs and reads only a small allow-list of identity fields: DeviceName, ProductType, ProductVersion and BuildVersion. Each ideviceinfo call uses its simple-connection mode to avoid initiating automatic pairing.
 - Validates an existing pairing record with idevicepair validate when that optional utility is available. It never creates, replaces or deletes a pairing record. The core metadata path requires only idevice_id and ideviceinfo.
 - Produces JSON diagnostics and repeatable, non-destructive hardware smoke-test results.
 - Exposes RU/EN language switching through LanguageManager and the CLI --lang option.
