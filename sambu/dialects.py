@@ -541,6 +541,8 @@ def execute_dialect(source: str, dialect: DialectName | str, *, output=None):
     from .interpreter import execute
 
     translated = transpile(source, dialect)
+    if output is None:
+        return execute(translated.generated_source)
     return execute(translated.generated_source, output=output)
 
 
