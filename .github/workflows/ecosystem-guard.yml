@@ -1,0 +1,70 @@
+name: Ecosystem contract guard
+
+on:
+  push:
+    branches: [main, "feat/**"]
+    paths:
+      - "sambu.module.json"
+      - "ecosystem/**"
+      - ".github/dependabot.yml"
+      - ".github/workflows/ecosystem-guard.yml"
+      - "README.md"
+  pull_request:
+    paths:
+      - "sambu.module.json"
+      - "ecosystem/**"
+      - ".github/dependabot.yml"
+      - ".github/workflows/ecosystem-guard.yml"
+      - "README.md"
+  schedule:
+    - cron: "47 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ecosystem-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate module identity, autonomy and update safety
+        env:
+          EXPECTED_REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(".")
+          policy = json.loads((root / "ecosystem/update-policy.json").read_text(encoding="utf-8"))
+          module = json.loads((root / "sambu.module.json").read_text(encoding="utf-8"))
+          local = json.loads((root / "ecosystem/manifest.json").read_text(encoding="utf-8"))
+
+          expected = os.environ["EXPECTED_REPOSITORY"]
+          assert policy["repository"] == expected, (policy["repository"], expected)
+          assert module["repository"] == expected, (module["repository"], expected)
+          assert policy["module_id"] == module["module_id"], (policy["module_id"], module["module_id"])
+          assert policy["ecosystem"] == "SAMBU" and module["ecosystem"] == "SAMBU"
+          assert policy["schema_version"] == 1 and module["schema_version"] == 1
+          assert local["schema_version"] == 1
+          assert policy["updates"]["dependency_manager"] == "Dependabot"
+          assert policy["updates"]["delivery"] == "pull-request-only"
+          assert policy["updates"]["automatic_merge"] is False
+          assert policy["updates"]["automatic_installation"] is False
+          assert policy["updates"]["require_ci"] is True
+          assert policy["integration"]["dependencies_must_be_declared"] is True
+          assert policy["integration"]["compatibility_gate"] == "CI-before-release"
+          assert module["module_id"] == local["project_id"] or expected.endswith("/" + module["display_name"])
+          for dependency in module.get("dependencies", []):
+              assert dependency["module_id"] and dependency["status"]
+          print(f"Validated {expected}: {module['module_id']} ({policy['autonomy']['status']})")
+          PY
+      - name: Run the repository's independent one-knob verification
+        run: python one.py check
+
