@@ -119,14 +119,28 @@ All quantities are stored internally in SI base units. Addition, subtraction, an
 | `boltzmann` | `boltzmann(E, T)` | Dimensionless factor `exp(-E/(k_B T))` |
 | `partition` | `partition(energy_levels, T)` | Discrete sum of Boltzmann factors |
 | `entropy` | `entropy(probabilities)` | Shannon/Gibbs entropy in nats; probabilities must sum to 1 |
+| `planck_time` | `planck_time()` | Planck time scale as an SI time quantity |
+| `canonical_ensemble` | `canonical_ensemble(energy_levels, T)` | Stable finite-state canonical probabilities and thermodynamic moments |
+| `microcanonical_ensemble` | `microcanonical_ensemble(energy_levels, E, tolerance)` | Equal populations for states in a finite energy window |
+| `markov_relaxation` | `markov_relaxation(levels, p0, T, rate, elapsed)` | Analytic population relaxation toward a canonical stationary distribution |
+| `lindblad_dephase` | `lindblad_dephase(rho, rate, elapsed)` | Two-level real pure-dephasing Lindblad channel |
+| `onsager_flux` | `onsager_flux(gradients, coefficients)` | Symmetric linear-response fluxes and dissipation for a supplied gradient |
+| `phonon_decay` | `phonon_decay(amplitude, rate, elapsed)` | Exponential scalar-mode amplitude relaxation |
 | `sample_maxwell` | `sample_maxwell(T, particle_mass, count, seed=0)` | Reproducible Maxwell speed samples |
 | `mean` | `mean(array)` | Arithmetic mean |
 | `variance` | `variance(array)` | Unbiased sample variance |
 | `sqrt`, `exp`, `log`, `abs` | scalar helpers | Elementary operations |
+| `hook_profile` | `hook_profile(text)` | Compact-hook line count, syllable spread, rhyme echoes and repeated terms |
 | `count` | `count(array)` | Number of array items |
 | `print` | `print(value)` | Writes a formatted value to standard output |
 
-`T` must be a positive temperature. Particle mass must be positive. `partition` accepts an array of energies. `entropy` accepts non-negative probabilities summing to one and returns nats (divide by `log(2)` for bits).
+`T` must be a positive temperature. Particle mass must be positive. `partition` accepts an array of energies. `entropy` accepts non-negative probabilities summing to one and returns nats (divide by `log(2)` for bits). Rates require inverse-time quantities such as `Hz`; elapsed times require time quantities such as `s`. `canonical_ensemble` reports a partition sum relative to the lowest supplied energy, avoiding overflow from arbitrary energy offsets. `onsager_flux` checks matrix symmetry and non-negative dissipation for the supplied gradient; callers remain responsible for validating global positive semidefiniteness of their transport matrix.
+
+### Open-system model boundaries
+
+`markov_relaxation` is a finite-state continuous-time Markov reset model with a canonical stationary distribution and detailed balance; it is not a general quantum master-equation solver. `lindblad_dephase` implements only a two-level, real, symmetric pure-dephasing channel. It preserves trace and populations while exponentially damping real coherence; complex coherences and Hamiltonian evolution are not supported. `microcanonical_ensemble` uses a user-supplied finite energy window. These bounded models make their assumptions explicit rather than implying a complete quantum simulator.
+
+`hook_profile` is a descriptive text diagnostic. It checks a compact 2–4-line form, approximate spelling-based end-rhyme groups, estimated syllable counts and repeated terms. It does not infer musical meter, lexical stress, semantic quality or audience response, and it never rewrites a draft.
 
 ## Numerical scope and limitations
 
