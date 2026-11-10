@@ -8,6 +8,7 @@ before constructing a CreativeMetadata record.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 import re
 from typing import Mapping, Sequence
 
@@ -28,6 +29,7 @@ SAFETY_FLAGS = frozenset(
 )
 _GENERATION_ELIGIBLE_FLAGS = frozenset({"CLEAN", "CLEAN_SATIRE"})
 _SHA256_RE = re.compile(r"^[0-9a-fA-F]{64}$")
+_REVIEW_TIME_RE = re.compile(r"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$")
 
 
 class CreativeMetadataError(ValueError):
@@ -111,6 +113,13 @@ CREATIVE_CLUSTERS: tuple[CreativeCluster, ...] = (
         "Code-switching, multilingual rhyme, dialectal texture and mixed registers.",
         ("translation assessment", "multilingual annotation", "register analysis"),
     ),
+    CreativeCluster(
+        "T-009",
+        "Surreal juxtaposition and wordplay",
+        "surreal_juxtaposition",
+        "Absurd associations, phonetic collisions, abrupt image shifts and unexpected pop-culture or technical references.",
+        ("wordplay analysis", "metaphor annotation", "creative register analysis"),
+    ),
 )
 CLUSTER_BY_ID = {cluster.cluster_id: cluster for cluster in CREATIVE_CLUSTERS}
 
@@ -148,6 +157,23 @@ def _string_tuple(
             items.append(normalized)
             seen.add(key)
     return tuple(items)
+
+
+def _review_timestamp(value: object) -> str:
+    """Validate an ISO-8601 timestamp with an explicit timezone offset."""
+    if not isinstance(value, str) or not _REVIEW_TIME_RE.fullmatch(value):
+        raise CreativeMetadataError(
+            "reviewed_at must be an ISO-8601 timestamp with a timezone offset"
+        )
+    try:
+        parsed = datetime.fromisoformat(
+            value[:-1] + "+00:00" if value.endswith("Z") else value
+        )
+    except ValueError as exc:
+        raise CreativeMetadataError("reviewed_at is not a valid timestamp") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise CreativeMetadataError("reviewed_at must include a timezone offset")
+    return value
 
 
 @dataclass(frozen=True, slots=True)
