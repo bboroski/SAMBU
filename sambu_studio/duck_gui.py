@@ -2,7 +2,7 @@
 
 The Tkinter shell wraps SAMBU Studio's existing local Magento XML inspector.
 It never starts Magento, connects to services, or modifies the inspected
-project. JSON report export is an explicit user action.
+project. Completed reports are saved to a bounded local history and can be reopened in-app; JSON export is an explicit user action.
 """
 from __future__ import annotations
 
@@ -478,6 +478,8 @@ class DuckStudioApp:
             return
         try:
             envelope = json.loads(source.read_text(encoding="utf-8"))
+            if not isinstance(envelope, dict):
+                raise ValueError("Saved report envelope must be a JSON object.")
             payload = envelope.get("report", envelope)
             if not isinstance(payload, dict):
                 raise ValueError("Saved report does not contain an object.")
