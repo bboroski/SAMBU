@@ -97,7 +97,7 @@ def run_jiu_jitsu() -> None:
     app.navigate("/dashboard")
     app.dispatch("refresh")
     app.open_modal("help")
-    print("Jiu-Jitsu view model:", app.snapshot().to_dict())
+    print("UI workflow model:", app.snapshot().to_dict())
 
 
 if __name__ == "__main__":
