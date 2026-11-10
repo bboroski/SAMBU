@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 C = 299_792_458.0
-VALID_SIGNATURES = {"-+++": (-1, 3), "+---": (1, 3)}
+VALID_SIGNATURES = {"-+++": (1, 3), "+---": (3, 1)}
 
 
 def _number(value: Any) -> bool:
