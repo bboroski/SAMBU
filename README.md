@@ -115,3 +115,9 @@ MIT — див. [LICENSE](LICENSE).
 ## Reaper cycle simulation
 
 [Simulation adapter contract](docs/REAPER_SIMULATION_ADAPTER.md) — deterministic 64-bit state evolution, seeded experiments, and a strict 6666-iteration ceiling. The model is synthetic, not a physical or quantum process.
+
+## NUN Mesh
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh architecture map" width="960" /></p>
+
+NUN Mesh пов'язує SAMBU з іншими незалежними репозиторіями через явні capability-контракти та версійовані адаптери. Схема є статичною документацією й не означає спільного runtime.

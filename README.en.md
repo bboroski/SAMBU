@@ -104,3 +104,9 @@ MIT — see [LICENSE](LICENSE).
 - [Data contract and usage boundaries](docs/BIOLOGY_DOMAIN_PACK.md)
 
 An offline reference pack for education and metadata; it does not control systems, devices or diagnostics.
+
+## NUN Mesh
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh architecture map" width="960" /></p>
+
+NUN Mesh maps SAMBU to the independent ecosystem through explicit capability contracts and versioned adapters. The diagram is static documentation and does not imply a shared runtime.
