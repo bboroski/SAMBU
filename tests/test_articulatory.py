@@ -41,7 +41,18 @@ class ArticulatoryWordbookTests(unittest.TestCase):
 
     def test_keyword_and_builtin_aliases_resolve_to_existing_targets(self):
         self.assertEqual(len(KEYWORD_ALIASES), 25)
-        self.assertEqual(len(BUILTIN_ALIASES), 123)
+        self.assertEqual(len(BUILTIN_ALIASES), 129)
+        self.assertEqual(len(ARTICULATORY_WORDS), 200)
+        self.assertEqual(len(RESERVED_WORDS), 46)
+        # Language Craft is part of the executable wordbook, not an untracked
+        # runtime-only extension.
+        self.assertEqual(
+            {target for target in BUILTIN_ALIASES.values() if target.startswith("craft_")},
+            {
+                "craft_source", "craft_cut", "craft_token",
+                "craft_rule", "craft_assemble", "craft_master",
+            },
+        )
         self.assertIn("lava", BUILTIN_ALIASES)
         self.assertEqual(BUILTIN_ALIASES["lava"], "print")
         self.assertIn("word_info", BUILTIN_ALIASES.values())

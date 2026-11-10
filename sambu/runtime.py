@@ -12,6 +12,7 @@ from .anatidae import ANATIDAE_BUILTINS
 from .voxel_builtins import VOXEL_BUILTINS
 from .textcraft import TEXTCRAFT_BUILTINS
 from .workflows import WORKFLOW_BUILTINS
+from .languagecraft import LANGUAGE_CRAFT_BUILTINS
 from .ecosystems import ECOSYSTEM_BUILTINS
 from ._version import __version__
 from .concurrency import Actor, Supervisor, TypedChannel
@@ -394,6 +395,7 @@ _BUILTINS: dict[str, Callable[[list[object]], object]] = {
     "word_info": _articulatory_word_info,
     "wordbook": _articulatory_wordbook,
     **TEXTCRAFT_BUILTINS,
+    **LANGUAGE_CRAFT_BUILTINS,
     **FILTERING_BUILTINS,
     **WORKFLOW_BUILTINS,
     **DOMAIN_BUILTINS,

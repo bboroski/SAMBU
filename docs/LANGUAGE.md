@@ -63,13 +63,13 @@ The example uses `kava` (`let`), `tava` (`fn`), `tavum` (`return`), `teva` (`if`
 | Status | Count | Meaning |
 |---|---:|---|
 | Grammar | 25 | Executable keyword aliases |
-| Built-in | 123 | Executable aliases to existing runtime functions |
-| Reserved | 52 | Defined vocabulary with no execution semantics yet |
+| Built-in | 129 | Executable aliases to existing runtime functions |
+| Reserved | 46 | Defined vocabulary with no execution semantics yet |
 | **Total** | **200** | Fixed, deterministic lexicon |
 
 Reserved words are not silently interpreted. Query a word from source with `word_info("kava")` (articulatory form `leven("kava")`) or list the lexicon with `wordbook()` (articulatory form `levir()`). The CLI also exposes `sambu lexicon --status reserved`.
 
-The complete word-by-word definitions and sound families are in [Articulatory Syntax](ARTICULATORY_SYNTAX.md). The old syntax remains source-compatible, and articulatory forms can be mixed with canonical keywords during migration.
+The complete word-by-word definitions and sound families are in [Articulatory Syntax](ARTICULATORY_SYNTAX.md). For provenance-led experiments that design token sets and grammar productions, see [Language Craft](LANGUAGE_CRAFT.md). The old syntax remains source-compatible, and articulatory forms can be mixed with canonical keywords during migration.
 
 ## Expressions
 

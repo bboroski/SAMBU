@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added the provenance-aware Language Craft pipeline for source registration, fragment selection, terminal design, grammar assembly and deterministic blueprint audits; six new articulatory built-ins remain design-audit tools and do not rewrite the executable parser.
+
 - Added explicit read-only contents: read permissions to both GitHub Actions workflows and a standard-library regression test for least-privilege workflow configuration.
 - Added an evidence-backed quality state matrix, automatic-improvement policy and versioned rule catalog indexing the existing AUT-01–AUT-100 constitution and cross-referencing the 101 language contracts.
 - Restored the complete 0.8.0–0.1.0 release history after a draft diff removed those sections; added a regression test for all published release headings.

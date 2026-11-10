@@ -1,0 +1,44 @@
+# A small language-design study: provenance -> cuts -> terminals -> grammar -> audit.
+# It creates a design blueprint; it does not change SAMBU's executable grammar.
+
+let archive = craft_source(
+  "seed-vocabulary",
+  "declaration and expression concepts",
+  "original SAMBU-authored design material",
+  "The examples below are original; external language names are comparative references only.",
+  ["binding", "identifier", "assignment mark", "numeric literal", "expression"]
+)
+
+let cuts = craft_cut(archive, [
+  "binding",
+  "identifier",
+  "assignment mark",
+  "numeric literal"
+])
+
+let binding = craft_token(cuts, "binding", "LET", "kava", "immutable declaration", "keyword")
+let identifier = craft_token(cuts, "identifier", "IDENT", "name", "user-defined name", "identifier")
+let assignment = craft_token(cuts, "assignment mark", "ASSIGN", ":=", "binding assignment", "operator")
+let number = craft_token(cuts, "numeric literal", "NUMBER", "number", "numeric literal", "literal")
+
+let program = craft_rule("Program", ["Statement"])
+let statement = craft_rule("Statement", ["$LET", "$IDENT", "$ASSIGN", "$NUMBER"])
+
+let design = craft_assemble(
+  "Pondlet",
+  [archive],
+  [binding, identifier, assignment, number],
+  [program, statement],
+  "Program"
+)
+
+let audit = craft_master(design)
+print("Language design audit:")
+print(audit.language)
+print(audit.status)
+print(audit.ready)
+print(audit.source_coverage)
+print(audit.token_coverage)
+print(audit.grammar_reachability)
+print(audit.errors)
+print(audit.warnings)
