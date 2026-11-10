@@ -29,10 +29,11 @@ web = ["Flask>=3.0", "Django>=4.2", "fastapi>=0.110"]
 [project.scripts]
 sambu = "sambu.cli:main"
 sambu-studio = "sambu_studio.cli:main"
+sambu-ide = "sambu_ide.app:main"
 sambu-test = "sambu.testing:main"
 
 [tool.setuptools.packages.find]
-include = ["sambu*", "sambu_studio*"]
+include = ["sambu*", "sambu_studio*", "sambu_ide*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
