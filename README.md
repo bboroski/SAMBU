@@ -124,6 +124,7 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - **Continuity core**: bounded lifecycle cycles with evidence fingerprints and verifiable event chains, plus fail-closed signal admission with issuer allow-lists, external signature verification and replay checks.
 - **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
 - **Sambu IDE core**: source-aware document diagnostics, function/class outline, keyword completion and workspace inspection.
+- **Text Craft diagnostics**: composition-aware section parsing, exact refrain detection, Latin/Cyrillic script-mix statistics, internal-rhyme echoes and author-marked casing that is preserved rather than auto-corrected.
 - **Effort Amplification**: evidence-backed improvement metric that rejects regressions and incomplete test runs.
 - Optional Flask, Django and FastAPI adapters for Jiu-Jitsu host applications.
 
@@ -538,6 +539,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
+- [Text Craft diagnostics — structure, prosody and multilingual writing](docs/text_craft.md)
 
 ### Explore the domains
 
