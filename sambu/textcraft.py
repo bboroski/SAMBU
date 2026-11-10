@@ -436,7 +436,7 @@ def performance_cues_profile(args: list[object]) -> Record:
         ("parenthetical_aside", re.compile(r"\(([^()\n]{1,160})\)")),
         ("quoted_phrase", re.compile(r'"([^"\n]{1,160})"|“([^”\n]{1,160})”|«([^»\n]{1,160})»')),
         ("elongated_spelling", re.compile(
-            r"\b(?:[^\W\d_]{1,16}[-–]){2,}[^\W\d_]{1,16}\b",
+            r"(?:[^\W\d_]{1,16}[-–]){2,}[^\W\d_]{1,16}",
             re.IGNORECASE,
         )),
     )
@@ -445,11 +445,25 @@ def performance_cues_profile(args: list[object]) -> Record:
     truncated = False
 
     for line_number, line in enumerate(text.splitlines(), start=1):
-        if _section_header(line) is not None:
+        # Only recognized section headings are structural. Parenthetical
+        # annotations such as "(Ad-lib: Mm-mm)" are explicit performance cues.
+        header = _section_header(line)
+        if header is not None and _section_kind(header) != "custom":
             continue
         for kind, pattern in patterns:
             for match in pattern.finditer(line):
-                value = next((group for group in match.groups() if group is not None), "")
+                if kind == "elongated_spelling":
+                    # Treat an escaped line separator as a boundary when text
+                    # still contains literal backslash-n/backslash-r notation.
+                    left = line[match.start() - 1] if match.start() else ""
+                    right = line[match.end()] if match.end() < len(line) else ""
+                    escaped_line_break = (
+                        line[max(0, match.start() - 2):match.start()] in {"\\n", "\\r"}
+                    )
+                    if ((left and (left.isalnum() or left == "_") and not escaped_line_break)
+                            or (right and (right.isalnum() or right == "_"))):
+                        continue
+                value = next((group for group in match.groups() if group is not None), match.group(0))
                 if not value.strip():
                     continue
                 counts[kind] += 1
