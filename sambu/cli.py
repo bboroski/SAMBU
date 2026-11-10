@@ -1,4 +1,4 @@
-"""Command-line entry point for SAMBU."""
+"""Command-line entry point for MCL."""
 from __future__ import annotations
 
 import argparse
@@ -14,25 +14,25 @@ from .runtime import SambuRuntimeError
 def _new_project(argv: list[str]) -> int:
     from .project import ProjectGenerationError, create_project
 
-    parser = argparse.ArgumentParser(prog="sambu new")
+    parser = argparse.ArgumentParser(prog="mcl new")
     parser.add_argument("name", help="lowercase application name, e.g. blog_app")
     parser.add_argument("--path", type=Path, help="destination directory (defaults to NAME)")
     args = parser.parse_args(argv)
     try:
         created = create_project(args.name, args.path)
     except ProjectGenerationError as exc:
-        print(f"sambu new: {exc}", file=sys.stderr)
+        print(f"mcl new: {exc}", file=sys.stderr)
         return 2
     destination = args.path if args.path is not None else Path(args.name)
-    print(f"Created SAMBU project {args.name!r} at {destination} ({len(created)} files).")
-    print("Run: sambu " + str(destination / "src" / "main.sambu"))
+    print(f"Created MCL project {args.name!r} at {destination} ({len(created)} files).")
+    print("Run: mcl " + str(destination / "src" / "main.sambu"))
     return 0
 
 
 def _generate(argv: list[str]) -> int:
     from .project import ProjectGenerationError, generate_scaffold
 
-    parser = argparse.ArgumentParser(prog="sambu generate")
+    parser = argparse.ArgumentParser(prog="mcl generate")
     subparsers = parser.add_subparsers(dest="action", required=True)
     scaffold = subparsers.add_parser("scaffold", help="generate model/controller/view starters")
     scaffold.add_argument("model", help="PascalCase singular model name, e.g. Post")
@@ -42,7 +42,7 @@ def _generate(argv: list[str]) -> int:
     try:
         created = generate_scaffold(args.path, args.model, args.fields)
     except ProjectGenerationError as exc:
-        print(f"sambu generate scaffold: {exc}", file=sys.stderr)
+        print(f"mcl generate scaffold: {exc}", file=sys.stderr)
         return 2
     print(f"Generated {len(created)} scaffold files for {args.model}.")
     for path in created:
@@ -55,7 +55,7 @@ def _machine(argv: list[str]) -> int:
     import json
     from .machine import SambuMachine
 
-    parser = argparse.ArgumentParser(prog="sambu machine")
+    parser = argparse.ArgumentParser(prog="mcl machine")
     commands = parser.add_subparsers(dest="action", required=True)
     check = commands.add_parser("check", help="parse-check every .sambu file in a workspace")
     check.add_argument("path", type=Path)
@@ -75,7 +75,7 @@ def _machine(argv: list[str]) -> int:
             if args.as_json:
                 print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
             else:
-                print(f"SAMBU Machine: {report.valid_files}/{report.files_checked} source files parsed")
+                print(f"MCL Machine: {report.valid_files}/{report.files_checked} source files parsed")
                 for issue in report.issues:
                     print(f"{issue.path}:{issue.line}:{issue.column}: {issue.code}: {issue.message}")
                 for issue in report.architecture.issues:
@@ -98,13 +98,13 @@ def _machine(argv: list[str]) -> int:
         if args.as_json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
-            print("SAMBU plywood architecture")
+            print("MCL layered architecture")
             print(" -> ".join(result["order"]))
             for issue in result["issues"]:
                 print(f"ERROR: {issue}")
         return 0 if result["valid"] else 1
     except Exception as exc:
-        print(f"sambu machine: {exc}", file=sys.stderr)
+        print(f"mcl machine: {exc}", file=sys.stderr)
         return 2
 
 
@@ -113,7 +113,7 @@ def _device(argv: list[str]) -> int:
     import json
     from .apple_devices import AppleDeviceToolkit
 
-    parser = argparse.ArgumentParser(prog="sambu device")
+    parser = argparse.ArgumentParser(prog="mcl device")
     commands = parser.add_subparsers(dest="action", required=True)
     diagnose = commands.add_parser("diagnose", help="inspect Apple USB drivers, libimobiledevice and connected devices")
     diagnose.add_argument("--bin-dir", type=Path, help="directory containing idevice_id, ideviceinfo and idevicepair")
@@ -194,7 +194,7 @@ def _lexicon(argv: list[str]) -> int:
     import json
     from .articulatory import ARTICULATORY_WORDS, filter_articulatory_words
 
-    parser = argparse.ArgumentParser(prog="sambu lexicon")
+    parser = argparse.ArgumentParser(prog="mcl lexicon")
     parser.add_argument("--family", help="family code or name, e.g. V or measure")
     parser.add_argument(
         "--status", choices=("active", "keyword", "builtin", "reserved"),
@@ -240,7 +240,7 @@ def _creative(argv: list[str]) -> int:
         validate_metadata_document,
     )
 
-    parser = argparse.ArgumentParser(prog="sambu creative")
+    parser = argparse.ArgumentParser(prog="mcl creative")
     commands = parser.add_subparsers(dest="action", required=True)
     clusters = commands.add_parser("clusters", help="list the eight registered creative clusters")
     clusters.add_argument("--json", action="store_true", dest="as_json")
@@ -347,7 +347,7 @@ def _dialect(argv: list[str]) -> int:
     from .dialects import DialectSyntaxError, transpile
     from .parser import parse_ast
 
-    parser = argparse.ArgumentParser(prog="sambu dialect")
+    parser = argparse.ArgumentParser(prog="mcl dialect")
     parser.add_argument("profile", choices=("pascal", "delphi", "fortran"))
     parser.add_argument("file", type=Path, help="source file written in the selected dialect subset")
     mode = parser.add_mutually_exclusive_group()
@@ -368,7 +368,7 @@ def _dialect(argv: list[str]) -> int:
             return 0
         if args.emit_sambu is not None:
             args.emit_sambu.write_text(result.generated_source, encoding="utf-8")
-            print(f"Generated SAMBU source: {args.emit_sambu}")
+            print(f"Generated MCL source: {args.emit_sambu}")
             return 0
         execute(result.generated_source)
         return 0
@@ -398,12 +398,12 @@ def main(argv: list[str] | None = None) -> int:
         return _dialect(arguments[1:])
 
     parser = argparse.ArgumentParser(
-        prog="sambu",
-        description="SAMBU — a scientific language and convention-based project toolkit.",
+        prog="mcl",
+        description="MCL — a multidomain computation language and convention-based project toolkit.",
     )
     parser.add_argument("file", nargs="?", help="SAMBU source file (.sambu)")
     parser.add_argument("-c", "--code", help="execute source passed as a string")
-    parser.add_argument("--version", action="version", version=f"SAMBU {__version__}")
+    parser.add_argument("--version", action="version", version=f"MCL {__version__}")
     args = parser.parse_args(arguments)
 
     if bool(args.file) == bool(args.code):
@@ -417,7 +417,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             source = path.read_text(encoding="utf-8")
         except OSError as exc:
-            print(f"sambu: cannot read {path}: {exc}", file=sys.stderr)
+            print(f"mcl: cannot read {path}: {exc}", file=sys.stderr)
             return 2
         filename = str(path)
 
