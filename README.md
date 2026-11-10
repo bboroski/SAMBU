@@ -559,6 +559,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [SAMBU Studio and IDE roadmap](docs/IDE.md)
 - [Cripple archetype engineering charter](docs/CRIPPLE_ARCHETYPE_CHARTER.md)
 - [Test runner and failure autopsy](docs/TEST_AUTOPSY.md)
+- [Black Duck SCA workflow setup and troubleshooting](docs/BLACK_DUCK_SECURITY_SCAN.md)
 - [Continuity cycles and signal governance](docs/CONTINUITY_AND_SIGNAL_GUARD.md)
 
 ### Future architecture
