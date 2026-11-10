@@ -31,8 +31,20 @@ class DialectResult:
     source_lines: tuple[int, ...]
 
 
-def _strip_comment(line: str, dialect: str) -> str:
-    """Remove single-line comments while preserving quoted string contents."""
+def _strip_comment(
+    line: str,
+    dialect: str,
+    block_comment: list[str | None] | None = None,
+) -> str:
+    """Remove dialect comments, including multi-line Pascal/Delphi blocks."""
+    if dialect in {"pascal", "delphi"} and block_comment is not None and block_comment[0]:
+        closing = block_comment[0]
+        end = line.find(closing)
+        if end < 0:
+            return ""
+        line = line[end + len(closing):]
+        block_comment[0] = None
+
     quote: str | None = None
     escaped = False
     i = 0
@@ -41,13 +53,13 @@ def _strip_comment(line: str, dialect: str) -> str:
         if quote:
             if char == quote and not escaped:
                 quote = None
-            if char == "\\" and not escaped:
+            if char == "\\\\" and not escaped:
                 escaped = True
             else:
                 escaped = False
             i += 1
             continue
-        if char in "'\"":
+        if char in "'\\"":
             quote = char
             i += 1
             continue
@@ -56,17 +68,24 @@ def _strip_comment(line: str, dialect: str) -> str:
         if dialect in {"pascal", "delphi"}:
             if line.startswith("//", i):
                 return line[:i]
-            if char == "{" and "}" in line[i + 1:]:
+            if char == "{":
                 end = line.find("}", i + 1)
+                if end < 0:
+                    if block_comment is not None:
+                        block_comment[0] = "}"
+                    return line[:i]
                 line = line[:i] + " " + line[end + 1:]
                 continue
-            if line.startswith("(*", i) and "*)" in line[i + 2:]:
+            if line.startswith("(*", i):
                 end = line.find("*)", i + 2)
+                if end < 0:
+                    if block_comment is not None:
+                        block_comment[0] = "*)"
+                    return line[:i]
                 line = line[:i] + " " + line[end + 2:]
                 continue
         i += 1
     return line
-
 
 def _split_csv(text: str) -> list[str]:
     """Split a short argument/declaration list without splitting nested calls."""
@@ -263,13 +282,14 @@ def transpile(source: str, dialect: DialectName | str) -> DialectResult:
     function_results: list[str | None] = []
     pending_if_close = False
     program_started = False
+    block_comment: list[str | None] = [None]
 
     def emit(value: str, line_number: int) -> None:
         output.append(value)
         source_lines.append(line_number)
 
     for line_number, original in enumerate(source.splitlines(), 1):
-        line = _strip_comment(original, normalized).strip()
+        line = _strip_comment(original, normalized, block_comment).strip()
         if not line:
             continue
         low = line.casefold().strip()
