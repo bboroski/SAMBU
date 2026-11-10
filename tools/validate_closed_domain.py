@@ -71,7 +71,7 @@ def validate(data: Any) -> list[str]:
         errors.append("coordinates.dimension must be 4")
         coords = {}
     signature = coords.get("signature")
-    if signature not in VALID_SIGNATURES:
+    if not isinstance(signature, str) or signature not in VALID_SIGNATURES:
         errors.append("coordinates.signature must be '-+++' or '+---'")
 
     metric = data["metric_tensor"]
