@@ -117,3 +117,8 @@ MIT — див. [LICENSE](LICENSE).
 - [CDM-1 specification, assumptions, and physics limits](docs/CLOSED_DOMAIN_METRIC.md)
 - [JSON Schema](data/physics/closed_domain_metric.schema.json) · [Example input](data/physics/closed_domain_metric.example.json)
 - Validate with `python tools/validate_closed_domain.py data/physics/closed_domain_metric.example.json` or run `python tools/validate_closed_domain.py --self-test`.
+
+
+## Продуктова система та реєстр можливостей
+
+Єдині правила дизайну Duck, тримовної документації, маркетингових заяв, пріоритетів, життєвого циклу функцій і випусків: [docs/PRODUCT_SYSTEM.md](docs/PRODUCT_SYSTEM.md). Каталог допускає до 10 000 идентифікаторів можливостей; реалізованими вважаються лише функції з кодом, критеріями приймання та перевірними тестами.
