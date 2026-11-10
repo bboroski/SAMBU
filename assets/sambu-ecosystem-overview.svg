@@ -2,13 +2,13 @@
 <title id="title">SAMBU Ecosystem — central platform and six specialized modules</title>
 <desc id="desc">SAMBU is the central engineering platform. Kloz, CO, SaintSI, ReaperCripple, ToolNG and Klipot connect as independently buildable modules through explicit contracts and adapters.</desc>
 <defs>
-  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0D0D0D"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
-  <linearGradient id="hub" x2="1"><stop stop-color="#FFD600"/><stop offset="1" stop-color="#BFA100"/></linearGradient>
+  <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0B0B0D"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
+  <linearGradient id="hub" x2="1"><stop stop-color="#FF9F0A"/><stop offset="1" stop-color="#D97706"/></linearGradient>
   <linearGradient id="card" x2="1" y2="1"><stop stop-color="#1A1A1A"/><stop offset="1" stop-color="#141414"/></linearGradient>
   <filter id="glow"><feGaussianBlur stdDeviation="12" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
 <rect width="1440" height="760" rx="36" fill="url(#bg)"/>
-<g fill="none" stroke="#BFA100" stroke-width="2" opacity=".75">
+<g fill="none" stroke="#D97706" stroke-width="2" opacity=".75">
   <path d="M720 380L270 185M720 380L720 140M720 380L1170 185M720 380L270 570M720 380L720 620M720 380L1170 570"/>
 </g>
 <g fill="url(#card)" stroke="#262626" stroke-width="2">
@@ -38,7 +38,7 @@
   </g>
   <text x="720" y="264" text-anchor="middle" font-size="15" fill="#999999" letter-spacing="4">CENTRAL ENGINEERING PLATFORM</text>
   <circle cx="720" cy="390" r="132" fill="#332B00" stroke="url(#hub)" stroke-width="5" filter="url(#glow)"/>
-  <circle cx="720" cy="390" r="106" fill="#141414" stroke="#FFD600" stroke-opacity=".3" stroke-width="2"/>
+  <circle cx="720" cy="390" r="106" fill="#141414" stroke="#FF9F0A" stroke-opacity=".3" stroke-width="2"/>
   <text x="720" y="376" text-anchor="middle" font-size="43" font-weight="850" letter-spacing="2">SAMBU</text>
   <text x="720" y="414" text-anchor="middle" font-size="16" fill="#E6E6E6">Language · policy · architecture</text>
   <text x="720" y="444" text-anchor="middle" font-size="14" fill="#999999">Tooling · contracts · module registry</text>
