@@ -1029,3 +1029,6 @@ def _format(value: object) -> str:
     if isinstance(value, SambuClass): return str(value)
     if isinstance(value, float): return f"{value:.8g}"
     return str(value)
+
+# Canonical MCL terminology; the historical symbol remains supported.
+MclRuntimeError = SambuRuntimeError
