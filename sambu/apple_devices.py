@@ -233,7 +233,7 @@ class AppleDeviceToolkit:
         elif "stopped" in service_text:
             diagnostics.append(Diagnostic(
                 "apple_service", "warning", self._message("windows_service_stopped"),
-                "Start Apple Mobile Device Service from Windows Services and reconnect the device.",
+                self._message("recommend_start_service"),
             ))
         else:
             diagnostics.append(Diagnostic(
@@ -270,7 +270,7 @@ class AppleDeviceToolkit:
                     "windows_driver_present" if driver_present else "windows_driver_missing"
                 ),
                 None if driver_present else
-                "Check Device Manager and install Apple Mobile Device Support from an official Apple/iTunes distribution.",
+                self._message("recommend_install_driver"),
             ))
 
         devices = self._run(["pnputil.exe", "/enum-devices", "/connected"])
@@ -290,7 +290,7 @@ class AppleDeviceToolkit:
                 "ok" if apple_usb_present else "warning",
                 self._message("usb_present" if apple_usb_present else "usb_missing"),
                 None if apple_usb_present else
-                "Try a known-good data cable, a direct USB port and another port; inspect Device Manager for unknown USB devices.",
+                self._message("recommend_cable"),
             ))
         else:
             diagnostics.append(Diagnostic(
@@ -351,9 +351,9 @@ class AppleDeviceToolkit:
                     f"tool_{name}", "warning" if optional else "error",
                     self._message("tool_missing", tool=name),
                     (
-                        "Pairing validation will be skipped; metadata can still be read."
+                        self._message("recommend_pair_optional")
                         if optional else
-                        "Install a compatible libimobiledevice Windows build and add its bin directory to PATH or pass --bin-dir."
+                        self._message("recommend_install_tools")
                     ),
                 ))
 
@@ -405,7 +405,7 @@ class AppleDeviceToolkit:
                     diagnostics.append(Diagnostic(
                         f"metadata_{device.udid}", "warning",
                         self._message("model_ios_unavailable"),
-                        "Unlock the device, accept Trust This Computer, validate pairing, then reconnect.",
+                        self._message("recommend_reconnect"),
                     ))
                 if device.pairing_valid is True:
                     diagnostics.append(Diagnostic(
@@ -428,7 +428,7 @@ class AppleDeviceToolkit:
                 diagnostics.append(Diagnostic(
                     "usb_transport", "warning",
                     self._message("usb_detected_not_listed"),
-                    "Restart Apple Mobile Device Service, confirm 64-bit binary compatibility and check the Trust/pairing state.",
+                    self._message("recommend_transport"),
                 ))
             else:
                 diagnostics.append(Diagnostic(
