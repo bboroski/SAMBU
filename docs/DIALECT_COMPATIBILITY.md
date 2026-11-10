@@ -2,7 +2,7 @@
 
 SAMBU provides three source-compatibility profiles that translate a deliberately bounded Pascal, Delphi/Object Pascal, and Fortran subset into canonical SAMBU source. They are implemented in `sambu.dialects` and use the normal SAMBU parser and runtime after translation.
 
-These profiles are interoperability bridges, not copied compilers or full language implementations. They do not claim full ISO Pascal, Delphi, Free Pascal, or Fortran standard conformance.
+These profiles are interoperability bridges, not copied compilers or full language implementations. They do not claim full ISO Pascal, Delphi, Free Pascal, or Fortran standard conformance. Dialect examples retain their native source extensions (`.pas`, `.dpr`, `.f90`) so canonical `.sambu` workspace scanners continue to inspect only canonical SAMBU programs.
 
 ## Quick start
 
@@ -10,18 +10,18 @@ After installing SAMBU from the repository:
 
 ```bash
 # Check syntax and translation without executing the program
-sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.sambu --check
-sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.sambu --check
-sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.sambu --check
+sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.pas --check
+sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.dpr --check
+sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.f90 --check
 
 # Translate, then execute on the SAMBU runtime
-sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.sambu
-sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.sambu
-sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.sambu
+sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.pas
+sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.dpr
+sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.f90
 
 # Inspect or export the canonical SAMBU source
-sambu dialect fortran examples/dialect_apps/fortran/maxwell_speed_profile.sambu --show-translated
-sambu dialect pascal examples/dialect_apps/pascal/probability_lab.sambu --emit-sambu generated_probability.sambu
+sambu dialect fortran examples/dialect_apps/fortran/maxwell_speed_profile.f90 --show-translated
+sambu dialect pascal examples/dialect_apps/pascal/probability_lab.pas --emit-sambu generated_probability.sambu
 ```
 
 ## Compatibility matrix
@@ -51,46 +51,46 @@ The examples are small console applications that exercise actual SAMBU built-ins
 
 | Example | SAMBU capability demonstrated |
 |---|---|
-| `invoice_calculator.sambu` | Percentage reduction and savings calculation |
-| `gradebook_report.sambu` | Mean, sample variance and branching |
-| `network_influence_map.sambu` | Directed graph metrics and influence propagation |
-| `probability_lab.sambu` | Boltzmann factor, partition sum and entropy |
-| `text_quality_inspector.sambu` | Lexical profile, syllable rhythm and rhyme analysis |
-| `sparse_voxel_scene.sambu` | Sparse grid, mesh summary and portable export |
-| `gift_batch_preview.sambu` | Validated all-or-nothing transaction preview |
-| `accreditation_register.sambu` | Evidence-linked accreditation record and date status |
-| `queue_capacity_planner.sambu` | Bounded worker/prefetch plan and retry schedule |
-| `weekly_session_planner.sambu` | Validated recurring event schedule |
+| `invoice_calculator.pas` | Percentage reduction and savings calculation |
+| `gradebook_report.pas` | Mean, sample variance and branching |
+| `network_influence_map.pas` | Directed graph metrics and influence propagation |
+| `probability_lab.pas` | Boltzmann factor, partition sum and entropy |
+| `text_quality_inspector.pas` | Lexical profile, syllable rhythm and rhyme analysis |
+| `sparse_voxel_scene.pas` | Sparse grid, mesh summary and portable export |
+| `gift_batch_preview.pas` | Validated all-or-nothing transaction preview |
+| `accreditation_register.pas` | Evidence-linked accreditation record and date status |
+| `queue_capacity_planner.pas` | Bounded worker/prefetch plan and retry schedule |
+| `weekly_session_planner.pas` | Validated recurring event schedule |
 
 ### Delphi/Object Pascal-style applications
 
 | Example | SAMBU capability demonstrated |
 |---|---|
-| `actor_message_service.sambu` | Stateful actor, bounded mailbox and message drain |
-| `typed_channel_mailbox.sambu` | Typed bounded channel and FIFO receive |
-| `supervisor_dashboard.sambu` | Actor supervision strategy and runtime snapshot |
-| `unit_economics_console.sambu` | Contribution and margin after acquisition cost |
-| `experiment_analyser.sambu` | Two-proportion A/B screening estimate |
-| `commerce_queue_profile.sambu` | Worker, prefetch, retry and dead-letter configuration |
-| `audio_session_brief.sambu` | Validated BPM, swing, snare timing and output ceiling brief |
-| `declarative_quality_filter.sambu` | Explainable 04coq filtering rules |
-| `conversion_funnel_console.sambu` | Stage conversion and drop-off report |
-| `package_pricing_assistant.sambu` | Package price, effective rate and savings |
+| `actor_message_service.dpr` | Stateful actor, bounded mailbox and message drain |
+| `typed_channel_mailbox.dpr` | Typed bounded channel and FIFO receive |
+| `supervisor_dashboard.dpr` | Actor supervision strategy and runtime snapshot |
+| `unit_economics_console.dpr` | Contribution and margin after acquisition cost |
+| `experiment_analyser.dpr` | Two-proportion A/B screening estimate |
+| `commerce_queue_profile.dpr` | Worker, prefetch, retry and dead-letter configuration |
+| `audio_session_brief.dpr` | Validated BPM, swing, snare timing and output ceiling brief |
+| `declarative_quality_filter.dpr` | Explainable 04coq filtering rules |
+| `conversion_funnel_console.dpr` | Stage conversion and drop-off report |
+| `package_pricing_assistant.dpr` | Package price, effective rate and savings |
 
 ### Fortran-style applications
 
 | Example | SAMBU capability demonstrated |
 |---|---|
-| `thermal_energy_model.sambu` | SI temperature and thermal energy |
-| `maxwell_speed_profile.sambu` | Maxwell most-probable, mean and RMS speed |
-| `boltzmann_occupancy.sambu` | Boltzmann population factor |
-| `partition_function.sambu` | Discrete statistical-mechanics partition sum |
-| `entropy_estimator.sambu` | Shannon entropy of a probability distribution |
-| `seeded_molecular_sampler.sambu` | Reproducible Maxwell-distributed sampling |
-| `migration_speed_calculator.sambu` | Dimensional distance/time conversion |
-| `avian_gas_exchange.sambu` | Parameterized gas-exchange proxy model |
-| `plumage_insulation_model.sambu` | Comparative insulation index |
-| `sparse_voxel_spectrum.sambu` | Voxel adjacency graph and sparse spectral profile |
+| `thermal_energy_model.f90` | SI temperature and thermal energy |
+| `maxwell_speed_profile.f90` | Maxwell most-probable, mean and RMS speed |
+| `boltzmann_occupancy.f90` | Boltzmann population factor |
+| `partition_function.f90` | Discrete statistical-mechanics partition sum |
+| `entropy_estimator.f90` | Shannon entropy of a probability distribution |
+| `seeded_molecular_sampler.f90` | Reproducible Maxwell-distributed sampling |
+| `migration_speed_calculator.f90` | Dimensional distance/time conversion |
+| `avian_gas_exchange.f90` | Parameterized gas-exchange proxy model |
+| `plumage_insulation_model.f90` | Comparative insulation index |
+| `sparse_voxel_spectrum.f90` | Voxel adjacency graph and sparse spectral profile |
 
 ## Verification
 
