@@ -49,7 +49,7 @@ syllables estimates syllables by counting vowel nuclei. rhyme_key produces a rou
 
 ## Example
 
-    let draft = "[Verse 1]\\nПишу короткий фрагмент\\n[Chorus]\\nA melody returns\\n[Припев]\\nA melody returns"
+    let draft = "[Verse 1]\nПишу короткий фрагмент\n[Chorus]\nA melody returns\n[Припев]\nA melody returns"
     let structure = text_structure_profile(draft)
     let mix = language_mix_profile(draft)
     let sound = prosody_profile(draft)
@@ -89,22 +89,22 @@ The analyzer never rewrites the source text. Non-standard spelling, colloquial g
 
 This built-in extracts explicit written markers that can matter when preparing a performance or arranging a lyric:
 
-- \`*...*\` stage directions (for example, sound effects);
-- \`( ... )\` parenthetical asides and ad-lib notation;
+- `*...*` stage directions (for example, sound effects);
+- `( ... )` parenthetical asides and ad-lib notation;
 - straight, curly or guillemet-quoted phrases;
-- repeated hyphenated word segments such as \`О-о-о\` or \`ру-ру-Русско\`.
+- repeated hyphenated word segments such as `О-о-о` or `ру-ру-Русско`.
 
-Every marker includes its kind, source line, and start/end columns. The result is capped at 1,000 returned markers; \`truncated\` reports when more were found. Recognized section headings are not double-counted as parenthetical asides.
+Every marker includes its kind, source line, and start/end columns. The result is capped at 1,000 returned markers; `truncated` reports when more were found. Recognized section headings are not double-counted as parenthetical asides.
 
-\`text_structure_profile\` also accepts parenthesized section labels such as \`(Verse 2)\`, bracketed labels with an internal colon such as \`[Verse:]\`, and explicit delivery labels such as \`[Melody sing Chorus:]\`. A section's \`performance_hint\` is descriptive and only reflects explicit words in its heading (\`melodic\`, \`spoken\`, \`ad_lib\`, \`rap\`, or \`unspecified\`).
+`text_structure_profile` also accepts parenthesized section labels such as `(Verse 2)`, bracketed labels with an internal colon such as `[Verse:]`, and explicit delivery labels such as `[Melody sing Chorus:]`. A section's `performance_hint` is descriptive and only reflects explicit words in its heading (`melodic`, `spoken`, `ad_lib`, `rap`, or `unspecified`).
 
 These are markup observations only. The analyzer does not identify the speaker, infer emotion, predict vocal delivery, transcribe audio, or decide whether a cue is appropriate. It preserves the exact source text.
 
 ### Example
 
-    let draft = "[Verse:]\\nFirst movement\\n[Melody sing Chorus:]\\nA returning line\\n[Chorus:]\\nA returning line\\n(Verse 2)\\nSecond movement"
+    let draft = "[Verse:]\nFirst movement\n[Melody sing Chorus:]\nA returning line\n[Chorus:]\nA returning line\n(Verse 2)\nSecond movement"
     let structure = text_structure_profile(draft)
-    let cues = performance_cues_profile("*Phone rings*\\n(Mm-mm)\\nру-ру-Русско")
+    let cues = performance_cues_profile("*Phone rings*\n(Mm-mm)\nру-ру-Русско")
 
     print(structure.section_kind_counts.verse)
     print(structure.refrain_groups[0].repeat_count)
