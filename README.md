@@ -210,6 +210,7 @@ sambu-test tests --repeat 2 --json
 ## Документація
 
 - [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
+- [Системні інженерні патерни](docs/SYSTEMS_ENGINEERING_PATTERNS.md) — конвеєри, lifecycle, ресурси, адаптивне тестування та сумісність.
 - [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Вихідний код і тести](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
