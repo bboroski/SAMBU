@@ -1,63 +1,65 @@
 <div align="center">
 
-<img src="assets/sambu-ducklings.svg" alt="SAMBU duck family — project illustration" width="100%" />
+<img src="assets/sambu-ducklings.svg" alt="Родина качок SAMBU — векторна ілюстрація" width="100%" />
 
 # SAMBU
 
 ### Statistical Analysis · Modeling · Systems · Trust
 
-**A small language with a wide horizon.**
+**Невелика мова з широким горизонтом.**
 
-An experimental, Python-hosted language and toolkit for scientific computation, explicit models, workflows, system design and sparse voxel worlds.
+Експериментальна інтерпретована мова та Python-інструментарій для наукових обчислень, моделювання, системної архітектури, workflow та розріджених voxel-світів.
+
+[Українська](README.md) · [English](README.en.md) · [Русский](README.ru.md)
 
 [![Version](https://img.shields.io/badge/version-0.11.0--alpha-536D8E?style=for-the-badge)](https://github.com/bboroski/SAMBU)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-26866B?style=for-the-badge)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/bboroski/SAMBU/tests.yml?branch=main&style=for-the-badge&label=checks)](https://github.com/bboroski/SAMBU/actions)
 
-[Start here](#-start-in-three-steps) · [Language](#-the-language) · [Capabilities](#-capability-map) · [Tools](#-developer-experience) · [Docs](#-documentation)
+[Швидкий старт](#-швидкий-старт) · [Мова](#-мова-sambu) · [Можливості](#-карта-можливостей) · [Інструменти](#-інструменти) · [Документація](#-документація)
 
 </div>
 
 ---
 
-> **Maturity: experimental alpha.** The interpreter, selected domain modules and developer commands are implemented and testable. Native compilation, a complete static type/effect system, a full LSP-based IDE and several host integrations remain future work.
+> **Стадія зрілості: експериментальна alpha.** Інтерпретатор, вибрані предметні модулі та CLI-інструменти реалізовані й тестуються. Нативний компілятор, повна статична система типів та ефектів, повноцінна LSP-IDE й частина інтеграцій залишаються напрямами розвитку.
 
-## What SAMBU is
+## Що таке SAMBU
 
-SAMBU combines a compact interpreted language for <code>.sambu</code> programs with a Python package for scientific, architectural and workflow-oriented tasks. Its engineering priorities are explicit assumptions, bounded operations, inspectable results and modular evolution.
+SAMBU поєднує мову для програм <code>.sambu</code> з Python-пакетом для наукових, архітектурних і workflow-завдань. Основні принципи: явні припущення, обмежені операції, перевірювані результати та модульна еволюція.
 
-## Capability map
+## Карта можливостей
 
-<img src="assets/architecture-map.svg" alt="SAMBU layered architecture: source surfaces, language runtime, science, voxel systems and engineering toolkit" width="100%" />
+<img src="assets/architecture-map.svg" alt="Багаторівнева архітектура SAMBU: мовні поверхні, runtime, наукові модулі, voxel-системи й інструментарій" width="100%" />
 
-| Area | Capabilities |
+| Напрям | Реалізовані можливості |
 |---|---|
-| **Language runtime** | Hand-written lexer/parser, immutable source-aware AST, scopes, functions, bounded loops, arrays, records, classes and inheritance. |
-| **Scientific computing** | SI quantities, dimensional checks, physical constants, thermal energy, Maxwell speeds, Boltzmann factors, partition sums, entropy and reproducible sampling. |
-| **Sparse voxel systems** | Bounded chunks, affine frames, Morton keys, exposed-face meshing, 3D DDA, sparse octrees, graph Laplacians and VOX interchange. |
-| **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; evidence-aware workflows, trust checks and reversible patching. |
-| **Creative-text analysis** | Deterministic section/refrain extraction, script-mix inspection, approximate prosody, written performance-cue extraction and reviewed metadata ontology. No trained language model is implied. |
-| **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, restart supervision and typed software channels. Not native parallel execution. |
-| **Developer tools** | <code>sambu</code> CLI, <code>sambu-studio</code> read-only Magento XML inspector, <code>sambu-ide</code> Tkinter desktop shell, <code>sambu-test</code> and SAMBU Machine. |
+| **Мовне ядро** | Lexer/parser, незмінний AST із source spans, області видимості, функції, обмежені цикли, масиви, записи, класи та наслідування. |
+| **Наукові обчислення** | SI-величини, перевірка розмірностей, фізичні константи, теплова енергія, швидкості Максвелла, фактори Больцмана, статистичні суми, ентропія та відтворюване семплювання. |
+| **Sparse voxel** | Обмежені чанки, афінні системи координат, Morton keys, побудова поверхонь, 3D DDA, sparse octrees, графові лапласіани та VOX interchange. |
+| **Інженерні модулі** | Judo — архітектурні графи; Aikido — маршрутизація inference; Jiu-Jitsu — UI/MVC/RBAC-моделі; workflow, trust-перевірки та оборотні патчі. |
+| **Runtime-експерименти** | Обмежені actor-mailbox, послідовна фіксація стану, dead-letter записи, supervision і типізовані програмні канали. Це не нативне паралельне виконання. |
+| **Інструменти** | CLI sambu, read-only аналізатор Magento XML sambu-studio, Tkinter IDE sambu-ide, sambu-test і SAMBU Machine. |
+| **Аналіз творчого тексту** | Детермінований розбір секцій, повторів припіву та компактних хуків, змішення письменностей, приблизна просодія, письмові performance-cues і дев’ять кластерів перевірюваних метаданих. |
 
-### Articulatory syntax
+### Артикуляційний синтаксис
 
-A deterministic second source surface is generated from **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 137 built-in forms and 38 reserved forms.
+Друга детермінована поверхня синтаксису утворюється матрицею: **10 семантичних приголосних сімейств × 5 голосних градацій × 4 граматичні закінчення = 200 форм**. Поточний словник містить 25 граматичних форм, 137 вбудованих і 38 зарезервованих.
 
-<img src="assets/articulatory-syntax.svg" alt="SAMBU articulatory syntax: ten semantic families, five vowel grades, four grammatical roles and 200 lexical forms" width="100%" />
+<img src="assets/articulatory-syntax.svg" alt="Матриця артикуляційного синтаксису SAMBU: фонетичні сімейства та граматичні ролі" width="100%" />
 
-This is a regular parser-level syntax layer — not natural-language interpretation or model-generated code. See [the complete specification](docs/ARTICULATORY_SYNTAX.md).
+Це формальний синтаксичний шар над parser, а не обробка природної мови чи генерація коду мовною моделлю. [Специфікація](docs/ARTICULATORY_SYNTAX.md).
 
-### Sparse voxel processing
+### Конвеєр sparse voxels
 
-<img src="assets/voxel-pipeline.svg" alt="SAMBU sparse voxel pipeline from occupied cells to spatial indexes, geometry and renderer-neutral outputs" width="100%" />
+<img src="assets/voxel-pipeline.svg" alt="Конвеєр sparse voxel: від зайнятих комірок до просторових структур, геометрії та renderer-neutral payload" width="100%" />
 
-Starter bridge source covers Unity, Unreal Engine, Godot, Bevy and Open 3D Engine. A bridge profile does not imply a finished or hardware-validated plugin.
+Стартовий bridge-код доступний для Unity, Unreal Engine, Godot, Bevy та Open 3D Engine. Наявність профілю чи starter-коду не означає завершений або апаратно перевірений плагін.
 
-## Start in three steps
+## Швидкий старт
 
-**Requirements:** Python 3.10+, Git. The core interpreter has no mandatory third-party runtime dependencies.
+**Вимоги:** Python 3.10+, Git. Основний інтерпретатор не має обов’язкових сторонніх runtime-залежностей.
 
 ~~~bash
 git clone https://github.com/bboroski/SAMBU.git
@@ -66,7 +68,7 @@ python -m pip install -e .
 sambu --version
 ~~~
 
-Create <code>hello.sambu</code>:
+Створіть hello.sambu:
 
 ~~~sambu
 let temperature = 300 * K
@@ -77,15 +79,15 @@ print(profile.mean)
 print(profile.rms)
 ~~~
 
-Run it:
+Запуск:
 
 ~~~bash
 sambu hello.sambu
-# or
+# або
 sambu -c 'print("Hello from SAMBU")'
 ~~~
 
-Explore:
+Приклади:
 
 ~~~bash
 sambu examples/ideal_gas.sambu
@@ -95,9 +97,9 @@ sambu examples/voxel_world.sambu
 sambu examples/supervised_runtime.sambu
 ~~~
 
-## The language
+## Мова SAMBU
 
-SAMBU supports declarations, expressions, user functions, conditionals, bounded iteration, arrays, records, field access and an experimental object model.
+Мова підтримує оголошення, вирази, користувацькі функції, умовні конструкції, обмежену ітерацію, масиви, записи, доступ до полів та експериментальну об’єктну модель.
 
 ~~~sambu
 fn square(value) {
@@ -111,9 +113,9 @@ let duration = 3 * s
 print(distance / duration)
 ~~~
 
-Quantities use SI-normalized values. Addition and comparison require compatible dimensions; multiplication and division combine dimension exponents. Documented range and loop paths enforce a 100,000-item ceiling.
+Фізичні величини зберігаються в SI-нормалізованій формі. Додавання й порівняння потребують сумісних розмірностей; множення та ділення комбінують їхні показники. Документовані цикли й range обмежено 100 000 елементами.
 
-Articulatory example:
+Артикуляційний приклад:
 
 ~~~sambu
 kava temperature = 300 * K
@@ -122,20 +124,20 @@ kava profile = vava(temperature, particle_mass)
 lava(profile.rms)
 ~~~
 
-## Developer experience
+## Інструменти
 
-| Command | Purpose |
+| Команда | Призначення |
 |---|---|
-| <code>sambu</code> | Run source or inline code; generate project scaffolds. |
-| <code>sambu-ide</code> | Launch the lightweight Tkinter editor. |
-| <code>sambu-studio inspect PATH</code> | Inspect supported Magento / Adobe Commerce XML. |
-| <code>sambu-test tests --repeat 2</code> | Repeat tests and summarize variation. |
-| <code>sambu machine architecture</code> | Validate declared architecture layers. |
-| <code>sambu machine sample FILE --ratio 100 --seed 17</code> | Reproducible AST sampling. |
+| sambu | Запуск файлів та inline-коду; генерація каркасів проєктів. |
+| sambu-ide | Легка Tkinter IDE. |
+| sambu-studio inspect PATH | Read-only аналіз підтримуваних Magento / Adobe Commerce XML. |
+| sambu-test tests --repeat 2 | Повторні тести та зведення варіативності. |
+| sambu machine architecture | Перевірка оголошених архітектурних шарів. |
+| sambu machine sample FILE --ratio 100 --seed 17 | Відтворюване семплювання AST. |
 
-The IDE includes editing, open/save, F5 execution, output, diagnostics and RU/EN switching. It is not yet an LSP client. Machine supports architecture inspection and deterministic sampling, not full static type/effect analysis or native compilation.
+IDE має редактор, відкриття/збереження файлів, запуск F5, вивід, діагностику та перемикання RU/EN. Це ще не LSP-клієнт. Machine підтримує архітектурну перевірку та детерміноване семплювання, але не повний статичний аналіз типів/ефектів і не нативну компіляцію.
 
-Optional host adapters:
+Необов’язкові адаптери:
 
 ~~~bash
 python -m pip install -e ".[flask]"
@@ -143,24 +145,25 @@ python -m pip install -e ".[django]"
 python -m pip install -e ".[fastapi]"
 ~~~
 
-Authentication, transport security, persistence and authorization remain the host application's responsibility.
+Автентифікація, транспортна безпека, збереження даних і авторизація залишаються відповідальністю host-застосунку.
 
-## Creative data and semantic metadata
+## Творчий текст і семантичні метадані
 
-SAMBU includes a versioned, metadata-only creative ontology (`2026.12`) with nine human-assigned clusters, including surreal juxtaposition and wordplay. It validates bounded records, keeps legacy `2026.11` entries readable and exports reviewed metadata as JSON-LD.
+SAMBU містить версійну онтологію creative metadata **2026.12** із дев’ятьма кластерами T-001…T-009. Метадані зберігають людські анотації, а не вихідні тексти. У прикладах корпусу всі записи мають прапорець \`NEEDS_REVIEW\`; це тестові fixtures, а не схвалений набір для навчання.
 
-```bash
-sambu creative clusters
-sambu creative clusters --json
-sambu creative validate examples/creative_metadata.sample.json
-```
+Text Craft надає детерміновані описи структури й звуку:
 
-This is deterministic annotation and validation, not an automatic classifier, embedding model, fine-tuning pipeline or self-learning system. Source text is not stored in metadata records. `NEEDS_REVIEW` remains the default; `CLEAN` and `CLEAN_SATIRE` require a pseudonymous `review_ref` and timezone-aware `reviewed_at` before `generation_eligible` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
+- заголовки секцій, точні повтори припіву та компактна структура хуку;
+- видиме змішення латиниці, кирилиці та інших письменностей;
+- приблизні слогові підрахунки, орфографічні групи рим, внутрішні співзвуччя й алітерація;
+- авторські регістрові наголоси та письмові performance-cues: сценічні ремарки, скобкові ad-lib, цитати й фонетичні повтори.
 
-Text Craft also includes `hook_profile(text)`, which measures a compact 2–4-line hook's approximate end-rhyme groups, repeated terms/lines and syllable-count spread without predicting musical catchiness. It distinguishes section labels from performance notation as well. The example below handles colon-suffixed and parenthesized sections, a melodic chorus hint, written stage directions and repeated phonetic spellings:
+\`hook_profile(text)\` аналізує компактний хук із 2–4 непорожніх рядків, повторювані слова/рядки, наближені рими та розкид кількості складів. Він не прогнозує хітовість або реакцію аудиторії. \`performance_cues_profile(text)\` повертає тип маркера та його позицію у вихідному рядку, але не виводить емоцію, особу мовця чи реальну манеру виконання.
+
+Приклад:
 
 ~~~sambu
-let draft = "[Verse:]\nFirst movement\n[Melody sing Chorus:]\nA melody returns\n[Chorus:]\nA melody returns\n(Verse 2)\nSecond movement\n*Phone rings*\n(Mm-mm)\nру-ру-Русско"
+let draft = "[Verse:]\\nПерший рух\\n[Melody sing Chorus:]\\nМелодія повертається\\n[Chorus:]\\nМелодія повертається\\n(Verse 2)\\nІнший рух\\n*Phone rings*\\n(Mm-mm)\\nру-ру-Русско"
 let structure = text_structure_profile(draft)
 let cues = performance_cues_profile(draft)
 print(structure.refrain_groups[0].repeat_count)
@@ -168,28 +171,29 @@ print(structure.sections[1].performance_hint)
 print(cues.marker_count)
 ~~~
 
-Validate the [nine-record, source-free corpus fixture](examples/creative_corpus_metadata.sample.json):
+Перевірка metadata fixture:
 
 ~~~bash
+sambu creative clusters --json
 sambu creative validate examples/creative_corpus_metadata.sample.json --json
 sambu examples/performance_cues.sambu
 ~~~
 
-See [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), [Text Craft diagnostics](docs/text_craft.md) and the [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json).
+Це не автоматичний класифікатор, не embeddings і не fine-tuning pipeline. Мова визначається окремо від письма; рими й скла — приблизні орфографічні евристики. Текст автора не переписується.
 
-## Engineering principles
+Документація: [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), [Text Craft](docs/text_craft.md), [Hook Craft і моделі відкритих систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md), [JSON Schema](schemas/creative-metadata.schema.json).
 
-SAMBU's five-part doctrine:
+## Інженерна доктрина
 
-- **Safety** — explicit capabilities and trust boundaries.
-- **Adaptive exploration** — reproducible, hypothesis-led experiments.
-- **Managed recovery** — bounded memory, queues, work and retries.
-- **Branchable design** — modular layers and explicit contracts.
-- **Unforced interoperability** — stable interfaces and user choice.
+- **Safety** — явні дозволи та межі довіри.
+- **Adaptive exploration** — відтворювані експерименти на основі гіпотез.
+- **Managed recovery** — обмеження пам’яті, черг, роботи та повторів.
+- **Branchable design** — модульні шари й явні контракти.
+- **Unforced interoperability** — стабільні інтерфейси та свобода користувача.
 
-Machine adds capability profiles, deterministic 1:100 AST sampling and a bounded Ghost Ledger. The sealed profile is for inspection; sandbox permits execution in the SAMBU interpreter. Neither is an OS security sandbox. Host/device profiles reserve future adapters; they do not grant shell, network or hardware access.
+Machine додає capability-профілі, детерміноване семплювання AST 1:100 і обмежений Ghost Ledger. Профіль sealed призначений для інспекції; sandbox дозволяє виконання в інтерпретаторі SAMBU. Жоден із них не є OS sandbox. Host/device — зарезервовані межі адаптерів, а не готовий доступ до shell, мережі чи обладнання.
 
-## Verification
+## Перевірка та статус
 
 ~~~bash
 python -m unittest discover -s tests -v
@@ -197,32 +201,25 @@ sambu-test tests --repeat 2
 sambu-test tests --repeat 2 --json
 ~~~
 
-Reproducible voxel benchmarks are also included. Compare performance only under the same workload and build conditions.
+**Реалізовано:** інтерпретатор, Python-модулі, наукові функції, sparse voxel-операції, окремі actor/channel-примітиви, CLI, Machine inspection, IDE-сервіси й Tkinter-редактор.
 
-## Scope and roadmap
+**Розвивається:** статичний аналіз, семантика ownership/effects, інтеграція IDE, етапи нативного toolchain та адаптери host/device.
 
-**Implemented:** interpreted language core, Python domain modules, scientific helpers, sparse voxel operations, selected actor/channel primitives, CLI tools, Machine inspection, IDE services and the Tkinter editor shell.
+**Не заявляється як готове:** нативний компілятор, self-hosting, сумісність із C++ ABI, повна сумісність із Pascal/Delphi/Fortran, production web-framework, автоматичне розгортання, OS sandbox або повноцінна LSP IDE.
 
-**Evolving:** static analysis, ownership/effect semantics, richer IDE integration, native toolchain stages and expanded host/device adapters.
+## Документація
 
-**Not claimed as complete:** native compiler, self-hosting, C++ ABI compatibility, full Pascal/Delphi/Fortran compatibility, production web framework, automatic deployment, OS sandbox or full LSP IDE.
+- [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
+- [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Вихідний код і тести](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
-## Documentation
+## Участь і ліцензія
 
-- [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md)
-- [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json) · [Studio Guide](docs/DUCK_STUDIO.md)
-- [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
-
-## Contributing & license
-
-Focused pull requests are welcome. Include a minimal reproducer, expected/actual behavior, relevant tests and any security or domain assumptions. MIT — see [LICENSE](LICENSE).
+Вітаються цільові pull request із відтворюваним прикладом, тестами та описом припущень. MIT — див. [LICENSE](LICENSE).
 
 <div align="center">
 
-**SAMBU — model clearly. compose carefully. verify honestly.** 🦆
-
-*Stay curious. Follow the trail. Keep the flock moving.*
+**SAMBU — моделюй чітко. Поєднуй обережно. Перевіряй чесно.** 🦆
 
 </div>
