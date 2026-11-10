@@ -4,7 +4,7 @@
 **Backward compatibility:** existing `2026.11` records remain readable; `T-009` is available only in `2026.12`.  
 **Status:** the metadata model, cluster registry and validator are implemented in Python. Automated text classification, embedding generation, model training and online adaptation are not implemented by this module.
 
-This document turns the March–April 2025 creative corpus interpretation brief into a versioned, reviewable data contract for SAMBU. It preserves the source vocabulary and nine thematic clusters while avoiding unsupported claims about trained models or classifier performance.
+This document defines a versioned, reviewable metadata contract for SAMBU. The bundled examples are synthetic, neutral demonstrations of annotation structure; they are not derived from user-authored poems, lyrics, private drafts or an imported personal corpus.
 
 ## 1. Purpose and boundary
 
@@ -64,18 +64,19 @@ Example JSON record (metadata only):
 
 ```json
 {
-  "cluster_id": "T-001",
-  "theme": "cultural_celebration",
-  "tone": "nostalgic_reverence",
-  "key_symbols": ["fairground", "style_marker", "communal_gathering"],
-  "language": ["ru"],
-  "linguistic_register": "poetic_colloquial",
-  "stylistic_devices": ["visual_imagery", "nostalgic_address"],
+  "cluster_id": "T-006",
+  "theme": "technological_metaphor",
+  "tone": "neutral_explanatory",
+  "key_symbols": ["service_request", "queue_state", "cache_entry"],
+  "language": ["en"],
+  "linguistic_register": "technical_documentation",
+  "stylistic_devices": ["process_description", "precise_labeling"],
   "safety_flag": "NEEDS_REVIEW",
-  "source_ref": "corpus-item-001",
+  "source_ref": "synthetic-demo-006",
   "ontology_version": "2026.12"
 }
 ```
+
 
 JSON-LD export uses Schema.org's `CreativeWork` type and adds the SAMBU cluster, tone, safety fields and (when available) review reference/date. It contains metadata, not the original lyric or prose.
 
@@ -101,11 +102,13 @@ Use the library API:
 from sambu.creative_metadata import CreativeMetadata
 
 record = CreativeMetadata.from_mapping({
-    "cluster_id": "T-004",
-    "theme": "emotional_duality",
-    "tone": "resigned_clarity",
-    "key_symbols": ["distance", "memory"],
-    "language": ["uk"],
+    "cluster_id": "T-006",
+    "theme": "technological_metaphor",
+    "tone": "neutral_explanatory",
+    "key_symbols": ["service_request", "queue_state"],
+    "language": ["en"],
+    "linguistic_register": "technical_documentation",
+    "stylistic_devices": ["process_description"],
     "safety_flag": "NEEDS_REVIEW",
 })
 
@@ -115,32 +118,33 @@ print(record.to_jsonld())
 
 The tool validates supplied labels. It does not classify unannotated text, generate embeddings, fine-tune Sentence-BERT, or learn from user corrections. Text Craft diagnostics (`text_profile`, `prosody_profile`, `text_structure_profile` and `language_mix_profile`) surface measurable writing patterns but do not assign thematic clusters or safety labels. Keep the layers separate: diagnostics produce evidence; a human curator assigns metadata.
 
-## 6. Corpus fixture and Text Craft crosswalk
+## 6. Synthetic examples and Text Craft crosswalk
 
-The [corpus metadata fixture](../examples/creative_corpus_metadata.sample.json) contains nine compact, source-free annotations representing recurring patterns in the supplied March–April 2025 material. Each record is marked `NEEDS_REVIEW`: the fixture demonstrates schema shape, not a completed content or safety review.
+The [synthetic metadata fixture](../examples/creative_metadata_examples.sample.json) contains nine compact, source-free records, one per registered cluster. Each record uses neutral examples from ordinary documentation and information systems: event calendars, profile transitions, regional routing, state comparisons, catalog records, service queues, incident recovery, bilingual interface labels and category matching. Every record is marked `NEEDS_REVIEW`; the fixture demonstrates schema shape, not a completed content or safety review.
 
-| Observed pattern in the material | SAMBU representation |
+| Neutral demonstration scenario | SAMBU representation |
 |---|---|
-| Celebration, ritual and fairground imagery | `T-001` — cultural celebration |
-| Persona, social roles and identity shifts | `T-002` — identity transformation |
-| Institutions, borders and geopolitical commentary | `T-003` — geopolitical awareness |
-| Relationship contrast, memory and distance | `T-004` — emotional duality |
-| Religious, folk and symbolic imagery | `T-005` — spiritual syncretism |
-| Computer, hardware and digital/analogue metaphors | `T-006` — technological metaphor |
-| Conflict, education, satire and endurance | `T-007` — conflict and resilience |
-| Russian/Ukrainian/English code-switching, dialect and phonetic play | `T-008` — linguistic hybridity |
-| Abrupt image shifts, absurd associations and phonetic collisions | `T-009` — surreal juxtaposition (ontology `2026.12`) |
+| Public event calendar and schedule entry | `T-001` — cultural celebration |
+| Account profile and role transition | `T-002` — identity transformation |
+| Regional service routing and jurisdiction metadata | `T-003` — geopolitical awareness |
+| Before/after status comparison | `T-004` — emotional duality |
+| Museum catalog and historical symbol index | `T-005` — spiritual syncretism |
+| Service request, queue state and cache entry | `T-006` — technological metaphor |
+| Incident ticket and recovery checklist | `T-007` — conflict and resilience |
+| Bilingual interface labels and locale fallback | `T-008` — linguistic hybridity |
+| Unexpected pairing of unrelated catalog categories | `T-009` — surreal juxtaposition |
 
-Text Craft supplies deterministic, non-semantic signals alongside human annotation: compact-hook structure through `hook_profile`, section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. section and refrain structure, writing-system counts, approximate syllable/rhyme patterns, internal echoes, marked casing and explicit written performance notation. The new `performance_cues_profile` detects stage directions, parenthetical asides, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
+Text Craft supplies deterministic, non-semantic signals alongside human annotation: section and repeated-block structure, writing-system counts, approximate syllable and spelling-rhyme patterns, internal echoes, marked casing and explicit written notation. The `performance_cues_profile` function detects stage directions, parenthetical notes, quoted phrases and elongated spellings with source line/column spans. It does not infer emotion, speaker identity or actual vocal delivery.
 
-Validate the metadata-only fixture:
+Validate the synthetic metadata-only fixture:
 
 ```bash
-sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu creative validate examples/creative_metadata_examples.sample.json --json
 sambu examples/performance_cues.sambu
 ```
 
-The fixture contains no raw lyrics, quoted passages, personal identifiers or generated training vectors. It is not a training set and does not prove that a human review has occurred. Its `2026.12` records use the current schema; existing `2026.11` records remain readable under the compatibility rules above.
+The fixture contains no original poems, lyrics, quoted source passages, personal identifiers or generated training vectors. Its `source_ref` values are synthetic fixture identifiers, not references to user material. It is not a training set and does not imply that a human review has occurred. Its `2026.12` records use the current schema; existing `2026.11` records remain readable under the compatibility rules above.
+
 
 ## 7. Future model and feedback work
 
