@@ -13,9 +13,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def studio_main() -> int:
     """Run the MCL static XML inspection utility."""
-    from sambu_studio.cli import main as studio_main\n\n    return studio_main()
+    from sambu_studio.cli import main as studio_main
+
+    return studio_main()
 
 
 def ide_main() -> None:
     """Launch the MCL desktop editor."""
-    from sambu_ide.app import main as ide_main\n\n    ide_main()
+    from sambu_ide.app import main as ide_main
+
+    ide_main()
