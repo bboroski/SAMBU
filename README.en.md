@@ -169,6 +169,12 @@ sambu examples/performance_cues.sambu
 ~~~
 
 See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) and [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
+### Unicode signal profiling
+
+`language_mix_profile` now reports character- and token-level counts for Han, Hiragana, Katakana, Hangul, Greek, Arabic and other writing systems. This is script analysis, not language identification: Han does not automatically mean Chinese, and Latin text is not assumed to be a transliteration without an explicit hint.
+
+See the [multilingual signal pipeline](docs/MULTILINGUAL_SIGNAL_PIPELINE.md), [JSON Schema v1](schemas/text-signal-envelope.schema.json) and [neutral example](examples/multilingual_signal_profile.sambu).
+
 ## Engineering doctrine
 
 Five governing principles:
