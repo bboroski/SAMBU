@@ -1,0 +1,26 @@
+name: SAMBU E2K native qualification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2k-native:
+    runs-on: [self-hosted, linux, e2k]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify native E2K host
+        run: |
+          test "$(uname -m)" = "e2k"
+          python3 -c "from sambu.platforms import is_native_e2k_linux; assert is_native_e2k_linux()"
+      - name: Run Python tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Build and test native C backend with LCC
+        env:
+          E2K_CC: lcc
+        run: |
+          cmake -S native -B .build-e2k -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/e2k-linux-lcc.cmake
+          cmake --build .build-e2k --parallel
+          ctest --test-dir .build-e2k --output-on-failure
