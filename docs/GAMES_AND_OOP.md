@@ -64,6 +64,18 @@ print(tic_tac_toe_state(board2.board).next_player)
 
 The legal-board validator enumerates the finite set of reachable game states and stops expanding a state immediately after a win.
 
+
+## Passage curtain: occupancy-aware state pattern
+
+The [passage curtain example](../examples/passage_curtain.sambu) models an automatic curtain or door at a passage:
+
+- The first confirmed arrival changes the state from closed to open.
+- Further arrivals keep it open and increase the occupancy count.
+- An exit reduces the count; the curtain closes only after the last occupant leaves.
+- Extra exit events never make the count negative.
+
+This is a host-neutral state model, not a renderer, sensor driver or animation system. A game engine, PLC or desktop host must supply trustworthy entry/exit events, debounce noisy sensors, animate the physical curtain, and provide a manual/emergency override. In a real installation, closing must be inhibited whenever occupancy is uncertain or a safety sensor reports an obstruction.
+
 ## Next OOP milestones
 
 1. Add a shared semantic type model for class names, instance fields, method signatures and inheritance.
