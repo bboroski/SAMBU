@@ -11,14 +11,15 @@ from tkinter import filedialog, messagebox, ttk
 
 from sambu.ide import SambuIDE
 
-DARK = "#111315"
-PANEL = "#1b1f22"
-PANEL_ALT = "#242a2e"
-YELLOW = "#f4c542"
-TEXT = "#f2f2ed"
-MUTED = "#a5adb2"
-GREEN = "#8bcf9b"
-RED = "#ff7777"
+DARK = "#0D0D0D"
+PANEL = "#1A1A1A"
+PANEL_ALT = "#141414"
+YELLOW = "#FFD600"
+YELLOW_HOVER = "#BFA100"
+TEXT = "#E6E6E6"
+MUTED = "#999999"
+GREEN = "#4CAF50"
+RED = "#FF4444"
 
 STRINGS = {
     "en": {
@@ -56,14 +57,49 @@ class DuckStudio:
         self.path: Path | None = None
         self.ide = SambuIDE()
         self.version = 0
+        self._init_ui_scale()
         self._build()
         self._set_text()
         self._set_status(self.t["ready"])
 
+    def _init_ui_scale(self) -> None:
+        """Load a persistent vector/font scaling factor for the IDE."""
+        self.scale_file = Path.home() / ".sambu" / "ide.json"
+        self.ui_scale = 1.0
+        try:
+            config = json.loads(self.scale_file.read_text(encoding="utf-8"))
+            self.ui_scale = float(config.get("ui_scale", 1.0))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+        self.ui_scale = max(0.85, min(1.50, self.ui_scale))
+        try:
+            self.base_tk_scaling = float(self.root.tk.call("tk", "scaling"))
+            self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
+        except tk.TclError:
+            self.base_tk_scaling = 1.0
+        for sequence, delta in (
+            ("<Control-plus>", 0.10), ("<Control-equal>", 0.10),
+            ("<Control-minus>", -0.10),
+        ):
+            self.root.bind_all(sequence, lambda _event, value=delta: self.adjust_ui_scale(value))
+        self.root.bind_all("<Control-0>", lambda _event: self.adjust_ui_scale(0, reset=True))
+
+    def adjust_ui_scale(self, delta: float = 0.0, *, reset: bool = False) -> None:
+        self.ui_scale = 1.0 if reset else max(0.85, min(1.50, round(self.ui_scale + delta, 2)))
+        try:
+            self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
+            self.scale_file.parent.mkdir(parents=True, exist_ok=True)
+            self.scale_file.write_text(json.dumps({"ui_scale": self.ui_scale}, indent=2), encoding="utf-8")
+        except (OSError, tk.TclError):
+            pass
+        if hasattr(self, "zoom_value"):
+            self.zoom_value.configure(text=f"{round(self.ui_scale * 100)}%")
+        self._set_status(f"UI scale {round(self.ui_scale * 100)}%")
+
     def _build(self):
         self.root.title("SAMBU Duck Studio")
         self.root.geometry("1440x900")
-        self.root.minsize(980, 640)
+        self.root.minsize(960, 600)
         self.root.configure(bg=DARK)
         style = ttk.Style()
         style.theme_use("clam")
@@ -72,7 +108,7 @@ class DuckStudio:
         style.configure("Panel.TFrame", background=PANEL)
         style.configure("TLabel", background=PANEL, foreground=TEXT)
         style.configure("TButton", background=PANEL_ALT, foreground=TEXT, padding=(10, 7), borderwidth=0)
-        style.map("TButton", background=[("active", YELLOW)], foreground=[("active", DARK)])
+        style.map("TButton", background=[("active", YELLOW_HOVER)], foreground=[("active", DARK)])
         style.configure("Accent.TButton", background=YELLOW, foreground=DARK, font=("Segoe UI", 10, "bold"))
         style.configure("TCombobox", fieldbackground=PANEL_ALT, foreground=TEXT, arrowcolor=YELLOW)
 
@@ -92,6 +128,11 @@ class DuckStudio:
         self.lang_box.set("RU")
         self.lang_box.bind("<<ComboboxSelected>>", self.change_language)
         self.lang_box.pack(side="right", padx=4)
+        self.zoom_value = tk.Label(header, text=f"{round(self.ui_scale * 100)}%",
+                                   bg=DARK, fg=MUTED, font=("Segoe UI", 9), width=5)
+        self.zoom_value.pack(side="right", padx=(4, 2))
+        ttk.Button(header, text="+", width=3, command=lambda: self.adjust_ui_scale(0.10)).pack(side="right", padx=2)
+        ttk.Button(header, text="−", width=3, command=lambda: self.adjust_ui_scale(-0.10)).pack(side="right", padx=2)
 
         body = tk.PanedWindow(self.root, orient="horizontal", bg=DARK, sashwidth=5, bd=0, sashrelief="flat")
         body.pack(fill="both", expand=True, padx=14, pady=4)
@@ -112,8 +153,8 @@ class DuckStudio:
         editor_head.pack(fill="x")
         self.file_label = tk.Label(editor_head, text="untitled.sambu", bg=PANEL, fg=YELLOW, padx=12, pady=8)
         self.file_label.pack(side="left")
-        self.editor = tk.Text(center, bg="#15191c", fg="#e8e8e2", insertbackground=YELLOW,
-                              selectbackground="#5b512b", relief="flat", undo=True, wrap="none",
+        self.editor = tk.Text(center, bg="#141414", fg=TEXT, insertbackground=YELLOW,
+                              selectbackground="#332B00", relief="flat", undo=True, wrap="none",
                               font=("Cascadia Code", 11), padx=14, pady=12, tabs=("4c",))
         self.editor.pack(fill="both", expand=True)
         self.editor.insert("1.0", '# Welcome to SAMBU Duck Studio\n\nlet greeting = "Hello, duck!"\nprint(greeting)\n')
@@ -125,7 +166,7 @@ class DuckStudio:
         bottom = tk.Frame(center, bg=PANEL, height=190)
         bottom.pack(fill="both", expand=False)
         self.output_title = self._section(bottom, "OUTPUT")
-        self.output = tk.Text(bottom, height=8, bg="#101315", fg=GREEN, relief="flat",
+        self.output = tk.Text(bottom, height=8, bg=DARK, fg=GREEN, relief="flat",
                               font=("Consolas", 10), padx=10, pady=8, state="disabled")
         self.output.pack(fill="both", expand=True, padx=8, pady=(0, 8))
 
@@ -140,7 +181,7 @@ class DuckStudio:
         self.devices_btn = ttk.Button(right, command=self.show_devices)
         self.devices_btn.pack(fill="x", padx=10, pady=(2, 10))
 
-        self.status = tk.Label(self.root, bg=YELLOW, fg=DARK, anchor="w", padx=12, pady=5,
+        self.status = tk.Label(self.root, bg=PANEL, fg=YELLOW, anchor="w", padx=12, pady=5,
                                font=("Segoe UI", 9, "bold"))
         self.status.pack(fill="x", side="bottom")
 
