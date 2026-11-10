@@ -223,3 +223,8 @@ sambu-test tests --repeat 2 --json
 **SAMBU — моделюй чітко. Поєднуй обережно. Перевіряй чесно.** 🦆
 
 </div>
+
+
+## NUN Ecosystem integration
+
+SAMBU is the declarative policy-authoring layer, while each consumer retains authority over its own side effects and hardware constraints. The export, validation and sandbox boundaries are described in [Declarative Policy Contracts](docs/DECLARATIVE_POLICY_CONTRACTS.md); shared schemas are maintained by [Klipot](https://github.com/bboroski/Klipot).
