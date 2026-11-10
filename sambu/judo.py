@@ -343,3 +343,9 @@ __all__ = [
     "Component", "Connection", "Finding", "ArchitectureMetrics",
     "ArchitectureReport", "JudoPolicy", "JudoArchitecture", "Judo",
 ]
+
+# Canonical MCL terminology; the historical symbol remains supported.
+ArchitectureGraph = JudoArchitecture
+
+# Canonical MCL terminology; the historical symbol remains supported.
+ArchitecturePolicy = JudoPolicy
