@@ -31,9 +31,9 @@
   "radii_px": {"small": 4, "control": 6, "card": 10, "modal": 12},
   "motion_ms": {"micro": 120, "standard": 200, "maximum": 250},
   "layout": {
-    "ui_scale_min": 0.85,
+    "ui_scale_min": 0.8,
     "ui_scale_default": 1.0,
-    "ui_scale_max": 1.5,
+    "ui_scale_max": 1.6,
     "target_capture_px": [1920, 1080],
     "minimum_capture_px": [1366, 768],
     "compact_navigation_below_px": 1180,
