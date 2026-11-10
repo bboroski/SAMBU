@@ -147,27 +147,28 @@ python -m pip install -e ".[fastapi]"
 
 Authentication, transport security, persistence and authorization remain the host application's responsibility.
 
-## Creative text analysis and corpus annotations
+## Creative text analysis and semantic metadata
 
-Text Craft provides deterministic, descriptive signals for multilingual creative drafts:
+Text Craft provides deterministic, descriptive signals for text:
 
-- section headings, exact repeated refrain blocks and compact-hook structure;
-- visible Latin/Cyrillic/other writing-system mix;
+- section headings and exact repeated blocks;
+- visible Latin, Cyrillic and other writing-system mixes;
 - approximate syllable counts, spelling-based rhyme groups, internal echoes and alliteration;
-- author-marked casing and explicit written performance cues such as stage directions, parenthetical ad-libs, quoted phrases and elongated spellings.
+- explicit written markers such as stage directions, parenthetical notes, quoted phrases and hyphenated repetitions.
 
-`hook_profile(text)` reports whether a hook has 2–4 non-empty lines, approximate rhyme groups, repeated terms/lines and syllable spread. It does not predict catchiness or audience response. `performance_cues_profile(text)` extracts written markers with source positions; it does not infer emotion, speaker identity or actual vocal delivery.
+All bundled examples are neutral synthetic fixtures: service messages, interface states, catalog records and technical descriptions. They are not derived from user-authored poems, lyrics or private source material.
 
-The metadata-only creative ontology is versioned at **2026.12** and contains nine human-assigned clusters (T-001…T-009). All supplied corpus examples are marked `NEEDS_REVIEW`; they are fixtures, not approved training data. The validator does not classify unannotated text and does not generate embeddings or fine-tune a model.
+`hook_profile(text)` reports compact 2–4-line structure, repeated terms and lines, approximate rhyme groups and syllable spread. It does not predict audience response. `performance_cues_profile(text)` extracts written markers and source positions; it does not infer emotion, speaker identity or actual delivery.
+
+The metadata-only ontology is versioned at **2026.12** and contains nine human-assigned clusters (T-001…T-009). The validator checks supplied annotations; it does not classify unannotated text, generate embeddings or fine-tune a model.
 
 ~~~bash
 sambu creative clusters --json
-sambu creative validate examples/creative_corpus_metadata.sample.json --json
+sambu creative validate examples/creative_metadata_examples.sample.json --json
 sambu examples/performance_cues.sambu
 ~~~
 
 See [Text Craft](docs/text_craft.md), [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) and [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
-
 ## Engineering doctrine
 
 Five governing principles:
