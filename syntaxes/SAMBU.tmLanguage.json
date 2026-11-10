@@ -1,0 +1,128 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SAMBU",
+  "scopeName": "source.sambu",
+  "fileTypes": [
+    "sambu"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#declarations"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#builtins"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.sambu",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.sambu",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.sambu"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.sambu"
+        }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.sambu",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.sambu",
+          "match": "\\b(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?\\b"
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "name": "meta.function.sambu",
+          "match": "\\b(fn|tava)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.type.function.sambu"
+            },
+            "2": {
+              "name": "entity.name.function.sambu"
+            }
+          }
+        },
+        {
+          "name": "meta.class.sambu",
+          "match": "\\b(class|kaven)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.type.class.sambu"
+            },
+            "2": {
+              "name": "entity.name.type.class.sambu"
+            }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "name": "keyword.control.sambu",
+      "match": "\\b(?:let|fn|if|else|for|in|return|class|extends|static|interface|trait|implements|abstract|final|public|private|protected|uses|kava|kaven|kavir|kavum|keva|keven|kevir|kevum|kiva|kiven|kivir|kivum|kova|tava|taven|tavir|tavum|teva|teven)\\b"
+    },
+    "constants": {
+      "name": "constant.language.sambu",
+      "match": "\\b(?:true|false|null|and|or|not|ravum|reva|reven|rava|raven|ravir)\\b"
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.sambu",
+          "match": "\\b(?:print|lava|maxwell|boltzmann|thermal_energy|partition|entropy|sample_maxwell|mean|variance|sqrt|exp|log|abs|count|len|range|sum|min|max|actor|actor_send|actor_drain|actor_state|supervisor|supervise|supervisor_status|channel|channel_send|channel_receive|voxel_grid|voxel_set|voxel_remove|voxel_get|voxel_count|voxel_mesh|voxel_chunks|voxel_frame_plan|voxel_raycast|voxel_octree|voxel_octree_get|voxel_export|voxel_spectral_profile|voxel_solve_field|voxel_sparsify|coq_rule|coq_match|coq_explain|coq_filter|coq_pipeline|parse_report|mine_patterns|cluster_glue|pitch_score|syllables|rhyme_key|text_profile|prosody_profile|word_info|wordbook|audio_profile|studio_offer|capture_node|order_pipeline|package_pricing|unit_economics)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "operators": {
+      "name": "keyword.operator.sambu",
+      "match": "==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
+    },
+    "punctuation": {
+      "name": "punctuation.separator.sambu",
+      "match": "[()\\[\\]{}.,;]"
+    }
+  }
+}
