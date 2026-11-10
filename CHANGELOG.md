@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added explicit read-only contents: read permissions to both GitHub Actions workflows and a standard-library regression test for least-privilege workflow configuration.
+- Added an evidence-backed quality state matrix, automatic-improvement policy and versioned rule catalog indexing the existing AUT-01–AUT-100 constitution and cross-referencing the 101 language contracts.
+- Restored the complete 0.8.0–0.1.0 release history after a draft diff removed those sections; added a regression test for all published release headings.
 - Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
 - Added explicit unit-return MIR/LIR terminators and verifier checks for both value-returning and unit-returning functions.
 - Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
@@ -44,7 +47,6 @@
 - Added per-rule explanations with stable failure reasons, collection filtering and sequential multi-stage pipelines.
 - Added strict resource limits, fail-closed type handling, non-mutation guarantees, regression tests, documentation, an executable example and CI coverage.
 - Registered 04coq built-ins and exported the public filtering engine API.
-
 
 ## 0.8.0 — 2026-11-09
 
