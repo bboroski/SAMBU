@@ -1,8 +1,8 @@
-# SMAE — Scientific Modeling & Automation Environment
+# SAMBU — Scientific Modeling & Automation Environment
 
 **Наукова мовна та інженерна середа для відтворюваних обчислень, моделювання й автоматизації.**
 
-SMAE — експериментальна інтерпретована мова та Python-інструментарій. Вона об'єднує мовне ядро, наукові обчислення, предметні модулі, sparse-voxel моделювання, workflow-моделі й інструменти розробника.
+SAMBU — експериментальна інтерпретована мова та Python-інструментарій. Вона об'єднує мовне ядро, наукові обчислення, предметні модулі, sparse-voxel моделювання, workflow-моделі й інструменти розробника.
 
 [Українська](README.md) · [English](README.en.md) · [Русский](README.ru.md) · [Вихідний репозиторій](https://github.com/bboroski/SAMBU)
 
@@ -22,30 +22,30 @@ SMAE — експериментальна інтерпретована мова 
 git clone https://github.com/bboroski/SAMBU.git
 cd SAMBU
 python -m pip install -e .
-smae --version
+sambu --version
 ~~~
 
 Запуск програми:
 
 ~~~bash
-smae examples/ideal_gas.sambu
-smae -c 'print("Hello from SMAE")'
+sambu examples/ideal_gas.sambu
+sambu -c 'print("Hello from SAMBU")'
 ~~~
 
-Команда <code>sambu</code>, пакет <code>sambu</code> та розширення <code>.sambu</code> поки збережені як сумісні інтерфейси. Новий CLI-аліас — <code>smae</code>.
+Команда <code>sambu</code>, пакет <code>sambu</code> та розширення <code>.sambu</code> поки збережені як сумісні інтерфейси. Новий CLI-аліас — <code>sambu</code>.
 
 ## Інструменти та перевірка
 
 ~~~bash
 python -m pytest
-smae --help
+sambu --help
 ~~~
 
 Інтерфейс IDE надає редагування файлів, запуск, вивід і базову діагностику. Поточна реалізація **не є** повноцінною LSP-IDE; нативний компілятор і повна статична система типів/ефектів залишаються напрямами розвитку.
 
 ## Архітектура та межі
 
-SMAE є Python-hosted alpha-проєктом. Розширення для Flask, Django та FastAPI необов'язкові. Наявність адаптера або профілю інтеграції не означає завершену production-інтеграцію.
+SAMBU є Python-hosted alpha-проєктом. Розширення для Flask, Django та FastAPI необов'язкові. Наявність адаптера або профілю інтеграції не означає завершену production-інтеграцію.
 
 - [Артикуляційна граматика](docs/ARTICULATORY_SYNTAX.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
@@ -53,7 +53,7 @@ SMAE є Python-hosted alpha-проєктом. Розширення для Flask,
 
 ## Технічна ідентичність
 
-**SMAE** — канонічна назва середовища та новий CLI-аліас. Історичні назви дистрибутива, Python-пакета й мовного розширення збережені для сумісності з наявними скриптами та імпортами; їхня заміна потребує окремої міграції API.
+**SAMBU** — канонічна назва середовища та новий CLI-аліас. Історичні назви дистрибутива, Python-пакета й мовного розширення збережені для сумісності з наявними скриптами та імпортами; їхня заміна потребує окремої міграції API.
 
 ## Ліцензія
 
