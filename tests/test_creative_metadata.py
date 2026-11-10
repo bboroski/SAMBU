@@ -1,4 +1,6 @@
 """Tests for SAMBU's versioned creative metadata ontology."""
+import json
+from pathlib import Path
 import unittest
 
 from sambu.creative_metadata import (
@@ -76,6 +78,17 @@ class CreativeMetadataTests(unittest.TestCase):
                 "tone": "joyful",
                 "content_sha256": "not-a-hash",
             })
+
+    def test_corpus_fixture_is_valid_and_not_generation_eligible(self):
+        sample_path = Path(__file__).resolve().parents[1] / "examples" / "creative_corpus_metadata.sample.json"
+        payload = json.loads(sample_path.read_text(encoding="utf-8"))
+        records = validate_metadata_document(payload)
+        self.assertEqual(len(records), 8)
+        self.assertEqual({item.cluster_id for item in records}, {
+            f"T-{number:03d}" for number in range(1, 9)
+        })
+        self.assertTrue(all(item.safety_flag == "NEEDS_REVIEW" for item in records))
+        self.assertTrue(all(not item.generation_eligible for item in records))
 
     def test_document_accepts_object_or_bounded_array(self):
         record = {
