@@ -24,6 +24,7 @@ A number of labels in the supplied synonym lists (for example, *Quantum Envoy*, 
 | Institutional and operational coordination | `weekly_schedule`, `attendance`, `funnel`, `ab_test` | Repeating events, capacity use, stage losses, and a simple experiment comparison |
 | Game-like territorial systems | `capture_tower`, `capture_node`, `allocate`, `network` | Resistance depletion, ownership transfer and resource distribution |
 | Music production planning | `audio_profile` | Validated tempo, groove, timing, entry and mix-intent metadata; no audio rendering |
+| Language design craft | `craft_source`, `craft_cut`, `craft_token`, `craft_rule`, `craft_assemble`, `craft_master` | Provenance-led grammar blueprint assembly and deterministic audit; no dynamic parser generation |
 
 ## Network model
 
