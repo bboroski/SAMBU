@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
+from tempfile import TemporaryDirectory
 
 from sambu.dialects import DialectSyntaxError, execute_dialect, transpile
 from sambu.parser import parse_ast
+from sambu.cli import main as sambu_main
 
 
 class PascalDialectTests(unittest.TestCase):
@@ -78,6 +82,30 @@ end.
         source = "program Demo;\nbegin\n  writeln(1);\nend."
         result = transpile(source, "object pascal")
         self.assertEqual(result.dialect, "delphi")
+
+
+class DialectCliTests(unittest.TestCase):
+    def test_cli_check_and_show_translated_modes(self):
+        source = "program CliDemo;\\nbegin\\n  writeln(42);\\nend."
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "demo.pas"
+            path.write_text(source, encoding="utf-8")
+
+            checked = StringIO()
+            with redirect_stdout(checked):
+                self.assertEqual(
+                    sambu_main(["dialect", "pascal", str(path), "--check"]),
+                    0,
+                )
+            self.assertIn("syntax OK", checked.getvalue())
+
+            translated = StringIO()
+            with redirect_stdout(translated):
+                self.assertEqual(
+                    sambu_main(["dialect", "pascal", str(path), "--show-translated"]),
+                    0,
+                )
+            self.assertIn("print(42)", translated.getvalue())
 
 
 class FortranDialectTests(unittest.TestCase):
