@@ -118,18 +118,18 @@ _BUILTIN_TARGETS_BY_FAMILY = {
         "voxel_grid", "voxel_set", "voxel_remove", "voxel_get", "voxel_count",
         "voxel_mesh", "voxel_chunks", "voxel_frame_plan", "voxel_raycast",
         "voxel_octree", "voxel_octree_get", "voxel_export",
-        "voxel_spectral_profile", "voxel_solve_field", "voxel_sparsify",
+        "voxel_spectral_profile", "voxel_solve_field", "voxel_sparsify", "craft_cut",
     ),
     # Rules, filters and evidence reports.
     "d": (
         "coq_rule", "coq_match", "coq_explain", "coq_filter", "coq_pipeline",
-        "parse_report", "mine_patterns", "cluster_glue", "pitch_score",
+        "parse_report", "mine_patterns", "cluster_glue", "pitch_score", "craft_master",
     ),
     # Text, articulation and the wordbook itself.
     "l": (
         "print", "syllables", "rhyme_key", "text_profile", "prosody_profile",
         "word_info", "wordbook", "audio_profile", "studio_offer",
-        "capture_node", "order_pipeline", "package_pricing", "unit_economics",
+        "capture_node", "order_pipeline", "package_pricing", "unit_economics", "craft_source",
     ),
     # Workflow memory and ecosystem models.
     "m": (
@@ -149,13 +149,13 @@ _BUILTIN_TARGETS_BY_FAMILY = {
     # Deterministic game-state operations.
     "k": (
         "rps_round", "tic_tac_toe_state", "tic_tac_toe_move",
-        "tic_tac_toe_best_move",
+        "tic_tac_toe_best_move", "craft_token",
     ),
     # Percentage and ratio arithmetic.
     "r": (
         "percent_of", "apply_percent", "reduce_by_percent", "percentage",
         "percent_change", "percent_to_ratio", "ratio_to_percent",
-        "percentage_points", "clamp_percent",
+        "percentage_points", "clamp_percent", "craft_assemble",
     ),
     # Comparative waterfowl physiology models.
     "s": (
@@ -165,7 +165,7 @@ _BUILTIN_TARGETS_BY_FAMILY = {
         "avian_gas_exchange", "avian_air_sac_cycle", "bill_lamella_filter",
         "salt_balance", "flock_flight_budget", "visual_system_profile",
         "imprinting_window", "hemispheric_sleep_budget", "magnetic_heading",
-        "digestive_grinding",
+        "digestive_grinding", "craft_rule",
     ),
 }
 
