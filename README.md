@@ -238,13 +238,13 @@ The repository contains additional examples for workflows, text craft, territory
 The dialect bridge supports a documented procedural subset, not complete source or ABI compatibility with the original compilers and frameworks.
 
 ```bash
-sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.sambu
-sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.sambu
-sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.sambu
+sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.pas
+sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.dpr
+sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.f90
 
 # Validate without executing, or inspect the canonical translation
-sambu dialect fortran examples/dialect_apps/fortran/maxwell_speed_profile.sambu --check
-sambu dialect pascal examples/dialect_apps/pascal/probability_lab.sambu --show-translated
+sambu dialect fortran examples/dialect_apps/fortran/maxwell_speed_profile.f90 --check
+sambu dialect pascal examples/dialect_apps/pascal/probability_lab.pas --show-translated
 ```
 
 Each profile has ten executable console examples. See the [dialect compatibility matrix and limitations](docs/DIALECT_COMPATIBILITY.md).
