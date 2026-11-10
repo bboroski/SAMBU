@@ -52,3 +52,7 @@ For installation and runnable examples, begin with the root [README](../README.m
 ---
 
 *This is the SAMBU project's own technical encyclopedia. It is not an article hosted by Wikipedia and does not claim independent encyclopedic notability.*
+
+## Engineering doctrine and developer control plane
+
+The expanded engineering model is documented in [SAMBU Engineering Doctrine](../docs/SAMBU_ENGINEERING_DOCTRINE.md). It defines the five-letter code (Safety, Adaptive exploration, Managed recovery, Branchable design, Unforced interoperability), Plywood design, 1:100 code sampling, the 10,000-entry Ghost Ledger, Effort Amplification, SAMBU Machine and the headless SAMBU IDE.

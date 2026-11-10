@@ -254,3 +254,9 @@ This is a direction sketch, not accepted source syntax until lexer, parser, chec
 ## 12. Final architectural law
 
 SAMBU becomes more powerful by making contracts sharper, not by accumulating keywords. The compiler establishes meaning before optimization; the runtime checks capabilities before execution; tools explain accepted, rejected and expensive operations. Physics guides models and metaphors, not unsupported guarantees. Every feature earns its status through implementation, tests, documentation and measured limits.
+
+## 1.0.2 Engineering doctrine and developer control plane
+
+The five-letter engineering code and its acceptance gates are formalized in [SAMBU Engineering Doctrine](SAMBU_ENGINEERING_DOCTRINE.md). The current Python-hosted implementation provides `SambuMachine` (layer-contract validation, bounded workspace parsing, deterministic AST sampling, failure signatures and capability profiles) and `SambuIDE` (versioned source snapshots, syntax diagnostics, outline and lexical completion). These are experimental developer services, not a native compiler, full static analyzer, process sandbox, graphical IDE or LSP server.
+
+The shared `examples/mulberry_charlotte.sambu` workload gives the CI pipeline a small reproducible arithmetic fixture with explicit scaling and mass-balance assertions.

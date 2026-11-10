@@ -79,10 +79,35 @@ Queue actions are read-only initially. DLQ replay, purge, cache mutation, deploy
 
 ## Diplomat Night theme
 
-## Current implementation status (0.5.1)
+## Historical typed-AST milestone (0.5.1)
 
-The core exposes immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
+The core introduced immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
 
-The parser reports incomplete expressions at the actual EOF token. Token and AST offsets count Python Unicode code points; an LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
+Token and AST offsets count Python Unicode code points; a future LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
 
-The repository still does not ship a semantic dimension analyzer, LSP server, graphical IDE, semantic token provider, context completion provider, live plot panel, debugger UI, or Diplomat Night theme. This document is a target architecture, not a feature checklist claiming those components already exist.
+The current 0.11 headless IDE services are described above. The repository still does not ship a graphical editor, LSP server, semantic type/dimension analyzer, semantic tokens, scope-aware completion, hover/type inference, refactoring engine, live plot panel or debugger UI. This document distinguishes those roadmap targets from implemented services.
+
+## Headless IDE services (0.11.0)
+
+The current package exports `SambuIDE` from `sambu.ide`. It is a headless editor-service layer, not yet a graphical application or a Language Server Protocol server.
+
+Implemented operations:
+- `open_document(uri, source, version=1)`: validate a new versioned document snapshot, calculate its SHA-256 identity, count tokens and parse a typed AST.
+- `change_document(uri, source, version=...)`: accept only a newer version for an open URI, making stale editor updates visible.
+- `close_document(uri)`: release one document snapshot.
+- `complete(prefix, limit=50)`: return bounded prefix matches from the current keyword and builtin catalog. This is lexical completion, not scope-aware semantic completion.
+- `inspect_workspace(path)`: delegate to SAMBU Machine for bounded source parsing and architecture validation.
+- `sample_code(path, denominator=100, seed=0)`: delegate to deterministic AST sampling.
+
+The document outline currently includes top-level functions, classes, interfaces and traits, with class methods. Syntax errors are returned as source-aware diagnostics rather than crashing the inspection response. Document sizes are capped at 2 MB and the open-document count is bounded.
+
+CLI examples:
+
+~~~bash
+sambu ide inspect examples/mulberry_charlotte.sambu
+sambu ide inspect examples/mulberry_charlotte.sambu --format json
+sambu ide workspace examples
+sambu ide complete actor
+~~~
+
+Still planned: graphical editor shell, LSP transport, semantic completion, symbol resolution, hover/type inference, refactoring, formatter, debugger UI, live execution preview and native source maps. The CLI and Python API are useful today without claiming those future services exist.

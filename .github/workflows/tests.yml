@@ -23,6 +23,18 @@ jobs:
       - run: sambu examples/ecosystem_primitives.sambu
       - run: sambu examples/voxel_world.sambu
       - run: sambu examples/supervised_runtime.sambu
+      - run: sambu examples/mulberry_charlotte.sambu
+      - run: sambu machine architecture --json > /tmp/sambu-architecture.json
+      - run: python -c "import json; assert json.load(open('/tmp/sambu-architecture.json'))['valid']"
+      - run: sambu machine check examples --json > /tmp/sambu-machine-check.json
+      - run: python -c "import json; report=json.load(open('/tmp/sambu-machine-check.json')); assert report['valid'] and report['files_checked'] > 0"
+      - run: sambu machine sample examples/mulberry_charlotte.sambu --ratio 100 --seed 17 --json > /tmp/sambu-sample.json
+      - run: python -c "import json; report=json.load(open('/tmp/sambu-sample.json')); assert report['statements_sampled'] > 0 and report['seed'] == 17"
+      - run: sambu ide inspect examples/mulberry_charlotte.sambu --format json > /tmp/sambu-ide-inspect.json
+      - run: python -c "import json; report=json.load(open('/tmp/sambu-ide-inspect.json')); assert report['syntax_valid'] and report['token_count'] > 0"
+      - run: sambu ide workspace examples --format json > /tmp/sambu-ide-workspace.json
+      - run: python -c "import json; assert json.load(open('/tmp/sambu-ide-workspace.json'))['valid']"
+      - run: sambu ide complete actor
       - run: python benchmarks/benchmark_voxels.py --size 6 --repeats 1 --include-spectral --json
       - run: sambu examples/ideal_gas.sambu
       - run: sambu examples/boltzmann_weights.sambu

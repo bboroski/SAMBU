@@ -119,7 +119,52 @@ Starter bridge source is provided for **Unity, Unreal Engine, Godot, Bevy and Op
 - `sambu-test` — repeated test runs, flaky-test detection and structured failure summaries.
 - Reproducible voxel benchmark scripts.
 - Experimental cooperative generator scheduler, deterministic resource scopes and two-verifier authorization boundary in the Python host API.
+- **Sambu Machine**: layered architecture validation, deterministic 1:100 AST sampling, capability profiles and a bounded 10,000-signature Ghost Ledger.
+- **Sambu IDE core**: source-aware document diagnostics, function/class outline, keyword completion and workspace inspection.
+- **Effort Amplification**: evidence-backed improvement metric that rejects regressions and incomplete test runs.
 - Optional Flask, Django and FastAPI adapters for Jiu-Jitsu host applications.
+
+## 🧭 SAMBU Engineering Doctrine
+
+SAMBU's five-letter engineering code is a second interpretation of its name:
+
+| Letter | Engineering direction |
+|---|---|
+| **S** | Safety and staged sovereignty |
+| **A** | Adaptive exploration |
+| **M** | Managed recovery and memory |
+| **B** | Branchable, board-layered design |
+| **U** | Unforced interoperability and user sovereignty |
+
+The principles are formalized in [SAMBU Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md): plywood architecture, reproducible 1:100 code sampling, the 10,000-entry Ghost Ledger, Effort Amplification, capability-restricted Machine profiles, headless IDE services and the Mulberry Charlotte reference workload.
+
+### SAMBU Machine
+
+```bash
+sambu machine architecture
+sambu machine check examples
+sambu machine sample examples/mulberry_charlotte.sambu --ratio 100 --seed 17
+```
+
+Machine validates the declared layer graph, parses source files, and selects reproducible AST samples. It does not yet perform full static type/effect analysis or native compilation.
+
+### SAMBU IDE
+
+```bash
+sambu ide inspect examples/mulberry_charlotte.sambu
+sambu ide workspace examples
+sambu ide complete actor
+```
+
+The current IDE is a headless editor-service core—not a graphical editor or LSP server. It provides syntax diagnostics, source snapshots, an outline and bounded lexical completion.
+
+### Capability profiles
+
+`SambuMachine(profile="sealed")` permits inspection and sampling. `sandbox` additionally allows execution in the SAMBU interpreter. `host` and `device` reserve future adapter boundaries; they do not grant implemented shell, network or hardware access. The `sandbox` profile is not an OS process sandbox.
+
+### Mulberry Charlotte
+
+`examples/mulberry_charlotte.sambu` is a deterministic arithmetic workload for scaling ingredient quantities, summing mass and calculating portions. It is an integration fixture, not a nutrition database. CI executes it to check the source/interpreter path.
 
 ## 🚀 Getting started
 
@@ -475,6 +520,7 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 
 - [Language Evolution Architecture](docs/LANGUAGE_EVOLUTION.md)
 - [Cripple Systems Architecture — C++-class capability roadmap](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md)
+- [SAMBU Engineering Doctrine, Machine and IDE](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [SAMBU Rails proposal](docs/SAMBU_RAILS.md)
 - [Autonomy Constitution](docs/AUTONOMY_CONSTITUTION.md)
 
