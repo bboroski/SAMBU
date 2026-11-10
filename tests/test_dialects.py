@@ -23,7 +23,7 @@ end.
 """
         output: list[str] = []
         result = execute_dialect(source, "pascal", output=output.append)
-        self.assertEqual(result, 300.0 * 1.0)  # final unit-valued expression
+        self.assertEqual(str(result), "300 K")  # final unit-valued expression
         self.assertEqual(output, ["42", "300 K"])
 
     def test_inclusive_counted_loop_is_translated(self):
