@@ -153,8 +153,8 @@ def _device(argv: list[str]) -> int:
                 for device in report.devices:
                     print(
                         f"  {device.name or device.udid}: {device.family}; "
-                        f"{device.product_type or 'model unavailable'}; "
-                        f"{toolkit.locale.gettext('device_ios_label')} {device.ios_version or 'version unavailable'}; "
+                        f"{device.product_type or toolkit.locale.gettext('model_unavailable')}; "
+                        f"{toolkit.locale.gettext('device_ios_label')} {device.ios_version or toolkit.locale.gettext('version_unavailable')}; "
                         f"{toolkit.locale.gettext('pairing_label')}={device.pairing_valid}"
                     )
                 for item in report.diagnostics:
