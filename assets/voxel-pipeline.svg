@@ -7,7 +7,7 @@
 <text x="42" y="54" class="h">SPARSE VOXEL PIPELINE</text>
 <text x="42" y="80" class="p">Sparse storage preserves occupied space; spatial structures support bounded geometry and inspection.</text>
 <g transform="translate(36 130)">
- <rect width="205" height="162" rx="16" fill="#E6E6E6" stroke="#999999" stroke-width="2"/>
+ <rect width="205" height="162" rx="16" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="102" y="29" text-anchor="middle" class="t">01 · VOXEL CELLS</text>
  <g fill="#FFD600" stroke="#BFA100" stroke-width="2">
  <path d="M50 66 78 50 106 66 78 82Z"/><path d="M50 66v33l28 16V82Z"/><path d="M78 82v33l28-16V66Z"/>
@@ -16,7 +16,7 @@
  <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
 </g>
 <g transform="translate(265 130)">
- <rect width="205" height="162" rx="16" fill="#E6E6E6" stroke="#999999" stroke-width="2"/>
+ <rect width="205" height="162" rx="16" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="102" y="29" text-anchor="middle" class="t">02 · SPATIAL INDEX</text>
  <g stroke="#BFA100" stroke-width="2" fill="#141414">
   <path d="M57 55h92v73H57z"/><path d="M87 55v73m31-73v73M57 91h92"/>
@@ -25,14 +25,14 @@
  <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
 </g>
 <g transform="translate(494 130)">
- <rect width="205" height="162" rx="16" fill="#E6E6E6" stroke="#999999" stroke-width="2"/>
+ <rect width="205" height="162" rx="16" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="102" y="29" text-anchor="middle" class="t">03 · STRUCTURES</text>
  <g stroke="#BFA100" stroke-width="2" fill="#141414"><path d="M102 50 57 82h90Z"/><path d="M102 50v32M57 82l-22 42h44Zm90 0-22 42h44ZM80 124v-31h44v31Z" fill="#E6E6E6"/></g>
  <text x="102" y="154" text-anchor="middle" class="p">octrees · DDA · graph Laplacians</text>
  <path d="M214 81h36m-9-9 9 9-9 9" class="a"/>
 </g>
 <g transform="translate(723 130)">
- <rect width="205" height="162" rx="16" fill="#E6E6E6" stroke="#999999" stroke-width="2"/>
+ <rect width="205" height="162" rx="16" fill="#1A1A1A" stroke="#262626" stroke-width="2"/>
  <text x="102" y="29" text-anchor="middle" class="t">04 · GEOMETRY</text>
  <g fill="#999999" stroke="#1A1A1A" stroke-width="2"><path d="M48 112 80 58h55l29 54-29 21H80Z"/><path d="M80 58 92 77h55M48 112h116M92 77l-12 56"/></g>
  <text x="102" y="154" text-anchor="middle" class="p">exposed-face surface meshing</text>
