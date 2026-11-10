@@ -2,9 +2,9 @@
 
 ## Product direction
 
-SAMBU Studio is a separate tooling package around the SAMBU language and Neo-Modern Developer workflow. The interpreter stays small and dependency-free. Studio services are delivered as Python packages and CLI tools first, then can be exposed through LSP or a graphical Electron/Tauri + Monaco shell.
+SAMBU Studio is a separate tooling package around the SAMBU language and integrated developer workflow. The interpreter stays small and dependency-free. Studio services are delivered as Python packages and CLI tools first, then can be exposed through LSP or a graphical Electron/Tauri + Monaco shell.
 
-“No intro build” means project inspection should return useful information without launching external services or heavyweight workspace bootstrapping. “Sharp transitions”, “layered slices” and “stereo mastering” translate into fast context navigation, code folding, structural views and consistent workspace organization—not literal audio effects.
+Project inspection should return useful information without launching external services or heavyweight workspace bootstrapping. The UI target is low-latency context navigation, hierarchical code folding, structural views and consistent workspace presentation.
 
 ### Typed AST and source ranges
 
@@ -79,7 +79,7 @@ Queue actions are read-only initially. DLQ replay, purge, cache mutation, deploy
 
 ## Graphite Night theme
 
-## Historical typed-AST milestone (0.5.1)
+## Typed-AST compatibility milestone (0.5.1)
 
 The core introduced immutable `SourcePosition` and `SourceSpan` values, end-exclusive token spans, stable lexical/parser diagnostic codes, and an immutable typed AST through `parse_ast()`. Every statement and expression node carries a source span. `parse()` remains backward-compatible and returns the established tuple AST; `Program.to_legacy()` is the explicit conversion path.
 
@@ -104,7 +104,7 @@ The document outline currently includes top-level functions, classes, interfaces
 CLI examples:
 
 ~~~bash
-sambu ide inspect examples/mulberry_charlotte.sambu
+sambu ide inspect examples/scalar_scaling_fixture.sambu
 sambu ide inspect examples/mulberry_charlotte.sambu --format json
 sambu ide workspace examples
 sambu ide complete actor
