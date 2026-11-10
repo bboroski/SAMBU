@@ -1,6 +1,6 @@
 # SAMBU Text Craft Diagnostics
 
-SAMBU's text-craft layer turns a draft into inspectable evidence without pretending that literature can be reduced to a single quality score. It is useful for lyric writing, spoken-word drafts, prose, and multilingual experiments.
+SAMBU's text-craft layer turns a draft into inspectable evidence without pretending that literature can be reduced to a single quality score. It is useful for lyric writing, spoken-word drafts, prose, scripts, and multilingual experiments.
 
 ## Design principles
 
@@ -8,52 +8,76 @@ SAMBU's text-craft layer turns a draft into inspectable evidence without pretend
 2. **Rhyme as a network.** Look for internal echoes, end-word families, and multisyllabic patterns; do not force every line to rhyme.
 3. **Sound carries structure.** Use repeated consonant onsets and vowel nuclei deliberately, then read the line aloud to verify the actual effect.
 4. **Meaning may recur with a changed function.** Repetition is useful when the returning word or image develops, not when it merely fills space.
-5. **Register shifts need intent.** Conversation, satire, absurdity, technical language, and epic imagery can coexist when the transition is controlled.
+5. **Register shifts need intent.** Conversation, satire, absurdity, technical language, and elevated imagery can coexist when the transition is controlled.
 6. **Naturalness is a constraint.** A dense line must remain speakable and intelligible; metrics are diagnostic signals, not targets to maximize.
 7. **Protect the author's voice.** A deliberate colloquialism, dialect form, stress mark, neologism, or broken phrase must not be auto-corrected as a typo.
+8. **Preserve structure.** Section labels, line order, refrains, punctuation, and authorial casing are source data, not decoration to discard.
 
 ## Built-ins
 
 ### text_profile(text)
 
-Returns a record containing character_count, line_count, nonempty_line_count, word_count, unique_word_count, lexical_diversity, average_words_per_line, letter_count, punctuation_count, and top_words (up to ten word/count records ordered by frequency).
+Returns character_count, line_count, nonempty_line_count, word_count, unique_word_count, lexical_diversity, average_words_per_line, letter_count, punctuation_count, and top_words.
 
 ### prosody_profile(text)
 
-Returns line-level records plus aggregate indicators: syllable_counts, average_syllables_per_line, syllable_variance, syllable_range, rhyme_groups, rhyme_density, alliterative_line_count, alliteration_density, and lines. Each line record contains line_number, text, word_count, syllable_count, end_word, rhyme_key, and has_alliteration.
+Returns line-level records plus aggregate indicators: syllable_counts, average_syllables_per_line, syllable_variance, syllable_range, rhyme_groups, rhyme_density, alliterative_line_count, alliteration_density, internal_rhyme_line_count, internal_rhyme_density, marked_case_words, marked_case_word_count, and lines.
+
+Each line record includes its source line number, original text, word count, estimated syllable count, final word, approximate rhyme key, alliteration flag, and internal rhyme groups. Internal rhyme keys are spelling heuristics, not phonetic transcriptions.
+
+Mixed-case tokens such as вОды are surfaced as marked_case_words. This is a preservation cue: the author may be marking emphasis or performance stress. The analyzer does not decide which syllable is stressed, and it never rewrites the token.
+
+### text_structure_profile(text)
+
+Recognizes common bracketed or standalone section markers, including:
+
+- [Intro], [Verse], [Verse 2];
+- [Pre-Chorus], [Chorus], [Hook], [Bridge], [Outro];
+- [Интро], [Куплет], [Куплет 2], [Припев], [Хук], [Бридж], [Аутро].
+
+It returns section labels and kinds, source line ranges, line and word counts, exact repeated chorus blocks (refrain_groups), and repeated non-empty lines. Text outside a recognized heading is retained as a body section. Unknown bracket labels remain custom; they are not silently discarded.
+
+A refrain is grouped only when its normalized written lines match exactly. Near-duplicate choruses, melodic variants, and paraphrases are not inferred.
+
+### language_mix_profile(text)
+
+Counts words written in Latin, Cyrillic, other, or mixed scripts and identifies lines containing both Latin and Cyrillic words. This detects visible writing-system changes, not a definitive natural language. In particular, Russian and Ukrainian both use Cyrillic; the analyzer does not pretend that script alone can reliably distinguish them.
 
 ### syllables(word) and rhyme_key(word)
 
-syllables estimates syllables by counting vowel nuclei. rhyme_key produces a rough spelling-based ending from the final vowel to the end of the word. Both are deterministic and work with common Cyrillic and Latin vowel sets.
+syllables estimates syllables by counting vowel nuclei. rhyme_key produces a rough spelling-based ending from the final vowel to the end of the word. Both are deterministic and support common Cyrillic and Latin vowel sets.
 
 ## Example
 
-    let draft = "Город хранит недосказанный разговор\nВетер разбудит забытый двор"
-    let language = text_profile(draft)
+    let draft = "[Verse 1]\\nПишу короткий фрагмент\\n[Chorus]\\nA melody returns\\n[Припев]\\nA melody returns"
+    let structure = text_structure_profile(draft)
+    let mix = language_mix_profile(draft)
     let sound = prosody_profile(draft)
-    print(language.word_count)
-    print(language.lexical_diversity)
+
+    print(structure.section_count)
+    print(structure.refrain_groups[0].repeat_count)
+    print(mix.code_switch_line_count)
     print(sound.syllable_counts)
-    print(sound.rhyme_groups)
-    print(syllables("разговор"))
-    print(rhyme_key("разговор"))
+    print(sound.internal_rhyme_density)
 
 ## A repeatable refinement loop
 
-1. **Lock intent.** Identify the speaker, target, emotional temperature, core images and facts that must survive revision.
-2. **Write in a speakable voice.** Establish the natural spoken phrase before decorating it.
-3. **Tune rhythm first.** Compare line lengths and syllable movement; change pauses, stress placement and line breaks before adding more words.
-4. **Build the sound network.** Strengthen internal echoes, multisyllabic rhyme families, consonant runs and vowel patterns. Keep end rhymes only where they help.
-5. **Make each return do new work.** Repeated words, images and refrains should gain a second meaning, change the scene or raise the stakes.
-6. **Separate error from intention.** Classify unusual spelling, colloquial grammar, marked stress and neologisms as intentional, accidental or uncertain. Correct only clear mistakes; ask before normalizing uncertain forms.
-7. **Read aloud and re-check.** A line that looks impressive but cannot be performed naturally needs another pass. Re-run the diagnostics after each meaningful revision.
+1. **Lock intent.** Identify the speaker, target, emotional temperature, core images, and facts that must survive revision.
+2. **Map composition.** Mark intro, verses, pre-chorus, chorus, bridge, and outro where they exist. Keep section order explicit.
+3. **Write in a speakable voice.** Establish the natural spoken phrase before decorating it.
+4. **Tune rhythm first.** Compare line lengths and syllable movement; change pauses, stress placement, and line breaks before adding more words.
+5. **Build the sound network.** Strengthen internal echoes, multisyllabic rhyme families, consonant runs, and vowel patterns. Keep end rhymes only where they help.
+6. **Track language and register.** Treat code-switching, dialect, colloquial speech, technical vocabulary, satire, and absurdity as intentional possibilities, not automatic errors.
+7. **Make each return do new work.** Repeated words, images, and refrains should gain a second meaning, change the scene, or raise the stakes.
+8. **Separate error from intention.** Classify unusual spelling, colloquial grammar, marked casing, and neologisms as intentional, accidental, or uncertain. Correct only clear mistakes; ask before normalizing uncertain forms.
+9. **Read aloud and re-check.** A line that looks impressive but cannot be performed naturally needs another pass. Re-run the diagnostics after each meaningful revision.
 
 ### Reusable refinement instruction
 
-Preserve the author's intent, point of view and distinctive vocabulary. Prioritize speakable rhythm, then purposeful sound design, then semantic precision. Use internal and multisyllabic rhyme without forcing every line to match. Let humor, absurdity, technical language, satire and elevated imagery shift registers deliberately. Prefer fresh, concrete phrasing over filler and stock expressions. Treat repetition as development, not padding. Do not silently erase dialect, profanity, stress marks, neologisms or intentional grammatical breaks. Separate objective spelling/grammar errors from stylistic choices, and explain uncertain corrections instead of imposing them. Never optimize a numerical metric at the expense of clarity, meaning or performance.
+Preserve the author's intent, point of view, section order, and distinctive vocabulary. Prioritize speakable rhythm, then purposeful sound design, then semantic precision. Use internal and multisyllabic rhyme without forcing every line to match. Let humor, absurdity, technical language, satire, and elevated imagery shift registers deliberately. Prefer fresh, concrete phrasing over filler and stock expressions. Treat repetition as development, not padding. Do not silently erase dialect, profanity, code-switching, marked casing, neologisms, or intentional grammatical breaks. Separate objective spelling/grammar errors from stylistic choices, and explain uncertain corrections instead of imposing them. Never optimize a numerical metric at the expense of clarity, meaning, or performance.
 
 ## Limits and interpretation
 
-These functions are diagnostics, not a grammar corrector, dictionary, speech recognizer, or literary judge. Syllable counts are estimates based on written vowel nuclei; they do not infer lexical stress, pronunciation, dialect, or elision. Rhyme keys compare written endings from the last vowel and can produce false positives or miss true phonetic rhymes. Alliteration currently checks repeated consonant initials within one line. Read the text aloud and use human judgment before changing a draft.
+These functions are diagnostics, not a grammar corrector, dictionary, speech recognizer, or literary judge. Syllable counts are estimates based on written vowel nuclei; they do not infer lexical stress, pronunciation, dialect, or elision. Rhyme keys compare written endings from the last vowel and can produce false positives or miss true phonetic rhymes. Alliteration currently checks repeated consonant initials within one line. Section and refrain recognition uses a small explicit heading vocabulary and exact normalized text matching. Language-mix analysis identifies writing systems rather than natural languages.
 
-The analyzer never rewrites the source text. In particular, non-standard spelling, colloquial grammar, profanity, code-switching, marked stress, and intentional phonetic distortion remain the author's decisions.
+The analyzer never rewrites the source text. Non-standard spelling, colloquial grammar, profanity, code-switching, marked stress, and intentional phonetic distortion remain the author's decisions.
