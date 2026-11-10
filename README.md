@@ -264,3 +264,10 @@ SAMBU — мовний та інструментальний шар. Tkinter IDE
 - **Any OS:** run `python one.py` for the default build, verification and launch flow supported by this project.
 - **Verification only:** run `python one.py check`. For embedded modules, host checks do not replace board, fixture or target qualification.
 - **Build only:** run `python one.py build` where the project exposes a separate build step.
+
+
+---
+
+## Duck UI system
+
+This repository follows the shared black/graphite and signal-yellow visual contract for its applicable user-facing tools. See [Duck UI System](docs/DUCK_UI_SYSTEM.md), the canonical [design tokens](design/duck-ui.tokens.json), and the scalable [duck mark](assets/duck-ui/duck-mark.svg). UI previews are explicitly distinguished from real runtime screenshots; embedded cores remain presentation-agnostic.
