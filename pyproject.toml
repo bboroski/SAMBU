@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sambu-language"
 version = "0.11.0"
-description = "A Python-hosted scientific systems language with actors, project tooling, headless IDE services and sparse voxel systems"
+description = "Python-hosted scientific systems language and developer toolkit with Pascal, Delphi and Fortran source compatibility profiles"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "SAMBU contributors" }]
-keywords = ["programming-language", "scientific-computing", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics", "text-analysis", "prosody", "rhetoric", "rhyme", "workflow-modeling", "accreditation-records", "batch-planning", "text-mining", "filtering", "rule-engine", "data-quality", "04coq", "voxel-computing", "sparse-octree", "spectral-graph-theory", "game-engine-tools", "avian-physiology", "actor-model", "cooperative-scheduling", "supervision", "code-sampling", "failure-ledger", "developer-tools", "headless-ide"]
+keywords = ["programming-language", "scientific-systems-language", "pascal", "delphi", "object-pascal", "fortran", "dialect-transpiler", "scientific-computing", "dimensional-analysis", "statistical-mechanics", "boltzmann", "physics", "magento", "adobe-commerce", "rabbitmq", "architecture-modeling", "audio-production", "community-operations", "game-mechanics", "text-analysis", "prosody", "rhetoric", "rhyme", "workflow-modeling", "accreditation-records", "batch-planning", "text-mining", "filtering", "rule-engine", "data-quality", "04coq", "voxel-computing", "sparse-octree", "spectral-graph-theory", "game-engine-tools", "avian-physiology", "actor-model", "cooperative-scheduling", "supervision", "code-sampling", "failure-ledger", "developer-tools", "headless-ide"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3",

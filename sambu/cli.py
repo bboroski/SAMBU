@@ -202,6 +202,43 @@ def _ide(argv: list[str]) -> int:
         return 2
 
 
+
+def _dialect(argv: list[str]) -> int:
+    """Run, check, or emit one of the supported SAMBU dialect profiles."""
+    from .dialects import DialectSyntaxError, transpile
+    from .parser import parse_ast
+
+    parser = argparse.ArgumentParser(prog="sambu dialect")
+    parser.add_argument("profile", choices=("pascal", "delphi", "fortran"))
+    parser.add_argument("file", type=Path, help="source file written in the selected dialect subset")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="translate and parse-check without executing")
+    mode.add_argument("--show-translated", action="store_true", help="print the generated canonical SAMBU source")
+    mode.add_argument("--emit-sambu", type=Path, help="write generated canonical SAMBU source to this path")
+    args = parser.parse_args(argv)
+
+    try:
+        source = args.file.read_text(encoding="utf-8")
+        result = transpile(source, args.profile)
+        if args.check:
+            parse_ast(result.generated_source)
+            print(f"SAMBU {result.dialect} profile: syntax OK ({len(result.source_lines)} generated lines)")
+            return 0
+        if args.show_translated:
+            print(result.generated_source, end="")
+            return 0
+        if args.emit_sambu is not None:
+            args.emit_sambu.write_text(result.generated_source, encoding="utf-8")
+            print(f"Generated SAMBU source: {args.emit_sambu}")
+            return 0
+        execute(result.generated_source)
+        return 0
+    except (DialectSyntaxError, SambuSyntaxError, SambuRuntimeError, RuntimeError, ValueError, TypeError, ZeroDivisionError, IndexError, AttributeError, OSError) as exc:
+        print(f"{args.file}: {exc}", file=sys.stderr)
+        return 1
+
+
+
 def main(argv: list[str] | None = None) -> int:
     arguments = list(sys.argv[1:] if argv is None else argv)
     if arguments and arguments[0] == "new":
@@ -214,6 +251,8 @@ def main(argv: list[str] | None = None) -> int:
         return _ide(arguments[1:])
     if arguments and arguments[0] == "lexicon":
         return _lexicon(arguments[1:])
+    if arguments and arguments[0] == "dialect":
+        return _dialect(arguments[1:])
 
     parser = argparse.ArgumentParser(
         prog="sambu",

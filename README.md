@@ -8,7 +8,7 @@
 
 **A small language with a wide horizon.**
 
-An experimental, Python-hosted language and toolkit for scientific calculation, explicit models, system architecture, workflows and sparse voxel worlds.
+An experimental Python-hosted programming language and developer toolkit for scientific computing, dimensional analysis, explicit models, bounded concurrency, workflow automation and sparse voxel systems. SAMBU also includes bounded Pascal-style, Delphi/Object Pascal-style and Fortran-style source compatibility profiles that translate supported syntax into canonical SAMBU.
 
 [![Version](https://img.shields.io/badge/version-0.11.0--alpha-536D8E?style=for-the-badge)](https://github.com/bboroski/SAMBU)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -68,6 +68,7 @@ A Python API is not automatically a language keyword or built-in. Each capabilit
 - Bounded actor mailboxes, sequential actor-state transitions, dead-letter capture and hierarchical restart supervision.
 - Typed, bounded, non-blocking software channels.
 - Explicit runtime diagnostics with source locations.
+- Pascal-style, Delphi/Object Pascal-style and Fortran-style source compatibility profiles, translated through the canonical SAMBU parser and interpreter.
 
 ### Science and numeric modeling
 
@@ -233,6 +234,22 @@ sambu examples/articulatory_intro.sambu
 ```
 
 The repository contains additional examples for workflows, text craft, territory models, community planning, queue design and other domain libraries.
+
+### Run the Pascal, Delphi and Fortran compatibility profiles
+
+The dialect bridge supports a documented procedural subset, not complete source or ABI compatibility with the original compilers and frameworks.
+
+```bash
+sambu dialect pascal examples/dialect_apps/pascal/invoice_calculator.pas
+sambu dialect delphi examples/dialect_apps/delphi/actor_message_service.dpr
+sambu dialect fortran examples/dialect_apps/fortran/thermal_energy_model.f90
+
+# Validate without executing, or inspect the canonical translation
+sambu dialect fortran examples/dialect_apps/fortran/maxwell_speed_profile.f90 --check
+sambu dialect pascal examples/dialect_apps/pascal/probability_lab.pas --show-translated
+```
+
+Each profile has ten executable console examples. See the [dialect compatibility matrix and limitations](docs/DIALECT_COMPATIBILITY.md).
 
 ## 🗣️ Articulatory syntax — 200 native words
 
@@ -536,6 +553,8 @@ See the [Cripple Archetype Engineering Charter](docs/CRIPPLE_ARCHETYPE_CHARTER.m
 - [SAMBU Wiki — project encyclopedia](wiki/README.md)
 - [Language reference](docs/LANGUAGE.md)
 - [200-word articulatory syntax](docs/ARTICULATORY_SYNTAX.md)
+- [GitHub language identity, TextMate grammar and Linguist admission status](docs/EDITOR_AND_GITHUB_LANGUAGE_SUPPORT.md)
+- [Pascal, Delphi and Fortran dialect compatibility matrix and 30 applications](docs/DIALECT_COMPATIBILITY.md)
 - [Frameworks: Judo, Aikido and Jiu-Jitsu](docs/FRAMEWORKS.md)
 - [Percentage arithmetic](docs/PERCENTAGES.md)
 
