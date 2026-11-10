@@ -83,6 +83,21 @@ These functions are diagnostics, not a grammar corrector, dictionary, speech rec
 The analyzer never rewrites the source text. Non-standard spelling, colloquial grammar, profanity, code-switching, marked stress, and intentional phonetic distortion remain the author's decisions.
 
 
+## Compact hook diagnostics
+
+### hook_profile(text)
+
+The hook profile complements section-level chorus extraction with a line-level compact-form check. It reports:
+
+- whether the input contains 2–4 non-empty lines;
+- approximate syllable counts and their range;
+- approximate end-rhyme spelling groups and density;
+- internal spelling echoes;
+- repeated words across lines and exact repeated lines;
+- explicit warnings when the hook lies outside the compact range or has no repeated end-rhyme/lexical anchor.
+
+This is a revision aid, not a predictor of audience response, musical catchiness, semantic coherence, natural stress or melody. A useful hook may deliberately break these heuristics. The analyzer does not rewrite the input.
+
 ## Performance and delivery cues
 
 ### performance_cues_profile(text)
