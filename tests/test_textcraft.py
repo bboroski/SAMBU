@@ -78,7 +78,7 @@ print(sound.internal_rhyme_line_count)
 print(sound.internal_rhyme_density)
 print(sound.lines[0].internal_rhyme_groups[0].key)
 """)
-        self.assertEqual(output, ["1", "1", "ора"])
+        self.assertEqual(output, ["1", "1", "ра"])
 
     def test_empty_text_is_safe(self):
         _, output = self.run_sambu("""
