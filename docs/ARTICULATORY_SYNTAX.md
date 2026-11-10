@@ -3,7 +3,7 @@
 **Specification:** AS-1  
 **Baseline:** SAMBU 0.11 alpha  
 **Status:** implemented, experimental  
-**Word count:** 200 unique lexical forms — 25 grammar forms, 129 built-in forms, 46 reserved forms.
+**Word count:** 200 unique lexical forms — 25 grammar forms, 137 built-in forms, 38 reserved forms.
 
 ## 1. Design intent
 
