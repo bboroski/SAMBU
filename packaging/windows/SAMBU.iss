@@ -13,7 +13,7 @@ AppVersion={#AppVersion}
 AppPublisher=SAMBU Contributors
 DefaultDirName={autopf}\SAMBU
 DefaultGroupName=SAMBU
-OutputDir=dist-installer
+OutputDir=..\\..\\dist-installer
 OutputBaseFilename={#AppOutput}
 ArchitecturesInstallIn64BitMode=x64
 PrivilegesRequired=admin
@@ -29,7 +29,7 @@ VersionInfoDescription=SAMBU language and developer toolkit
 Source: "dist\sambu.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\SAMBU Command Prompt"; Filename: "{cmd}"; Parameters: "/K ""set PATH={app};%PATH%"""; WorkingDir: "{app}"
+Name: "{group}\SAMBU CLI"; Filename: "{app}\sambu.exe"; WorkingDir: "{app}"
 Name: "{group}\Uninstall SAMBU"; Filename: "{uninstallexe}"
 
 [Registry]
