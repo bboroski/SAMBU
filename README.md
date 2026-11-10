@@ -38,7 +38,7 @@ SAMBU поєднує мову для програм <code>.sambu</code> з Pytho
 | **Мовне ядро** | Lexer/parser, незмінний AST із source spans, області видимості, функції, обмежені цикли, масиви, записи, класи та наслідування. |
 | **Наукові обчислення** | SI-величини, перевірка розмірностей, фізичні константи, теплова енергія, швидкості Максвелла, фактори Больцмана, статистичні суми, ентропія та відтворюване семплювання. |
 | **Sparse voxel** | Обмежені чанки, афінні системи координат, Morton keys, побудова поверхонь, 3D DDA, sparse octrees, графові лапласіани та VOX interchange. |
-| **Інженерні модулі** | Judo — архітектурні графи; Aikido — маршрутизація inference; Jiu-Jitsu — UI/MVC/RBAC-моделі; workflow, trust-перевірки та оборотні патчі. |
+| **Інженерні модулі** | Nun — відтворювані початкові стани й граничні контракти; Judo — архітектурні графи; Aikido — маршрутизація inference; Jiu-Jitsu — UI/MVC/RBAC-моделі; workflow, trust-перевірки та оборотні патчі. |
 | **Runtime-експерименти** | Обмежені actor-mailbox, послідовна фіксація стану, dead-letter записи, supervision і типізовані програмні канали. Це не нативне паралельне виконання. |
 | **Інструменти** | CLI sambu, read-only аналізатор Magento XML sambu-studio, Tkinter IDE sambu-ide, sambu-test і SAMBU Machine. |
 | **Аналіз творчого тексту** | Детермінований розбір секцій, повторів припіву та компактних хуків, змішення письменностей, приблизна просодія, письмові performance-cues і дев’ять кластерів перевірюваних метаданих. |
@@ -210,7 +210,7 @@ sambu-test tests --repeat 2 --json
 ## Документація
 
 - [Артикуляційний синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Системна архітектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Nun: genesis і початкові умови](docs/NUN_GENESIS.md) · [Voxel Reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Вихідний код і тести](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
