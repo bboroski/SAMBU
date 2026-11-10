@@ -92,6 +92,6 @@ jobs:
           # Full branch scan on push/schedule/manual runs; differential PR scan on pull requests.
           blackducksca_scan_full: ${{ github.event_name != 'pull_request' }}
           # Keep the security gate explicit and consistent with the action's default policy.
-          blackducksca_scan_failure_severities: "CRITICAL,HIGH"
+          blackducksca_scan_failure_severities: "BLOCKER,CRITICAL"
           # Diagnostics are disabled to avoid uploading extra scan logs by default.
           include_diagnostics: false
