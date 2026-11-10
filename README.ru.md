@@ -161,7 +161,7 @@ sambu creative validate examples/creative_corpus_metadata.sample.json --json
 sambu examples/performance_cues.sambu
 ~~~
 
-См. [Text Craft](docs/text_craft.md), [Hook Craft и модели открытых систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) и [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md).
+См. [Text Craft](docs/text_craft.md), [Hook Craft и модели открытых систем](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md) и [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md), а также [Creative Learning](docs/CREATIVE_LEARNING.md).
 
 ## Инженерная доктрина
 
@@ -197,7 +197,7 @@ sambu-test tests --repeat 2 --json
 
 - [Артикуляционный синтаксис](docs/ARTICULATORY_SYNTAX.md) · [Инженерная доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Системная архитектура](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Creative Learning](docs/CREATIVE_LEARNING.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Исходный код и тесты](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Участие и лицензия
