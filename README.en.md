@@ -66,3 +66,12 @@ MIT. See [LICENSE](LICENSE).
 - **Any OS:** `python one.py` runs this project's default workflow; `python one.py check` runs headless verification.
 - Desktop/IDE projects launch their application after checks; system and embedded modules build and test their host version.
 - Host tests do not replace qualification on the target board, device, or production fixture.
+
+## NUN system and Android platform
+
+The canonical registry now includes two additional independent projects:
+
+- **NUN** — an early x86-64 OS boot foundation with pinned native adapters from Kloz, CO, SaintSI and the ReaperCripple supervisor.
+- **NUNLauncher** — an Android HOME application with app discovery, search and launch through LauncherApps.
+
+Fortran, Pascal and Delphi/Object Pascal are planned as user-space toolchains, runtimes and SDKs over a stable C ABI, not as privileged kernel code. See the [registry](ecosystem/registry.json) and [ecosystem architecture](docs/ECOSYSTEM_ARCHITECTURE.md).

@@ -6,7 +6,8 @@
   "governance": {
     "principle": "Independent repositories integrate through versioned manifests, explicit adapters and testable evidence; no repository is absorbed into a monolith.",
     "runtime_rule": "SAMBU's Python runtime is not a dependency of freestanding C modules. ToolNG contains a native C17 policy port, not the Python interpreter.",
-    "release_rule": "Each repository owns its releases and validation. Cross-repository compatibility is reported separately from local test status."
+    "release_rule": "Each repository owns its releases and validation. Cross-repository compatibility is reported separately from local test status.",
+    "operating_system_boundary": "NUN is a bare-metal x86-64 OS project; NUNLauncher is a standard Android HOME app. Language compilers and desktop/web tools remain user-space products and are not kernel dependencies."
   },
   "modules": [
     {
@@ -170,6 +171,53 @@
         "sambu-module-manifest-v1",
         "public-repository-metadata"
       ]
+    },
+    {
+      "id": "nun-os-kernel",
+      "repository": "bboroski/NUN",
+      "role": "x86-64-operating-system-kernel-and-system-services",
+      "runtime": [
+        "freestanding C11",
+        "x86-64 ELF64",
+        "Limine boot protocol"
+      ],
+      "maturity": "early-boot-foundation",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "nun.boot.handoff.v1",
+        "nun.serial.diagnostics.v1",
+        "nun.framebuffer.marker.v1",
+        "nun.pmm.pages.v1",
+        "nun.system.foundation.v1"
+      ],
+      "consumes": [
+        "fixed-width-status-abi",
+        "caller-owned-arena-memory",
+        "lifecycle-state-machine",
+        "fixed-capacity-heartbeat-registry"
+      ]
+    },
+    {
+      "id": "nunlauncher-android-home",
+      "repository": "bboroski/NUNLauncher",
+      "role": "android-home-launcher-and-application-catalog",
+      "runtime": [
+        "Android API 26+",
+        "Kotlin",
+        "Jetpack Compose",
+        "LauncherApps API"
+      ],
+      "maturity": "android-home-foundation",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "android.home.launcher.v1",
+        "android.launcherapps.catalog.v1",
+        "android.launcherapps.search.v1",
+        "android.launcherapps.dispatch.v1"
+      ],
+      "consumes": [
+        "android.launcherapps.api"
+      ]
     }
   ],
   "edges": [
@@ -249,6 +297,62 @@
       "kind": "optional-health-observation",
       "status": "adapter-ready",
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "kloz-platform",
+      "kind": "pinned-native-source",
+      "status": "implemented",
+      "scope": "Kloz arena, platform validation and resource budget sources are compiled into NUN and exercised by a bounded boot smoke check."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "co-lifecycle",
+      "kind": "pinned-native-source",
+      "status": "implemented",
+      "scope": "CO lifecycle callbacks are compiled into NUN and exercised with one deterministic lifecycle step."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "saintsi-assurance",
+      "kind": "pinned-native-source",
+      "status": "implemented",
+      "scope": "SaintSI health observation and CRC32 sources are compiled and smoke-tested; no watchdog authority is implied."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "reapercripple-hardware",
+      "kind": "supervisor-source-adapter",
+      "status": "implemented",
+      "scope": "The portable ReaperCripple supervisor state machine is linked; board-specific BSP and MMIO paths remain unqualified."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "sambu-core",
+      "kind": "user-space-toolchain",
+      "status": "planned",
+      "scope": "SAMBU supplies the language workbench, IDE, compiler tooling and declarative developer workflows in user space."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "toolng-diagnostics",
+      "kind": "diagnostic-schema-adapter",
+      "status": "planned",
+      "scope": "Only portable evidence and local report models are candidates; the Windows diagnostic application does not run in the kernel."
+    },
+    {
+      "from": "nun-os-kernel",
+      "to": "klipot-control-plane",
+      "kind": "registry-projection",
+      "status": "planned",
+      "scope": "Klipot presents manifests and capability plans; it does not execute kernel modules."
+    },
+    {
+      "from": "nunlauncher-android-home",
+      "to": "nun-os-kernel",
+      "kind": "optional-management-bridge",
+      "status": "planned",
+      "scope": "The Android launcher currently works independently; authenticated NUN bridge protocol is documented but not implemented."
     }
   ],
   "shared_contracts": {

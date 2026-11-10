@@ -6,7 +6,7 @@
 
 ## 1. Purpose
 
-SAMBU is the umbrella engineering platform for seven independently buildable repositories. It owns the ecosystem-level language, developer tooling, architectural models, module-manifest contract and canonical registry. The repositories below are specialized modules of one ecosystem, not directories to be collapsed into one source tree.
+SAMBU is the umbrella engineering platform for nine independently buildable repositories. It owns the ecosystem-level language, developer tooling, architectural models, module-manifest contract and canonical registry. The repositories below are specialized modules of one ecosystem, not directories to be collapsed into one source tree.
 
 The former **NUN Mesh** label is superseded as the ecosystem's public architecture name by **SAMBU Ecosystem**. Existing historical filenames and illustrations may retain the older wording until they are deliberately refreshed; that legacy wording does not define a runtime dependency.
 
@@ -16,13 +16,15 @@ The former **NUN Mesh** label is superseded as the ecosystem's public architectu
 
 ```mermaid
 flowchart TB
-    SAMBU["SAMBU\nLanguage · Policy · Tooling · Registry"]
-    KLOZ["Kloz\nPlatform ABI · Memory · Board boundary"]
-    CO["CO\nLifecycle · Bounded execution"]
-    SAINT["SaintSI\nHealth observation · Integrity"]
-    REAPER["ReaperCripple\nBSP · Calibration · Fixtures · MES"]
-    TOOL["ToolNG\nWindows diagnostics · Local evidence"]
-    KLIPOT["Klipot\nRegistry portal · Operator workbench"]
+    SAMBU["SAMBU\\nLanguage · Policy · Tooling · Registry"]
+    KLOZ["Kloz\\nPlatform ABI · Memory · Board boundary"]
+    CO["CO\\nLifecycle · Bounded execution"]
+    SAINT["SaintSI\\nHealth observation · Integrity"]
+    REAPER["ReaperCripple\\nBSP · Calibration · Fixtures · MES"]
+    TOOL["ToolNG\\nWindows diagnostics · Local evidence"]
+    KLIPOT["Klipot\\nRegistry portal · Operator workbench"]
+    NUN["NUN\\nx86-64 OS kernel · Boot · System ABI"]
+    NUNL["NUNLauncher\\nAndroid HOME · App catalog"]
 
     SAMBU -->|"manifest + architecture contract"| KLOZ
     SAMBU -->|"workflow + lifecycle contract"| CO
@@ -35,6 +37,14 @@ flowchart TB
     KLOZ -. "optional BSP adapter" .-> REAPER
     CO -. "optional heartbeat bridge" .-> SAINT
     SAINT -. "optional health observation" .-> REAPER
+    NUN -->|"pinned native sources + boot smoke checks"| KLOZ
+    NUN --> CO
+    NUN --> SAINT
+    NUN --> REAPER
+    SAMBU -->|"language SDK and policy tooling in user space"| NUN
+    TOOL -. "portable diagnostic schemas" .-> NUN
+    KLIPOT -. "manifest and capability projection" .-> NUN
+    NUNL -. "future authenticated management bridge" .-> NUN
 ```
 
 Solid lines are ecosystem-level contracts or an existing policy port. Dashed lines are optional native adapters; they must not be interpreted as mandatory link dependencies.
@@ -43,23 +53,27 @@ Solid lines are ecosystem-level contracts or an existing policy port. Dashed lin
 
 | Module | Responsibility owned by the repository | Runtime / implementation | Boundary |
 |---|---|---|---|
-| **SAMBU** | Language, engineering doctrine, developer tools, workflow descriptions, module schema and registry | Python 3.10+, experimental language runtime | Not an OS, native compiler, universal sandbox or automatic executor of external operations |
+| **SAMBU** | Language, engineering doctrine, developer tools, workflow descriptions, module schema and registry | Python 3.10+, experimental language runtime | Not a native compiler, universal sandbox or automatic executor of external operations |
 | **Kloz** | Fixed-width status ABI, caller-owned memory, versioned platform operations | Freestanding-oriented C11 | Board/CPU port owns MMIO ordering, interrupts, DMA/cache and reset semantics |
 | **CO** | Deterministic component lifecycle, bounded polling, fault retention and cleanup | Allocation-free C11 | Not an RTOS, thread scheduler or MMIO driver |
 | **SaintSI** | Fixed-capacity heartbeat registry, timeout observation and CRC-32 | Allocation-free C11 | Observer only; CRC-32 is not cryptographic and heartbeat is not proof of correctness |
 | **ReaperCripple** | BSP integration, staged bootstrap, pinout governance, production profiles, calibration, fixture recipes and MES events | C11 / CMake / target-specific toolchains | Host tests do not qualify a board, pinout, electrical limit, calibration or production profile |
-| **ToolNG** | Windows-side Apple USB observation, local reports and evidence quality gates | C17 / Win32 | Native application; it ports selected SAMBU policy rules and does not embed Python or execute `.sambu` programs |
+| **ToolNG** | Windows-side Apple USB observation, local reports and evidence quality gates | C17 / Win32 | Native application; selected policy rules are ported without embedding Python or executing SAMBU source files |
 | **Klipot** | Registry discovery, dependency presentation, contract catalog and operator-facing browser labs | Static HTML/CSS/JavaScript | Browser labs are simulations, not firmware execution, live telemetry or hardware evidence |
+| **NUN** | x86-64 bare-metal OS boot foundation, kernel entry, serial diagnostics, framebuffer marker, physical page allocation and system-service contract host | Freestanding C11 / ELF64 / Limine | Early boot scaffold only; no scheduler, user mode, full driver model, filesystem, network stack or production release |
+| **NUNLauncher** | Android HOME role, installed launchable-app catalog, local search and app dispatch | Kotlin / Android / Jetpack Compose / LauncherApps | Standard Android app; not a PC bootloader or Android kernel replacement; authenticated NUN bridge is not implemented |
 
 ## 4. Dependency and execution rules
 
 1. **SAMBU is the architecture and tooling authority, not a hidden runtime dependency.** Embedded C libraries remain buildable without Python, SAMBU, or Klipot.
-2. **Kloz is the lowest shared software boundary.** It provides explicit platform services to applications through versioned operations; higher layers do not reach directly into CPU-specific registers.
+2. **Kloz is the lowest shared software boundary.** It provides explicit platform services through versioned operations; higher layers do not reach directly into CPU-specific registers.
 3. **CO owns lifecycle transitions.** Its caller supplies callbacks and serializes access from independent execution contexts.
 4. **SaintSI observes progress.** A stale heartbeat or degraded result is input to an application policy, not permission to reset hardware or feed a watchdog.
 5. **ReaperCripple composes target-specific services.** It validates the exact MCU/SoC, package, board and schematic revision, fixture, calibration set and approved profile.
 6. **ToolNG remains a native Windows application.** Its SAMBU relationship is a reviewed native C17 port of selected policy and workflow rules, not a dependency on the Python package.
 7. **Klipot is a presentation/control plane.** It consumes a registry projection, but no embedded target links or trusts the portal to perform hardware actions.
+8. **NUN is a kernel target, not the place for every tool.** It consumes pinned C11 building blocks through checked boot-time adapters. SAMBU compiler services, ToolNG diagnostic UI and Klipot browser UI stay in user space. Fortran, Pascal and Delphi runtimes are also user-space toolchains and libraries; no language runtime is loaded into ring 0.
+9. **NUNLauncher is an Android HOME application.** It can launch activities through Android's LauncherApps API; it does not own firmware, Android init, kernel or boot partitions. Its NUN management bridge remains a future authenticated capability.
 
 No module receives filesystem, process, network, device or actuator authority merely because it appears in the registry. Every privileged operation requires an implemented adapter, explicit capability, caller authorization and independent evidence.
 
@@ -90,7 +104,7 @@ The canonical ecosystem registry is maintained in SAMBU at `ecosystem/registry.j
 
 | Connection | State | Interpretation |
 |---|---|---|
-| SAMBU → all modules | Contract defined | The manifests and ownership rules exist; this is not a universal plugin loader |
+| SAMBU → all modules | Contract defined | Manifests and ownership rules exist; this is not a universal plugin loader |
 | SAMBU → ToolNG | Existing native policy port | Selected rules are implemented in C17; there is no Python runtime linkage |
 | SAMBU → Klipot | Registry mirrored | The portal reflects the ecosystem registry; automated synchronization is not claimed |
 | Kloz → CO | Adapter-ready | The application may pass platform services through callback context |
@@ -98,6 +112,9 @@ The canonical ecosystem registry is maintained in SAMBU at `ecosystem/registry.j
 | Kloz → ReaperCripple | Adapter-ready | Target BSP and measurement callbacks remain board-specific |
 | CO → SaintSI | Adapter-ready | Heartbeat bridge is refreshed only after successful polling |
 | SaintSI → ReaperCripple | Adapter-ready | Health is observed; recovery and actuation remain application/board policy |
+| NUN → Kloz / CO / SaintSI / ReaperCripple | Early source integration | Pinned C sources compile into NUN; bounded smoke checks run during boot; target-specific BSP remains unqualified |
+| NUN → SAMBU / ToolNG / Klipot | User-space integration planned | IDE, diagnostic schemas and registry projection remain outside kernel privilege |
+| NUNLauncher → NUN | Planned | Android HOME app is independent today; no bridge transport or privileged RPC is implemented |
 
 ## 7. Local validation
 
@@ -112,6 +129,8 @@ Run checks in each repository using its own toolchain:
 | ReaperCripple | `cmake -S . -B build -DREAPER_BUILD_TESTS=ON && cmake --build build --parallel && ctest --test-dir build --output-on-failure` |
 | ToolNG | `cmake -S . -B build -A x64 -DBUILD_TESTING=ON` then build and CTest on Windows |
 | Klipot | Open `index.html` locally and run the repository's Pages/asset validation workflow |
+| NUN | `make check && make kernel` with recursive submodules initialized |
+| NUNLauncher | `gradle :app:assembleDebug` with Android SDK Platform 37 installed |
 
 These are documented repository commands, not a claim that they were executed during this registry change. Hardware qualification remains a separate gate.
 
@@ -124,4 +143,4 @@ These are documented repository commands, not a claim that they were executed du
 5. Define explicit evidence exchange for ToolNG and ReaperCripple without exporting private device or production data by default.
 6. Only after those contracts are stable, consider a supervised host-side module runner. It must not be described as OS sandboxing or native embedded orchestration.
 
-**Design rule:** one ecosystem, seven owners, explicit contracts, independent builds, evidence before claims.
+**Design rule:** one ecosystem, nine repositories, explicit contracts, independent builds, evidence before claims.
