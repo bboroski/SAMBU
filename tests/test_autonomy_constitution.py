@@ -88,7 +88,7 @@ class AutonomyConstitutionTests(unittest.TestCase):
         self.assertEqual(ids, [f"AUT-{i:02d}" for i in range(1, 101)])
         self.assertIn("SAM-Q-SEC-001", catalog)
         self.assertIn("LANG-001–LANG-020", catalog)
-        self.assertIn("LANG-091–LANG-101", catalog)
+        self.assertIn("LANG-091–101", catalog)
 
     def test_autonomy_boundaries_are_not_overclaimed(self):
         for phrase in (
