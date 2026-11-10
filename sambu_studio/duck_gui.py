@@ -7,6 +7,7 @@ project. JSON report export is an explicit user action.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 import json
 from pathlib import Path
 import queue
@@ -109,6 +110,9 @@ class DuckStudioApp:
         self.workspace: Path | None = None
         self.report: Any | None = None
         self.payload: dict[str, Any] | None = None
+        self.report_history_dir = Path.home() / ".sambu" / "duck-studio" / "reports"
+        self.report_history_files: list[Path] = []
+        self.history_picker: Any | None = None
         self.active_view = "overview"
         self.busy = False
         self.events: queue.Queue[tuple[str, Any]] = queue.Queue()
@@ -424,11 +428,90 @@ class DuckStudioApp:
         text.configure(state="disabled")
         self._button(detail, "Export JSON report", self.export_report, primary=True).pack(anchor="e", pady=(12, 0))
 
+    def _report_history(self) -> list[Path]:
+        """Return recent locally persisted reports, newest first."""
+        try:
+            files = list(self.report_history_dir.glob("inspection-*.json"))
+            return sorted(files, key=lambda item: item.stat().st_mtime_ns, reverse=True)
+        except OSError:
+            return []
+
+    def _persist_report(self) -> bool:
+        """Persist a completed report locally; never block its in-app preview."""
+        if self.payload is None:
+            return False
+        try:
+            self.report_history_dir.mkdir(parents=True, exist_ok=True)
+            generated = datetime.now().astimezone()
+            filename = f"inspection-{generated.strftime('%Y%m%d-%H%M%S-%f')}.json"
+            envelope = {
+                "schema_version": 1,
+                "generated_at": generated.isoformat(timespec="seconds"),
+                "workspace": self.workspace.name if self.workspace else None,
+                "report": self.payload,
+            }
+            target = self.report_history_dir / filename
+            target.write_text(
+                json.dumps(envelope, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            # Keep a bounded local history; explicit exports are not touched.
+            for expired in self._report_history()[40:]:
+                try:
+                    expired.unlink()
+                except OSError:
+                    pass
+            return True
+        except (OSError, TypeError, ValueError):
+            return False
+
+    def _restore_report_history(self, _event: Any = None) -> None:
+        """Load a previously saved report into the existing in-app preview."""
+        if self.history_picker is None:
+            return
+        selected = self.history_picker.get()
+        source = next(
+            (item for item in self.report_history_files if item.name == selected),
+            None,
+        )
+        if source is None:
+            return
+        try:
+            envelope = json.loads(source.read_text(encoding="utf-8"))
+            payload = envelope.get("report", envelope)
+            if not isinstance(payload, dict):
+                raise ValueError("Saved report does not contain an object.")
+            self.payload = payload
+            self.report = None
+            workspace_name = envelope.get("workspace") or "saved workspace"
+            self.show_view("reports")
+            self._notify(f"Opened local report · {workspace_name}", "blue")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            self._notify(f"Could not open saved report: {exc}", "red")
+
     def _show_reports(self) -> None:
         self.active_view = "reports"
         self._clear_body()
         self._heading("Reports & findings", "Every finding keeps its original diagnostic code and source file.")
         self._workspace_controls(self.body)
+        self.report_history_files = self._report_history()[:40]
+        self.history_picker = None
+        if self.report_history_files:
+            history_bar = self.tk.Frame(self.body, bg=PALETTE["page"])
+            history_bar.pack(fill="x", pady=(0, 10))
+            self._label(history_bar, "Saved local reports", size=9, weight="bold").pack(side="left", padx=(0, 12))
+            self.history_picker = self.ttk.Combobox(
+                history_bar,
+                values=[item.name for item in self.report_history_files],
+                state="readonly",
+                width=42,
+            )
+            self.history_picker.pack(side="left", fill="x", expand=True)
+            self.history_picker.bind("<<ComboboxSelected>>", self._restore_report_history)
+            self._label(
+                history_bar, "Stored locally · newest first · last 40",
+                size=8, color=PALETTE["muted"],
+            ).pack(side="right", padx=(12, 0))
         card = self._card(self.body, 18, 17)
         card.pack(fill="both", expand=True)
         summary = summary_from_report(self.payload or {"summary": {}})
@@ -500,6 +583,7 @@ class DuckStudioApp:
                 if kind == "success":
                     self.report = value
                     self.payload = value.to_dict()
+                    saved_locally = self._persist_report()
                     self.show_view(self.active_view)
                     summary = summary_from_report(value)
                     tone = "green" if not summary.errors and not summary.warnings else "amber" if not summary.errors else "red"
@@ -507,7 +591,8 @@ class DuckStudioApp:
                     warning_word = "warning" if summary.warnings == 1 else "warnings"
                     self._notify(
                         f"Inspection complete · {summary.files} files · "
-                        f"{summary.errors} {error_word} · {summary.warnings} {warning_word}",
+                        f"{summary.errors} {error_word} · {summary.warnings} {warning_word}"
+                        + (" · saved locally" if saved_locally else " · local history unavailable"),
                         tone,
                     )
                 else:
