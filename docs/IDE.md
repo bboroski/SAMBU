@@ -2,9 +2,9 @@
 
 ## Product direction
 
-SAMBU Studio is a separate tooling package around the SAMBU language and Neo-Modern Developer workflow. The interpreter stays small and dependency-free. Studio services are delivered as Python packages and CLI tools first, then can be exposed through LSP or a graphical Electron/Tauri + Monaco shell.
+SAMBU Studio is the graphical desktop workbench for the SAMBU language. It is shipped as a standard-library Tkinter application, launched with `sambu-ide`. The editor consumes the existing `SambuIDE` document-inspection and completion API; the interpreter and parser remain independent of the GUI.
 
-“No intro build” means project inspection should return useful information without launching external services or heavyweight workspace bootstrapping. “Sharp transitions”, “layered slices” and “stereo mastering” translate into fast context navigation, code folding, structural views and consistent workspace organization—not literal audio effects.
+The workspace is organized around a multi-document editor, bounded project explorer, document outline, syntax diagnostics, task output and project actions. This is a practical desktop IDE milestone, not a claim that every planned compiler or language-service feature is complete.
 
 ### Typed AST and source ranges
 
@@ -85,29 +85,58 @@ The core introduced immutable `SourcePosition` and `SourceSpan` values, end-excl
 
 Token and AST offsets count Python Unicode code points; a future LSP adapter must convert them to the negotiated protocol encoding (commonly UTF-16).
 
-The current 0.11 headless IDE services are described above. The repository still does not ship a graphical editor, LSP server, semantic type/dimension analyzer, semantic tokens, scope-aware completion, hover/type inference, refactoring engine, live plot panel or debugger UI. This document distinguishes those roadmap targets from implemented services.
+## Desktop IDE: shipped capabilities
 
-## Headless IDE services (0.11.0)
-
-The current package exports `SambuIDE` from `sambu.ide`. It is a headless editor-service layer, not yet a graphical application or a Language Server Protocol server.
-
-Implemented operations:
-- `open_document(uri, source, version=1)`: validate a new versioned document snapshot, calculate its SHA-256 identity, count tokens and parse a typed AST.
-- `change_document(uri, source, version=...)`: accept only a newer version for an open URI, making stale editor updates visible.
-- `close_document(uri)`: release one document snapshot.
-- `complete(prefix, limit=50)`: return bounded prefix matches from the current keyword and builtin catalog. This is lexical completion, not scope-aware semantic completion.
-- `inspect_workspace(path)`: delegate to SAMBU Machine for bounded source parsing and architecture validation.
-- `sample_code(path, denominator=100, seed=0)`: delegate to deterministic AST sampling.
-
-The document outline currently includes top-level functions, classes, interfaces and traits, with class methods. Syntax errors are returned as source-aware diagnostics rather than crashing the inspection response. Document sizes are capped at 2 MB and the open-document count is bounded.
-
-CLI examples:
+Launch the graphical application after installing the project:
 
 ~~~bash
-sambu ide inspect examples/mulberry_charlotte.sambu
-sambu ide inspect examples/mulberry_charlotte.sambu --format json
-sambu ide workspace examples
-sambu ide complete actor
+python -m pip install -e .
+sambu-ide
+# equivalent module entry point
+python -m sambu_ide.app
 ~~~
 
-Still planned: graphical editor shell, LSP transport, semantic completion, symbol resolution, hover/type inference, refactoring, formatter, debugger UI, live execution preview and native source maps. The CLI and Python API are useful today without claiming those future services exist.
+The desktop application currently provides:
+
+- Multiple editable documents in tabs, UTF-8 open/save/save-as, unsaved-change prompts and a bounded file size.
+- A project explorer that skips common generated/dependency folders, avoids following symlinks and caps the number/depth of displayed nodes.
+- SAMBU syntax highlighting, line-number gutter, current-line indication, indentation, line-comment toggling, search/replace and go-to-line navigation.
+- Bounded lexical completion from the current SAMBU keyword/builtin catalog through `SambuIDE.complete()`.
+- Parsed outline for functions, classes, interfaces, traits and methods, plus source-located parser diagnostics.
+- Current-file execution through `python -m sambu`, workspace parse/architecture checks through SAMBU Machine, Python `unittest` discovery, Python package build through `python -m build`, and read-only Git status.
+- Asynchronous task execution with captured output, execution time limits and a stop action. Commands are passed as argument arrays with `shell=False`; the IDE does not provide a general-purpose shell or arbitrary command entry.
+- Russian and English interface labels and optional Apple-device diagnostics.
+
+Keyboard shortcuts:
+
+| Shortcut | Action |
+|---|---|
+| Ctrl+N / Ctrl+O | New buffer / open file |
+| Ctrl+Shift+O | Open project folder |
+| Ctrl+S | Save |
+| Ctrl+F / Ctrl+H | Find / replace |
+| Ctrl+G | Go to line |
+| Ctrl+/ | Toggle line comment |
+| Ctrl+Space | Keyword/builtin completion |
+| F5 | Run current SAMBU file |
+| F6 | Check workspace |
+| F7 | Run Python unit tests |
+| Shift+F5 | Request task termination |
+
+## Language-service boundary and roadmap
+
+The GUI is implemented, while the language services remain intentionally incremental. `SambuIDE` is the current headless service core:
+
+- `open_document(uri, source, version=1)` and `change_document(uri, source, version=...)` maintain versioned document snapshots, hashes, token counts and typed-AST parse diagnostics.
+- `close_document(uri)` releases a document snapshot.
+- `complete(prefix, limit=50)` returns bounded keyword and builtin prefix matches. It is lexical completion, not scope-aware semantic completion.
+- `inspect_workspace(path)` delegates bounded source parsing and declared architecture checks to SAMBU Machine.
+- `sample_code(path, denominator=100, seed=0)` delegates to deterministic AST sampling.
+
+The current outline is parser-derived. It does not yet resolve project-wide imports or references. The editor does not yet provide an LSP server, full type inference, effect/ownership analysis, semantic tokens, signature-aware hover, refactoring/rename, formatter, interactive debugger, live plot panel, native compiler or native source maps. Package build depends on the optional `build` Python package being installed.
+
+## Execution and trust boundary
+
+Running a source file executes it as the current operating-system user. The SAMBU `sealed` profile used by inspection is not an OS sandbox and does not constrain a process launched by the Run action. Only run source code from projects you trust. The workspace explorer and static checks do not upload project files or contact external services.
+
+The workspace checker reports only the checks its implementation performs; a green parse/architecture result is not proof of type safety, security, runtime correctness or production readiness. Git status is read-only: staging, committing, pushing, release signing and deployment remain explicit external operations.

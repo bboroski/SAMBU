@@ -40,7 +40,7 @@ SAMBU combines an interpreted language for .sambu programs with a Python package
 | **Sparse voxel systems** | Bounded chunks, affine frames, Morton keys, surface meshing, 3D DDA, sparse octrees, graph Laplacians and VOX interchange. |
 | **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; workflows, trust checks and reversible patching. |
 | **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, supervision and typed software channels. These are not native parallel execution. |
-| **Developer tools** | sambu CLI, sambu-studio read-only Magento XML inspector, sambu-ide Tkinter IDE shell, sambu-test and SAMBU Machine. |
+| **Developer tools** | sambu CLI, graphical sambu-ide desktop IDE, read-only Magento XML inspector, sambu-test and SAMBU Machine. |
 | **Creative-text analysis** | Deterministic section/refrain and compact-hook diagnostics, script-mix inspection, approximate prosody, explicit performance cues and nine-cluster metadata ontology (2026.12). |
 
 ### Articulatory syntax
@@ -129,13 +129,13 @@ lava(profile.rms)
 | Command | Purpose |
 |---|---|
 | sambu | Run files or inline code; generate project scaffolds. |
-| sambu-ide | Launch the lightweight Tkinter IDE. |
+| sambu-ide | Launch the graphical multi-document IDE with a project explorer, editor, diagnostics and production tasks. |
 | sambu-studio inspect PATH | Read-only inspection of supported Magento / Adobe Commerce XML. |
 | sambu-test tests --repeat 2 | Repeat tests and summarize outcome variation. |
 | sambu machine architecture | Validate declared architecture layers. |
 | sambu machine sample FILE --ratio 100 --seed 17 | Reproducible AST sampling. |
 
-The IDE includes editing, file open/save, F5 execution, output, diagnostics and RU/EN switching. It is not yet an LSP client. Machine supports architecture inspection and deterministic sampling, not complete static type/effect analysis or native compilation.
+SAMBU Studio provides a multi-document editor, project tree, syntax highlighting, bounded keyword/builtin completion, find/replace, symbol outline, parser diagnostics, file execution, test execution, workspace checks and Python package builds. The interface supports RU/EN. It is a graphical desktop IDE, but not yet an LSP client or a complete static type/effect analyzer. Machine checks parsing and declared architecture contracts; it is not a native compiler.
 
 Optional host adapters:
 
@@ -193,9 +193,9 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 ## Status and roadmap
 
-**Implemented:** interpreted language core, Python domain modules, scientific helpers, sparse voxel operations, selected actor/channel primitives, CLI tools, Machine inspection, IDE services and the Tkinter editor shell.
+**Implemented:** interpreted language core, Python domain modules, scientific helpers, sparse voxel operations, selected actor/channel primitives, CLI tools, Machine inspection, IDE services and the graphical SAMBU Studio desktop workbench.
 
-**Evolving:** static analysis, ownership/effect semantics, richer IDE integration, native toolchain stages and host/device adapters.
+**Evolving:** LSP, project-wide symbol/import resolution, static type/dimension/effect analysis, refactoring, debugger, formatter, native toolchain stages and host/device adapters.
 
 **Not represented as complete:** native compiler, self-hosting, C++ ABI compatibility, full Pascal/Delphi/Fortran compatibility, production web framework, automatic deployment, OS sandbox or full LSP IDE.
 
