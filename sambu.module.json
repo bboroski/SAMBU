@@ -1,7 +1,7 @@
 {
   "module_id": "sambu-core",
   "repository": "bboroski/SAMBU",
-  "display_name": "SAMBU",
+  "display_name": "SMAE — Scientific Modeling & Automation Environment",
   "version": "0.11.0-alpha",
   "role": "central-language-and-engineering-platform",
   "runtime": [
