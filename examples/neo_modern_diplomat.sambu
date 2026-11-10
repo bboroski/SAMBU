@@ -1,6 +1,6 @@
-# Entity Coordination Model: model a stakeholder network and a negotiation zone.
+# Entity Coordination Model: build an entity graph and compute an interval overlap.
 # The model describes influence paths and bargaining ranges; it does not
-# predict real diplomatic outcomes.
+# infer external intent or real-world outcomes.
 
 let entities = ["unit_a", "unit_b", "unit_c", "unit_d", "unit_e"]
 let edges = [
@@ -18,12 +18,12 @@ let reach = influence(graph, ["unit_a"], 3, 0.85)
 print("Entity graph metrics:")
 print(topology)
 print("Signal reach by entity:")
-for i in range(count(stakeholders)) {
-  print(stakeholders[i])
+for i in range(count(entitys)) {
+  print(entities[i])
   print(reach.scores[i])
 }
 
-# Overlap between the studio's offer and a partner's acceptable range.
+# Overlap between two configured operating ranges.
 let zone = negotiate(25, 40, 32, 50)
 if (zone.possible) {
   print("A valid operating interval exists:")
