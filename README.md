@@ -144,6 +144,20 @@ python -m pip install -e ".[fastapi]"
 
 Authentication, transport security, persistence and authorization remain the host application's responsibility.
 
+## Creative data and semantic metadata
+
+SAMBU includes a versioned, metadata-only creative ontology (`2026.12`) with nine human-assigned clusters, including surreal juxtaposition and wordplay. It validates bounded records, keeps legacy `2026.11` entries readable and exports reviewed metadata as JSON-LD.
+
+```bash
+sambu creative clusters
+sambu creative clusters --json
+sambu creative validate examples/creative_metadata.sample.json
+```
+
+This is deterministic annotation and validation, not an automatic classifier, embedding model, fine-tuning pipeline or self-learning system. Source text is not stored in metadata records. `NEEDS_REVIEW` remains the default; `CLEAN` and `CLEAN_SATIRE` require a pseudonymous `review_ref` and timezone-aware `reviewed_at` before `generation_eligible` becomes true. Text Craft measures structure and sound; a human curator assigns thematic and safety metadata.
+
+See [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) and the [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json).
+
 ## Engineering principles
 
 SAMBU's five-part doctrine:
@@ -178,7 +192,7 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Contributing & license
