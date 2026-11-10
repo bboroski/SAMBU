@@ -43,7 +43,7 @@ SAMBU combines a compact interpreted language for <code>.sambu</code> programs w
 
 ### Articulatory syntax
 
-A deterministic second source surface is generated from **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 129 built-in forms and 46 reserved forms.
+A deterministic second source surface is generated from **10 semantic consonant families × 5 vowel grades × 4 grammatical endings = 200 forms**. The current wordbook contains 25 grammar forms, 137 built-in forms and 38 reserved forms.
 
 <img src="assets/articulatory-syntax.svg" alt="SAMBU articulatory syntax: ten semantic families, five vowel grades, four grammatical roles and 200 lexical forms" width="100%" />
 
@@ -211,7 +211,8 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
 - [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
-- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json) · [Studio Guide](docs/DUCK_STUDIO.md)
+- [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Text Craft](docs/text_craft.md) · [Hook Craft and open-system models](docs/OPEN_SYSTEM_AND_HOOK_CRAFT.md)
+- [Creative Metadata JSON Schema](schemas/creative-metadata.schema.json) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
 ## Contributing & license
