@@ -131,7 +131,7 @@ class DuckStudioApp:
             self.ui_scale = float(config.get("ui_scale", 1.0))
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
             pass
-        self.ui_scale = max(0.85, min(1.50, self.ui_scale))
+        self.ui_scale = max(0.80, min(1.60, self.ui_scale))
         try:
             self.base_tk_scaling = float(self.root.tk.call("tk", "scaling"))
             self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
@@ -145,7 +145,7 @@ class DuckStudioApp:
         self.root.bind_all("<Control-0>", lambda _event: self.adjust_ui_scale(0, reset=True))
 
     def adjust_ui_scale(self, delta: float = 0.0, *, reset: bool = False) -> None:
-        self.ui_scale = 1.0 if reset else max(0.85, min(1.50, round(self.ui_scale + delta, 2)))
+        self.ui_scale = 1.0 if reset else max(0.80, min(1.60, round(self.ui_scale + delta, 2)))
         try:
             self.root.tk.call("tk", "scaling", self.base_tk_scaling * self.ui_scale)
             self.scale_file.parent.mkdir(parents=True, exist_ok=True)
