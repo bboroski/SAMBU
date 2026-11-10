@@ -1,4 +1,4 @@
-# SAMBU: Sovereign Systems Evolution Architecture
+# SAMBU: Host-Independent Systems Evolution Architecture
 **Baseline:** 0.11.0 alpha · **Status:** proposed architecture · **Scope:** language, compiler, runtime and systems ecosystem
 
 ## 1. Purpose and status
@@ -26,7 +26,7 @@ The full feature contract, runnable examples, limits and C++-class capability ro
 
 ## 1.1. Autonomy constitution and status audit
 
-The companion [100-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and sovereignty requirements to the 0.11 repository baseline. It preserves stable AUT-01–AUT-100 IDs, truthful statuses, current evidence and acceptance gates. The matrix is organized into two thematic series of 50 rules across ten blocks and is independently checked by tests/test_autonomy_constitution.py.
+The companion [100-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and host-independence requirements to the 0.11 repository baseline. It preserves stable AUT-01–AUT-100 IDs, truthful statuses, current evidence and acceptance gates. The matrix is organized into two thematic series of 50 rules across ten blocks and is independently checked by tests/test_autonomy_constitution.py.
 
 The 100-rule matrix complements, rather than replaces, the 101 lower-level language contracts in this document. Its purpose is to prevent architectural aspirations from being reported as shipped capabilities.
 
