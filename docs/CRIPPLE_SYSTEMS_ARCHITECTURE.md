@@ -223,21 +223,50 @@ No stage is considered complete because its syntax appears in a design document.
 
 **Final law:** make the safe path the easy path, the unsafe path visible, failures recoverable, and every performance promise measurable.
 
-## 8. Engineering control plane and five-letter doctrine
 
-The Cripple systems roadmap is governed by the [SAMBU Engineering Doctrine](SAMBU_ENGINEERING_DOCTRINE.md). Its second, engineering interpretation of SAMBU is:
+## 8. Evidence-led autonomy: six archetype design lenses
 
-- **S — Safety and staged sovereignty:** explicit capability profiles and least privilege.
-- **A — Adaptive exploration:** reproducible 1:100 typed-AST sampling.
-- **M — Managed recovery and memory:** actors, supervisors and the bounded Ghost Ledger.
-- **B — Branchable, board-layered design:** the PlywoodDesign dependency/contract graph and reversible evolution.
-- **U — Unforced interoperability and user sovereignty:** stable public interfaces, adapters and compatibility gates.
+The six project archetypes are formalized one letter at a time in the
+[Cripple Archetype Engineering Charter](CRIPPLE_ARCHETYPE_CHARTER.md). Their
+purpose is to add engineering constraints, not fictional superpowers:
 
-The current control-plane implementation is split into two modules:
+- **ALUCARD:** adaptive quotas, leased capabilities, undoable transitions,
+  containment, auditable evidence, recovery ceilings and deterministic inputs.
+- **GING:** goal-bound inquiry, isolated trials, novelty memory and graduation gates.
+- **RAIDEN:** recovery tiers, controlled degradation, incident supervision,
+  deterministic restoration, escalation budgets and neutral telemetry.
+- **DJINN:** declared capabilities, immutable job capsules, isolation profiles,
+  narrow interfaces and non-interference verification.
+- **MADARA:** competing models, adversarial challenge, deterministic semantics,
+  architecture records, reversible changes and acceptance evidence.
+- **SHANKS:** scoped trust, explicit handoffs, authority separation, native
+  interoperability contracts, knowledge continuity and human stewardship.
 
-- `sambu.machine`: `SambuMachine`, `MachineProfile`, `PlywoodDesign`, `CodeSampler`, `GhostLedger`, `EffortAmplification` and workspace parsing checks.
-- `sambu.ide`: `SambuIDE`, versioned document snapshots, source diagnostics, syntax outline and bounded lexical completion.
+### 8.1. Current autonomy implementation
 
-Both are experimental Python-hosted developer services. The IDE is headless; Machine parsing is not a semantic type checker. The capability levels `host` and `device` reserve future adapter boundaries and do not implement access to a shell, network, operating system or hardware.
+The experimental Python-host API in `sambu.autonomy` implements:
+immutable task manifests, declared capability checks, component-wise resource
+capping, risk-ceiling review, deterministic plan fingerprints, a bounded
+append-only SHA-256 experiment ledger, and reversible/path/test/evidence
+preflight for proposed changes.
 
-The [Mulberry Charlotte fixture](../examples/mulberry_charlotte.sambu) is the shared integration workload used to exercise source parsing, execution, deterministic arithmetic and the developer-tool chain. It is illustrative data, not a nutritional database.
+It deliberately has no arbitrary-code executor, filesystem writer, policy
+self-modifier, repository merge function or deployment function. An accepted
+preflight means only that the proposal may proceed to independent tests and
+review. The module does not create an OS security boundary.
+
+### 8.2. Next engineering gates
+
+1. Add architecture decision records and a machine-readable feature maturity
+   registry, with promotion requiring linked tests and evidence.
+2. Build a subprocess/container experiment runner with enforceable CPU, memory,
+   output, process, filesystem and network quotas.
+3. Add baseline-versus-alternative benchmark plans and reproducible environment
+   fingerprints; never interpret a hash as proof that evidence is true.
+4. Surface plans, clipped budgets, capability grants and review reasons in
+   SAMBU Studio before allowing any IDE action.
+5. Add native ownership/effect analysis before considering automatic source
+   edits or a native self-hosting loop.
+
+Human review remains mandatory for high-impact policy, packaging, CI, secrets,
+release and deployment changes.

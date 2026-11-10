@@ -58,14 +58,9 @@ from .concurrency import (  # noqa: F401
     sleep_ticks, yield_now,
 )
 
-from .machine import (  # noqa: F401
-    AmplificationReport, CodeSample, CodeSampler, CodeSamplingError,
-    CodeSamplingReport, EffortAmplification, GhostLedger, GhostRecord,
-    CapabilityDeniedError, MachineError, MachineProfile, MetricGain,
-    PlywoodDesign, PlywoodDesignError,
-    PlywoodLayer, PlywoodValidation, SambuMachine, WorkspaceCheckReport,
-    WorkspaceIssue, default_plywood_design,
-)
-from .ide import (  # noqa: F401
-    DocumentSymbol, IDEDiagnostic, IDEError, IDEInspection, SambuIDE,
+from .autonomy import (  # noqa: F401
+    AutonomyError, AutonomyPolicy, CapabilityDenied, ChangeEvaluation,
+    ChangeProposal, ExecutionPlan, ExperimentLedger, ExperimentRecord,
+    LedgerFull, ResourceBudget, RiskTier, SambuMachine, TaskManifest,
+    fingerprint,
 )

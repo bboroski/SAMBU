@@ -18,10 +18,11 @@ The repository now includes the first bounded concurrency and safety primitives 
 - hierarchical `one_for_one`, `one_for_all` and `rest_for_one` supervisors with rolling restart budgets;
 - typed bounded software channels;
 - reverse-order resource scopes, descriptive module-metadata validation and a two-verifier authorization boundary.
+- immutable task manifests, explicit capability allow-lists, component-wise resource-budget capping, deterministic plan digests, a bounded SHA-256 experiment ledger and change preflight in `sambu.autonomy`; these are Python host APIs and do not execute code or modify files.
 
 The language runtime exposes actors, supervision and typed-channel built-ins. The generator scheduler, resource scope and authorization helpers are Python host APIs. This is an experimental containment slice, not a native fiber scheduler or full parallel runtime. It does not add static race/deadlock analysis, RAII, ownership checking, HSM hardware access, device buses, native stacks or multicore execution.
 
-The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
+The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Cripple Systems Architecture](CRIPPLE_SYSTEMS_ARCHITECTURE.md). The six archetype-derived rules are specified in [Cripple Archetype Engineering Charter](CRIPPLE_ARCHETYPE_CHARTER.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
 
 ## 1.1. Autonomy constitution and status audit
 
