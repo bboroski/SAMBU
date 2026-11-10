@@ -38,7 +38,7 @@ SAMBU combines an interpreted language for .sambu programs with a Python package
 | **Language core** | Hand-written lexer/parser, immutable source-aware AST, scopes, functions, bounded loops, arrays, records, classes and inheritance. |
 | **Scientific computing** | SI quantities, dimensional checks, physical constants, thermal energy, Maxwell speeds, Boltzmann factors, partition sums, entropy and reproducible sampling. |
 | **Sparse voxel systems** | Bounded chunks, affine frames, Morton keys, surface meshing, 3D DDA, sparse octrees, graph Laplacians and VOX interchange. |
-| **Engineering modules** | Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; workflows, trust checks and reversible patching. |
+| **Engineering modules** | Nun reproducible initial states and boundary contracts; Judo architecture graphs; Aikido inference routing; Jiu-Jitsu UI/MVC/RBAC models; workflows, trust checks and reversible patching. |
 | **Runtime experiments** | Bounded actors, sequential state commits, dead-letter capture, supervision and typed software channels. These are not native parallel execution. |
 | **Developer tools** | sambu CLI, sambu-studio read-only Magento XML inspector, sambu-ide Tkinter IDE shell, sambu-test and SAMBU Machine. |
 | **Creative-text analysis** | Deterministic section/refrain and compact-hook diagnostics, script-mix inspection, approximate prosody, explicit performance cues and nine-cluster metadata ontology (2026.12). |
@@ -201,7 +201,7 @@ Reproducible voxel benchmarks are also included. Compare performance only under 
 ## Documentation
 
 - [Articulatory Syntax](docs/ARTICULATORY_SYNTAX.md) · [Engineering Doctrine](docs/SAMBU_ENGINEERING_DOCTRINE.md)
-- [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Voxel Reference](docs/VOXELS.md)
+- [Systems Architecture](docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md) · [Nun: genesis and initial conditions](docs/NUN_GENESIS.md) · [Voxel Reference](docs/VOXELS.md)
 - [Creative Data Governance](docs/CREATIVE_DATA_GOVERNANCE.md) · [Studio Guide](docs/DUCK_STUDIO.md)
 - [Source and tests](https://github.com/bboroski/SAMBU/tree/main) · [Issues](https://github.com/bboroski/SAMBU/issues)
 
