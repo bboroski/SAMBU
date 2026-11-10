@@ -1,3 +1,9 @@
+<p align="center"><img src="../assets/duck-ui/duck-mark.svg" alt="SAMBU duck mark" width="88" /></p>
+<p align="center"><strong>SAMBU · ENGINE ADAPTERS</strong></p>
+<p align="center"><em>Sparse voxel engine bridge contracts</em></p>
+<p align="center"><a href="../README.md">Project overview</a> · <a href="../README.en.md">English overview</a> · <a href="../README.ru.md">Russian overview</a></p>
+<hr />
+
 # SAMBU voxel engine adapters
 
 SAMBU 0.11 ships a renderer-neutral sparse voxel model and starter bridges for five major engine families. These are integration source files, not prebuilt engine plugins: each engine SDK must be installed in the host project, and the bridge must be compiled there. Maintained starter source bridges target five major engine families; the additional registered profiles describe the common payload contract only.
