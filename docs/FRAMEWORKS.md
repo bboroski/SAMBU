@@ -167,7 +167,7 @@ app.open_modal("confirm")
 print(app.snapshot().to_dict())
 ~~~
 
-Permission matching supports exact grants, area:* patterns and *. An explicit deny from any inherited or assigned role takes precedence over grants. Assignments are application data; Jiu-Jitsu does not authenticate users or fetch identity claims. The host application must establish the principal and load role assignments from its trusted identity system.
+Permission matching supports exact grants, area:* patterns and *. An explicit deny from any inherited or assigned role takes precedence over grants. Assignments are application data; the UI workflow API does not authenticate users or fetch identity claims. The host application must establish the principal and load role assignments from its trusted identity system.
 
 This API does not ship a browser renderer or generate arbitrary JavaScript. A React, Vue, Svelte, Qt or native renderer can consume the serialized view model. The host must still validate user input on the server and enforce authorization at every protected data boundary.
 
@@ -179,7 +179,7 @@ A practical division of responsibility:
 2. The inference API provides controlled model access through explicit provider adapters.
 3. The UI API exposes workflows through views, controllers, modals and role-gated actions.
 
-The three API models can share IDs and contract names, but no implicit coupling is created. For example, a Judo component can be named ai-gateway, while an Aikido hub is injected into its host service and Jiu-Jitsu presents an authorized assistant view.
+The three API models can share IDs and contract names, but no implicit coupling is created. For example, an architecture component can be named ai-gateway, an inference adapter can be injected into its host service, and the UI layer can present an authorized assistant view.
 
 ## 5. OOP and games in SAMBU 0.7.0
 
