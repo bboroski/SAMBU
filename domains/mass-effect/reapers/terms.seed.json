@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "catalog_id": "mass-effect.reapers.seed",
+  "catalog_status": "representative-seed-not-full-500-entry-import",
+  "language_pair": [
+    "en",
+    "ru"
+  ],
+  "terms": [
+    {
+      "schema_version": 1,
+      "id": "reaper.bio.indoctrination",
+      "domain": "reaper.bio",
+      "term_en": "Indoctrination",
+      "term_ru": "Одурманивание (индоктринация)",
+      "classification": "canon-mechanic",
+      "source_kind": "user-supplied-reference",
+      "definition": "In-universe Reaper influence over organic cognition and behavior.",
+      "engineering_analogy": "Lore-only; do not map to a real diagnosis."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.bio.genetic-harvesting",
+      "domain": "reaper.bio",
+      "term_en": "Genetic harvesting",
+      "term_ru": "Генетическая переработка",
+      "classification": "descriptive-extension",
+      "source_kind": "user-supplied-reference",
+      "definition": "Descriptive label for the Reapers' cycle-based collection and processing of organic species.",
+      "engineering_analogy": "Traceable batch intake and material genealogy."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.bio.husk",
+      "domain": "reaper.bio",
+      "term_en": "Husk",
+      "term_ru": "Хаск",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "Reaper-converted humanoid combat unit.",
+      "engineering_analogy": "None; lore entity."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.physics.element-zero",
+      "domain": "reaper.physics",
+      "term_en": "Element Zero (Eezo)",
+      "term_ru": "Элемент Ноль (нулевой элемент)",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "Fictional material used in mass-effect technology.",
+      "engineering_analogy": "No real-world material or SI value implied."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.physics.mass-effect-field",
+      "domain": "reaper.physics",
+      "term_en": "Mass effect field",
+      "term_ru": "Поле эффекта массы",
+      "classification": "canon-mechanic",
+      "source_kind": "user-supplied-reference",
+      "definition": "Fictional field generated through eezo technology.",
+      "engineering_analogy": "A field descriptor in a fictional simulation only."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.physics.mass-relay",
+      "domain": "reaper.physics",
+      "term_en": "Mass Relay",
+      "term_ru": "Ретранслятор массы",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "Fictional transportation infrastructure in the setting.",
+      "engineering_analogy": "Network topology metaphor; not a real transport system."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.physics.kinetic-barrier",
+      "domain": "reaper.physics",
+      "term_en": "Kinetic barrier",
+      "term_ru": "Кинетический барьер",
+      "classification": "canon-mechanic",
+      "source_kind": "user-supplied-reference",
+      "definition": "In-universe defensive technology.",
+      "engineering_analogy": "A protection-state label, not an actual physical shield."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.systems.thanix-cannon",
+      "domain": "reaper.systems",
+      "term_en": "Thanix Cannon",
+      "term_ru": "Пушка «Таникс»",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "Named weapon technology in the setting.",
+      "engineering_analogy": "None; lore entity."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.systems.citadel",
+      "domain": "reaper.systems",
+      "term_en": "Citadel",
+      "term_ru": "Цитадель",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "Major station and relay-network component in the setting.",
+      "engineering_analogy": "A control-plane topology metaphor only."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.systems.sensor-spoofing-field",
+      "domain": "reaper.systems",
+      "term_en": "Sensor spoofing field",
+      "term_ru": "Поле искажения датчиков",
+      "classification": "descriptive-extension",
+      "source_kind": "user-supplied-reference",
+      "definition": "Descriptive term for deceptive sensor observations.",
+      "engineering_analogy": "Conflicting or untrusted telemetry that must retain provenance."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.history.harvest-cycle",
+      "domain": "reaper.history",
+      "term_en": "The Harvest Cycle",
+      "term_ru": "Цикл Жатвы",
+      "classification": "canon-mechanic",
+      "source_kind": "user-supplied-reference",
+      "definition": "The Reapers' recurring civilization-harvest sequence.",
+      "engineering_analogy": "A versioned workflow epoch with explicit states."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.history.crucible",
+      "domain": "reaper.history",
+      "term_en": "The Crucible",
+      "term_ru": "Горн",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "A major device central to the trilogy's ending.",
+      "engineering_analogy": "None; lore artifact."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.history.catalyst",
+      "domain": "reaper.history",
+      "term_en": "The Catalyst",
+      "term_ru": "Катализатор",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "The intelligence associated with the Reaper cycle's governing logic.",
+      "engineering_analogy": "A fictional decision-making entity; not an OS supervisor."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.ai.geth-consensus",
+      "domain": "reaper.ai",
+      "term_en": "Geth Consensus",
+      "term_ru": "Консенсус гетов",
+      "classification": "canon-name",
+      "source_kind": "user-supplied-reference",
+      "definition": "The networked consensus model associated with the geth.",
+      "engineering_analogy": "Distributed protocol agreement under an explicit membership and threat model."
+    },
+    {
+      "schema_version": 1,
+      "id": "reaper.ai.synthetic-consciousness",
+      "domain": "reaper.ai",
+      "term_en": "Synthetic consciousness",
+      "term_ru": "Синтетическое сознание",
+      "classification": "descriptive-extension",
+      "source_kind": "user-supplied-reference",
+      "definition": "A broad conceptual label for machine self-awareness in the setting.",
+      "engineering_analogy": "No claim about consciousness; use explicit service identity and behavior contracts."
+    }
+  ]
+}
