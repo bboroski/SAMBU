@@ -27,8 +27,8 @@ Welcome to the project encyclopedia for SAMBU: an experimental interpreted progr
 | [Types, units and numerics](TYPES-UNITS-AND-NUMERICS.md) | Runtime values, physical dimensions and numeric rules |
 | [Object-oriented programming](OBJECT-ORIENTED-PROGRAMMING.md) | Classes, inheritance, interfaces, traits and games |
 | [Scientific computing](SCIENTIFIC-COMPUTING.md) | Units, constants, statistical mechanics and distributions |
-| [Domain libraries](DOMAIN-LIBRARIES.md) | Percentages, Anatidae, strategy, production and workflow models |
-| [Frameworks](FRAMEWORKS.md) | Judo, Aikido and Jiu-Jitsu |
+| [Domain libraries](DOMAIN-LIBRARIES.md) | Percentages, comparative avian models, allocation, production and workflow models |
+| [Frameworks](FRAMEWORKS.md) | architecture validation, inference orchestration and UI access control |
 | [Voxel systems](VOXELS-AND-ENGINE-ADAPTERS.md) | Sparse grids, meshing, spectral graphs and engine bridges |
 | [Trust and evidence](TRUST-AND-EVIDENCE.md) | Integrity checks, issuer allow-lists and evidence records |
 | [Workflows and chunking](WORKFLOWS-AND-CHUNKING.md) | Bounded batches, reversible patches and deterministic plans |
