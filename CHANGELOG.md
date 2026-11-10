@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added a read-only Apple Device Toolkit for libimobiledevice discovery, iPhone/iPad model and iOS metadata, existing-pairing validation, Windows Apple USB driver/service checks and structured diagnostics.
+- Added RU/EN localization for the device CLI, non-destructive hardware smoke tests, an opt-in Windows self-hosted USB lab workflow and a certificate-gated signed Windows installer pipeline.
+- Added documentation and mocked hardware/diagnostic regression tests; physical iPhone/iPad model coverage still requires connected devices on a controlled Windows runner.
+
+## Unreleased
+
 - Added an experimental C11 native compiler kernel with typed HIR, SSA MIR, virtual-register LIR, an arena allocator, string interning, IR verifiers, CMake tests and a dedicated CI workflow.
 - Added the native compiler architecture contract and staged roadmap; LLVM code generation and the broader systems-language features remain future work.
 
