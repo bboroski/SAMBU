@@ -1,501 +1,501 @@
-id|category|term_en|term_ru
-1|molecular_cell|Transcription|Транскрипция
-2|molecular_cell|Translation|Трансляция
-3|molecular_cell|Phosphorylation|Фосфорилирование
-4|molecular_cell|Endosymbiosis|Эндосимбиоз
-5|molecular_cell|Apoptosis|Апоптоз
-6|molecular_cell|Autophagy|Аутофагия
-7|molecular_cell|Homeostasis|Гомеостаз
-8|molecular_cell|Polymorphism|Полиморфизм
-9|molecular_cell|Epigenetics|Эпигенетика
-10|molecular_cell|Nucleotide|Нуклеотид
-11|molecular_cell|Ribosome|Рибосома
-12|molecular_cell|Mitochondria|Митохондрии
-13|molecular_cell|Cytoskeleton|Цитоскелет
-14|molecular_cell|Membrane potential|Мембранный потенциал
-15|molecular_cell|Signal transduction|Передача сигналов
-16|molecular_cell|Ligand|Лиганд
-17|molecular_cell|Receptor|Рецептор
-18|molecular_cell|Enzyme catalysis|Ферментативный катализ
-19|molecular_cell|Denaturation|Денатурация
-20|molecular_cell|Catabolism|Катаболизм
-21|molecular_cell|Anabolism|Анаболизм
-22|molecular_cell|Metabolic pathway|Метаболический путь
-23|molecular_cell|Homeodomain|Гомеодомен
-24|molecular_cell|Transcription factor|Транскрипционный фактор
-25|molecular_cell|Chromatin remodeling|Ремоделирование хроматина
-26|molecular_cell|Exon|Экзон
-27|molecular_cell|Intron|Интрон
-28|molecular_cell|Spliceosome|Сплайсесома
-29|molecular_cell|Polyadenylation|Полиаденилирование
-30|molecular_cell|Ubiquitination|Убиквитинирование
-31|molecular_cell|Proteasome|Протеасома
-32|molecular_cell|Endoplasmic reticulum|Эндоплазматический ретикулум
-33|molecular_cell|Golgi apparatus|Аппарат Гольджи
-34|molecular_cell|Lysosome|Лизосома
-35|molecular_cell|Peroxisome|Пероксисома
-36|molecular_cell|Centrosome|Центросома
-37|molecular_cell|Microtubule|Микротрубочка
-38|molecular_cell|Microfilament|Микрофиламент
-39|molecular_cell|Intermediate filament|Промежуточный филамент
-40|molecular_cell|Phospholipid bilayer|Фосфолипидный бислой
-41|molecular_cell|Transmembrane protein|Трансмембранный белок
-42|molecular_cell|Endocytosis|Эндоцитоз
-43|molecular_cell|Exocytosis|Экзоцитоз
-44|molecular_cell|Pinocytosis|Пиноцитоз
-45|molecular_cell|Phagocytosis|Фагоцитоз
-46|molecular_cell|Osmosis|Осмос
-47|molecular_cell|Diffusion|Диффузия
-48|molecular_cell|Active transport|Активный транспорт
-49|molecular_cell|Passive transport|Пассивный транспорт
-50|molecular_cell|Ion channel|Ионный канал
-51|molecular_cell|Sodium-potassium pump|Натрий-калиевый насос
-52|molecular_cell|ATP synthase|АТФ-синтаза
-53|molecular_cell|Glycolysis|Гликолиз
-54|molecular_cell|Krebs cycle|Цикл Кребса (цикл лимонной кислоты)
-55|molecular_cell|Oxidative phosphorylation|Окислительное фосфорилирование
-56|molecular_cell|Photophosphorylation|Фотофосфорилирование
-57|molecular_cell|Calvin cycle|Цикл Кальвина
-58|molecular_cell|Chloroplast|Хлоропласт
-59|molecular_cell|Thylakoid|Тилакоид
-60|molecular_cell|Stroma|Строма
-61|molecular_cell|Matrix|Матрикс
-62|molecular_cell|Cytoplasm|Цитоплазма
-63|molecular_cell|Cytosol|Цитозоль
-64|molecular_cell|Nucleolus|Ядрышко
-65|molecular_cell|Nuclear envelope|Ядерная оболочка
-66|molecular_cell|Nuclear pore|Ядерная пора
-67|molecular_cell|Chromosome|Хромосома
-68|molecular_cell|Chromatid|Хроматида
-69|molecular_cell|Centromere|Центромера
-70|molecular_cell|Telomere|Теломера
-71|molecular_cell|Histone|Гистон
-72|molecular_cell|Nucleosome|Нуклеосома
-73|molecular_cell|DNA replication|Репликация ДНК
-74|molecular_cell|DNA polymerase|ДНК-полимераза
-75|molecular_cell|RNA polymerase|РНК-полимераза
-76|molecular_cell|Helicase|Хеликаза
-77|molecular_cell|Ligase|Лигаза
-78|molecular_cell|Primer|Праймер
-79|molecular_cell|Okazaki fragment|Фрагмент Оказаки
-80|molecular_cell|Leading strand|Лидирующая цепь
-81|molecular_cell|Lagging strand|Отстающая цепь
-82|molecular_cell|Codon|Кодон
-83|molecular_cell|Anticodon|Антикодон
-84|molecular_cell|Transfer RNA (tRNA)|Транспортная РНК
-85|molecular_cell|Messenger RNA (mRNA)|Матричная РНК
-86|molecular_cell|Ribosomal RNA (rRNA)|Рибосомальная РНК
-87|molecular_cell|Mutation|Мутация
-88|molecular_cell|Point mutation|Точечная мутация
-89|molecular_cell|Frameshift mutation|Мутация со сдвигом рамки считывания
-90|molecular_cell|Deletion|Делеция
-91|molecular_cell|Insertion|Инсерция
-92|molecular_cell|Inversion|Инверсия
-93|molecular_cell|Translocation|Транслокация
-94|molecular_cell|Gene expression|Экспрессия генов
-95|molecular_cell|Operon|Оперон
-96|molecular_cell|Promoter|Промотор
-97|molecular_cell|Enhancer|Энхансер
-98|molecular_cell|Silencer|Сайленсер
-99|molecular_cell|Operon model|Модель оперона
-100|molecular_cell|Signal peptide|Сигнальный пептид
-101|genetics_evolution|Allopatric speciation|Аллопатрическое видообразование
-102|genetics_evolution|Sympatric speciation|Симпатрическое видообразование
-103|genetics_evolution|Genetic drift|Генетический дрейф
-104|genetics_evolution|Gene flow|Поток генов
-105|genetics_evolution|Natural selection|Естественный отбор
-106|genetics_evolution|Fitness|Приспособленность
-107|genetics_evolution|Mutagenesis|Мутагенез
-108|genetics_evolution|Heterozygosity|Гетерозиготность
-109|genetics_evolution|Homozygosity|Гомозиготность
-110|genetics_evolution|Phenotype|Фенотип
-111|genetics_evolution|Genotype|Генотип
-112|genetics_evolution|Epistasis|Эпистаз
-113|genetics_evolution|Pleiotropy|Плейотропия
-114|genetics_evolution|Recombination|Рекомбинация
-115|genetics_evolution|Linkage disequilibrium|Неравновесное сцепление аллелей
-116|genetics_evolution|Phylogeny|Филогения
-117|genetics_evolution|Cladistics|Кладистика
-118|genetics_evolution|Monophyletic group|Монофилетическая группа
-119|genetics_evolution|Paraphyletic group|Парафилетическая группа
-120|genetics_evolution|Convergent evolution|Конвергентная эволюция
-121|genetics_evolution|Divergent evolution|Дивергентная эволюция
-122|genetics_evolution|Adaptive radiation|Адаптивная радиация
-123|genetics_evolution|Bottleneck effect|Эффект бутылочного горлышка
-124|genetics_evolution|Founder effect|Эффект основателя
-125|genetics_evolution|Speciation|Видообразование
-126|genetics_evolution|Allele frequency|Частота аллелей
-127|genetics_evolution|Hardy-Weinberg equilibrium|Закон Харди-Вайнберга
-128|genetics_evolution|Directional selection|Направленный отбор
-129|genetics_evolution|Stabilizing selection|Стабилизирующий отбор
-130|genetics_evolution|Disruptive selection|Дизруптивный отбор
-131|genetics_evolution|Sexual selection|Половой отбор
-132|genetics_evolution|Altruism|Альтруизм
-133|genetics_evolution|Kin selection|Родственный отбор
-134|genetics_evolution|Coevolution|Коэволюция
-135|genetics_evolution|Analogous structures|Аналогичные структуры
-136|genetics_evolution|Homologous structures|Гомологичные структуры
-137|genetics_evolution|Vestigial structure|Рудиментарная структура
-138|genetics_evolution|Fossils|Ископаемые
-139|genetics_evolution|Paleontology|Палеонтология
-140|genetics_evolution|Biogeography|Биогеография
-141|genetics_evolution|Speciation rate|Скорость видообразования
-142|genetics_evolution|Reproductive isolation|Репродуктивная изоляция
-143|genetics_evolution|Prezygotic barrier|Презиготический барьер
-144|genetics_evolution|Postzygotic barrier|Постзиготический барьер
-145|genetics_evolution|Polyploidy|Полиплоидия
-146|genetics_evolution|Aneuploidy|Анеуплоидия
-147|genetics_evolution|Monosomy|Моносомия
-148|genetics_evolution|Trisomy|Трисомия
-149|genetics_evolution|Crossing over|Кроссинговер
-150|genetics_evolution|Locus|Локус
-151|genetics_evolution|Dominant allele|Доминантный аллель
-152|genetics_evolution|Recessive allele|Рецессивный аллель
-153|genetics_evolution|Codominance|Кодоминантность
-154|genetics_evolution|Incomplete dominance|Неполное доминирование
-155|genetics_evolution|Pedigree analysis|Анализ родословных
-156|genetics_evolution|Monohybrid cross|Моногибридное скрещивание
-157|genetics_evolution|Dihybrid cross|Дигибридное скрещивание
-158|genetics_evolution|Test cross|Анализирующее скрещивание
-159|genetics_evolution|Autosome|Аутосома
-160|genetics_evolution|Sex chromosome|Половая хромосома
-161|genetics_evolution|Carrier|Носитель (гена)
-162|genetics_evolution|Epigenome|Эпигеном
-163|genetics_evolution|Metagenomics|Метагеномика
-164|genetics_evolution|Transcriptomics|Транскриптомика
-165|genetics_evolution|Proteomics|Протеомика
-166|genetics_evolution|Metabolomics|Метаболомика
-167|genetics_evolution|Bioinformatics|Биоинформатика
-168|genetics_evolution|CRISPR-Cas9|Система CRISPR-Cas9
-169|genetics_evolution|Polymerase chain reaction (PCR)|Полимеразная цепная реакция (ПЦР)
-170|genetics_evolution|Gel electrophoresis|Гель-электрофорез
-171|genetics_evolution|Sequencing|Секвенирование
-172|genetics_evolution|Plasmid|Плазмида
-173|genetics_evolution|Vector|Вектор (в генетической инженерии)
-174|genetics_evolution|Recombinant DNA|Рекомбинантная ДНК
-175|genetics_evolution|Restriction enzyme|Рестриктаза (рестрикционный фермент)
-176|genetics_evolution|Transgenic organism|Трансгенный организм
-177|genetics_evolution|Gene knockout|Нокаут гена
-178|genetics_evolution|Gene knockdown|Нокдаун гена
-179|genetics_evolution|Cloning|Клонирование
-180|genetics_evolution|Stem cell|Стволовая клетка
-181|genetics_evolution|Totipotent|Тотипотентный
-182|genetics_evolution|Pluripotent|Плюрипотентный
-183|genetics_evolution|Multipotent|Мультипотентный
-184|genetics_evolution|Differentiation|Дифференцировка
-185|genetics_evolution|Morphogenesis|Морфогенез
-186|genetics_evolution|Blastocyst|Бластоциста
-187|genetics_evolution|Gastrulation|Гаструляция
-188|genetics_evolution|Organogenesis|Органогенез
-189|genetics_evolution|Ectoderm|Эктодерма
-190|genetics_evolution|Endoderm|Энтодерма
-191|genetics_evolution|Mesoderm|Мезодерма
-192|genetics_evolution|Zygote|Зигота
-193|genetics_evolution|Gamete|Гамета
-194|genetics_evolution|Meiosis|Мейоз
-195|genetics_evolution|Mitosis|Митоз
-196|genetics_evolution|Interphase|Интерфаза
-197|genetics_evolution|Prophase|Профаза
-198|genetics_evolution|Metaphase|Метафаза
-199|genetics_evolution|Anaphase|Анафаза
-200|genetics_evolution|Telophase|Телофаза
-201|ecology_environment|Trophic cascade|Трофический каскад
-202|ecology_environment|Biodiversity|Биоразнообразие
-203|ecology_environment|Ecosystem resilience|Экологическая устойчивость
-204|ecology_environment|Carrying capacity|Ёмкость среды
-205|ecology_environment|Biogeochemical cycle|Биогеохимический цикл
-206|ecology_environment|Succession|Сукцессия
-207|ecology_environment|Climax community|Климаксное сообщество
-208|ecology_environment|Symbiosis|Симбиоз
-209|ecology_environment|Mutualism|Мутуализм
-210|ecology_environment|Commensalism|Комменсализм
-211|ecology_environment|Parasitism|Паразитизм
-212|ecology_environment|Niche|Экологическая ниша
-213|ecology_environment|Keystone species|Ключевой вид
-214|ecology_environment|Biomagnification|Биомагнификация
-215|ecology_environment|Eutrophication|Эвтрофикация
-216|ecology_environment|Population density|Плотность популяции
-217|ecology_environment|Demography|Демография
-218|ecology_environment|Biome|Биом
-219|ecology_environment|Tundra|Тундра
-220|ecology_environment|Taiga|Тайга
-221|ecology_environment|Savanna|Саванна
-222|ecology_environment|Desertification|Опустынивание
-223|ecology_environment|Deforestation|Вырубка лесов
-224|ecology_environment|Acid rain|Кислотный дождь
-225|ecology_environment|Greenhouse effect|Парниковый эффект
-226|ecology_environment|Global warming|Глобальное потепление
-227|ecology_environment|Carbon sequestration|Связывание углерода
-228|ecology_environment|Nitrogen fixation|Фиксация азота
-229|ecology_environment|Nitrification|Нитрификация
-230|ecology_environment|Denitrification|Денитрификация
-231|ecology_environment|Ammonification|Аммонификация
-232|ecology_environment|Biome distribution|Распределение биомов
-233|ecology_environment|Phytoplankton|Фитопланктон
-234|ecology_environment|Zooplankton|Зоопланктон
-235|ecology_environment|Benthos|Бентос
-236|ecology_environment|Pelagic zone|Пелагическая зона
-237|ecology_environment|Littoral zone|Литоральная зона
-238|ecology_environment|Abyssal zone|Абиссальная зона
-239|ecology_environment|Estuary|Эстуарий
-240|ecology_environment|Wetland|Водно-болотные угодья
-241|ecology_environment|Watershed|Водораздел
-242|ecology_environment|Habitat fragmentation|Фрагментация среды обитания
-243|ecology_environment|Invasive species|Инвазивный вид
-244|ecology_environment|Endemic species|Эндемичный вид
-245|ecology_environment|Conservation biology|Биология сохранения природы
-246|ecology_environment|Extinction vortex|Вихрь вымирания
-247|ecology_environment|Red list|Красный список
-248|ecology_environment|Ecological footprint|Экологический след
-249|ecology_environment|Primary production|Первичная продукция
-250|ecology_environment|Secondary production|Вторичная продукция
-251|ecology_environment|Biomass|Биомасса
-252|ecology_environment|Food web|Пищевая сеть
-253|ecology_environment|Food chain|Пищевая цепь
-254|ecology_environment|Detritivore|Детритофаг
-255|ecology_environment|Decomposer|Редуцент (деструктор)
-256|ecology_environment|Herbivore|Травоядное
-257|ecology_environment|Carnivore|Хищник (плотоядное)
-258|ecology_environment|Omnivore|Всеядное
-259|ecology_environment|Apex predator|Высший хищник
-260|ecology_environment|Competitive exclusion principle|Принцип конкурентного исключения
-261|ecology_environment|Resource partitioning|Разделение ресурсов
-262|ecology_environment|Batesian mimicry|Бейтсовская мимикрия
-263|ecology_environment|Mullerian mimicry|Мюллеровская мимикрия
-264|ecology_environment|Cryptic coloration|Покровительственная окраска
-265|ecology_environment|Aposematism|Апосематизм (предупреждающая окраска)
-266|ecology_environment|Pioneer species|Пионерные виды
-267|ecology_environment|Secondary succession|Вторичная сукцессия
-268|ecology_environment|Microclimate|Микроклимат
-269|ecology_environment|Macroclimate|Макроклимат
-270|ecology_environment|Abiotic factor|Абиотический фактор
-271|ecology_environment|Biotic factor|Биотический фактор
-272|ecology_environment|Phenology|Фенология
-273|ecology_environment|Ecological indicator|Экологический индикатор
-274|ecology_environment|Seral stage|Серийная стадия
-275|ecology_environment|Habitat corridor|Экологический коридор
-276|ecology_environment|Metapopulation|Метапопуляция
-277|ecology_environment|Survivorship curve|Кривая выживания
-278|ecology_environment|Exponential growth|Экспоненциальный рост
-279|ecology_environment|Logistic growth|Логистический рост
-280|ecology_environment|Life history strategy|Стратегия жизненного цикла
-281|ecology_environment|R-selected species|r-стратеги
-282|ecology_environment|K-selected species|K-стратеги
-283|ecology_environment|Demecenter|Демографический центр
-284|ecology_environment|Ecosystem service|Экосистемная услуга
-285|ecology_environment|Phytoremediation|Фиторемедиация
-286|ecology_environment|Biological control|Биологический метод борьбы
-287|ecology_environment|Agroecology|Агроэкология
-288|ecology_environment|Permafrost|Вечная мерзлота
-289|ecology_environment|Salinization|Засоление
-290|ecology_environment|Thermal pollution|Тепловое загрязнение
-291|ecology_environment|Ozone depletion|Разрушение озонового слоя
-292|ecology_environment|Biosphere|Биосфера
-293|ecology_environment|Lithosphere|Литосфера
-294|ecology_environment|Hydrosphere|Гидросфера
-295|ecology_environment|Atmosphere|Атмосфера
-296|ecology_environment|Ecological niche overlap|Перекрытие экологических ниш
-297|ecology_environment|Symbiogenesis|Симбиогенез
-298|ecology_environment|Epibiota|Эпибиота
-299|ecology_environment|Ecosystem engineering|Инженерия экосистем
-300|ecology_environment|Climax ecosystem|Климаксная экосистема
-301|physiology_anatomy|Action potential|Потенциал действия
-302|physiology_anatomy|Resting potential|Потенциал покоя
-303|physiology_anatomy|Synapse|Синапс
-304|physiology_anatomy|Neurotransmitter|Нейромедиатор
-305|physiology_anatomy|Central nervous system|Центральная нервная система
-306|physiology_anatomy|Peripheral nervous system|Периферическая нервная система
-307|physiology_anatomy|Myelin sheath|Миелиновая оболочка
-308|physiology_anatomy|Axon|Аксон
-309|physiology_anatomy|Dendrite|Дендрит
-310|physiology_anatomy|Nephron|Нефрон
-311|physiology_anatomy|Glomerulus|Клубочек (нефрона)
-312|physiology_anatomy|Loop of Henle|Петля Генле
-313|physiology_anatomy|Alveoli|Альвеолы
-314|physiology_anatomy|Hemoglobin|Гемоглобин
-315|physiology_anatomy|Systole|Систола
-316|physiology_anatomy|Diastole|Диастола
-317|physiology_anatomy|Cardiac output|Сердечный выброс
-318|physiology_anatomy|Vasodilation|Вазодилатация (расширение сосудов)
-319|physiology_anatomy|Vasoconstriction|Вазоконстрикция (сужение сосудов)
-320|physiology_anatomy|Erythrocyte|Эритроцит
-321|physiology_anatomy|Leukocyte|Лейкоцит
-322|physiology_anatomy|Thrombocyte|Тромбоцит
-323|physiology_anatomy|Plasma|Плазма крови
-324|physiology_anatomy|Lymph|Лимфа
-325|physiology_anatomy|Endocrine gland|Эндокринная железа
-326|physiology_anatomy|Exocrine gland|Экзокринная железа
-327|physiology_anatomy|Hormone|Гормон
-328|physiology_anatomy|Feedback loop|Петля обратной связи
-329|physiology_anatomy|Pituitary gland|Гипофиз
-330|physiology_anatomy|Hypothalamus|Гипоталамус
-331|physiology_anatomy|Adrenal gland|Надпочечник
-332|physiology_anatomy|Thyroid gland|Щитовидная железа
-333|physiology_anatomy|Insulin|Инсулин
-334|physiology_anatomy|Glucagon|Глюкагон
-335|physiology_anatomy|Peristalsis|Перистальтика
-336|physiology_anatomy|Villi|Ворсинки кишечника
-337|physiology_anatomy|Microvilli|Микроворсинки
-338|physiology_anatomy|Bile|Желчь
-339|physiology_anatomy|Pepsin|Пепсин
-340|physiology_anatomy|Amylase|Амилаза
-341|physiology_anatomy|Lipase|Липаза
-342|physiology_anatomy|Trypsin|Трипсин
-343|physiology_anatomy|Osteoblast|Остеобласт
-344|physiology_anatomy|Osteoclast|Остеокласт
-345|physiology_anatomy|Chondrocyte|Хондроцит
-346|physiology_anatomy|Sarcomere|Саркомер
-347|physiology_anatomy|Myosin|Миозин
-348|physiology_anatomy|Actin|Актин
-349|physiology_anatomy|Sliding filament theory|Теория скользящих нитей
-350|physiology_anatomy|Nephridia|Нефридии
-351|physiology_anatomy|Malpighian tubules|Мальпигиевы сосуды
-352|physiology_anatomy|Stomata|Устьица (у растений)
-353|physiology_anatomy|Xylem|Ксилема
-354|physiology_anatomy|Phloem|Флоэма
-355|physiology_anatomy|Cambium|Камбий
-356|physiology_anatomy|Meristem|Меристема (образовательная ткань)
-357|physiology_anatomy|Palisade mesophyll|Палисадная паренхима
-358|physiology_anatomy|Spongy mesophyll|Губчатая паренхима
-359|physiology_anatomy|Transpiration pull|Транспирационное натяжение
-360|physiology_anatomy|Root pressure|Корневое давление
-361|physiology_anatomy|Phototropism|Фототропизм
-362|physiology_anatomy|Gravitropism|Гравитропизм
-363|physiology_anatomy|Thigmotropism|Тигмотропизм
-364|physiology_anatomy|Auxin|Ауксин
-365|physiology_anatomy|Gibberellin|Гиббереллин
-366|physiology_anatomy|Cytokinin|Цитокинин
-367|physiology_anatomy|Abscisic acid|Абсцизовая кислота
-368|physiology_anatomy|Ethylene|Этилен
-369|physiology_anatomy|Photoperiodism|Фотопериодизм
-370|physiology_anatomy|Circadian rhythm|Циркадный ритм
-371|physiology_anatomy|Osmoregulation|Осморегуляция
-372|physiology_anatomy|Thermoregulation|Терморегуляция
-373|physiology_anatomy|Endotherm|Эндотерм
-374|physiology_anatomy|Ectotherm|Эктотерм
-375|physiology_anatomy|Poikilotherm|Пойкилотерм
-376|physiology_anatomy|Homeotherm|Гомойотерм
-377|physiology_anatomy|Countercurrent exchange|Противоточный обмен
-378|physiology_anatomy|Vasomotor control|Вазомоторный контроль
-379|physiology_anatomy|Chemoreceptor|Хеморецептор
-380|physiology_anatomy|Mechanoreceptor|Механорецептор
-381|physiology_anatomy|Photoreceptor|Фоторецептор
-382|physiology_anatomy|Thermoreceptor|Терморецептор
-383|physiology_anatomy|Proprioception|Проприоцепция
-384|physiology_anatomy|Cochlea|Улитка (внутреннего уха)
-385|physiology_anatomy|Retina|Сетчатка
-386|physiology_anatomy|Cornea|Роговица
-387|physiology_anatomy|Lens|Хрусталик
-388|physiology_anatomy|Rod cell|Палочка (сетчатки)
-389|physiology_anatomy|Cone cell|Колбочка (сетчатки)
-390|physiology_anatomy|Olfactory receptor|Обонятельный рецептор
-391|physiology_anatomy|Gustatory receptor|Вкусовой рецептор
-392|physiology_anatomy|Cerebrum|Большой мозг
-393|physiology_anatomy|Cerebellum|Мозжечок
-394|physiology_anatomy|Brainstem|Ствол мозга
-395|physiology_anatomy|Limbic system|Лимбическая система
-396|physiology_anatomy|Corpus callosum|Мозолистое тело
-397|physiology_anatomy|Thalamus|Таламус
-398|physiology_anatomy|Amygdala|Амигдала (миндалевидное тело)
-399|physiology_anatomy|Hippocampus|Гиппокамп
-400|physiology_anatomy|Ventricle|Желудочек (сердца или мозга)
-401|immunology_microbiology_virology|Innate immunity|Врожденный иммунитет
-402|immunology_microbiology_virology|Adaptive immunity|Приобретенный (адаптивный) иммунитет
-403|immunology_microbiology_virology|Antigen|Антиген
-404|immunology_microbiology_virology|Antibody|Антитело (иммуноглобулин)
-405|immunology_microbiology_virology|Macrophage|Макрофаг
-406|immunology_microbiology_virology|Neutrophil|Нейтрофил
-407|immunology_microbiology_virology|Lymphocyte|Лимфоцит
-408|immunology_microbiology_virology|T-cell|Т-лимфоцит
-409|immunology_microbiology_virology|B-cell|В-лимфоцит
-410|immunology_microbiology_virology|Cytotoxic T-cell|Цитотоксический Т-лимфоцит
-411|immunology_microbiology_virology|Helper T-cell|Т-хелпер
-412|immunology_microbiology_virology|Plasma cell|Плазматическая клетка
-413|immunology_microbiology_virology|Memory cell|Клетка памяти
-414|immunology_microbiology_virology|Major histocompatibility complex (MHC)|Главный комплекс гистосовместимости (ГКГС)
-415|immunology_microbiology_virology|Cytokine|Цитокин
-416|immunology_microbiology_virology|Chemokine|Хемокин
-417|immunology_microbiology_virology|Interferon|Интерферон
-418|immunology_microbiology_virology|Interleukin|Интерлейкин
-419|immunology_microbiology_virology|Complement system|Система комплемента
-420|immunology_microbiology_virology|Inflammation|Воспаление
-421|immunology_microbiology_virology|Phagolysosome|Фаголизосома
-422|immunology_microbiology_virology|Epitope|Эпитоп
-423|immunology_microbiology_virology|Hapten|Гаптен
-424|immunology_microbiology_virology|Agglutination|Агглютинация
-425|immunology_microbiology_virology|Opsonization|Опсонизация
-426|immunology_microbiology_virology|Neutralization|Нейтрализация (антителами)
-427|immunology_microbiology_virology|Vaccination|Вакцинация
-428|immunology_microbiology_virology|Immunization|Иммунизация
-429|immunology_microbiology_virology|Autoimmune disease|Аутоиммунное заболевание
-430|immunology_microbiology_virology|Allergy|Аллергия
-431|immunology_microbiology_virology|Anaphylaxis|Анафилаксия
-432|immunology_microbiology_virology|Hypersensitivity|Гиперчувствительность
-433|immunology_microbiology_virology|Immunodeficiency|Иммунодефицит
-434|immunology_microbiology_virology|Pathogen|Патоген
-435|immunology_microbiology_virology|Virulence|Вирулентность
-436|immunology_microbiology_virology|Bacteriophage|Бактериофаг
-437|immunology_microbiology_virology|Capsid|Капсид
-438|immunology_microbiology_virology|Envelope|Вирусная оболочка
-439|immunology_microbiology_virology|Reverse transcriptase|Обратная транскриптаза
-440|immunology_microbiology_virology|Retrovirus|Ретровирус
-441|immunology_microbiology_virology|Lysogenic cycle|Лизогенный цикл
-442|immunology_microbiology_virology|Lytic cycle|Литический цикл
-443|immunology_microbiology_virology|Plasmid-mediated resistance|Плазмидная устойчивость
-444|immunology_microbiology_virology|Antibiotic resistance|Антибиотикорезистентность
-445|immunology_microbiology_virology|Peptidoglycan|Пептидогликан
-446|immunology_microbiology_virology|Gram-positive bacteria|Грамположительные бактерии
-447|immunology_microbiology_virology|Gram-negative bacteria|Грамотрицательные бактерии
-448|immunology_microbiology_virology|Biofilm|Биопленка
-449|immunology_microbiology_virology|Endospore|Эндоспора
-450|immunology_microbiology_virology|Conjugation|Конъюгация (у бактерий)
-451|immunology_microbiology_virology|Transformation|Трансформация
-452|immunology_microbiology_virology|Transduction|Трансдукция
-453|immunology_microbiology_virology|Obligate anaerobe|Облигатный анаэроб
-454|immunology_microbiology_virology|Facultative anaerobe|Факультативный анаэроб
-455|immunology_microbiology_virology|Chemoautotroph|Хемоавтотроф
-456|immunology_microbiology_virology|Photoautotroph|Фотоавтотроф
-457|immunology_microbiology_virology|Nitrogen-fixing bacteria|Азотфиксирующие бактерии
-458|immunology_microbiology_virology|Cyanobacteria|Цианобактерии
-459|immunology_microbiology_virology|Archaea|Археи
-460|immunology_microbiology_virology|Methanogen|Метаноген
-461|immunology_microbiology_virology|Extremophile|Экстремофил
-462|immunology_microbiology_virology|Thermophile|Термофил
-463|immunology_microbiology_virology|Halophile|Галофил
-464|immunology_microbiology_virology|Acidophile|Ацидофил
-465|immunology_microbiology_virology|Psychrophile|Психрофил
-466|immunology_microbiology_virology|Fermentation|Ферментация (брожение)
-467|immunology_microbiology_virology|Pasteurization|Пастеризация
-468|immunology_microbiology_virology|Sterilization|Стерилизация
-469|immunology_microbiology_virology|Aseptic technique|Асептическая техника
-470|immunology_microbiology_virology|Culture medium|Питательная среда
-471|immunology_microbiology_virology|Agar plate|Чашка Петри с агаром
-472|immunology_microbiology_virology|Colony-forming unit (CFU)|Колониеобразующая единица (КОЕ)
-473|immunology_microbiology_virology|Serology|Серология
-474|immunology_microbiology_virology|Enzyme-linked immunosorbent assay (ELISA)|Иммуноферментный анализ (ИФА)
-475|immunology_microbiology_virology|Western blot|Вестерн-блоттинг
-476|immunology_microbiology_virology|Southern blot|Саузерн-блоттинг
-477|immunology_microbiology_virology|Northern blot|Нозерн-блоттинг
-478|immunology_microbiology_virology|Monoclonal antibody|Моноклональное антитело
-479|immunology_microbiology_virology|Polyclonal antibody|Поликлональное антитело
-480|immunology_microbiology_virology|Adjuvant|Адъювант
-481|immunology_microbiology_virology|Herd immunity|Коллективный иммунитет
-482|immunology_microbiology_virology|Zoonosis|Зооноз
-483|immunology_microbiology_virology|Vector-borne disease|Трансмиссивное заболевание
-484|immunology_microbiology_virology|Epidemiology|Эпидемиология
-485|immunology_microbiology_virology|Pandemic|Пандемия
-486|immunology_microbiology_virology|Epidemic|Эпидемия
-487|immunology_microbiology_virology|Endemic|Эндемичное заболевание
-488|immunology_microbiology_virology|Quarantine|Карантин
-489|immunology_microbiology_virology|Incubation period|Инкубационный период
-490|immunology_microbiology_virology|Virion|Вирион
-491|immunology_microbiology_virology|Prion|Прион
-492|immunology_microbiology_virology|Viroid|Вироид
-493|immunology_microbiology_virology|Satellite virus|Сателлитный вирус
-494|immunology_microbiology_virology|Apoptosis induction|Индукция апоптоза
-495|immunology_microbiology_virology|Immunofluorescence|Иммунофлуоресценция
-496|immunology_microbiology_virology|Flow cytometry|Проточная цитометрия
-497|immunology_microbiology_virology|Phagocytosis assay|Анализ фагоцитоза
-498|immunology_microbiology_virology|Cytotoxicity assay|Анализ цитотоксичности
-499|immunology_microbiology_virology|Microbial antagonism|Микробный антагонизм
-500|immunology_microbiology_virology|Microbiome|Микробиом
+id	category	term_en	term_ru
+1	molecular_cell	Transcription	Транскрипция
+2	molecular_cell	Translation	Трансляция
+3	molecular_cell	Phosphorylation	Фосфорилирование
+4	molecular_cell	Endosymbiosis	Эндосимбиоз
+5	molecular_cell	Apoptosis	Апоптоз
+6	molecular_cell	Autophagy	Аутофагия
+7	molecular_cell	Homeostasis	Гомеостаз
+8	molecular_cell	Polymorphism	Полиморфизм
+9	molecular_cell	Epigenetics	Эпигенетика
+10	molecular_cell	Nucleotide	Нуклеотид
+11	molecular_cell	Ribosome	Рибосома
+12	molecular_cell	Mitochondria	Митохондрии
+13	molecular_cell	Cytoskeleton	Цитоскелет
+14	molecular_cell	Membrane potential	Мембранный потенциал
+15	molecular_cell	Signal transduction	Передача сигналов
+16	molecular_cell	Ligand	Лиганд
+17	molecular_cell	Receptor	Рецептор
+18	molecular_cell	Enzyme catalysis	Ферментативный катализ
+19	molecular_cell	Denaturation	Денатурация
+20	molecular_cell	Catabolism	Катаболизм
+21	molecular_cell	Anabolism	Анаболизм
+22	molecular_cell	Metabolic pathway	Метаболический путь
+23	molecular_cell	Homeodomain	Гомеодомен
+24	molecular_cell	Transcription factor	Транскрипционный фактор
+25	molecular_cell	Chromatin remodeling	Ремоделирование хроматина
+26	molecular_cell	Exon	Экзон
+27	molecular_cell	Intron	Интрон
+28	molecular_cell	Spliceosome	Сплайсесома
+29	molecular_cell	Polyadenylation	Полиаденилирование
+30	molecular_cell	Ubiquitination	Убиквитинирование
+31	molecular_cell	Proteasome	Протеасома
+32	molecular_cell	Endoplasmic reticulum	Эндоплазматический ретикулум
+33	molecular_cell	Golgi apparatus	Аппарат Гольджи
+34	molecular_cell	Lysosome	Лизосома
+35	molecular_cell	Peroxisome	Пероксисома
+36	molecular_cell	Centrosome	Центросома
+37	molecular_cell	Microtubule	Микротрубочка
+38	molecular_cell	Microfilament	Микрофиламент
+39	molecular_cell	Intermediate filament	Промежуточный филамент
+40	molecular_cell	Phospholipid bilayer	Фосфолипидный бислой
+41	molecular_cell	Transmembrane protein	Трансмембранный белок
+42	molecular_cell	Endocytosis	Эндоцитоз
+43	molecular_cell	Exocytosis	Экзоцитоз
+44	molecular_cell	Pinocytosis	Пиноцитоз
+45	molecular_cell	Phagocytosis	Фагоцитоз
+46	molecular_cell	Osmosis	Осмос
+47	molecular_cell	Diffusion	Диффузия
+48	molecular_cell	Active transport	Активный транспорт
+49	molecular_cell	Passive transport	Пассивный транспорт
+50	molecular_cell	Ion channel	Ионный канал
+51	molecular_cell	Sodium-potassium pump	Натрий-калиевый насос
+52	molecular_cell	ATP synthase	АТФ-синтаза
+53	molecular_cell	Glycolysis	Гликолиз
+54	molecular_cell	Krebs cycle	Цикл Кребса (цикл лимонной кислоты)
+55	molecular_cell	Oxidative phosphorylation	Окислительное фосфорилирование
+56	molecular_cell	Photophosphorylation	Фотофосфорилирование
+57	molecular_cell	Calvin cycle	Цикл Кальвина
+58	molecular_cell	Chloroplast	Хлоропласт
+59	molecular_cell	Thylakoid	Тилакоид
+60	molecular_cell	Stroma	Строма
+61	molecular_cell	Matrix	Матрикс
+62	molecular_cell	Cytoplasm	Цитоплазма
+63	molecular_cell	Cytosol	Цитозоль
+64	molecular_cell	Nucleolus	Ядрышко
+65	molecular_cell	Nuclear envelope	Ядерная оболочка
+66	molecular_cell	Nuclear pore	Ядерная пора
+67	molecular_cell	Chromosome	Хромосома
+68	molecular_cell	Chromatid	Хроматида
+69	molecular_cell	Centromere	Центромера
+70	molecular_cell	Telomere	Теломера
+71	molecular_cell	Histone	Гистон
+72	molecular_cell	Nucleosome	Нуклеосома
+73	molecular_cell	DNA replication	Репликация ДНК
+74	molecular_cell	DNA polymerase	ДНК-полимераза
+75	molecular_cell	RNA polymerase	РНК-полимераза
+76	molecular_cell	Helicase	Хеликаза
+77	molecular_cell	Ligase	Лигаза
+78	molecular_cell	Primer	Праймер
+79	molecular_cell	Okazaki fragment	Фрагмент Оказаки
+80	molecular_cell	Leading strand	Лидирующая цепь
+81	molecular_cell	Lagging strand	Отстающая цепь
+82	molecular_cell	Codon	Кодон
+83	molecular_cell	Anticodon	Антикодон
+84	molecular_cell	Transfer RNA (tRNA)	Транспортная РНК
+85	molecular_cell	Messenger RNA (mRNA)	Матричная РНК
+86	molecular_cell	Ribosomal RNA (rRNA)	Рибосомальная РНК
+87	molecular_cell	Mutation	Мутация
+88	molecular_cell	Point mutation	Точечная мутация
+89	molecular_cell	Frameshift mutation	Мутация со сдвигом рамки считывания
+90	molecular_cell	Deletion	Делеция
+91	molecular_cell	Insertion	Инсерция
+92	molecular_cell	Inversion	Инверсия
+93	molecular_cell	Translocation	Транслокация
+94	molecular_cell	Gene expression	Экспрессия генов
+95	molecular_cell	Operon	Оперон
+96	molecular_cell	Promoter	Промотор
+97	molecular_cell	Enhancer	Энхансер
+98	molecular_cell	Silencer	Сайленсер
+99	molecular_cell	Operon model	Модель оперона
+100	molecular_cell	Signal peptide	Сигнальный пептид
+101	genetics_evolution	Allopatric speciation	Аллопатрическое видообразование
+102	genetics_evolution	Sympatric speciation	Симпатрическое видообразование
+103	genetics_evolution	Genetic drift	Генетический дрейф
+104	genetics_evolution	Gene flow	Поток генов
+105	genetics_evolution	Natural selection	Естественный отбор
+106	genetics_evolution	Fitness	Приспособленность
+107	genetics_evolution	Mutagenesis	Мутагенез
+108	genetics_evolution	Heterozygosity	Гетерозиготность
+109	genetics_evolution	Homozygosity	Гомозиготность
+110	genetics_evolution	Phenotype	Фенотип
+111	genetics_evolution	Genotype	Генотип
+112	genetics_evolution	Epistasis	Эпистаз
+113	genetics_evolution	Pleiotropy	Плейотропия
+114	genetics_evolution	Recombination	Рекомбинация
+115	genetics_evolution	Linkage disequilibrium	Неравновесное сцепление аллелей
+116	genetics_evolution	Phylogeny	Филогения
+117	genetics_evolution	Cladistics	Кладистика
+118	genetics_evolution	Monophyletic group	Монофилетическая группа
+119	genetics_evolution	Paraphyletic group	Парафилетическая группа
+120	genetics_evolution	Convergent evolution	Конвергентная эволюция
+121	genetics_evolution	Divergent evolution	Дивергентная эволюция
+122	genetics_evolution	Adaptive radiation	Адаптивная радиация
+123	genetics_evolution	Bottleneck effect	Эффект бутылочного горлышка
+124	genetics_evolution	Founder effect	Эффект основателя
+125	genetics_evolution	Speciation	Видообразование
+126	genetics_evolution	Allele frequency	Частота аллелей
+127	genetics_evolution	Hardy-Weinberg equilibrium	Закон Харди-Вайнберга
+128	genetics_evolution	Directional selection	Направленный отбор
+129	genetics_evolution	Stabilizing selection	Стабилизирующий отбор
+130	genetics_evolution	Disruptive selection	Дизруптивный отбор
+131	genetics_evolution	Sexual selection	Половой отбор
+132	genetics_evolution	Altruism	Альтруизм
+133	genetics_evolution	Kin selection	Родственный отбор
+134	genetics_evolution	Coevolution	Коэволюция
+135	genetics_evolution	Analogous structures	Аналогичные структуры
+136	genetics_evolution	Homologous structures	Гомологичные структуры
+137	genetics_evolution	Vestigial structure	Рудиментарная структура
+138	genetics_evolution	Fossils	Ископаемые
+139	genetics_evolution	Paleontology	Палеонтология
+140	genetics_evolution	Biogeography	Биогеография
+141	genetics_evolution	Speciation rate	Скорость видообразования
+142	genetics_evolution	Reproductive isolation	Репродуктивная изоляция
+143	genetics_evolution	Prezygotic barrier	Презиготический барьер
+144	genetics_evolution	Postzygotic barrier	Постзиготический барьер
+145	genetics_evolution	Polyploidy	Полиплоидия
+146	genetics_evolution	Aneuploidy	Анеуплоидия
+147	genetics_evolution	Monosomy	Моносомия
+148	genetics_evolution	Trisomy	Трисомия
+149	genetics_evolution	Crossing over	Кроссинговер
+150	genetics_evolution	Locus	Локус
+151	genetics_evolution	Dominant allele	Доминантный аллель
+152	genetics_evolution	Recessive allele	Рецессивный аллель
+153	genetics_evolution	Codominance	Кодоминантность
+154	genetics_evolution	Incomplete dominance	Неполное доминирование
+155	genetics_evolution	Pedigree analysis	Анализ родословных
+156	genetics_evolution	Monohybrid cross	Моногибридное скрещивание
+157	genetics_evolution	Dihybrid cross	Дигибридное скрещивание
+158	genetics_evolution	Test cross	Анализирующее скрещивание
+159	genetics_evolution	Autosome	Аутосома
+160	genetics_evolution	Sex chromosome	Половая хромосома
+161	genetics_evolution	Carrier	Носитель (гена)
+162	genetics_evolution	Epigenome	Эпигеном
+163	genetics_evolution	Metagenomics	Метагеномика
+164	genetics_evolution	Transcriptomics	Транскриптомика
+165	genetics_evolution	Proteomics	Протеомика
+166	genetics_evolution	Metabolomics	Метаболомика
+167	genetics_evolution	Bioinformatics	Биоинформатика
+168	genetics_evolution	CRISPR-Cas9	Система CRISPR-Cas9
+169	genetics_evolution	Polymerase chain reaction (PCR)	Полимеразная цепная реакция (ПЦР)
+170	genetics_evolution	Gel electrophoresis	Гель-электрофорез
+171	genetics_evolution	Sequencing	Секвенирование
+172	genetics_evolution	Plasmid	Плазмида
+173	genetics_evolution	Vector	Вектор (в генетической инженерии)
+174	genetics_evolution	Recombinant DNA	Рекомбинантная ДНК
+175	genetics_evolution	Restriction enzyme	Рестриктаза (рестрикционный фермент)
+176	genetics_evolution	Transgenic organism	Трансгенный организм
+177	genetics_evolution	Gene knockout	Нокаут гена
+178	genetics_evolution	Gene knockdown	Нокдаун гена
+179	genetics_evolution	Cloning	Клонирование
+180	genetics_evolution	Stem cell	Стволовая клетка
+181	genetics_evolution	Totipotent	Тотипотентный
+182	genetics_evolution	Pluripotent	Плюрипотентный
+183	genetics_evolution	Multipotent	Мультипотентный
+184	genetics_evolution	Differentiation	Дифференцировка
+185	genetics_evolution	Morphogenesis	Морфогенез
+186	genetics_evolution	Blastocyst	Бластоциста
+187	genetics_evolution	Gastrulation	Гаструляция
+188	genetics_evolution	Organogenesis	Органогенез
+189	genetics_evolution	Ectoderm	Эктодерма
+190	genetics_evolution	Endoderm	Энтодерма
+191	genetics_evolution	Mesoderm	Мезодерма
+192	genetics_evolution	Zygote	Зигота
+193	genetics_evolution	Gamete	Гамета
+194	genetics_evolution	Meiosis	Мейоз
+195	genetics_evolution	Mitosis	Митоз
+196	genetics_evolution	Interphase	Интерфаза
+197	genetics_evolution	Prophase	Профаза
+198	genetics_evolution	Metaphase	Метафаза
+199	genetics_evolution	Anaphase	Анафаза
+200	genetics_evolution	Telophase	Телофаза
+201	ecology_environment	Trophic cascade	Трофический каскад
+202	ecology_environment	Biodiversity	Биоразнообразие
+203	ecology_environment	Ecosystem resilience	Экологическая устойчивость
+204	ecology_environment	Carrying capacity	Ёмкость среды
+205	ecology_environment	Biogeochemical cycle	Биогеохимический цикл
+206	ecology_environment	Succession	Сукцессия
+207	ecology_environment	Climax community	Климаксное сообщество
+208	ecology_environment	Symbiosis	Симбиоз
+209	ecology_environment	Mutualism	Мутуализм
+210	ecology_environment	Commensalism	Комменсализм
+211	ecology_environment	Parasitism	Паразитизм
+212	ecology_environment	Niche	Экологическая ниша
+213	ecology_environment	Keystone species	Ключевой вид
+214	ecology_environment	Biomagnification	Биомагнификация
+215	ecology_environment	Eutrophication	Эвтрофикация
+216	ecology_environment	Population density	Плотность популяции
+217	ecology_environment	Demography	Демография
+218	ecology_environment	Biome	Биом
+219	ecology_environment	Tundra	Тундра
+220	ecology_environment	Taiga	Тайга
+221	ecology_environment	Savanna	Саванна
+222	ecology_environment	Desertification	Опустынивание
+223	ecology_environment	Deforestation	Вырубка лесов
+224	ecology_environment	Acid rain	Кислотный дождь
+225	ecology_environment	Greenhouse effect	Парниковый эффект
+226	ecology_environment	Global warming	Глобальное потепление
+227	ecology_environment	Carbon sequestration	Связывание углерода
+228	ecology_environment	Nitrogen fixation	Фиксация азота
+229	ecology_environment	Nitrification	Нитрификация
+230	ecology_environment	Denitrification	Денитрификация
+231	ecology_environment	Ammonification	Аммонификация
+232	ecology_environment	Biome distribution	Распределение биомов
+233	ecology_environment	Phytoplankton	Фитопланктон
+234	ecology_environment	Zooplankton	Зоопланктон
+235	ecology_environment	Benthos	Бентос
+236	ecology_environment	Pelagic zone	Пелагическая зона
+237	ecology_environment	Littoral zone	Литоральная зона
+238	ecology_environment	Abyssal zone	Абиссальная зона
+239	ecology_environment	Estuary	Эстуарий
+240	ecology_environment	Wetland	Водно-болотные угодья
+241	ecology_environment	Watershed	Водораздел
+242	ecology_environment	Habitat fragmentation	Фрагментация среды обитания
+243	ecology_environment	Invasive species	Инвазивный вид
+244	ecology_environment	Endemic species	Эндемичный вид
+245	ecology_environment	Conservation biology	Биология сохранения природы
+246	ecology_environment	Extinction vortex	Вихрь вымирания
+247	ecology_environment	Red list	Красный список
+248	ecology_environment	Ecological footprint	Экологический след
+249	ecology_environment	Primary production	Первичная продукция
+250	ecology_environment	Secondary production	Вторичная продукция
+251	ecology_environment	Biomass	Биомасса
+252	ecology_environment	Food web	Пищевая сеть
+253	ecology_environment	Food chain	Пищевая цепь
+254	ecology_environment	Detritivore	Детритофаг
+255	ecology_environment	Decomposer	Редуцент (деструктор)
+256	ecology_environment	Herbivore	Травоядное
+257	ecology_environment	Carnivore	Хищник (плотоядное)
+258	ecology_environment	Omnivore	Всеядное
+259	ecology_environment	Apex predator	Высший хищник
+260	ecology_environment	Competitive exclusion principle	Принцип конкурентного исключения
+261	ecology_environment	Resource partitioning	Разделение ресурсов
+262	ecology_environment	Batesian mimicry	Бейтсовская мимикрия
+263	ecology_environment	Mullerian mimicry	Мюллеровская мимикрия
+264	ecology_environment	Cryptic coloration	Покровительственная окраска
+265	ecology_environment	Aposematism	Апосематизм (предупреждающая окраска)
+266	ecology_environment	Pioneer species	Пионерные виды
+267	ecology_environment	Secondary succession	Вторичная сукцессия
+268	ecology_environment	Microclimate	Микроклимат
+269	ecology_environment	Macroclimate	Макроклимат
+270	ecology_environment	Abiotic factor	Абиотический фактор
+271	ecology_environment	Biotic factor	Биотический фактор
+272	ecology_environment	Phenology	Фенология
+273	ecology_environment	Ecological indicator	Экологический индикатор
+274	ecology_environment	Seral stage	Серийная стадия
+275	ecology_environment	Habitat corridor	Экологический коридор
+276	ecology_environment	Metapopulation	Метапопуляция
+277	ecology_environment	Survivorship curve	Кривая выживания
+278	ecology_environment	Exponential growth	Экспоненциальный рост
+279	ecology_environment	Logistic growth	Логистический рост
+280	ecology_environment	Life history strategy	Стратегия жизненного цикла
+281	ecology_environment	R-selected species	r-стратеги
+282	ecology_environment	K-selected species	K-стратеги
+283	ecology_environment	Demecenter	Демографический центр
+284	ecology_environment	Ecosystem service	Экосистемная услуга
+285	ecology_environment	Phytoremediation	Фиторемедиация
+286	ecology_environment	Biological control	Биологический метод борьбы
+287	ecology_environment	Agroecology	Агроэкология
+288	ecology_environment	Permafrost	Вечная мерзлота
+289	ecology_environment	Salinization	Засоление
+290	ecology_environment	Thermal pollution	Тепловое загрязнение
+291	ecology_environment	Ozone depletion	Разрушение озонового слоя
+292	ecology_environment	Biosphere	Биосфера
+293	ecology_environment	Lithosphere	Литосфера
+294	ecology_environment	Hydrosphere	Гидросфера
+295	ecology_environment	Atmosphere	Атмосфера
+296	ecology_environment	Ecological niche overlap	Перекрытие экологических ниш
+297	ecology_environment	Symbiogenesis	Симбиогенез
+298	ecology_environment	Epibiota	Эпибиота
+299	ecology_environment	Ecosystem engineering	Инженерия экосистем
+300	ecology_environment	Climax ecosystem	Климаксная экосистема
+301	physiology_anatomy	Action potential	Потенциал действия
+302	physiology_anatomy	Resting potential	Потенциал покоя
+303	physiology_anatomy	Synapse	Синапс
+304	physiology_anatomy	Neurotransmitter	Нейромедиатор
+305	physiology_anatomy	Central nervous system	Центральная нервная система
+306	physiology_anatomy	Peripheral nervous system	Периферическая нервная система
+307	physiology_anatomy	Myelin sheath	Миелиновая оболочка
+308	physiology_anatomy	Axon	Аксон
+309	physiology_anatomy	Dendrite	Дендрит
+310	physiology_anatomy	Nephron	Нефрон
+311	physiology_anatomy	Glomerulus	Клубочек (нефрона)
+312	physiology_anatomy	Loop of Henle	Петля Генле
+313	physiology_anatomy	Alveoli	Альвеолы
+314	physiology_anatomy	Hemoglobin	Гемоглобин
+315	physiology_anatomy	Systole	Систола
+316	physiology_anatomy	Diastole	Диастола
+317	physiology_anatomy	Cardiac output	Сердечный выброс
+318	physiology_anatomy	Vasodilation	Вазодилатация (расширение сосудов)
+319	physiology_anatomy	Vasoconstriction	Вазоконстрикция (сужение сосудов)
+320	physiology_anatomy	Erythrocyte	Эритроцит
+321	physiology_anatomy	Leukocyte	Лейкоцит
+322	physiology_anatomy	Thrombocyte	Тромбоцит
+323	physiology_anatomy	Plasma	Плазма крови
+324	physiology_anatomy	Lymph	Лимфа
+325	physiology_anatomy	Endocrine gland	Эндокринная железа
+326	physiology_anatomy	Exocrine gland	Экзокринная железа
+327	physiology_anatomy	Hormone	Гормон
+328	physiology_anatomy	Feedback loop	Петля обратной связи
+329	physiology_anatomy	Pituitary gland	Гипофиз
+330	physiology_anatomy	Hypothalamus	Гипоталамус
+331	physiology_anatomy	Adrenal gland	Надпочечник
+332	physiology_anatomy	Thyroid gland	Щитовидная железа
+333	physiology_anatomy	Insulin	Инсулин
+334	physiology_anatomy	Glucagon	Глюкагон
+335	physiology_anatomy	Peristalsis	Перистальтика
+336	physiology_anatomy	Villi	Ворсинки кишечника
+337	physiology_anatomy	Microvilli	Микроворсинки
+338	physiology_anatomy	Bile	Желчь
+339	physiology_anatomy	Pepsin	Пепсин
+340	physiology_anatomy	Amylase	Амилаза
+341	physiology_anatomy	Lipase	Липаза
+342	physiology_anatomy	Trypsin	Трипсин
+343	physiology_anatomy	Osteoblast	Остеобласт
+344	physiology_anatomy	Osteoclast	Остеокласт
+345	physiology_anatomy	Chondrocyte	Хондроцит
+346	physiology_anatomy	Sarcomere	Саркомер
+347	physiology_anatomy	Myosin	Миозин
+348	physiology_anatomy	Actin	Актин
+349	physiology_anatomy	Sliding filament theory	Теория скользящих нитей
+350	physiology_anatomy	Nephridia	Нефридии
+351	physiology_anatomy	Malpighian tubules	Мальпигиевы сосуды
+352	physiology_anatomy	Stomata	Устьица (у растений)
+353	physiology_anatomy	Xylem	Ксилема
+354	physiology_anatomy	Phloem	Флоэма
+355	physiology_anatomy	Cambium	Камбий
+356	physiology_anatomy	Meristem	Меристема (образовательная ткань)
+357	physiology_anatomy	Palisade mesophyll	Палисадная паренхима
+358	physiology_anatomy	Spongy mesophyll	Губчатая паренхима
+359	physiology_anatomy	Transpiration pull	Транспирационное натяжение
+360	physiology_anatomy	Root pressure	Корневое давление
+361	physiology_anatomy	Phototropism	Фототропизм
+362	physiology_anatomy	Gravitropism	Гравитропизм
+363	physiology_anatomy	Thigmotropism	Тигмотропизм
+364	physiology_anatomy	Auxin	Ауксин
+365	physiology_anatomy	Gibberellin	Гиббереллин
+366	physiology_anatomy	Cytokinin	Цитокинин
+367	physiology_anatomy	Abscisic acid	Абсцизовая кислота
+368	physiology_anatomy	Ethylene	Этилен
+369	physiology_anatomy	Photoperiodism	Фотопериодизм
+370	physiology_anatomy	Circadian rhythm	Циркадный ритм
+371	physiology_anatomy	Osmoregulation	Осморегуляция
+372	physiology_anatomy	Thermoregulation	Терморегуляция
+373	physiology_anatomy	Endotherm	Эндотерм
+374	physiology_anatomy	Ectotherm	Эктотерм
+375	physiology_anatomy	Poikilotherm	Пойкилотерм
+376	physiology_anatomy	Homeotherm	Гомойотерм
+377	physiology_anatomy	Countercurrent exchange	Противоточный обмен
+378	physiology_anatomy	Vasomotor control	Вазомоторный контроль
+379	physiology_anatomy	Chemoreceptor	Хеморецептор
+380	physiology_anatomy	Mechanoreceptor	Механорецептор
+381	physiology_anatomy	Photoreceptor	Фоторецептор
+382	physiology_anatomy	Thermoreceptor	Терморецептор
+383	physiology_anatomy	Proprioception	Проприоцепция
+384	physiology_anatomy	Cochlea	Улитка (внутреннего уха)
+385	physiology_anatomy	Retina	Сетчатка
+386	physiology_anatomy	Cornea	Роговица
+387	physiology_anatomy	Lens	Хрусталик
+388	physiology_anatomy	Rod cell	Палочка (сетчатки)
+389	physiology_anatomy	Cone cell	Колбочка (сетчатки)
+390	physiology_anatomy	Olfactory receptor	Обонятельный рецептор
+391	physiology_anatomy	Gustatory receptor	Вкусовой рецептор
+392	physiology_anatomy	Cerebrum	Большой мозг
+393	physiology_anatomy	Cerebellum	Мозжечок
+394	physiology_anatomy	Brainstem	Ствол мозга
+395	physiology_anatomy	Limbic system	Лимбическая система
+396	physiology_anatomy	Corpus callosum	Мозолистое тело
+397	physiology_anatomy	Thalamus	Таламус
+398	physiology_anatomy	Amygdala	Амигдала (миндалевидное тело)
+399	physiology_anatomy	Hippocampus	Гиппокамп
+400	physiology_anatomy	Ventricle	Желудочек (сердца или мозга)
+401	immunology_microbiology_virology	Innate immunity	Врожденный иммунитет
+402	immunology_microbiology_virology	Adaptive immunity	Приобретенный (адаптивный) иммунитет
+403	immunology_microbiology_virology	Antigen	Антиген
+404	immunology_microbiology_virology	Antibody	Антитело (иммуноглобулин)
+405	immunology_microbiology_virology	Macrophage	Макрофаг
+406	immunology_microbiology_virology	Neutrophil	Нейтрофил
+407	immunology_microbiology_virology	Lymphocyte	Лимфоцит
+408	immunology_microbiology_virology	T-cell	Т-лимфоцит
+409	immunology_microbiology_virology	B-cell	В-лимфоцит
+410	immunology_microbiology_virology	Cytotoxic T-cell	Цитотоксический Т-лимфоцит
+411	immunology_microbiology_virology	Helper T-cell	Т-хелпер
+412	immunology_microbiology_virology	Plasma cell	Плазматическая клетка
+413	immunology_microbiology_virology	Memory cell	Клетка памяти
+414	immunology_microbiology_virology	Major histocompatibility complex (MHC)	Главный комплекс гистосовместимости (ГКГС)
+415	immunology_microbiology_virology	Cytokine	Цитокин
+416	immunology_microbiology_virology	Chemokine	Хемокин
+417	immunology_microbiology_virology	Interferon	Интерферон
+418	immunology_microbiology_virology	Interleukin	Интерлейкин
+419	immunology_microbiology_virology	Complement system	Система комплемента
+420	immunology_microbiology_virology	Inflammation	Воспаление
+421	immunology_microbiology_virology	Phagolysosome	Фаголизосома
+422	immunology_microbiology_virology	Epitope	Эпитоп
+423	immunology_microbiology_virology	Hapten	Гаптен
+424	immunology_microbiology_virology	Agglutination	Агглютинация
+425	immunology_microbiology_virology	Opsonization	Опсонизация
+426	immunology_microbiology_virology	Neutralization	Нейтрализация (антителами)
+427	immunology_microbiology_virology	Vaccination	Вакцинация
+428	immunology_microbiology_virology	Immunization	Иммунизация
+429	immunology_microbiology_virology	Autoimmune disease	Аутоиммунное заболевание
+430	immunology_microbiology_virology	Allergy	Аллергия
+431	immunology_microbiology_virology	Anaphylaxis	Анафилаксия
+432	immunology_microbiology_virology	Hypersensitivity	Гиперчувствительность
+433	immunology_microbiology_virology	Immunodeficiency	Иммунодефицит
+434	immunology_microbiology_virology	Pathogen	Патоген
+435	immunology_microbiology_virology	Virulence	Вирулентность
+436	immunology_microbiology_virology	Bacteriophage	Бактериофаг
+437	immunology_microbiology_virology	Capsid	Капсид
+438	immunology_microbiology_virology	Envelope	Вирусная оболочка
+439	immunology_microbiology_virology	Reverse transcriptase	Обратная транскриптаза
+440	immunology_microbiology_virology	Retrovirus	Ретровирус
+441	immunology_microbiology_virology	Lysogenic cycle	Лизогенный цикл
+442	immunology_microbiology_virology	Lytic cycle	Литический цикл
+443	immunology_microbiology_virology	Plasmid-mediated resistance	Плазмидная устойчивость
+444	immunology_microbiology_virology	Antibiotic resistance	Антибиотикорезистентность
+445	immunology_microbiology_virology	Peptidoglycan	Пептидогликан
+446	immunology_microbiology_virology	Gram-positive bacteria	Грамположительные бактерии
+447	immunology_microbiology_virology	Gram-negative bacteria	Грамотрицательные бактерии
+448	immunology_microbiology_virology	Biofilm	Биопленка
+449	immunology_microbiology_virology	Endospore	Эндоспора
+450	immunology_microbiology_virology	Conjugation	Конъюгация (у бактерий)
+451	immunology_microbiology_virology	Transformation	Трансформация
+452	immunology_microbiology_virology	Transduction	Трансдукция
+453	immunology_microbiology_virology	Obligate anaerobe	Облигатный анаэроб
+454	immunology_microbiology_virology	Facultative anaerobe	Факультативный анаэроб
+455	immunology_microbiology_virology	Chemoautotroph	Хемоавтотроф
+456	immunology_microbiology_virology	Photoautotroph	Фотоавтотроф
+457	immunology_microbiology_virology	Nitrogen-fixing bacteria	Азотфиксирующие бактерии
+458	immunology_microbiology_virology	Cyanobacteria	Цианобактерии
+459	immunology_microbiology_virology	Archaea	Археи
+460	immunology_microbiology_virology	Methanogen	Метаноген
+461	immunology_microbiology_virology	Extremophile	Экстремофил
+462	immunology_microbiology_virology	Thermophile	Термофил
+463	immunology_microbiology_virology	Halophile	Галофил
+464	immunology_microbiology_virology	Acidophile	Ацидофил
+465	immunology_microbiology_virology	Psychrophile	Психрофил
+466	immunology_microbiology_virology	Fermentation	Ферментация (брожение)
+467	immunology_microbiology_virology	Pasteurization	Пастеризация
+468	immunology_microbiology_virology	Sterilization	Стерилизация
+469	immunology_microbiology_virology	Aseptic technique	Асептическая техника
+470	immunology_microbiology_virology	Culture medium	Питательная среда
+471	immunology_microbiology_virology	Agar plate	Чашка Петри с агаром
+472	immunology_microbiology_virology	Colony-forming unit (CFU)	Колониеобразующая единица (КОЕ)
+473	immunology_microbiology_virology	Serology	Серология
+474	immunology_microbiology_virology	Enzyme-linked immunosorbent assay (ELISA)	Иммуноферментный анализ (ИФА)
+475	immunology_microbiology_virology	Western blot	Вестерн-блоттинг
+476	immunology_microbiology_virology	Southern blot	Саузерн-блоттинг
+477	immunology_microbiology_virology	Northern blot	Нозерн-блоттинг
+478	immunology_microbiology_virology	Monoclonal antibody	Моноклональное антитело
+479	immunology_microbiology_virology	Polyclonal antibody	Поликлональное антитело
+480	immunology_microbiology_virology	Adjuvant	Адъювант
+481	immunology_microbiology_virology	Herd immunity	Коллективный иммунитет
+482	immunology_microbiology_virology	Zoonosis	Зооноз
+483	immunology_microbiology_virology	Vector-borne disease	Трансмиссивное заболевание
+484	immunology_microbiology_virology	Epidemiology	Эпидемиология
+485	immunology_microbiology_virology	Pandemic	Пандемия
+486	immunology_microbiology_virology	Epidemic	Эпидемия
+487	immunology_microbiology_virology	Endemic	Эндемичное заболевание
+488	immunology_microbiology_virology	Quarantine	Карантин
+489	immunology_microbiology_virology	Incubation period	Инкубационный период
+490	immunology_microbiology_virology	Virion	Вирион
+491	immunology_microbiology_virology	Prion	Прион
+492	immunology_microbiology_virology	Viroid	Вироид
+493	immunology_microbiology_virology	Satellite virus	Сателлитный вирус
+494	immunology_microbiology_virology	Apoptosis induction	Индукция апоптоза
+495	immunology_microbiology_virology	Immunofluorescence	Иммунофлуоресценция
+496	immunology_microbiology_virology	Flow cytometry	Проточная цитометрия
+497	immunology_microbiology_virology	Phagocytosis assay	Анализ фагоцитоза
+498	immunology_microbiology_virology	Cytotoxicity assay	Анализ цитотоксичности
+499	immunology_microbiology_virology	Microbial antagonism	Микробный антагонизм
+500	immunology_microbiology_virology	Microbiome	Микробиом
