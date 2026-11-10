@@ -157,7 +157,7 @@ sambu ide workspace examples
 sambu ide complete actor
 ```
 
-The current IDE is a headless editor-service core—not a graphical editor or LSP server. It provides syntax diagnostics, source snapshots, an outline and bounded lexical completion.
+The repository now includes **SAMBU Duck Studio**, a native desktop GUI built with Python's standard-library Tkinter toolkit. It reuses the existing headless IDE services for syntax diagnostics and symbol outlines, and adds a black-and-yellow editor workspace, file open/save, F5 execution, output panel, RU/EN interface switching and an Apple-device diagnostics view. It is a desktop editor shell, not yet an LSP client or a full-featured language server.
 
 ### Capability profiles
 
@@ -605,3 +605,34 @@ SAMBU is distributed under the MIT License. See [LICENSE](LICENSE).
 *Stay curious. Follow the trail. Keep the flock moving.* 🐣
 
 </div>
+
+
+## 🦆 SAMBU Duck Studio — graphical IDE
+
+Install the project and launch the desktop IDE:
+
+```bash
+python -m pip install -e .
+sambu-ide
+```
+
+On Windows, Tkinter is normally included with the standard Python installer. The interface uses a charcoal-black workspace, vivid yellow duck-brand accents, a source editor, workspace browser, symbol outline, diagnostics and an integrated execution output panel. Use **Ctrl+O** to open, **Ctrl+S** to save and **F5** to run the current `.sambu` file. The interface language can be switched between Russian and English.
+
+### Apple device diagnostics (Windows)
+
+Open **iPhone / iPad** in the right-hand panel. The diagnostic view checks for `idevice_id` and `ideviceinfo`, enumerates devices exposed by the installed libimobiledevice build, and attempts to read `ProductType`, `ProductVersion` and `DeviceName` from an existing trusted pairing. On Windows it also queries Apple Mobile Device Service and present Plug-and-Play devices through PowerShell.
+
+Install a supported Windows build of [libimobiledevice](https://libimobiledevice.org/) and make its command-line tools available on `PATH`. Install or repair [Apple Devices](https://apps.microsoft.com/detail/9np83lwlpz9k) / its Apple USB driver components where appropriate. Unlock the iPhone/iPad and accept the Trust prompt before expecting paired metadata.
+
+**Diagnostic limits:** SAMBU does not bypass Apple's pairing or trust model. Model and iOS version are shown only when the device is enumerated and the pairing API returns those values. USB enumeration can reveal driver/service problems, but software cannot conclusively identify a charge-only cable or prove a physical port is defective. The diagnostic is read-only and does not back up, restore, pair or alter the device.
+
+### Development and hardware validation
+
+Run the desktop and device-diagnostic tests with:
+
+```bash
+python -m unittest tests.test_device_diagnostics
+python -m unittest discover -s tests
+```
+
+A hardware compatibility matrix should be populated by running the diagnostic against real iPhone/iPad models and supported Windows/libimobiledevice combinations. CI unit tests mock the device layer and do not claim physical-device coverage. Code signing and a signed Windows installer require a release certificate and should be configured as a release-pipeline secret; no unsigned build is represented as signed.
