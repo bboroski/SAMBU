@@ -140,6 +140,34 @@ class AppleDeviceToolkitTests(unittest.TestCase):
             for item in report.tests
         ))
 
+    def test_windows_hardware_smoke_includes_driver_and_service_checks(self):
+        with patch("sambu.apple_devices.shutil.which", side_effect=lambda name: "C:/fake/" + name):
+            toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Windows")
+            report = toolkit.run_hardware_smoke()
+        names = {item.name for item in report.tests}
+        self.assertIn("apple_service", names)
+        self.assertIn("apple_usb_driver", names)
+        self.assertIn("apple_usb_enumeration", names)
+        self.assertTrue(report.passed)
+
+    def test_missing_pairing_utility_is_a_skipped_optional_check(self):
+        def available(name):
+            return None if name == "idevicepair" else "/fake/" + name
+        with patch("sambu.apple_devices.shutil.which", side_effect=available):
+            toolkit = AppleDeviceToolkit(runner=FakeRunner(), platform_name="Linux")
+            report = toolkit.run_hardware_smoke()
+        self.assertTrue(report.passed)
+        self.assertTrue(any(
+            item.name == "pairing_validation" and item.status == "skip"
+            for item in report.tests
+        ))
+
+    def test_timeout_must_be_finite_and_positive(self):
+        for value in (0, -1, float("nan"), float("inf")):
+            with self.subTest(timeout=value):
+                with self.assertRaises(ValueError):
+                    AppleDeviceToolkit(timeout=value)
+
     def test_pairing_tool_is_optional_when_metadata_api_is_available(self):
         runner = FakeRunner()
         def available(name):
