@@ -47,7 +47,12 @@ def multiply(left: Sequence[Sequence[float]],
             if a_value == 0.0:
                 continue
             for column, b_value in enumerate(b[pivot]):
-                product[row][column] += a_value * b_value
+                term = a_value * b_value
+                if not math.isfinite(term):
+                    raise SemanticMatrixError("matrix product exceeds finite float range")
+                product[row][column] += term
+                if not math.isfinite(product[row][column]):
+                    raise SemanticMatrixError("matrix accumulation exceeds finite float range")
     return tuple(tuple(row) for row in product)
 
 
@@ -69,8 +74,14 @@ def expand_relations(matrix: Sequence[Sequence[float]], *,
     n = len(source)
     transition = []
     for row in source:
-        total = sum(row)
-        transition.append([value / total for value in row] if total else [0.0] * n)
+        # Scale before summing so finite, large weights cannot overflow the row total.
+        scale = max(row)
+        if scale == 0.0:
+            transition.append([0.0] * n)
+            continue
+        scaled = [value / scale for value in row]
+        total = sum(scaled)
+        transition.append([value / total for value in scaled])
 
     frontier = transition
     accumulated = [[0.0] * n for _ in range(n)]
