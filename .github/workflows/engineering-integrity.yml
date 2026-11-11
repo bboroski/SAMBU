@@ -19,5 +19,5 @@ jobs:
           python-version: "3.12"
       - name: Run deterministic self-tests
         run: python tools/engineering_integrity.py --self-test
-      - name: Audit Luci source tree
+      - name: Audit repository source tree
         run: python tools/engineering_integrity.py --root . --format text
