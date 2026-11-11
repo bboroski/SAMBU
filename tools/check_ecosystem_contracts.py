@@ -23,7 +23,6 @@ def read_heading(content: str) -> str | None:
 
 def validate() -> list[str]:
     errors: list[str] = []
-
     for relative in README_FILES:
         path = ROOT / relative
         if not path.is_file():
@@ -34,20 +33,13 @@ def validate() -> list[str]:
         except (OSError, UnicodeError) as exc:
             errors.append(f"Cannot read {relative}: {exc}")
             continue
-
         if len(content) > MAX_README_CHARS:
-            errors.append(
-                f"{relative} is {len(content)} characters; limit is {MAX_README_CHARS}"
-            )
-
+            errors.append(f"{relative} is {len(content)} characters; limit is {MAX_README_CHARS}")
         heading = read_heading(content)
         if not heading:
             errors.append(f"{relative} has no H1 title")
         elif heading != REPOSITORY:
-            errors.append(
-                f"{relative} title must preserve canonical repository name "
-                f"{REPOSITORY!r}; found {heading!r}"
-            )
+            errors.append(f"{relative} title must preserve {REPOSITORY!r}; found {heading!r}")
 
     tokens_path = ROOT / "design" / "duck-ui.tokens.json"
     if not tokens_path.is_file():
@@ -64,10 +56,8 @@ def validate() -> list[str]:
                 errors.append("Duck UI accent token must be #FFD600")
         except (OSError, UnicodeError, json.JSONDecodeError, AttributeError) as exc:
             errors.append(f"Invalid Duck UI token file: {exc}")
-
     if not (ROOT / "design" / "DUCK_UI_SYSTEM.md").is_file():
         errors.append("Missing design/DUCK_UI_SYSTEM.md")
-
     return errors
 
 
@@ -78,12 +68,7 @@ def main() -> int:
             print(f"ERROR: {error}")
         print(f"Repository contract check failed for {REPOSITORY}.")
         return 1
-
-    print(
-        f"Repository contract check passed for {REPOSITORY}: "
-        "canonical identity, 3 localized READMEs, 10,000-character limit, "
-        "and Duck Black / Yellow tokens."
-    )
+    print(f"Repository contract check passed for {REPOSITORY}: canonical identity, 3 localized READMEs, 10,000-character limit, and Duck Black / Yellow tokens.")
     return 0
 
 
