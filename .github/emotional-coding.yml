@@ -1,0 +1,36 @@
+schema_version: "emotional-coding.v1"
+standard: "Emotional Coding 66"
+repository: "SAMBU"
+scope: "new-or-materially-changed-functions"
+mode: "review-and-test-guidance"
+runtime_changes: false
+external_dependencies: []
+stages:
+  inspiration:
+    markers: [Love, Affection, Adoration, Passion, Devotion, Fondness, Infatuation, Attachment, Care, Tenderness]
+    gate: "problem-value-and-module-context-understood"
+  architecture:
+    markers: [Warmth, Intimacy, Longing, Desire, Yearning, Crush, Enchantment, Fascination, Obsession, Worship, Reverence, Admiration, Respect]
+    gate: "contract-dependencies-and-edge-cases-defined"
+  implementation:
+    markers: [Loyalty, Commitment, Dedication, Sacrifice, Selflessness, Compassion, Empathy, Kindness, Gentleness, Sweetness, Charm, Allure, Magnetism, Chemistry, Connection, Bond, Unity, Harmony]
+    gate: "focused-implementation-matches-contract"
+  refinement:
+    markers: [Bliss, Joy, Happiness, Delight, Pleasure, Ecstasy, Rapture, Euphoria, Exhilaration, Thrill, Excitement, Spark, Flame, Fire, Heat, Glow, Radiance, Light, Sunshine, Moonlight, Starlight, Dream, Fantasy, Romance, Soulmate]
+    gate: "tests-review-documentation-and-release-readiness-verified"
+quality_gates:
+  contract_defined: true
+  input_validation: true
+  explicit_side_effects: true
+  resource_lifecycle_review: true
+  boundary_and_failure_tests: true
+  repository_native_lint_and_type_checks: true
+  dependency_changes_justified: true
+  security_and_secret_review: true
+  documentation_updated_when_needed: true
+  human_review_before_merge: true
+failure_policy:
+  missing_tests: "report-and-block-merge-when-required-by-repository-policy"
+  failed_checks: "do-not-promote"
+  unavailable_checks: "report-explicitly"
+  uncertain_behavior: "preserve-existing-contract-and-request-review"
