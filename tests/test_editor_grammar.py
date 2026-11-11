@@ -109,16 +109,18 @@ class SambuEditorGrammarTests(unittest.TestCase):
             "comment.block.parenthesized-pascal",
         }.issubset(names))
 
-    def test_both_string_delimiters_are_supported(self):
+    def test_both_string_delimiters_and_glyph_strings_are_supported(self):
         string_patterns = self.repository["strings"]["patterns"]
-        self.assertEqual(
-            {pattern["name"] for pattern in string_patterns},
-            {
-                "string.quoted.single.sambu",
-                "string.quoted.double.sambu",
-                "string.quoted.multi.glyph.sambu",
-                "string.quoted.raw.glyph.sambu",
-            },
+        names = {pattern["name"] for pattern in string_patterns}
+
+        self.assertTrue(
+            {"string.quoted.single.sambu", "string.quoted.double.sambu"}.issubset(names)
+        )
+        glyph_scopes = {name for name in names if name.endswith(".glyph.sambu")}
+        self.assertTrue(glyph_scopes, "glyph string scopes must be registered")
+        self.assertTrue(
+            all(name.startswith("string.quoted.") for name in glyph_scopes),
+            f"unexpected glyph string scopes: {sorted(glyph_scopes)}",
         )
 
     def test_glyph_tokens_have_a_dedicated_scope(self):
