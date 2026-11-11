@@ -11,11 +11,11 @@ SAMBU retains its historical scientific expansion. This is a second, engineering
 
 | Letter | Engineering law | Core question | Main mechanism |
 |---|---|---|---|
-| **S** | **Safety and staged sovereignty** | What is this component allowed to do? | Capability profiles, bounded inputs, explicit trust boundaries |
+| **S** | **Safety and staged capability control** | What is this component allowed to do? | Capability profiles, bounded inputs, explicit trust boundaries |
 | **A** | **Adaptive exploration** | What can be learned safely and cheaply? | Hypothesis-driven experiments, deterministic 1:100 AST sampling |
 | **M** | **Managed recovery and memory** | How are failures contained and remembered? | Actors, supervisors, bounded ten-thousand-entry failure ledger |
 | **B** | **Branchable, board-layered design** | Can one layer evolve without destabilizing the whole? | Plywood layering, explicit contracts, dependency graph, reversible changes |
-| **U** | **Unforced interoperability and user sovereignty** | Can users integrate, leave, fork and upgrade without coercion? | Stable interfaces, adapters, compatibility tests and migration records |
+| **U** | **Unforced interoperability and operator-controlled portability** | Can users integrate, leave, fork and upgrade without coercion? | Stable interfaces, adapters, compatibility tests and migration records |
 
 The letters define a closed engineering loop:
 
