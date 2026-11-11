@@ -10,16 +10,18 @@ be mixed with SGS-1.
 
 | Glyph | Canonical form | Meaning |
 |---|---|---|
-| `[[` | `[` | Open an array literal |
-| `]]` | `]` | Close an array literal |
+| `[[` | `[` + `[` | Two opening delimiters; begin a nested array literal |
+| `]]` | `]` + `]` | Two closing delimiters; finish a nested array literal |
 | `}-` | `fn` | Begin a function declaration |
 | `--{` | `{` | Open a statement block |
 | `}{` | `} else {` | Close the current conditional arm and open its alternative |
 | `::` | `.` | Access a record field |
 | `;;`, `:;`, `;:` | `;` | Separate statements or array items |
 
-The `}{` branch marker expands to the parser's three structural tokens. It is
-valid between an `if` body and its `else` body.
+The `[[` and `]]` pairs intentionally remain two ordinary bracket tokens. This
+preserves SAMBU's existing nested-array syntax rather than collapsing the pair
+into a single token. The `}{` branch marker expands to the parser's three
+structural tokens and is valid between an `if` body and its `else` body.
 
 ## Operator terminals
 
