@@ -73,7 +73,7 @@ rcme_status rcme_normalize_frobenius(rcme_matrix *m) {
     }
     if (scale == 0.0) return RCME_OK;
     {
-        double norm = scale * sqrt(sum - 1.0);
+        double norm = scale * sqrt(sum);
         if (!isfinite(norm) || norm == 0.0) return RCME_NUMERIC_OVERFLOW;
         for (i = 0; i < m->rows; ++i) for (j = 0; j < m->cols; ++j)
             m->data[i*m->stride+j] /= norm;
