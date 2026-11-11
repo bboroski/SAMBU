@@ -6,6 +6,14 @@
 <sub>Оновлено: 2026-11-11</sub>
 
 
+
+## NEON SYNDICATE — visual overview
+
+<p align="center"><img src="assets/neon-syndicate/overview.svg" alt="SAMBU high-resolution NEON SYNDICATE vector design preview" width="1200"></p>
+<p align="center"><em>High-resolution vector design preview — not a screenshot of a running application. Current runtime captures must be recorded from the Tkinter applications.</em></p>
+
+[Visual specification](design/NEON_SYNDICATE.md) · [Design tokens](design/neon-syndicate.tokens.json)
+
 ## Навигация
 
 - [Поточні можливості](#поточні-можливості)
@@ -41,13 +49,13 @@ Native compiler slice не має повного source-to-machine-code конв
 
 Нижче — знімки інтерфейсу застосунку з репозиторію. Вони ілюструють робочий простір, звіти та XML-інспектор.
 
-<p align="center"><img src="docs/images/duck-studio-overview.webp" alt="Duck Studio: головний робочий простір" width="960"></p>
+<p align="center"><img src="docs/images/duck-studio-hq/overview-00.webp" alt="Duck Studio: головний робочий простір" width="960"></p>
 <p align="center"><em>Duck Studio — головний робочий простір</em></p>
 
-<p align="center"><img src="docs/images/duck-studio-reports-findings.webp" alt="Duck Studio: звіти та результати перевірок" width="960"></p>
+<p align="center"><img src="docs/images/duck-studio-hq/reports-findings-00.webp" alt="Duck Studio: звіти та результати перевірок" width="960"></p>
 <p align="center"><em>Звіти та результати перевірок</em></p>
 
-<p align="center"><img src="docs/images/duck-studio-xml-inspector.webp" alt="Duck Studio: XML-інспектор" width="960"></p>
+<p align="center"><img src="docs/images/duck-studio-hq/xml-inspector-00.webp" alt="Duck Studio: XML-інспектор" width="960"></p>
 <p align="center"><em>XML-інспектор</em></p>
 
 ## Інженерна якість
@@ -71,7 +79,7 @@ Native compiler slice не має повного source-to-machine-code конв
 Репозиторії зберігають власні назви, код, API, цикли випуску та межі відповідальності. Інтеграція означає узгоджені контракти, а не автоматичне злиття незалежних runtime.
 
 ## Дизайн і документація
-Базовий інтерфейсний напрям екосистеми — **Duck Black / Yellow**: чорні поверхні, жовтий акцент для дій і станів, читабельна типографіка, доступний контраст, клавіатурна навігація та підтримка reduced motion. Деталі дивіться в [design/DUCK_UI_SYSTEM.md](design/DUCK_UI_SYSTEM.md), якщо файл присутній у цьому репозиторії.
+Базовий інтерфейсний напрям екосистеми — **NEON SYNDICATE**: чорні поверхні, жовтий акцент для дій і станів, читабельна типографіка, доступний контраст, клавіатурна навігація та підтримка reduced motion. Деталі дивіться в [design/NEON_SYNDICATE.md](design/NEON_SYNDICATE.md), якщо файл присутній у цьому репозиторії.
 
 ## Ліцензія
 MIT

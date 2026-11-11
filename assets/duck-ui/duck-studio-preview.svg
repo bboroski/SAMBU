@@ -1,52 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
 <title id="title">SAMBU Duck Studio — black and yellow vector UI preview</title>
 <desc id="desc">High-resolution layout preview with synthetic SAMPLE DATA. This is not a screenshot of a running application.</desc>
-<defs><linearGradient id="panel" x2="0" y2="1"><stop stop-color="#1A1A1A"/><stop offset="1" stop-color="#141414"/></linearGradient></defs>
-<rect width="1920" height="1080" fill="#0D0D0D"/>
-<rect width="1920" height="76" fill="#141414"/>
-<rect x="24" y="16" width="44" height="44" rx="11" fill="#FFD600"/>
-<path d="M34 42c0-11 8-19 18-19 10 0 18 8 18 18 0 3-1 6-3 8 5 1 8 5 8 10H44c-6 0-10-7-10-17z" fill="#0D0D0D"/>
-<text x="86" y="46" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="24" font-weight="700">SAMBU</text>
-<text x="184" y="44" fill="#999999" font-family="Segoe UI,Arial" font-size="14" letter-spacing="2">DUCK STUDIO / LOCAL XML INSPECTION</text>
-<rect x="1504" y="18" width="142" height="40" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="1575" y="43" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="14">DEMO WORKSPACE</text>
-<rect x="1660" y="18" width="104" height="40" rx="7" fill="#1A1A1A" stroke="#FFD600"/><text x="1712" y="43" text-anchor="middle" fill="#FFD600" font-family="Segoe UI,Arial" font-size="14">100%</text>
-<rect x="0" y="76" width="250" height="1004" fill="#0D0D0D" stroke="#262626"/>
-<text x="30" y="125" fill="#999999" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">WORKSPACE</text>
-<rect x="16" y="148" width="218" height="52" rx="8" fill="#332B00" stroke="#BFA100"/><text x="42" y="180" fill="#FFD600" font-family="Segoe UI,Arial" font-size="17" font-weight="700">▦  Overview</text>
-<text x="42" y="238" fill="#999999" font-family="Segoe UI,Arial" font-size="16">⌕  XML Inspector</text>
-<text x="42" y="294" fill="#999999" font-family="Segoe UI,Arial" font-size="16">☷  Reports &amp; findings</text>
-<text x="30" y="1012" fill="#FFD600" font-family="Segoe UI,Arial" font-size="12" font-weight="700">LOCAL · READ ONLY</text>
-<text x="30" y="1038" fill="#999999" font-family="Segoe UI,Arial" font-size="12">Synthetic demonstration data</text>
-<text x="294" y="138" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="32" font-weight="700">Project overview</text>
-<text x="294" y="170" fill="#999999" font-family="Segoe UI,Arial" font-size="16">A quiet control room for local configuration, queues and dependencies.</text>
-<rect x="294" y="198" width="190" height="46" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="314" y="226" fill="#999999" font-family="Segoe UI,Arial" font-size="13">DEMO WORKSPACE</text>
-<rect x="1518" y="198" width="160" height="46" rx="7" fill="#1A1A1A" stroke="#262626"/><text x="1598" y="226" text-anchor="middle" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="14">Open folder</text>
-<rect x="1690" y="198" width="188" height="46" rx="7" fill="#FFD600"/><text x="1784" y="226" text-anchor="middle" fill="#0D0D0D" font-family="Segoe UI,Arial" font-size="14" font-weight="700">Run inspection</text>
+<defs><linearGradient id="panel" x2="0" y2="1"><stop stop-color="#11171C"/><stop offset="1" stop-color="#0D1115"/></linearGradient></defs>
+<rect width="1920" height="1080" fill="#050505"/>
+<rect width="1920" height="76" fill="#0D1115"/>
+<rect x="24" y="16" width="44" height="44" rx="11" fill="#FCEE0A"/>
+<path d="M34 42c0-11 8-19 18-19 10 0 18 8 18 18 0 3-1 6-3 8 5 1 8 5 8 10H44c-6 0-10-7-10-17z" fill="#050505"/>
+<text x="86" y="46" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="24" font-weight="700">SAMBU</text>
+<text x="184" y="44" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="14" letter-spacing="2">DUCK STUDIO / LOCAL XML INSPECTION</text>
+<rect x="1504" y="18" width="142" height="40" rx="7" fill="#11171C" stroke="#29343B"/><text x="1575" y="43" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="14">DEMO WORKSPACE</text>
+<rect x="1660" y="18" width="104" height="40" rx="7" fill="#11171C" stroke="#FCEE0A"/><text x="1712" y="43" text-anchor="middle" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="14">100%</text>
+<rect x="0" y="76" width="250" height="1004" fill="#050505" stroke="#29343B"/>
+<text x="30" y="125" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">WORKSPACE</text>
+<rect x="16" y="148" width="218" height="52" rx="8" fill="#252400" stroke="#A69B00"/><text x="42" y="180" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="17" font-weight="700">▦  Overview</text>
+<text x="42" y="238" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="16">⌕  XML Inspector</text>
+<text x="42" y="294" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="16">☷  Reports &amp; findings</text>
+<text x="30" y="1012" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="12" font-weight="700">LOCAL · READ ONLY</text>
+<text x="30" y="1038" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="12">Synthetic demonstration data</text>
+<text x="294" y="138" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="32" font-weight="700">Project overview</text>
+<text x="294" y="170" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="16">A quiet control room for local configuration, queues and dependencies.</text>
+<rect x="294" y="198" width="190" height="46" rx="7" fill="#11171C" stroke="#29343B"/><text x="314" y="226" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13">DEMO WORKSPACE</text>
+<rect x="1518" y="198" width="160" height="46" rx="7" fill="#11171C" stroke="#29343B"/><text x="1598" y="226" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="14">Open folder</text>
+<rect x="1690" y="198" width="188" height="46" rx="7" fill="#FCEE0A"/><text x="1784" y="226" text-anchor="middle" fill="#050505" font-family="Segoe UI,Arial" font-size="14" font-weight="700">Run inspection</text>
 <g font-family="Segoe UI,Arial">
-<rect x="294" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#262626"/><text x="320" y="312" fill="#999999" font-size="13">FILES SCANNED</text><text x="320" y="372" fill="#FFD600" font-size="42" font-weight="700">24</text><text x="320" y="400" fill="#999999" font-size="13">Selected XML files</text>
-<rect x="684" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#262626"/><text x="710" y="312" fill="#999999" font-size="13">DI PREFERENCES</text><text x="710" y="372" fill="#FFD600" font-size="42" font-weight="700">18</text><text x="710" y="400" fill="#999999" font-size="13">Interface mappings</text>
-<rect x="1074" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#262626"/><text x="1100" y="312" fill="#999999" font-size="13">PLUGINS</text><text x="1100" y="372" fill="#FFD600" font-size="42" font-weight="700">7</text><text x="1100" y="400" fill="#999999" font-size="13">Observed type hooks</text>
-<rect x="1464" y="278" width="414" height="142" rx="10" fill="url(#panel)" stroke="#262626"/><text x="1490" y="312" fill="#999999" font-size="13">QUEUE TOPICS</text><text x="1490" y="372" fill="#FFD600" font-size="42" font-weight="700">5</text><text x="1490" y="400" fill="#999999" font-size="13">Message contracts</text>
+<rect x="294" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#29343B"/><text x="320" y="312" fill="#A6B2BC" font-size="13">FILES SCANNED</text><text x="320" y="372" fill="#FCEE0A" font-size="42" font-weight="700">24</text><text x="320" y="400" fill="#A6B2BC" font-size="13">Selected XML files</text>
+<rect x="684" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#29343B"/><text x="710" y="312" fill="#A6B2BC" font-size="13">DI PREFERENCES</text><text x="710" y="372" fill="#FCEE0A" font-size="42" font-weight="700">18</text><text x="710" y="400" fill="#A6B2BC" font-size="13">Interface mappings</text>
+<rect x="1074" y="278" width="370" height="142" rx="10" fill="url(#panel)" stroke="#29343B"/><text x="1100" y="312" fill="#A6B2BC" font-size="13">PLUGINS</text><text x="1100" y="372" fill="#FCEE0A" font-size="42" font-weight="700">7</text><text x="1100" y="400" fill="#A6B2BC" font-size="13">Observed type hooks</text>
+<rect x="1464" y="278" width="414" height="142" rx="10" fill="url(#panel)" stroke="#29343B"/><text x="1490" y="312" fill="#A6B2BC" font-size="13">QUEUE TOPICS</text><text x="1490" y="372" fill="#FCEE0A" font-size="42" font-weight="700">5</text><text x="1490" y="400" fill="#A6B2BC" font-size="13">Message contracts</text>
 </g>
-<rect x="294" y="446" width="1000" height="560" rx="10" fill="#1A1A1A" stroke="#262626"/>
-<text x="324" y="490" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="20" font-weight="700">Configuration map</text>
-<text x="324" y="520" fill="#999999" font-family="Segoe UI,Arial" font-size="13">Read-only inventory · SAMPLE DATA</text>
-<rect x="324" y="550" width="940" height="44" fill="#141414"/><text x="344" y="578" fill="#999999" font-family="Segoe UI,Arial" font-size="13">CONFIGURATION FILE</text><text x="968" y="578" fill="#999999" font-family="Segoe UI,Arial" font-size="13">RECORDS</text><text x="1145" y="578" fill="#999999" font-family="Segoe UI,Arial" font-size="13">STATUS</text>
-<g font-family="Cascadia Code,Consolas,monospace" font-size="14"><text x="344" y="632" fill="#E6E6E6">etc/di.xml</text><text x="980" y="632" fill="#E6E6E6">12</text><text x="1145" y="632" fill="#4CAF50">PASSED</text><text x="344" y="686" fill="#E6E6E6">etc/communication.xml</text><text x="980" y="686" fill="#E6E6E6">4</text><text x="1145" y="686" fill="#FFD600">REVIEW</text><text x="344" y="740" fill="#E6E6E6">etc/queue_consumer.xml</text><text x="980" y="740" fill="#E6E6E6">3</text><text x="1145" y="740" fill="#4CAF50">PASSED</text></g>
-<path d="M324 654H1260M324 708H1260M324 762H1260" stroke="#262626"/>
-<rect x="1320" y="446" width="558" height="560" rx="10" fill="#1A1A1A" stroke="#262626"/>
-<text x="1350" y="490" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="20" font-weight="700">Workspace health</text>
-<text x="1350" y="554" fill="#FFD600" font-family="Segoe UI,Arial" font-size="16" font-weight="700">REVIEW SUGGESTED</text>
-<text x="1350" y="588" fill="#999999" font-family="Segoe UI,Arial" font-size="14">0 errors  ·  2 warnings</text>
-<path d="M1350 620H1848" stroke="#262626"/>
-<text x="1350" y="664" fill="#E6E6E6" font-family="Segoe UI,Arial" font-size="15" font-weight="700">Inspection boundaries</text>
-<text x="1350" y="706" fill="#999999" font-family="Segoe UI,Arial" font-size="14">✓  No Magento runtime required</text>
-<text x="1350" y="746" fill="#999999" font-family="Segoe UI,Arial" font-size="14">✓  No network or broker calls</text>
-<text x="1350" y="786" fill="#999999" font-family="Segoe UI,Arial" font-size="14">✓  No configuration writes</text>
-<path d="M1350 820H1848" stroke="#262626"/>
-<text x="1350" y="858" fill="#FFD600" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">SAVED LOCAL REPORTS</text>
-<rect x="1350" y="878" width="498" height="38" rx="6" fill="#141414" stroke="#262626"/>
-<text x="1367" y="902" fill="#E6E6E6" font-family="Cascadia Code,Consolas,monospace" font-size="11">inspection-20261110-092500.json  ·  24 files</text>
-<rect x="1350" y="936" width="230" height="48" rx="7" fill="#FFD600"/><text x="1465" y="966" text-anchor="middle" fill="#0D0D0D" font-family="Segoe UI,Arial" font-size="14" font-weight="700">View diagnostics</text>
-<text x="1848" y="1040" text-anchor="end" fill="#FFD600" font-family="Segoe UI,Arial" font-size="12" font-weight="700">UI PREVIEW · SYNTHETIC DATA</text>
+<rect x="294" y="446" width="1000" height="560" rx="10" fill="#11171C" stroke="#29343B"/>
+<text x="324" y="490" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="20" font-weight="700">Configuration map</text>
+<text x="324" y="520" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13">Read-only inventory · SAMPLE DATA</text>
+<rect x="324" y="550" width="940" height="44" fill="#0D1115"/><text x="344" y="578" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13">CONFIGURATION FILE</text><text x="968" y="578" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13">RECORDS</text><text x="1145" y="578" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="13">STATUS</text>
+<g font-family="Cascadia Code,Consolas,monospace" font-size="14"><text x="344" y="632" fill="#FFFFFF">etc/di.xml</text><text x="980" y="632" fill="#FFFFFF">12</text><text x="1145" y="632" fill="#4CAF50">PASSED</text><text x="344" y="686" fill="#FFFFFF">etc/communication.xml</text><text x="980" y="686" fill="#FFFFFF">4</text><text x="1145" y="686" fill="#FCEE0A">REVIEW</text><text x="344" y="740" fill="#FFFFFF">etc/queue_consumer.xml</text><text x="980" y="740" fill="#FFFFFF">3</text><text x="1145" y="740" fill="#4CAF50">PASSED</text></g>
+<path d="M324 654H1260M324 708H1260M324 762H1260" stroke="#29343B"/>
+<rect x="1320" y="446" width="558" height="560" rx="10" fill="#11171C" stroke="#29343B"/>
+<text x="1350" y="490" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="20" font-weight="700">Workspace health</text>
+<text x="1350" y="554" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="16" font-weight="700">REVIEW SUGGESTED</text>
+<text x="1350" y="588" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="14">0 errors  ·  2 warnings</text>
+<path d="M1350 620H1848" stroke="#29343B"/>
+<text x="1350" y="664" fill="#FFFFFF" font-family="Segoe UI,Arial" font-size="15" font-weight="700">Inspection boundaries</text>
+<text x="1350" y="706" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="14">✓  No Magento runtime required</text>
+<text x="1350" y="746" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="14">✓  No network or broker calls</text>
+<text x="1350" y="786" fill="#A6B2BC" font-family="Segoe UI,Arial" font-size="14">✓  No configuration writes</text>
+<path d="M1350 820H1848" stroke="#29343B"/>
+<text x="1350" y="858" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="13" font-weight="700" letter-spacing="2">SAVED LOCAL REPORTS</text>
+<rect x="1350" y="878" width="498" height="38" rx="6" fill="#0D1115" stroke="#29343B"/>
+<text x="1367" y="902" fill="#FFFFFF" font-family="Cascadia Code,Consolas,monospace" font-size="11">inspection-20261110-092500.json  ·  24 files</text>
+<rect x="1350" y="936" width="230" height="48" rx="7" fill="#FCEE0A"/><text x="1465" y="966" text-anchor="middle" fill="#050505" font-family="Segoe UI,Arial" font-size="14" font-weight="700">View diagnostics</text>
+<text x="1848" y="1040" text-anchor="end" fill="#FCEE0A" font-family="Segoe UI,Arial" font-size="12" font-weight="700">UI PREVIEW · SYNTHETIC DATA</text>
 </svg>

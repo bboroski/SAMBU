@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "brand": "NEON SYNDICATE",
+  "repository": "SAMBU",
+  "theme": "Cyberpunk / Industrial / Dystopian Noir",
+  "colors": {
+    "void_black": "#050505",
+    "warning_yellow": "#FCEE0A",
+    "system_red": "#FF003C",
+    "data_blue": "#00F0FF",
+    "interface_white": "#FFFFFF",
+    "surface": "#0D1115",
+    "surface_raised": "#11171C",
+    "border": "#2A353D",
+    "muted": "#A6B2BC",
+    "success": "#56D68B"
+  },
+  "typography": {
+    "headlines": {
+      "preferred": [
+        "Orbitron",
+        "Rajdhani"
+      ],
+      "fallback": "Arial Narrow, sans-serif",
+      "weight": 700,
+      "transform": "uppercase"
+    },
+    "body": {
+      "preferred": [
+        "Rajdhani"
+      ],
+      "fallback": "Segoe UI, sans-serif"
+    },
+    "technical": {
+      "preferred": [
+        "Roboto Mono",
+        "Share Tech Mono"
+      ],
+      "fallback": "Consolas, monospace"
+    }
+  },
+  "geometry": {
+    "panels": "chamfered",
+    "corner_cut_px": 16,
+    "grid_unit_px": 8,
+    "hex_pattern": true
+  },
+  "motion": {
+    "fast_ms": 120,
+    "standard_ms": 180,
+    "slow_ms": 260,
+    "reduced_motion": "disable non-essential animation"
+  },
+  "accessibility": {
+    "minimum_control_height_px": 40,
+    "touch_target_px": 44,
+    "keyboard_focus": "#00F0FF",
+    "never_encode_state_by_color_alone": true
+  },
+  "preview_policy": "SVGs are design references, not runtime screenshots. Record real app captures from a running process; label sample data."
+}
