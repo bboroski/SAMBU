@@ -41,3 +41,7 @@ MIT
 
 ---
 **Built with care for engineering, clarity and people.**
+
+
+## Visual identity
+The Duck visual baseline uses structural black `#0D0D0D` (with `#111111` retained for legacy dark surfaces) and signal yellow `#FFD600`. Yellow marks primary actions, focus, selection and progress; status is never communicated by color alone.
