@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.1.0",
+  "schema_version": "3.0.0",
   "system": "Duck Black / Yellow",
   "scope": "Shared visual contract for web, desktop, diagnostics, developer tools and future application surfaces.",
   "principles": [
@@ -36,8 +36,8 @@
     "warning_surface": "#282200",
     "danger": "#FF6262",
     "danger_surface": "#351717",
-    "info": "#C7B34A",
-    "info_surface": "#24200F",
+    "info": "#42C7E8",
+    "info_surface": "#10232B",
     "focus": "#FFD600",
     "overlay": "#000000B8"
   },
@@ -108,7 +108,17 @@
     "standard": 180,
     "surface": 240,
     "maximum": 260,
-    "reduced_motion": 0
+    "reduced_motion": 0,
+    "fade_in": 160,
+    "rise_in": 200,
+    "scale_in": 180,
+    "slide_inline": 200,
+    "status_pulse": 1100,
+    "spinner": 800,
+    "shimmer": 1400,
+    "validation_shake": 320,
+    "update_highlight": 700,
+    "indeterminate_progress": 1500
   },
   "layout": {
     "ui_scale_min": 0.8,
@@ -476,5 +486,512 @@
       "unavailable"
     ],
     "release_rule": "A feature is implemented only when code, tests, permissions, failure states, and platform evidence exist."
+  },
+  "palette": {
+    "yellow": {
+      "hex": "#FFD600",
+      "rgb": {
+        "r": 255,
+        "g": 214,
+        "b": 0
+      },
+      "hsl": {
+        "h": 50.4,
+        "s": 100,
+        "l": 50
+      },
+      "role": "Primary action, selection and focus"
+    },
+    "black": {
+      "hex": "#0D0D0D",
+      "rgb": {
+        "r": 13,
+        "g": 13,
+        "b": 13
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 5.1
+      },
+      "role": "Primary canvas and structural foundation"
+    },
+    "red": {
+      "hex": "#FF6262",
+      "rgb": {
+        "r": 255,
+        "g": 98,
+        "b": 98
+      },
+      "hsl": {
+        "h": 0,
+        "s": 100,
+        "l": 69.2
+      },
+      "role": "Destructive and error state"
+    },
+    "cyan": {
+      "hex": "#42C7E8",
+      "rgb": {
+        "r": 66,
+        "g": 199,
+        "b": 232
+      },
+      "hsl": {
+        "h": 191.9,
+        "s": 78.3,
+        "l": 58.4
+      },
+      "role": "Information and neutral active data"
+    },
+    "gray": {
+      "hex": "#808080",
+      "rgb": {
+        "r": 128,
+        "g": 128,
+        "b": 128
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 50.2
+      },
+      "role": "Neutral hierarchy and supporting graphics"
+    },
+    "white": {
+      "hex": "#F2F2F2",
+      "rgb": {
+        "r": 242,
+        "g": 242,
+        "b": 242
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 94.9
+      },
+      "role": "Primary readable text and high-contrast surfaces"
+    }
+  },
+  "functional_shades": {
+    "yellow_hover": {
+      "hex": "#FFE34D",
+      "rgb": {
+        "r": 255,
+        "g": 227,
+        "b": 77
+      },
+      "hsl": {
+        "h": 50.6,
+        "s": 100,
+        "l": 65.1
+      },
+      "role": "Hover and active feedback"
+    },
+    "yellow_pressed": {
+      "hex": "#BFA100",
+      "rgb": {
+        "r": 191,
+        "g": 161,
+        "b": 0
+      },
+      "hsl": {
+        "h": 50.6,
+        "s": 100,
+        "l": 37.5
+      },
+      "role": "Pressed and secondary gold"
+    },
+    "yellow_selected": {
+      "hex": "#332B00",
+      "rgb": {
+        "r": 51,
+        "g": 43,
+        "b": 0
+      },
+      "hsl": {
+        "h": 50.6,
+        "s": 100,
+        "l": 10
+      },
+      "role": "Selected background tint"
+    },
+    "black_elevated": {
+      "hex": "#101010",
+      "rgb": {
+        "r": 16,
+        "g": 16,
+        "b": 16
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 6.3
+      },
+      "role": "Elevated canvas"
+    },
+    "graphite": {
+      "hex": "#171717",
+      "rgb": {
+        "r": 23,
+        "g": 23,
+        "b": 23
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 9
+      },
+      "role": "Default surface"
+    },
+    "graphite_raised": {
+      "hex": "#1D1D1D",
+      "rgb": {
+        "r": 29,
+        "g": 29,
+        "b": 29
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 11.4
+      },
+      "role": "Raised panels and cards"
+    },
+    "graphite_hover": {
+      "hex": "#242424",
+      "rgb": {
+        "r": 36,
+        "g": 36,
+        "b": 36
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 14.1
+      },
+      "role": "Hovered surfaces"
+    },
+    "graphite_pressed": {
+      "hex": "#2B2B2B",
+      "rgb": {
+        "r": 43,
+        "g": 43,
+        "b": 43
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 16.9
+      },
+      "role": "Pressed surfaces"
+    },
+    "gray_border": {
+      "hex": "#303030",
+      "rgb": {
+        "r": 48,
+        "g": 48,
+        "b": 48
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 18.8
+      },
+      "role": "Standard separators"
+    },
+    "gray_strong": {
+      "hex": "#484848",
+      "rgb": {
+        "r": 72,
+        "g": 72,
+        "b": 72
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 28.2
+      },
+      "role": "Strong borders and dividers"
+    },
+    "gray_muted": {
+      "hex": "#A3A3A3",
+      "rgb": {
+        "r": 163,
+        "g": 163,
+        "b": 163
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 63.9
+      },
+      "role": "Secondary and muted text"
+    },
+    "white_secondary": {
+      "hex": "#C4C4C4",
+      "rgb": {
+        "r": 196,
+        "g": 196,
+        "b": 196
+      },
+      "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 76.9
+      },
+      "role": "Secondary readable text"
+    },
+    "red_surface": {
+      "hex": "#351717",
+      "rgb": {
+        "r": 53,
+        "g": 23,
+        "b": 23
+      },
+      "hsl": {
+        "h": 0,
+        "s": 39.5,
+        "l": 14.9
+      },
+      "role": "Error and destructive-state surface"
+    },
+    "cyan_surface": {
+      "hex": "#10232B",
+      "rgb": {
+        "r": 16,
+        "g": 35,
+        "b": 43
+      },
+      "hsl": {
+        "h": 197.8,
+        "s": 45.8,
+        "l": 11.6
+      },
+      "role": "Information-state surface"
+    }
+  },
+  "animations": [
+    {
+      "name": "fade-in",
+      "class": "duck-animate-fade-in",
+      "keyframes": "duck-fade-in",
+      "duration_ms": 160,
+      "easing": "ease-out",
+      "iteration": "1",
+      "purpose": "Reveal newly mounted content without spatial movement"
+    },
+    {
+      "name": "rise-in",
+      "class": "duck-animate-rise-in",
+      "keyframes": "duck-rise-in",
+      "duration_ms": 200,
+      "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+      "iteration": "1",
+      "purpose": "Enter a panel, card or contextual surface"
+    },
+    {
+      "name": "scale-in",
+      "class": "duck-animate-scale-in",
+      "keyframes": "duck-scale-in",
+      "duration_ms": 180,
+      "easing": "cubic-bezier(0.16,1,0.3,1)",
+      "iteration": "1",
+      "purpose": "Open a compact popover or modal"
+    },
+    {
+      "name": "slide-inline",
+      "class": "duck-animate-slide-inline",
+      "keyframes": "duck-slide-inline",
+      "duration_ms": 200,
+      "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+      "iteration": "1",
+      "purpose": "Reveal a drawer or contextual panel from its origin"
+    },
+    {
+      "name": "status-pulse",
+      "class": "duck-animate-pulse",
+      "keyframes": "duck-pulse",
+      "duration_ms": 1100,
+      "easing": "ease-in-out",
+      "iteration": "infinite",
+      "purpose": "Subtle live-status indicator only; never the only state cue"
+    },
+    {
+      "name": "spinner",
+      "class": "duck-animate-spin",
+      "keyframes": "duck-spin",
+      "duration_ms": 800,
+      "easing": "linear",
+      "iteration": "infinite",
+      "purpose": "Indeterminate loading glyph"
+    },
+    {
+      "name": "skeleton-shimmer",
+      "class": "duck-animate-shimmer",
+      "keyframes": "duck-shimmer",
+      "duration_ms": 1400,
+      "easing": "linear",
+      "iteration": "infinite",
+      "purpose": "Loading placeholder while content is unavailable"
+    },
+    {
+      "name": "validation-shake",
+      "class": "duck-animate-shake",
+      "keyframes": "duck-shake",
+      "duration_ms": 320,
+      "easing": "cubic-bezier(0.36,0.07,0.19,0.97)",
+      "iteration": "1",
+      "purpose": "Briefly identify invalid input alongside a text message"
+    },
+    {
+      "name": "update-highlight",
+      "class": "duck-animate-highlight",
+      "keyframes": "duck-highlight",
+      "duration_ms": 700,
+      "easing": "ease-out",
+      "iteration": "1",
+      "purpose": "Acknowledge a refreshed value without stealing focus"
+    },
+    {
+      "name": "indeterminate-progress",
+      "class": "duck-animate-progress",
+      "keyframes": "duck-progress",
+      "duration_ms": 1500,
+      "easing": "cubic-bezier(0.65,0.05,0.36,1)",
+      "iteration": "infinite",
+      "purpose": "Indeterminate progress segment; pair with accessible status text"
+    }
+  ],
+  "transitions": [
+    {
+      "name": "page-enter",
+      "class": "duck-transition-page",
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "duration_ms": 200,
+      "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+      "purpose": "Page and route content changes"
+    },
+    {
+      "name": "page-exit",
+      "class": "duck-transition-page-exit",
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "duration_ms": 140,
+      "easing": "ease-in",
+      "purpose": "Outgoing page content before navigation"
+    },
+    {
+      "name": "modal",
+      "class": "duck-transition-modal",
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "duration_ms": 200,
+      "easing": "cubic-bezier(0.16,1,0.3,1)",
+      "purpose": "Modal and dialog entry/exit"
+    },
+    {
+      "name": "tab-indicator",
+      "class": "duck-transition-tabs",
+      "properties": [
+        "transform",
+        "background-color"
+      ],
+      "duration_ms": 180,
+      "easing": "ease-out",
+      "purpose": "Tab underline or active pill movement"
+    },
+    {
+      "name": "tab-content",
+      "class": "duck-transition-tab-content",
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "duration_ms": 160,
+      "easing": "ease-out",
+      "purpose": "Tab panel content swap"
+    },
+    {
+      "name": "toast",
+      "class": "duck-transition-toast",
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "duration_ms": 180,
+      "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+      "purpose": "Alert and notification entry/exit"
+    },
+    {
+      "name": "accordion",
+      "class": "duck-transition-accordion",
+      "properties": [
+        "grid-template-rows",
+        "opacity"
+      ],
+      "duration_ms": 220,
+      "easing": "ease-in-out",
+      "purpose": "Expandable sections and disclosure panels"
+    },
+    {
+      "name": "interactive",
+      "class": "duck-transition-interactive",
+      "properties": [
+        "background-color",
+        "border-color",
+        "color",
+        "box-shadow",
+        "transform"
+      ],
+      "duration_ms": 140,
+      "easing": "ease-out",
+      "purpose": "Buttons, links, fields and hover/focus feedback"
+    },
+    {
+      "name": "layout",
+      "class": "duck-transition-layout",
+      "properties": [
+        "width",
+        "height",
+        "gap",
+        "grid-template-columns"
+      ],
+      "duration_ms": 220,
+      "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+      "purpose": "Responsive workspace and panel layout changes"
+    },
+    {
+      "name": "overlay",
+      "class": "duck-transition-overlay",
+      "properties": [
+        "opacity"
+      ],
+      "duration_ms": 160,
+      "easing": "ease-out",
+      "purpose": "Backdrop and scrim fade"
+    }
+  ],
+  "branding": {
+    "visual_identity": "Duck Black / Yellow",
+    "primary_background": "#0D0D0D",
+    "primary_accent": "#FFD600",
+    "accent_usage": "Primary actions, focus, selected navigation and verified progress; not large decorative fills",
+    "voice": "Clear, direct, technical, specific, evidence-led and user-respectful",
+    "claim_policy": "Every product claim maps to a verifiable implemented capability or is explicitly labelled planned"
+  },
+  "governance": {
+    "default_branch": "main",
+    "workflow": "feature-or-fix-branch -> pull request -> required checks -> review -> merge",
+    "direct_push_to_main": false,
+    "change_requires": "tests, documentation parity, security review where applicable, and rollback notes for risky changes",
+    "debt_policy": "Track technical debt as explicit remediation work; never market unresolved debt as a feature"
   }
 }
