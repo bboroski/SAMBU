@@ -1,6 +1,6 @@
 # SAMBU language guide (0.11 baseline)
 
-> This guide describes the implemented Python-hosted interpreter. Native compilation, static type checking, ownership, language-level async and zero-cost abstractions are future targets, not current guarantees. See [Language Evolution Architecture](LANGUAGE_EVOLUTION.md) for the staged systems-language design and [Autonomy Constitution](AUTONOMY_CONSTITUTION.md) for 50 auditable engineering rules.
+> This guide describes the implemented Python-hosted interpreter. A conservative, opt-in semantic pass is now available; complete static typing, native compilation, ownership, language-level async and zero-cost abstractions remain future targets, not current guarantees. See [Language Evolution Architecture](LANGUAGE_EVOLUTION.md) for the staged systems-language design and [Autonomy Constitution](AUTONOMY_CONSTITUTION.md) for 50 auditable engineering rules.
 
 ## Design goal
 
@@ -70,6 +70,10 @@ The example uses `kava` (`let`), `tava` (`fn`), `tavum` (`return`), `teva` (`if`
 Reserved words are not silently interpreted. Query a word from source with `word_info("kava")` (articulatory form `leven("kava")`) or list the lexicon with `wordbook()` (articulatory form `levir()`). The CLI also exposes `sambu lexicon --status reserved`.
 
 The complete word-by-word definitions and sound families are in [Articulatory Syntax](ARTICULATORY_SYNTAX.md). For provenance-led experiments that design token sets and grammar productions, see [Language Craft](LANGUAGE_CRAFT.md). The old syntax remains source-compatible, and articulatory forms can be mixed with canonical keywords during migration.
+
+## Static semantic analysis
+
+SAMBU provides an opt-in pre-execution semantic pass over the source-aware AST. It checks lexical names and scopes, duplicate declarations, known function-call arity, top-level `return`, and definite primitive operator mismatches. Use `sambu check FILE` or `sambu check FILE --json`; the command never executes the source. Dynamic members and unknown domain return types are left unknown rather than guessed. This is not yet a complete static type or SI-dimension checker. See [Semantic Analysis](SEMANTIC_ANALYSIS.md) for diagnostic codes, API examples and explicit limits.
 
 ## Expressions
 
