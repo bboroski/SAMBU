@@ -137,7 +137,7 @@ class PortfolioVerifier:
             if verified:
                 verified_weight += effective_weight
             results.append(ArtifactVerification(identifier, verified, actual, tuple(dict.fromkeys(reasons))))
-        score = 100.0 * verified_weight / total_weight if total_weight else 0.0
+        score = 100.0 * (verified_weight / total_weight) if total_weight else 0.0
         all_verified = bool(results) and all(item.verified for item in results)
         status = "verified" if all_verified else ("partial" if verified_weight else "unverified")
         return PortfolioVerification(portfolio_id, status, all_verified, score, verified_weight, total_weight, tuple(results))
