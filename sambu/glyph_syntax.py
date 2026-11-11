@@ -44,7 +44,7 @@ GLYPH_TOKEN_ALIASES: dict[str, tuple[str, str]] = {
     r"\]=": ("OP", "<="),
     r"=\]": ("OP", "<="),
     "]=\\": ("OP", ">="),
-    r"=-\\": ("OP", ">="),
+    "=-\\": ("OP", ">="),
 }
 
 GLYPH_TOKEN_ALIASES_BY_LENGTH = tuple(
