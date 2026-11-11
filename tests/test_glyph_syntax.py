@@ -67,7 +67,7 @@ print(square(5))
         source = "let x :: 1 /* ignored\n symbols */;; print(x)"
         tokens = tokenize(source)
         print_token = next(token for token in tokens if token.value == "print")
-        self.assertEqual((print_token.line, print_token.column), (2, 12))
+        self.assertEqual((print_token.line, print_token.column), (2, 15))
         self.assertEqual(len(parse(source)), 2)
 
     def test_unterminated_block_comment_has_stable_diagnostic(self):
