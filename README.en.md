@@ -21,7 +21,7 @@
 > **SAMBU** — SAMBU is an experimental Python-hosted environment for programming, scientific modeling and reproducible workflows.
 
 ## Current capabilities
-- Language core with lexer/parser, AST, functions, scopes, arrays and records.
+- Language core with lexer/parser, AST, functions, scopes, arrays, records and Glyph Syntax v1.
 - Scientific layer with SI quantities, dimensional checks, physical constants and reproducible sampling.
 - Sparse voxel grids, chunks, Morton keys, octrees and graph operations.
 - CLI, Tkinter IDE, test runner and a partial C11 native-compiler slice.
@@ -56,6 +56,8 @@ These repository images show the application workspace, reports and XML inspecto
 - External integrations must be explicit, versioned, isolated and testable.
 
 ## Documentation map
+
+- [Glyph Syntax v1](docs/GLYPH_SYNTAX.md)
 
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE and editor](docs/IDE.md)
