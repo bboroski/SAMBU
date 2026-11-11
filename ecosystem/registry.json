@@ -287,6 +287,26 @@
       "reference_only": true,
       "clinical_decision_support": false,
       "hardware_control": false
+    },
+    "runtime_event_envelope_v1": {
+      "version": "1.0.0",
+      "schema": "schemas/runtime-event-v1.schema.json",
+      "implementation": "sambu/ecosystem_runtime.py",
+      "tests": "tests/test_ecosystem_runtime.py",
+      "specification": "docs/INTERSUBSTRATE_RUNTIME_API_V1.md#3-event-envelope",
+      "codec": "canonical-utf8-json",
+      "max_envelope_bytes": 262144,
+      "delivery": "bounded-in-process-fifo-reference"
+    },
+    "resource_descriptor_v1": {
+      "version": "1.0.0",
+      "schema": "schemas/resource-descriptor-v1.schema.json",
+      "implementation": "sambu/ecosystem_runtime.py",
+      "tests": "tests/test_ecosystem_runtime.py",
+      "specification": "docs/INTERSUBSTRATE_RUNTIME_API_V1.md#4-resource-descriptor",
+      "meaning": "portable-metadata-only",
+      "contains_raw_pointers": false,
+      "grants_authority": false
     }
   }
 }
