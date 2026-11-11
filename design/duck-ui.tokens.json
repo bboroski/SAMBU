@@ -34,10 +34,10 @@
     "success_surface": "#142319",
     "warning": "#FFD600",
     "warning_surface": "#282200",
-    "danger": "#FF6262",
+    "danger": "#FF4D4F",
     "danger_surface": "#351717",
-    "info": "#C7B34A",
-    "info_surface": "#24200F",
+    "info": "#38BDF8",
+    "info_surface": "#102A38",
     "focus": "#FFD600",
     "overlay": "#000000B8"
   },
@@ -476,5 +476,299 @@
       "unavailable"
     ],
     "release_rule": "A feature is implemented only when code, tests, permissions, failure states, and platform evidence exist."
+  },
+  "palette": {
+    "version": "1.0.0",
+    "base_colors": [
+      {
+        "id": "signal-yellow",
+        "label": "Signal yellow",
+        "hex": "#FFD600",
+        "rgb": "rgb(255, 214, 0)",
+        "hsl": "hsl(50.4, 100%, 50%)"
+      },
+      {
+        "id": "structural-black",
+        "label": "Structural black",
+        "hex": "#0D0D0D",
+        "rgb": "rgb(13, 13, 13)",
+        "hsl": "hsl(0, 0%, 5.1%)"
+      },
+      {
+        "id": "alert-red",
+        "label": "Alert red",
+        "hex": "#FF4D4F",
+        "rgb": "rgb(255, 77, 79)",
+        "hsl": "hsl(359.3, 100%, 65.1%)"
+      },
+      {
+        "id": "information-blue",
+        "label": "Information blue",
+        "hex": "#38BDF8",
+        "rgb": "rgb(56, 189, 248)",
+        "hsl": "hsl(198.4, 93.2%, 59.6%)"
+      },
+      {
+        "id": "neutral-gray",
+        "label": "Neutral gray",
+        "hex": "#808080",
+        "rgb": "rgb(128, 128, 128)",
+        "hsl": "hsl(0, 0%, 50.2%)"
+      },
+      {
+        "id": "clean-white",
+        "label": "Clean white",
+        "hex": "#F5F5F5",
+        "rgb": "rgb(245, 245, 245)",
+        "hsl": "hsl(0, 0%, 96.1%)"
+      }
+    ],
+    "functional_shades": [
+      {
+        "id": "yellow-hover",
+        "label": "Yellow hover",
+        "hex": "#FFE34D",
+        "rgb": "rgb(255, 227, 77)",
+        "hsl": "hsl(50.6, 100%, 65.1%)"
+      },
+      {
+        "id": "yellow-pressed",
+        "label": "Yellow pressed",
+        "hex": "#BFA100",
+        "rgb": "rgb(191, 161, 0)",
+        "hsl": "hsl(50.6, 100%, 37.5%)"
+      },
+      {
+        "id": "yellow-selected",
+        "label": "Yellow selected",
+        "hex": "#332B00",
+        "rgb": "rgb(51, 43, 0)",
+        "hsl": "hsl(50.6, 100%, 10%)"
+      },
+      {
+        "id": "black-surface",
+        "label": "Black surface",
+        "hex": "#141414",
+        "rgb": "rgb(20, 20, 20)",
+        "hsl": "hsl(0, 0%, 7.8%)"
+      },
+      {
+        "id": "black-raised",
+        "label": "Black raised surface",
+        "hex": "#1D1D1D",
+        "rgb": "rgb(29, 29, 29)",
+        "hsl": "hsl(0, 0%, 11.4%)"
+      },
+      {
+        "id": "black-border",
+        "label": "Black border",
+        "hex": "#303030",
+        "rgb": "rgb(48, 48, 48)",
+        "hsl": "hsl(0, 0%, 18.8%)"
+      },
+      {
+        "id": "red-hover",
+        "label": "Red hover",
+        "hex": "#FF7072",
+        "rgb": "rgb(255, 112, 114)",
+        "hsl": "hsl(359.2, 100%, 72%)"
+      },
+      {
+        "id": "red-muted",
+        "label": "Red muted surface",
+        "hex": "#351717",
+        "rgb": "rgb(53, 23, 23)",
+        "hsl": "hsl(0, 39.5%, 14.9%)"
+      },
+      {
+        "id": "blue-hover",
+        "label": "Blue hover",
+        "hex": "#60C9F5",
+        "rgb": "rgb(96, 201, 245)",
+        "hsl": "hsl(197.7, 88.2%, 66.9%)"
+      },
+      {
+        "id": "blue-muted",
+        "label": "Blue muted surface",
+        "hex": "#102A38",
+        "rgb": "rgb(16, 42, 56)",
+        "hsl": "hsl(201, 55.6%, 14.1%)"
+      },
+      {
+        "id": "gray-secondary",
+        "label": "Secondary gray",
+        "hex": "#A3A3A3",
+        "rgb": "rgb(163, 163, 163)",
+        "hsl": "hsl(0, 0%, 63.9%)"
+      },
+      {
+        "id": "gray-muted",
+        "label": "Muted gray",
+        "hex": "#6B7280",
+        "rgb": "rgb(107, 114, 128)",
+        "hsl": "hsl(220, 8.9%, 46.1%)"
+      },
+      {
+        "id": "white-secondary",
+        "label": "Secondary white",
+        "hex": "#C4C4C4",
+        "rgb": "rgb(196, 196, 196)",
+        "hsl": "hsl(0, 0%, 76.9%)"
+      },
+      {
+        "id": "white-pure",
+        "label": "Pure white",
+        "hex": "#FFFFFF",
+        "rgb": "rgb(255, 255, 255)",
+        "hsl": "hsl(0, 0%, 100%)"
+      }
+    ]
+  },
+  "motion_catalog": {
+    "version": "1.0.0",
+    "animations": [
+      {
+        "name": "fade-in",
+        "keyframes": "duck-fade-in",
+        "duration": "180 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "New content, tooltips and non-blocking status updates"
+      },
+      {
+        "name": "rise-in",
+        "keyframes": "duck-rise-in",
+        "duration": "220 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Cards and contextual panels entering the workspace"
+      },
+      {
+        "name": "scale-in",
+        "keyframes": "duck-scale-in",
+        "duration": "180 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Small popovers and compact controls"
+      },
+      {
+        "name": "slide-in-inline",
+        "keyframes": "duck-slide-in-inline",
+        "duration": "220 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Side panels and navigation drawers"
+      },
+      {
+        "name": "pulse-soft",
+        "keyframes": "duck-pulse-soft",
+        "duration": "900 ms; one cycle",
+        "easing": "ease-in-out",
+        "purpose": "One-shot attention cue for a newly selected item"
+      },
+      {
+        "name": "shimmer",
+        "keyframes": "duck-shimmer",
+        "duration": "1200 ms; while loading",
+        "easing": "linear",
+        "purpose": "Skeleton placeholders only; never real data"
+      },
+      {
+        "name": "spin",
+        "keyframes": "duck-spin",
+        "duration": "900 ms; while loading",
+        "easing": "linear",
+        "purpose": "Small indeterminate progress indicator"
+      },
+      {
+        "name": "progress-fill",
+        "keyframes": "duck-progress-fill",
+        "duration": "260 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Progress value changes"
+      },
+      {
+        "name": "shake",
+        "keyframes": "duck-shake",
+        "duration": "260 ms; one cycle",
+        "easing": "cubic-bezier(0.36, 0.07, 0.19, 0.97)",
+        "purpose": "Invalid form field after attempted submission"
+      },
+      {
+        "name": "breathe",
+        "keyframes": "duck-breathe",
+        "duration": "1800 ms; optional loop",
+        "easing": "ease-in-out",
+        "purpose": "Subtle idle emphasis on a single active surface; avoid on dense data"
+      }
+    ],
+    "transitions": [
+      {
+        "name": "color",
+        "properties": "color, background-color, border-color",
+        "duration": "160 ms",
+        "easing": "ease",
+        "purpose": "Text, icons and semantic color changes"
+      },
+      {
+        "name": "surface",
+        "properties": "background-color, border-color, box-shadow",
+        "duration": "180 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Cards, controls and hover surfaces"
+      },
+      {
+        "name": "transform",
+        "properties": "transform",
+        "duration": "180 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Press depth, lift and drag affordances"
+      },
+      {
+        "name": "opacity",
+        "properties": "opacity",
+        "duration": "140 ms",
+        "easing": "linear",
+        "purpose": "Visibility and disabled-state changes"
+      },
+      {
+        "name": "panel",
+        "properties": "transform, opacity",
+        "duration": "220 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Navigation rail and side panel open/close"
+      },
+      {
+        "name": "modal",
+        "properties": "transform, opacity",
+        "duration": "200 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Dialog and modal entry/exit"
+      },
+      {
+        "name": "tab",
+        "properties": "color, background-color, transform",
+        "duration": "180 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Tab bar and segmented-control selection"
+      },
+      {
+        "name": "toast",
+        "properties": "transform, opacity",
+        "duration": "200 ms",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Alerts and toast notifications"
+      },
+      {
+        "name": "layout",
+        "properties": "grid-template-columns, gap, width, max-width",
+        "duration": "240 ms",
+        "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Workspace density and responsive panel layout"
+      },
+      {
+        "name": "progress",
+        "properties": "width",
+        "duration": "260 ms",
+        "easing": "linear",
+        "purpose": "Determinate progress bars"
+      }
+    ]
   }
 }
