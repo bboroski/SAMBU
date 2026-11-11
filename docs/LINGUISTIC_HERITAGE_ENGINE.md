@@ -47,3 +47,10 @@ This test validates the local research record's structural and epistemic guardra
 - Cavar et al., *High central vowels in Polish, Ukrainian and Russian*, JIPA (2025), [DOI](https://doi.org/10.1017/S0025100325000040).
 - *Russian*, Journal of the International Phonetic Association (2015), [Cambridge Core](https://www.cambridge.org/core/journals/journal-of-the-international-phonetic-association/article/russian/55589EC639ADEF1764B5ECD0B76970FA).
 - The conventional ЪІ ligature account is a secondary-reference starting point; see [Cyrillic script](https://www.newworldencyclopedia.org/entry/Cyrillic_script). Manuscript claims remain pending primary palaeographic evidence.
+
+
+## Canonical implementation
+
+SAMBU owns the shared record contract in `schemas/linguistic-heritage-letter.schema.json`, the 13-repository registration in `ecosystem/registry.json`, and the offline validator `tools/validate_linguistic_heritage.py`.
+
+Run `python tools/validate_linguistic_heritage.py` to validate the canonical record. The check uses only the Python standard library and verifies identity, Unicode code points, claim status vocabulary, evidence/interpretation separation, policy flags and HTTPS references. It does not adjudicate historical truth.
