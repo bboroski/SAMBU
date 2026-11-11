@@ -71,13 +71,13 @@ A status applies to the evidence stated in that row, not to an aspirational inte
 | AUT-39 | Cache and memory-layout optimization | Planned | Sparse voxel and tier-planning facilities exist; no measured CPU-cache layout optimizer is present. | Benchmark cache-sensitive layouts on declared targets before adopting alignment or placement claims. |
 | AUT-40 | Stable ABI | Deferred | No SAMBU calling convention, symbol mangling, object ABI or FFI compatibility matrix exists. | Version and test calling conventions, data layout, error representation and ABI compatibility per target. |
 
-## Block V — Sovereignty, usability and evolution
+## Block V — Portability, usability and evolution
 
 | ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
 |---|---|---|---|---|
 | AUT-41 | Complete self-documentation | Partial | Language, domain and architecture guides exist, but not every public API and compiler rule is covered by a single normative reference. | Establish one versioned language reference with tested examples and generated API index. |
 | AUT-42 | Minimal boilerplate | Partial | Expressions, functions and domain built-ins keep common tasks concise; macros, generics and richer declarations are absent. | Add abstractions only when they reduce repeated code without obscuring effects or ownership. |
-| AUT-43 | Community sovereignty | Partial | The project is MIT-licensed and accepts contributions; a documented governance, release and compatibility process is not complete. | Publish maintainer succession, RFC, review, voting and security-response policies. |
+| AUT-43 | Contribution governance | Partial | The project is MIT-licensed and accepts contributions; a documented governance, release and compatibility process is not complete. | Publish maintainer succession, RFC, review, voting and security-response policies. |
 | AUT-44 | Form/semantics alignment | Partial | Current syntax has documented behavior, but the full language lacks one normative specification covering all execution and error rules. | Define observable semantics before optimization and verify with executable conformance tests. |
 | AUT-45 | Adaptive complexity | Partial | The interpreter supports small scientific programs and a growing domain library; large systems projects need static types, modules and resource semantics. | Keep a small core while adding opt-in, composable typed and systems layers. |
 | AUT-46 | Controlled deprecation | Planned | Compatibility is valued, but no formal deprecation window, warning category or removal schedule is specified. | Require deprecation notices, replacement paths, at least one compatibility window and migration tests. |
@@ -147,7 +147,7 @@ A status applies to the evidence stated in that row, not to an aspirational inte
 | AUT-89 | Keep dependency surface small | Partial | No third-party runtime dependencies are declared; the Python host/build chain and GitHub Actions remain explicit toolchain dependencies. | Require a written need, footprint, license and security review for every new dependency. |
 | AUT-90 | Continuous integration and delivery | Partial | GitHub Actions tests several Python versions, web integrations and an engine bridge; releases, deployment and comprehensive performance gates are not automatic. | Add release provenance, artifact publication, staged deployment and non-flaky benchmark gates. |
 
-## Block X — Design philosophy and sustainable evolution
+## Block X — Design rationale and sustainable evolution
 
 | ID | Engineering rule | Baseline status | Current evidence and limitation | Acceptance gate |
 |---|---|---|---|---|
@@ -162,11 +162,11 @@ A status applies to the evidence stated in that row, not to an aspirational inte
 | AUT-99 | Teach through the ecosystem | Planned | Documentation and executable examples exist; no integrated interactive tutorial, progressive learning path or persistent REPL is shipped. | Add offline tutorials and a REPL lesson runner with validated expected results. |
 | AUT-100 | Keep architecture coherent | Planned | The 100-rule constitution, 101 low-level contracts and tests provide a start; there is no single versioned architecture conformance report. | Generate one architecture report from rule IDs, code evidence, tests, statuses and outstanding gates. |
 
-## Dependency and sovereignty boundary
+## Dependency and host-independence boundary
 
 “Zero third-party runtime dependencies” is not the same as “self-hosted” or “independent of the host.” The current core has no declared third-party runtime dependencies, but the interpreter executes on Python and installation uses the Python packaging toolchain. The project must not claim native compilation, an internal linker, a stable ABI, race-free parallel execution or self-hosting until their respective gates pass.
 
-The first practical sovereignty milestone is not a custom kernel or a claim of total independence. It is a documented and testable core dependency graph: lexer → parser → AST → semantic analysis → typed IR → interpreter/backend, with optional integrations isolated behind explicit interfaces.
+The first practical host-independence milestone is not a custom kernel or a claim of total independence. It is a documented and testable core dependency graph: lexer → parser → AST → semantic analysis → typed IR → interpreter/backend, with optional integrations isolated behind explicit interfaces.
 
 ## Evolution policy
 
