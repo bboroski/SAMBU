@@ -40,7 +40,7 @@ def _uuid(value: Any, field: str) -> None:
         parsed = uuid.UUID(value)
     except (ValueError, AttributeError, TypeError) as exc:
         raise ContractError(f"{field} must be a canonical UUID") from exc
-    if str(parsed) != value.lower():
+    if str(parsed) != value:
         raise ContractError(f"{field} must use canonical UUID formatting")
 
 
@@ -143,20 +143,24 @@ def validate_resource_descriptor(descriptor: Any) -> dict[str, Any]:
     _uuid(data["resource_id"], "resource_id")
     _nonempty(data["resource_type"], "resource_type", 128)
     _nonempty(data["owner_module_id"], "owner_module_id", 128)
-    if data["lifetime"] not in _LIFETIMES:
+    if not isinstance(data["lifetime"], str) or data["lifetime"] not in _LIFETIMES:
         raise ContractError("unsupported resource lifetime")
-    if data["state"] not in _RESOURCE_STATES:
+    if not isinstance(data["state"], str) or data["state"] not in _RESOURCE_STATES:
         raise ContractError("unsupported resource state")
 
     rights = data["rights"]
-    if not isinstance(rights, list) or len(rights) != len(set(rights)):
-        raise ContractError("rights must be a list of unique rights")
+    if not isinstance(rights, list) or any(not isinstance(right, str) for right in rights):
+        raise ContractError("rights must be a list of string permissions")
+    if len(rights) != len(set(rights)):
+        raise ContractError("rights must contain unique permissions")
     if any(right not in _ALLOWED_RIGHTS for right in rights):
         raise ContractError("rights contains an unsupported permission")
 
     capabilities = data["capabilities"]
-    if not isinstance(capabilities, list) or len(capabilities) != len(set(capabilities)):
-        raise ContractError("capabilities must be a list of unique identifiers")
+    if not isinstance(capabilities, list) or any(not isinstance(item, str) for item in capabilities):
+        raise ContractError("capabilities must be a list of string identifiers")
+    if len(capabilities) != len(set(capabilities)):
+        raise ContractError("capabilities must contain unique identifiers")
     for capability in capabilities:
         _nonempty(capability, "capability", 128)
 
