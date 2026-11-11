@@ -60,8 +60,7 @@ _SINGLE = set("+-*/%^<>=!(),.[];{}")
 # SGS-1 glyph aliases normalize into the established SAMBU token vocabulary.
 GLYPH_SYNTAX_VERSION = "SGS-1"
 GLYPH_ALIASES: dict[str, tuple[str, object]] = {
-    "[[": ("OP", "["), "]]": ("OP", "]"),
-    "}-": ("IDENT", "fn"), "--{": ("OP", "{"), "::": ("OP", "."),
+      "}-": ("IDENT", "fn"), "--{": ("OP", "{"), "::": ("OP", "."),
     ";;": ("SEMI", ";"), ":;": ("SEMI", ";"), ";:": ("SEMI", ";"),
     "++_": ("OP", "+"), "/+-*": ("OP", "+"), "+_": ("OP", "+"),
     "-=": ("OP", "-"),
