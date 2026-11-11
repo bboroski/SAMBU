@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "object_id": "urn:uoi:github:bboroski/SAMBU",
+  "repository": "https://github.com/bboroski/SAMBU",
+  "rights": {
+    "license_expression": "NOASSERTION",
+    "rights_holders": [],
+    "policy": "Review the repository LICENSE and contributor agreements before asserting ownership.",
+    "metadata_note": "No author or rights-holder identity is inferred automatically."
+  },
+  "provenance": {
+    "source_control": "git",
+    "digest_algorithm": "SHA-256",
+    "signed_commits": "recommended",
+    "timestamp_evidence": "GitHub/Git timestamps are supporting evidence, not standalone proof of legal authorship."
+  },
+  "naming": {
+    "source_text_mutation": false,
+    "display_aliases_allowed": true,
+    "impersonation_detection": "advisory"
+  },
+  "privacy": {
+    "per_viewer_ledger": false,
+    "personalized_watermarking": "opt-in only"
+  },
+  "artifacts": []
+}
