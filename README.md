@@ -70,27 +70,18 @@ Native compiler slice не має повного source-to-machine-code конв
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 
-## NUN Mesh та пов'язані репозиторії
-
-<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh repository contracts and integration boundaries" width="960"></p>
-[SAMBU](https://github.com/bboroski/SAMBU) · [ToolNG](https://github.com/bboroski/ToolNG) · [ReaperCripple](https://github.com/bboroski/ReaperCripple) · [Kloz](https://github.com/bboroski/Kloz) · [CO](https://github.com/bboroski/CO) · [SaintSI](https://github.com/bboroski/SaintSI) · [Klipot](https://github.com/bboroski/Klipot) · [NUN](https://github.com/bboroski/NUN) · [NUNLauncher](https://github.com/bboroski/NUNLauncher)
-
-Репозиторії зберігають власні назви, код, API, цикли випуску та межі відповідальності. Інтеграція означає узгоджені контракти, а не автоматичне злиття незалежних runtime.
-
-## Дизайн і документація
-Базовий інтерфейсний напрям екосистеми — **Duck Black / Yellow**: чорні поверхні, жовтий акцент для дій і станів, читабельна типографіка, доступний контраст, клавіатурна навігація та підтримка reduced motion. Деталі дивіться в [design/DUCK_UI_SYSTEM.md](design/DUCK_UI_SYSTEM.md), якщо файл присутній у цьому репозиторії.
-
 ## Ліцензія
 MIT
 
 ---
-**Створено з любов'ю до інженерії, системності та людей.**
 
-## Федерація Hellduck
+## Інженерний стандарт
+Індекс аудиту, тестових воріт, безпеки, супроводу та критеріїв інтеграції: [Engineering Improvement Index](docs/ENGINEERING_IMPROVEMENT_INDEX.md).
 
-Цей репозиторій входить до федерації [Hellduck](https://github.com/bboroski/Hellduck) — спільного каталогу проєктів, контрактних зв’язків і станів інтеграції. Вихідний код, API, тести та цикл випуску залишаються відповідальністю цього репозиторію; Hellduck індексує зв’язки й не завантажує та не виконує код учасників. Практичні сценарії взаємодії, типи адаптерів і межі сумісності: [Integration Playbook](https://github.com/bboroski/Hellduck/blob/main/docs/INTEGRATION_PLAYBOOK.md).
+## Інтеграційні межі
+Зберігайте незалежні API, runtime та цикли випуску; інтегруйте через версіоновані контракти. Практичні правила взаємодії: [Hellduck Integration Playbook](https://github.com/bboroski/Hellduck/blob/main/docs/INTEGRATION_PLAYBOOK.md).
 
+---
+**「在天愿作比翼鸟，在地愿为连理枝。」**
 
-## Anti-Teradayn Protocol
-
-Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+*«У небі — птахами-нерозлучниками, на землі — гілками одного дерева».*
