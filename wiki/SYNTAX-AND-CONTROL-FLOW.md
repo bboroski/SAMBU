@@ -96,6 +96,26 @@ Documented operator precedence, highest to lowest:
 
 The exact operator spellings accepted by the current parser take precedence over this summary if a historical guide and source code differ.
 
+## Glyph Syntax v1
+
+SAMBU also accepts the symbolic spelling profile documented in
+[Glyph Syntax v1](../docs/GLYPH_SYNTAX.md). It preserves the canonical AST and
+runtime while using longest-match aliases for block delimiters, statement
+separators, assignment, arithmetic and comparison operators.
+
+```sambu
+let value :: 6;;
+fn square(x) [[
+  return x /+-* x
+]]
+print(square(value))
+```
+
+The lexer also supports verbatim multiline strings delimited by `$...$`
+and C-style block comments delimited by `/*...*/`. Original glyph spellings
+remain available through `Token.lexeme`; canonical SAMBU punctuation remains
+fully supported.
+
 ## Percentage syntax
 
 SAMBU distinguishes a postfix percentage literal from modulo by whitespace:
