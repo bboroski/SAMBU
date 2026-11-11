@@ -378,8 +378,41 @@ def _dialect(argv: list[str]) -> int:
 
 
 
+
+def _check(argv: list[str]) -> int:
+    """Parse and statically analyze one source file without executing it."""
+    import json
+    from .semantics import analyze
+
+    parser = argparse.ArgumentParser(prog="sambu check")
+    parser.add_argument("file", type=Path, help="SAMBU source file")
+    parser.add_argument("--json", action="store_true", dest="as_json")
+    args = parser.parse_args(argv)
+    try:
+        source = args.file.read_text(encoding="utf-8")
+        report = analyze(source)
+    except (OSError, SambuSyntaxError, ValueError, TypeError) as exc:
+        print(f"{args.file}: {exc}", file=sys.stderr)
+        return 2
+    if args.as_json:
+        print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        if report.valid:
+            print(f"{args.file}: semantic analysis OK ({report.declarations} declarations)")
+        for item in report.diagnostics:
+            start, end = item.span.start, item.span.end
+            print(
+                f"{args.file}:{start.line}:{start.column}: {item.code}: "
+                f"{item.message} [{start.offset}:{end.offset}]",
+                file=sys.stderr,
+            )
+    return 0 if report.valid else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments and arguments[0] == "check":
+        return _check(arguments[1:])
     if arguments and arguments[0] == "new":
         return _new_project(arguments[1:])
     if arguments and arguments[0] == "generate":
