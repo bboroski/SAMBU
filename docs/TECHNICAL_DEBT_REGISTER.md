@@ -6,9 +6,9 @@
 
 ## Findings
 
-| ID | Domain | Preliminary risk | Status | Evidence | Next action |
-|---|---|---:|---|---|---|
-| SAMBU-CI-001 | CI / fixture contract | High (16) | identified | `SAMBU tests` and `SAMBU Windows desktop checks` fail at `test_machine.SambuMachineTests.test_mulberry_charlotte_reference_workload_executes`: expected `SAMBU Mulberry Charlotte`, received `Batch scaling fixture`. | Inspect the intended fixture metadata contract, correct the source or assertion, and add a regression test. Do not change the expected value until the canonical fixture contract is confirmed. |
+| ID | Domain | Impact | Likelihood | Risk | Effort (1–5) | Owner | Target | Acceptance decision | Status | Evidence | Next action |
+|---|---|---:|---:|---:|---:|---|---|---|---|---|---|
+| SAMBU-CI-001 | CI / fixture contract | 4 | 4 | High (16) | 2 | TBD (maintainer) | Before next release | Pending triage | identified | `SAMBU tests` and `SAMBU Windows desktop checks` fail at `test_machine.SambuMachineTests.test_mulberry_charlotte_reference_workload_executes`: expected `SAMBU Mulberry Charlotte`, received `Batch scaling fixture`. | Inspect the intended fixture metadata contract, correct the source or assertion, and add a regression test. Do not change the expected value until the canonical fixture contract is confirmed. |
 
 ## Risk method
 
