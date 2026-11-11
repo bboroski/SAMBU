@@ -54,7 +54,7 @@ class PortfolioVerification:
 def _iso_date(value: str, field: str) -> date:
     if not isinstance(value, str):
         raise ValueError(f"{field} must be an ISO date string")
-    if not re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
         raise ValueError(f"{field} must use YYYY-MM-DD")
     try:
         return date.fromisoformat(value)
