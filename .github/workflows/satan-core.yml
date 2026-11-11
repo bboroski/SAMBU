@@ -1,0 +1,29 @@
+name: Satan Core Tests
+
+on:
+  pull_request:
+    paths:
+      - "sambu/satan/**"
+      - "tests/test_satan_mesh.py"
+      - ".github/workflows/satan-core.yml"
+  push:
+    branches:
+      - "feature/satan-qegm-autonomous-core"
+    paths:
+      - "sambu/satan/**"
+      - "tests/test_satan_mesh.py"
+      - ".github/workflows/satan-core.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Satan core tests
+        run: python -m unittest discover -s tests -p "test_satan_mesh.py" -v
