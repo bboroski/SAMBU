@@ -24,6 +24,7 @@
 - Языковое ядро: lexer/parser, AST, функции, области видимости, массивы и записи.
 - Научный слой: величины SI, проверка размерностей, физические константы и воспроизводимая выборка.
 - Пространственные данные: sparse voxel grids, чанки, Morton keys, octrees и графовые операции.
+- Статический семантический анализ имён, областей видимости, арности известных функций и очевидных ошибок примитивных операторов (`sambu check`).
 - CLI, Tkinter IDE, тестовый runner и частичный C11 native-compiler slice.
 
 ## Быстрый старт и проверка
@@ -59,6 +60,7 @@ Native compiler slice пока не является полным конвейе
 
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE и редактор](docs/IDE.md)
+- [Статический семантический анализ](docs/SEMANTIC_ANALYSIS.md)
 - [Архитектура native-компилятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архитектура экосистемы](docs/ECOSYSTEM_ARCHITECTURE.md)
 
