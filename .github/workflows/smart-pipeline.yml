@@ -1,0 +1,147 @@
+name: Smart Integration Pipeline
+
+on:
+  pull_request:
+    branches: [main, master]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smart-pipeline-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-integrity:
+    name: Smart Pipeline / Repository Integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate README, documentation, Python and JSON contracts
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import ast
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          root = Path(".")
+          errors = []
+          readmes = ("README.md", "README.en.md", "README.ru.md")
+
+          for name in readmes:
+              path = root / name
+              if not path.is_file():
+                  errors.append(f"Missing required onboarding file: {name}")
+                  continue
+              try:
+                  content = path.read_text(encoding="utf-8")
+              except UnicodeDecodeError as exc:
+                  errors.append(f"{name}: invalid UTF-8 ({exc})")
+                  continue
+              if not content.strip():
+                  errors.append(f"{name}: file is empty")
+
+          canonical = os.environ.get("GITHUB_REPOSITORY", "").rsplit("/", 1)[-1]
+          available_readmes = [
+              (root / name).read_text(encoding="utf-8")
+              for name in readmes
+              if (root / name).is_file()
+          ]
+          if canonical and not any(canonical.casefold() in content.casefold() for content in available_readmes):
+              errors.append(f"No README identifies the canonical repository name {canonical!r}")
+
+          docs = root / "docs"
+          if not docs.is_dir():
+              errors.append("Missing docs/ directory")
+          else:
+              markdown_files = sorted(docs.rglob("*.md"))
+              if not markdown_files:
+                  errors.append("docs/ contains no Markdown documentation")
+              for path in markdown_files:
+                  try:
+                      content = path.read_text(encoding="utf-8")
+                  except UnicodeDecodeError as exc:
+                      errors.append(f"{path}: invalid UTF-8 ({exc})")
+                      continue
+                  if not content.strip():
+                      errors.append(f"{path}: documentation file is empty")
+
+          config_roots = ("ecosystem", "schemas", "manifests", "registry", "spec", "profiles", "design")
+          json_count = 0
+          for directory in config_roots:
+              base = root / directory
+              if not base.is_dir():
+                  continue
+              for path in sorted(base.rglob("*.json")):
+                  json_count += 1
+                  try:
+                      json.loads(path.read_text(encoding="utf-8"))
+                  except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+                      errors.append(f"{path}: invalid JSON ({exc})")
+
+          ignored = {".git", ".venv", "venv", "node_modules", "build", "dist", "target", "__pycache__", ".tox"}
+          python_count = 0
+          for path in root.rglob("*.py"):
+              if any(part in ignored for part in path.parts):
+                  continue
+              python_count += 1
+              try:
+                  ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+              except (OSError, UnicodeDecodeError, SyntaxError) as exc:
+                  errors.append(f"{path}: Python syntax error ({exc})")
+
+          if errors:
+              print("Repository integrity validation failed:", file=sys.stderr)
+              for error in errors:
+                  print(f" - {error}", file=sys.stderr)
+              raise SystemExit(1)
+
+          print(f"README files: {len(available_readmes)}")
+          print(f"Markdown documents: {len(list(docs.rglob('*.md')))}")
+          print(f"JSON configuration files validated: {json_count}")
+          print(f"Python files syntax-checked: {python_count}")
+          print("Repository integrity validation passed.")
+          PY
+
+      - name: Validate GitHub Actions workflow YAML
+        shell: bash
+        run: |
+          ruby -e 'require "yaml"; files = Dir.glob(".github/workflows/*.{yml,yaml}"); abort "No workflow files found" if files.empty?; files.each { |file| YAML.parse_file(file) }; puts "Validated #{files.length} workflow YAML files"'
+
+      - name: Run shared Duck repository quality gate when present
+        shell: bash
+        run: |
+          if [ -f .github/scripts/duck_quality_gate.py ]; then
+            python3 .github/scripts/duck_quality_gate.py
+          else
+            echo "No shared Duck gate in this repository; project-specific checks remain authoritative."
+          fi
+
+      - name: Run repository documentation verifier when present
+        shell: bash
+        run: |
+          if [ -f scripts/verify_docs.py ]; then
+            python3 scripts/verify_docs.py
+          else
+            echo "No dedicated documentation link verifier is configured."
+          fi
+
+# Build, unit, integration, sanitizer and platform tests remain in the
+# repository-specific workflows. Configure those checks as required in the
+# main-branch ruleset before enabling automatic merge.
+# Automatic merging is intentionally not enabled by this workflow.
