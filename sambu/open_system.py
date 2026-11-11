@@ -76,18 +76,46 @@ def canonical_ensemble(args: list[object]) -> Record:
         raise ValueError("temperature must be greater than zero kelvin")
 
     thermal_energy = BOLTZMANN_CONSTANT * temperature.value
+    if not math.isfinite(thermal_energy) or thermal_energy <= 0.0:
+        raise ValueError("thermal energy is not numerically representable")
+
     reference = min(item.value for item in energies)
-    weights = [math.exp(-((item.value - reference) / thermal_energy)) for item in energies]
+    relative_energies = [item.value - reference for item in energies]
+    if any(not math.isfinite(value) for value in relative_energies):
+        raise ValueError("energy spread exceeds the finite numeric range")
+
+    weights = [math.exp(-(value / thermal_energy)) for value in relative_energies]
     partition_relative = math.fsum(weights)
     if not math.isfinite(partition_relative) or partition_relative <= 0.0:
         raise ValueError("canonical partition sum is not numerically representable")
     probabilities = [weight / partition_relative for weight in weights]
 
-    mean_energy = math.fsum(p * item.value for p, item in zip(probabilities, energies))
-    energy_variance = math.fsum(
-        p * (item.value - mean_energy) ** 2
-        for p, item in zip(probabilities, energies)
+    # Center moments on the shifted energies. Computing variance from the
+    # rounded absolute mean loses low-order energy differences at large offsets.
+    mean_offset = math.fsum(
+        probability * value
+        for probability, value in zip(probabilities, relative_energies)
     )
+    try:
+        mean_energy = math.fsum((reference, mean_offset))
+    except OverflowError as exc:
+        raise ValueError("canonical mean energy exceeds the finite numeric range") from exc
+
+    variance_terms: list[float] = []
+    for probability, value in zip(probabilities, relative_energies):
+        if probability == 0.0:
+            continue
+        weighted_deviation = math.sqrt(probability) * (value - mean_offset)
+        contribution = weighted_deviation * weighted_deviation
+        if not math.isfinite(contribution):
+            raise ValueError("canonical energy variance exceeds the finite numeric range")
+        variance_terms.append(contribution)
+    try:
+        energy_variance = math.fsum(variance_terms)
+    except OverflowError as exc:
+        raise ValueError("canonical energy variance exceeds the finite numeric range") from exc
+    if not math.isfinite(energy_variance):
+        raise ValueError("canonical energy variance exceeds the finite numeric range")
     entropy_nats = -math.fsum(p * math.log(p) for p in probabilities if p > 0.0)
     free_energy = mean_energy - thermal_energy * entropy_nats
     heat_capacity = energy_variance / (
