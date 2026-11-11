@@ -1,5 +1,6 @@
 from __future__ import annotations
 import hashlib
+from dataclasses import replace
 import unittest
 from sambu.trust import PortfolioArtifact, PortfolioVerifier, trust_dig
 
@@ -33,13 +34,13 @@ class PortfolioTrustTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "YYYY-MM-DD"):
             PortfolioVerifier({"trusted-lab"}, as_of="20261109")
         malformed = artifact()
-        malformed = PortfolioArtifact(**{**malformed.__dict__, "issued_on": "20260101"})
+        malformed = replace(malformed, issued_on="20260101")
         report = PortfolioVerifier({"trusted-lab"}, as_of="2026-11-09").verify("date-check", [malformed])
         self.assertIn("invalid_issued_on", report.artifacts[0].reasons)
 
     def test_unrepresentable_integer_weight_is_reported_not_crashed(self):
         item = artifact()
-        item = PortfolioArtifact(**{**item.__dict__, "weight": 10 ** 1000})
+        item = replace(item, weight=10 ** 1000)
         report = PortfolioVerifier({"trusted-lab"}, as_of="2026-11-09").verify("weight-check", [item])
         self.assertIn("invalid_weight", report.artifacts[0].reasons)
         self.assertEqual(report.total_weight, 1.0)
@@ -47,8 +48,8 @@ class PortfolioTrustTests(unittest.TestCase):
     def test_combined_weight_overflow_is_rejected(self):
         first = artifact("first")
         second = artifact("second")
-        first = PortfolioArtifact(**{**first.__dict__, "weight": 1e308})
-        second = PortfolioArtifact(**{**second.__dict__, "weight": 1e308})
+        first = replace(first, weight=1e308)
+        second = replace(second, weight=1e308)
         verifier = PortfolioVerifier({"trusted-lab"}, as_of="2026-11-09")
         with self.assertRaisesRegex(ValueError, "combined artifact weight"):
             verifier.verify("overflow", [first, second])
