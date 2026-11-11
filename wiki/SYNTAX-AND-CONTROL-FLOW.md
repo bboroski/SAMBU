@@ -105,13 +105,14 @@ separators, assignment, arithmetic and comparison operators.
 
 ```sambu
 let value :: 6;;
-fn square(x) [[
+fn square(x) --{
   return x /+-* x
 ]]
 print(square(value))
 ```
 
-The lexer also supports verbatim multiline strings delimited by `$$...$$`
+The `[[` and `]]` pairs retain nested-array meaning. The `--{` and `}-` tokens
+are symbolic block delimiters. The lexer also supports verbatim multiline strings delimited by `$...$`
 and C-style block comments delimited by `/*...*/`. Original glyph spellings
 remain available through `Token.lexeme`; canonical SAMBU punctuation remains
 fully supported.
