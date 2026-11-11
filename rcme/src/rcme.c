@@ -131,5 +131,5 @@ double rcme_residual_l2(const rcme_matrix *a, const rcme_matrix *b,
         }
     }
     if (status) *status = RCME_OK;
-    return scale == 0.0 ? 0.0 : scale * sqrt(sum - 1.0);
+    return scale == 0.0 ? 0.0 : scale * sqrt(sum);
 }
