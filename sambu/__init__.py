@@ -16,6 +16,7 @@ from .ast import (  # noqa: F401
 )
 from .interpreter import execute  # noqa: F401
 from .lexer import SambuSyntaxError, Token, tokenize  # noqa: F401
+from .glyph_syntax import GLYPH_SYNTAX_VERSION, GLYPH_TOKEN_ALIASES  # noqa: F401
 from .parser import parse, parse_ast  # noqa: F401
 from .source import SourcePosition, SourceSpan  # noqa: F401
 from .semantic_matrix import SemanticMatrixError, expand_relations, multiply  # noqa: F401
