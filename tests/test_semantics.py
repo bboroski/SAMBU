@@ -1,8 +1,13 @@
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from sambu import analyze
 from sambu.parser import parse_ast
 from sambu.semantics import analyze_ast
+from sambu.cli import main as sambu_main
 
 
 class SemanticAnalysisTests(unittest.TestCase):
@@ -58,6 +63,17 @@ let result = counter.get()
 """
         report = analyze(source)
         self.assertTrue(report.valid, report.to_dict())
+
+    def test_cli_check_reports_json_without_executing_source(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.sambu"
+            path.write_text("let answer = unknown_value\\nprint(answer)\\n", encoding="utf-8")
+            output = StringIO()
+            with redirect_stdout(output):
+                exit_code = sambu_main(["check", str(path), "--json"])
+        self.assertEqual(exit_code, 1)
+        self.assertIn("SAMBU-SEM-001", output.getvalue())
+        self.assertIn("unknown_value", output.getvalue())
 
     def test_ast_api_does_not_require_source_reparsing(self):
         report = analyze_ast(parse_ast("let answer = 42"))
