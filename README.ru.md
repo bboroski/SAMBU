@@ -25,9 +25,7 @@ Native compiler пока не обеспечивает полный конвей
 ## Документация проекта
 ![Duck Studio — рабочее пространство](docs/images/duck-studio-overview.webp)
 
-![Duck Studio — отчёты](docs/images/duck-studio-reports-findings.webp)
 
-![Duck Studio — XML inspector](docs/images/duck-studio-xml-inspector.webp)
 
 ## Связанные проекты
 [Duck Studio](docs/DUCK_STUDIO.md) · [IDE](docs/IDE.md) · [семантический анализ](docs/SEMANTIC_ANALYSIS.md)
