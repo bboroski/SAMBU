@@ -1,0 +1,18 @@
+# Emoji aliases share the ordinary SAMBU parser and runtime.
+📦 answer 🟰 6 ✖️ 7
+
+🧱 twice(value) {
+    ↩️ value ➕ value
+}
+
+📣(twice(answer))
+
+❓ answer 🟰🟰 42 {
+    📣("Emoji syntax is active")
+} 🙃 {
+    📣("The calculation changed")
+}
+
+🔁 item 🧺 [1, 2, 3] {
+    📣(item)
+}
