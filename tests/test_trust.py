@@ -1,5 +1,6 @@
 from __future__ import annotations
 import hashlib
+import math
 from dataclasses import replace
 import unittest
 from sambu.trust import PortfolioArtifact, PortfolioVerifier, trust_dig
@@ -44,6 +45,12 @@ class PortfolioTrustTests(unittest.TestCase):
         report = PortfolioVerifier({"trusted-lab"}, as_of="2026-11-09").verify("weight-check", [item])
         self.assertIn("invalid_weight", report.artifacts[0].reasons)
         self.assertEqual(report.total_weight, 1.0)
+
+    def test_large_finite_weight_keeps_score_finite(self):
+        item = replace(artifact(), weight=1e308)
+        report = PortfolioVerifier({"trusted-lab"}, as_of="2026-11-09").verify("large-weight", [item])
+        self.assertEqual(report.trust_percent, 100.0)
+        self.assertTrue(math.isfinite(report.trust_percent))
 
     def test_combined_weight_overflow_is_rejected(self):
         first = artifact("first")
