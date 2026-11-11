@@ -1,0 +1,27 @@
+name: Server-Side Swift
+on:
+  push:
+    paths: ["swift-backend/**", ".github/workflows/swift-backend.yml"]
+  pull_request:
+    paths: ["swift-backend/**", ".github/workflows/swift-backend.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: swift-backend-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  swift:
+    runs-on: ubuntu-latest
+    container: swift:6.0-jammy
+    defaults:
+      run:
+        working-directory: swift-backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve
+        run: swift package resolve
+      - name: Build release
+        run: swift build -c release
+      - name: Test
+        run: swift test
