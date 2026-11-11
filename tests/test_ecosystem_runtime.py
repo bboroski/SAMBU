@@ -82,6 +82,12 @@ class RuntimeContractTests(unittest.TestCase):
         with self.assertRaises(ContractError):
             validate_resource_descriptor(item)
 
+    def test_resource_descriptor_rejects_non_string_rights(self):
+        item = resource_descriptor()
+        item["rights"] = [["read"]]
+        with self.assertRaises(ContractError):
+            validate_resource_descriptor(item)
+
     def test_bounded_bus_is_fifo_and_rejects_overflow(self):
         bus = BoundedEventBus(capacity=1)
         self.assertTrue(bus.publish(envelope(1)))
