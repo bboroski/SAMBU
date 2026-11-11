@@ -82,6 +82,38 @@ let counter: Counter = Counter(4)
         with self.assertRaises(SambuTypeError):
             execute("class Counter { fn init(self) { } }\nlet counter: Counter = 4")
 
+    def test_interface_method_type_contracts_are_preserved(self):
+        execute("""
+interface Greeter {
+    fn greet(self, name: String) -> String
+}
+class Friendly implements Greeter {
+    fn greet(self, name: String) -> String { return name }
+}
+let greeter = Friendly()
+greeter.greet("hello")
+""")
+        with self.assertRaises(Exception):
+            execute("""
+interface Greeter {
+    fn greet(self, name: String) -> String
+}
+class Broken implements Greeter {
+    fn greet(self, name: Number) -> Number { return name }
+}
+""")
+
+    def test_trait_method_annotations_survive_composition(self):
+        execute("""
+trait Printable {
+    fn render(self, value: String) -> String { return value }
+}
+class Label uses Printable {
+}
+let label = Label()
+label.render("SAMBU")
+""")
+
     def test_unary_expression_statements_remain_valid_at_block_start(self):
         source = "fn negate(value: Number) -> Number {\n  -value\n  return -value\n}"
         program = parse_ast(source)
