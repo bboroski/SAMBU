@@ -763,9 +763,15 @@ class Interpreter:
                         )
                     if body:
                         raise SambuRuntimeError("interface methods cannot contain implementations")
+                    signature_metadata = method_node[4] if len(method_node) > 4 else {}
                     methods[method_name] = UserFunction(
                         method_name, params, body, env, self,
-                        {"visibility": "public", "abstract": True},
+                        {
+                            "visibility": "public",
+                            "abstract": True,
+                            "parameter_types": signature_metadata.get("parameter_types", {}),
+                            "return_type": signature_metadata.get("return_type"),
+                        },
                     )
                 env.define(name, SambuInterface(name, methods))
                 result = env.get(name)
@@ -816,7 +822,13 @@ class Interpreter:
                                 "static": False,
                                 "abstract": False,
                                 "final": source_method.is_final,
-                                "parameter_types": source_method.parameter_types,
+                                "parameter_types": {
+                                    parameter: annotation
+                                    for parameter, annotation in zip(
+                                        source_method.params, source_method.parameter_types
+                                    )
+                                    if annotation is not None
+                                },
                                 "return_type": source_method.return_type,
                             },
                         )
@@ -904,6 +916,15 @@ class Interpreter:
                         if len(implementation.params) != len(required.params):
                             raise SambuRuntimeError(
                                 f"{name}.{required_name} has an incompatible parameter count"
+                            )
+                        for parameter, required_type in required.parameter_types.items():
+                            if implementation.parameter_types.get(parameter) != required_type:
+                                raise SambuRuntimeError(
+                                    f"{name}.{required_name} parameter {parameter!r} must declare {required_type}"
+                                )
+                        if required.return_type and implementation.return_type != required.return_type:
+                            raise SambuRuntimeError(
+                                f"{name}.{required_name} must declare return type {required.return_type}"
                             )
                 unresolved = klass.unresolved_abstract_methods()
                 if unresolved and not klass.is_abstract:
