@@ -112,9 +112,15 @@ class Parser:
         token = self.peek()
         raise self.syntax_error(message, token)
 
+    def _at_terminator(self, terminator: str) -> bool:
+        """Return whether the current token is the actual block/program terminator."""
+        return self.peek().kind == terminator and (
+            terminator != "OP" or self.check("}")
+        )
+
     def statements(self, terminator: str) -> list[Statement]:
         out: list[Statement] = []
-        while self.peek().kind != terminator and not (terminator == "OP" and self.check("}")):
+        while not self._at_terminator(terminator):
             if self.peek().kind == "EOF":
                 if terminator != "EOF":
                     token = self.peek()
@@ -125,7 +131,7 @@ class Parser:
             out.append(self.statement())
             if self.match(";"):
                 self.skip_separators()
-            elif self.peek().kind != terminator and not (terminator == "OP" and self.check("}")) and self.peek().kind != "EOF":
+            elif not self._at_terminator(terminator) and self.peek().kind != "EOF":
                 token = self.peek()
                 raise self.syntax_error("Expected a newline or ';' between statements", token)
         return out
