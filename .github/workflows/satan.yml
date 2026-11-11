@@ -17,6 +17,6 @@ jobs:
     name: Satan read-only audit
     permissions:
       contents: read
-    uses: bboroski/Hellduck/.github/workflows/satan-audit.yml@d39a18745acd0634349f653159edff5ce2455ce3
+    uses: bboroski/Hellduck/.github/workflows/satan-audit.yml@007dfd046f06b429ee0ed63a5853b6e2244bd5ef
     with:
-      core_ref: d39a18745acd0634349f653159edff5ce2455ce3
+      core_ref: 007dfd046f06b429ee0ed63a5853b6e2244bd5ef
