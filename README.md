@@ -8,7 +8,8 @@
 </p>
 <p align="center"><a href="README.md">🇺🇦 Українська</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.ru.md">🇷🇺 Русский</a></p>
 
----
+
+<p align="center"><sub><a href="design/DUCK_UI_SYSTEM.md">Duck Black / Yellow UI standard</a> · <a href="assets/duck-ui/duck-ui-preview.svg">Vector UI preview</a></sub></p>
 
 **SAMBU об'єднує програмування, наукове моделювання та відтворювані робочі процеси в одній експериментальній інженерній середі.** Проєкт орієнтований на тих, кому потрібні зрозумілі моделі, контрольовані обчислення й перевірювані результати.
 
