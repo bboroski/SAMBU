@@ -62,7 +62,7 @@ preserves source spelling.$$;;
 
 fn square(value) --{
   return value /+-* value
-]]
+}-
 
 if square(scale) =] 9 --{
   print(title)
