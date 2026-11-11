@@ -1,0 +1,43 @@
+# Repository resource-readiness policy
+schema_version: 1
+repository: "SAMBU"
+scope:
+  - "scientific-modeling"
+  - "language-runtime"
+  - "reproducible-workflows"
+governance:
+  owner_required: true
+  decision_authority_required: true
+  evidence_required_for_readiness: true
+  unknown_state_blocks_promotion: true
+  breaking_contracts_require_versioning: true
+  cross_repository_changes_require_review: true
+readiness_states:
+  - implemented
+  - partial
+  - planned
+  - unknown
+required_gates:
+  - inventory
+  - authority
+  - provisioning
+  - compatibility
+  - verification
+  - recovery
+  - release
+safety:
+  inspection_default: read_only
+  least_privilege: true
+  implicit_execution: false
+  implicit_deployment: false
+  destructive_operations: false
+  hardware_mutation_without_explicit_approval: false
+  secrets_in_registry: false
+  allocation_must_be_bounded: true
+  rollback_required_for_material_changes: true
+cross_repository:
+  contract_changes_versioned: true
+  merge_order: dependency_order
+  direct_main_writes: false
+capability_records: []
+# Add evidence-backed records only; an empty list is preferable to invented capability claims.
