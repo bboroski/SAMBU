@@ -1,7 +1,7 @@
-"""Versioned, evidence-aware metadata for creative text analysis.
+"""Versioned, evidence-aware metadata for structured text annotation.
 
 This module stores descriptive metadata only. It deliberately does not retain
-source text, infer safety labels, train embeddings, or promise that a record is
+source text, infer policy labels, train embeddings, or promise that a record is
 suitable for generation. Callers must classify and review source material
 before constructing a CreativeMetadata record.
 """
@@ -33,12 +33,12 @@ _REVIEW_TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:
 
 
 class CreativeMetadataError(ValueError):
-    """Raised when creative metadata is malformed or outside policy bounds."""
+    """Raised when annotation metadata is malformed or outside policy bounds."""
 
 
 @dataclass(frozen=True, slots=True)
 class CreativeCluster:
-    """A stable, descriptive node in the creative-data ontology."""
+    """A stable, descriptive node in the text-annotation taxonomy."""
 
     cluster_id: str
     name: str
@@ -178,7 +178,7 @@ def _review_timestamp(value: object) -> str:
 
 @dataclass(frozen=True, slots=True)
 class CreativeMetadata:
-    """A reviewed metadata record; raw creative source is intentionally absent."""
+    """A reviewed annotation record; raw source is intentionally absent."""
 
     cluster_id: str
     theme: str
