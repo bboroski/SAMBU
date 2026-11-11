@@ -81,15 +81,15 @@ def _relay_body(envelope: MeshEnvelope) -> dict:
 def create_envelope(*, event_id: str, kind: str, origin: str, payload: dict,
                     secret: bytes, now: int | None = None,
                     ttl_seconds: int = 3600) -> MeshEnvelope:
-    if not event_id or len(event_id) > 128:
+    if not isinstance(event_id, str) or not event_id or len(event_id) > 128:
         raise MeshError("event_id must be 1..128 characters")
     if kind not in ALLOWED_KINDS:
         raise MeshError("event kind is not allow-listed")
-    if not origin or len(origin) > 256:
+    if not isinstance(origin, str) or not origin or len(origin) > 256:
         raise MeshError("origin must be 1..256 characters")
     if not isinstance(payload, dict):
         raise MeshError("payload must be an object")
-    if isinstance(ttl_seconds, bool) or not 1 <= ttl_seconds <= MAX_TTL_SECONDS:
+    if isinstance(ttl_seconds, bool) or not isinstance(ttl_seconds, int) or not 1 <= ttl_seconds <= MAX_TTL_SECONDS:
         raise MeshError("ttl_seconds is outside the allowed range")
     issued = int(time.time()) if now is None else now
     if isinstance(issued, bool) or not isinstance(issued, int) or issued < 0:
@@ -105,9 +105,11 @@ def create_envelope(*, event_id: str, kind: str, origin: str, payload: dict,
 
 def forward_envelope(envelope: MeshEnvelope, *, relay: str, secret: bytes,
                      max_hops: int = MAX_HOPS) -> MeshEnvelope:
-    if envelope.hop_count >= min(max_hops, MAX_HOPS):
+    if isinstance(max_hops, bool) or not isinstance(max_hops, int) or not 1 <= max_hops <= MAX_HOPS:
+        raise MeshError("max_hops must be between 1 and MAX_HOPS")
+    if envelope.hop_count >= max_hops:
         raise MeshError("hop limit reached")
-    if not relay or len(relay) > 256:
+    if not isinstance(relay, str) or not relay or len(relay) > 256:
         raise MeshError("relay must be 1..256 characters")
     partial = MeshEnvelope(
         envelope.event_id, envelope.kind, envelope.origin, envelope.issued_at,
@@ -127,14 +129,24 @@ def verify_envelope(envelope: MeshEnvelope, *, node_secrets: Mapping[str, bytes]
     if not isinstance(envelope, MeshEnvelope):
         raise MeshError("expected MeshEnvelope")
     current = int(time.time()) if now is None else now
+    if isinstance(current, bool) or not isinstance(current, int):
+        raise MeshError("now must be an integer timestamp")
     if envelope.kind not in ALLOWED_KINDS:
         raise MeshError("event kind is not allow-listed")
     if envelope.expires_at <= current or envelope.issued_at > current + 60:
         raise MeshError("message is expired or issued in the future")
     if envelope.expires_at <= envelope.issued_at or envelope.expires_at - envelope.issued_at > MAX_TTL_SECONDS:
         raise MeshError("invalid message lifetime")
-    if not 0 <= envelope.hop_count <= min(max_hops, MAX_HOPS):
+    if isinstance(envelope.hop_count, bool) or not isinstance(envelope.hop_count, int) or not 0 <= envelope.hop_count <= min(max_hops, MAX_HOPS):
         raise MeshError("invalid hop count")
+    if envelope.hop_count == 0 and envelope.previous_digest is not None:
+        raise MeshError("origin envelope cannot contain a previous digest")
+    if envelope.hop_count > 0 and (
+        not isinstance(envelope.previous_digest, str)
+        or len(envelope.previous_digest) != 64
+        or any(c not in "0123456789abcdef" for c in envelope.previous_digest)
+    ):
+        raise MeshError("relayed envelope must contain a previous SHA-256 digest")
     if envelope.origin not in node_secrets or envelope.signer not in node_secrets:
         raise MeshError("unknown origin or relay")
     origin_body = _origin_body(envelope.event_id, envelope.kind, envelope.origin,
