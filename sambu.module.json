@@ -17,7 +17,11 @@
     "module-manifest-v1",
     "ecosystem-registry-v1",
     "unicode-script-profiling-v1",
-    "multilingual-signal-metadata-v1"
+    "multilingual-signal-metadata-v1",
+    "runtime-event-envelope-v1",
+    "resource-descriptor-v1",
+    "canonical-json-codec-v1",
+    "bounded-in-process-event-bus-v1"
   ],
   "consumes": [
     "sambu-module-manifest-v1",
