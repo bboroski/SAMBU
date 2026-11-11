@@ -113,8 +113,22 @@ class SambuEditorGrammarTests(unittest.TestCase):
         string_patterns = self.repository["strings"]["patterns"]
         self.assertEqual(
             {pattern["name"] for pattern in string_patterns},
-            {"string.quoted.single.sambu", "string.quoted.double.sambu"},
+            {
+                "string.quoted.single.sambu",
+                "string.quoted.double.sambu",
+                "string.quoted.multi.glyph.sambu",
+                "string.quoted.raw.glyph.sambu",
+            },
         )
+
+    def test_glyph_tokens_have_a_dedicated_scope(self):
+        expression = re.compile(self.repository["glyph"]["match"])
+        for token in ("[[", "]]", "}-", "--{", "::", ";;", ":;", ";:",
+                      "+_", "/+-*", "*/", ":-", "-:", ";;-", ";-"):
+            with self.subTest(token=token):
+                match = expression.search(token)
+                self.assertIsNotNone(match)
+                self.assertEqual(match.group(0), token)
 
 
 if __name__ == "__main__":

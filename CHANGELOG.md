@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added SGS-1 punctuation-first syntax: glyph arrays, function/block markers, else transitions, field qualification, statement separators, longest-match operator aliases, multiline strings, editor highlighting and regression coverage. All forms normalize into the existing SAMBU parser and runtime.
 - Added Nun initial-condition modeling: immutable bounded snapshots, explicit boundary contracts, deterministic SHA-256 genesis manifests, regression tests and a runnable example. The API records model inputs; it does not enforce physical laws or run simulations.
 
 - Added a read-only Apple Device Toolkit for libimobiledevice discovery, allow-listed iPhone/iPad metadata, existing-pairing validation, Windows USB/service diagnostics and RU/EN CLI output. Hardware coverage requires a controlled USB lab runner.

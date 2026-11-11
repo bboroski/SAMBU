@@ -64,6 +64,7 @@ Native compiler slice не має повного source-to-machine-code конв
 
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE та редактор](docs/IDE.md)
+- [SAMBU Glyph Syntax (SGS-1)](docs/GLYPH_SYNTAX.md)
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 
