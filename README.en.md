@@ -1,5 +1,6 @@
 <p align="center"><img src="assets/duck-ui/duck-mark.svg" alt="SAMBU mark" width="92"></p>
 <h1 align="center">SAMBU</h1>
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh ecosystem overview" width="100%"></p>
 <p align="center"><strong>Scientific Modeling & Automation Environment</strong></p>
 <p align="center"><strong>Experimental alpha</strong></p>
 <p align="center"><a href="README.md">🇺🇦 Українська</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.ru.md">🇷🇺 Русский</a></p>
