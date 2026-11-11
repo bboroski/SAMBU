@@ -1,0 +1,42 @@
+{
+  "profile_version": 1,
+  "architecture": "e2k",
+  "vendor_architecture": "MCST Elbrus",
+  "elf": {
+    "class_bits": 64,
+    "endianness": "little",
+    "e_machine": 175,
+    "machine_name": "EM_MCST_ELBRUS"
+  },
+  "linux": {
+    "uname_machine": "e2k",
+    "execution_abi": "MCST E2K Linux userspace ABI"
+  },
+  "compiler": {
+    "family": "LCC",
+    "minimum_reference_version": "1.29.16",
+    "current_vendor_release_seen": "1.31.05",
+    "cross_compile_host": "x86_64-linux",
+    "license_or_distribution_access_may_be_required": true
+  },
+  "cpu_isa_profiles": {
+    "linux_distribution_families": ["e2k-v2", "e2k-v3", "e2k-v4", "e2k-v5", "e2k-v6", "e2k-v7"],
+    "vendor_sdk_targets_seen": ["e2k-1c", "e2k-2c3", "e2k-4c", "e2k-8c", "e2k-8c2", "e2k-16c", "e2k-v3", "e2k-v4", "e2k-v5", "e2k-v6"],
+    "qemu_user_manual_profiles": ["elbrus-v2", "elbrus-v3", "elbrus-v4", "elbrus-v5", "elbrus-v6"],
+    "v7_user_emulation": "not-qualified"
+  },
+  "boot": {
+    "supported_path": "MCST platform firmware/PNS -> Elbrus Linux -> native E2K process",
+    "generic_limine": false,
+    "bare_metal_kernel_abi": "not-implemented-by-this-profile"
+  },
+  "emulation": {
+    "qemu_e2k": "user-mode Linux application emulation",
+    "full_system_emulation": "not-available-through-qemu-e2k-user"
+  },
+  "qualification": {
+    "toolchain_required": true,
+    "native_runner_required_for_execution_proof": true,
+    "physical_hardware_status": "not-yet-qualified"
+  }
+}
