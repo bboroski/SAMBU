@@ -1,0 +1,37 @@
+name: Beelzebub Security Scan
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: beelzebub-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-scan:
+    name: Read-only repository security scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Run Beelzebub
+        run: python3 -I tools/beelzebub/scan.py --root . --report beelzebub-report.json --fail-on high
+      - name: Publish scan summary
+        if: always()
+        run: |
+          if [ -f beelzebub-report.json ]; then
+            python3 -c "import json; d=json.load(open('beelzebub-report.json')); print('## Beelzebub', file=open('$GITHUB_STEP_SUMMARY','a')); print(json.dumps(d['summary'], indent=2), file=open('$GITHUB_STEP_SUMMARY','a'))"
+          else
+            echo "Beelzebub report was not generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
