@@ -147,7 +147,6 @@ class _Analyzer:
         for name in self.prelude:
             root.symbols[name] = _Symbol("builtin")
         statements = program.statements
-        self.predeclare(statements, root)
         self.block(statements, root, in_function=False)
         return SemanticReport(tuple(self.diagnostics), self.declarations)
 
@@ -231,6 +230,10 @@ class _Analyzer:
         for _, value in node.static_fields:
             self.expression(value, scope)
         members = _Scope(scope)
+        for method in node.methods:
+            self.declare(
+                members, method.name, _Symbol("method", len(method.parameters)), method.span
+            )
         for method in node.methods:
             self.function(method, members)
 
