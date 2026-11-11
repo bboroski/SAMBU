@@ -11,6 +11,38 @@ from .lexer import SambuSyntaxError
 from .runtime import SambuRuntimeError
 
 
+
+def _check(argv: list[str]) -> int:
+    """Statically check declared SAMBU types without executing the program."""
+    import json
+    from .parser import parse_ast
+    from .type_system import check_program
+
+    parser = argparse.ArgumentParser(prog="sambu check")
+    parser.add_argument("file", type=Path, help="SAMBU source file (.sambu)")
+    parser.add_argument("--json", action="store_true", dest="as_json")
+    args = parser.parse_args(argv)
+    try:
+        source = args.file.read_text(encoding="utf-8")
+        diagnostics = check_program(parse_ast(source))
+    except (OSError, SambuSyntaxError, RuntimeError, ValueError, TypeError) as exc:
+        print(f"sambu check: {exc}", file=sys.stderr)
+        return 2
+
+    if args.as_json:
+        print(json.dumps(
+            [item.to_dict() for item in diagnostics],
+            ensure_ascii=False,
+            indent=2,
+        ))
+    elif diagnostics:
+        for item in diagnostics:
+            print(f"{args.file}:{item.line}:{item.column}: {item.code}: {item.message}")
+    else:
+        print(f"{args.file}: type check passed (gradual / annotated subset)")
+    return 1 if diagnostics else 0
+
+
 def _new_project(argv: list[str]) -> int:
     from .project import ProjectGenerationError, create_project
 
@@ -380,6 +412,8 @@ def _dialect(argv: list[str]) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments and arguments[0] == "check":
+        return _check(arguments[1:])
     if arguments and arguments[0] == "new":
         return _new_project(arguments[1:])
     if arguments and arguments[0] == "generate":
