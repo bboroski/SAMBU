@@ -1,0 +1,36 @@
+{
+  "schema_version": "klipot.uncertainty.v1",
+  "repository": "bboroski/SAMBU",
+  "items": [
+    {
+      "id": "SAMBU.native-backend",
+      "domain": "compiler",
+      "statement": "The native compiler slice lacks a complete source-to-machine-code pipeline.",
+      "feature": "Backend capability profiles, IR verifier, object emission and target conformance suite",
+      "resolution_mode": "feature-flag",
+      "unknown_behavior": "Keep the native backend experimental and disabled for targets without conformance evidence.",
+      "verification": [
+        "A target-specific compiler profile is explicit.",
+        "IR verification and invalid-program tests pass.",
+        "Object emission, linking and execution are validated on each claimed target."
+      ],
+      "implementation_status": "planned",
+      "status": "open"
+    },
+    {
+      "id": "SAMBU.language-semantics",
+      "domain": "language",
+      "statement": "Advanced type, effect, ownership and concurrency semantics are not fully specified for every feature.",
+      "feature": "Semantic diagnostics and executable language conformance tests",
+      "resolution_mode": "staged-implementation",
+      "unknown_behavior": "Reject unsupported constructs with source-located diagnostics rather than guessing semantics.",
+      "verification": [
+        "Every accepted syntax form has a normative semantic rule.",
+        "Negative tests cover unsupported or ambiguous constructs.",
+        "Documentation and parser behavior stay synchronized."
+      ],
+      "implementation_status": "planned",
+      "status": "open"
+    }
+  ]
+}
