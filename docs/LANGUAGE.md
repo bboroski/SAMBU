@@ -71,6 +71,18 @@ Reserved words are not silently interpreted. Query a word from source with `word
 
 The complete word-by-word definitions and sound families are in [Articulatory Syntax](ARTICULATORY_SYNTAX.md). For provenance-led experiments that design token sets and grammar productions, see [Language Craft](LANGUAGE_CRAFT.md). The old syntax remains source-compatible, and articulatory forms can be mixed with canonical keywords during migration.
 
+## Punctuation-first syntax (SGS-1)
+
+SAMBU also accepts the **SAMBU Glyph Syntax** profile, an alternate source
+surface based on the punctuation inventory in [Glyph Syntax](GLYPH_SYNTAX.md).
+It is normalized by the existing lexer and uses the same parser, AST and
+runtime. It can be mixed with established and articulatory spellings.
+
+Examples include `}- square(x) --{ return x */ x }`, arrays written as
+`[[1, 2], [3, 4]]`, field access as `stats::rms`, and conditional transitions
+written as `}{`. The profile is experimental and adds no runtime or native
+compiler guarantees.
+
 ## Expressions
 
 Supported values are numbers, strings, booleans, `null`, arrays, quantities, and records returned by scientific functions. Expressions support function calls, array indexing, and record-field access.
