@@ -54,8 +54,8 @@ class SambuSyntaxError(Exception):
         super().__init__(f"{message} (line {line}, column {column})")
 
 
-_OPERATORS = ("==", "!=", "<=", ">=", "&&", "||", "**")
-_SINGLE = set("+-*/%^<>=!(),.[];{}")
+_OPERATORS = ("->", "==", "!=", "<=", ">=", "&&", "||", "**")
+_SINGLE = set("+-*/%^<>=!(),.[];{}:")
 
 
 def tokenize(source: str) -> list[Token]:
