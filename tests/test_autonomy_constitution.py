@@ -75,7 +75,7 @@ class AutonomyConstitutionTests(unittest.TestCase):
 
     def test_two_series_of_fifty_and_101_contracts_are_linked(self):
         architecture = (ROOT / "docs" / "LANGUAGE_EVOLUTION.md").read_text(encoding="utf-8")
-        self.assertIn("100-rule Autonomy Constitution", architecture)
+        self.assertIn("100-rule Autonomy Control Specification", architecture)
         self.assertIn("two thematic series of 50 rules", architecture)
         contracts = re.findall(
             r"^\*\*(\d{3})\.\*\*", architecture, flags=re.MULTILINE
