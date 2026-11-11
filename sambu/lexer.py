@@ -125,6 +125,30 @@ def tokenize(source: str) -> list[Token]:
             advance(source[i:j])
             i = j
             continue
+        # Raw multiline glyph string: $ ... $. Escape the closing marker with \$.
+        if source.startswith("$", i):
+            start, start_line, start_col = i, line, col
+            j = i + 2
+            while j < n:
+                if source.startswith("\\$", j):
+                    j += 3
+                    continue
+                if source.startswith("$", j):
+                    break
+                j += 1
+            if j >= n:
+                raise SambuSyntaxError(
+                    "Unterminated raw glyph string literal", start_line, start_col,
+                    span=SourceSpan.point(SourcePosition(start, start_line, start_col)),
+                    code="SAMBU-L004",
+                )
+            raw = source[i:j + 2]
+            body = source[i + 2:j].replace("\\$", "$")
+            advance(raw)
+            i = j + 2
+            emit("STRING", body, start, start_line, start_col, raw)
+            continue
+
         # Multiline glyph string: "{ ... }".
         if source.startswith('"{', i):
             start, start_line, start_col = i, line, col
