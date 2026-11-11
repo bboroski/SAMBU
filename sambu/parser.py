@@ -112,9 +112,15 @@ class Parser:
         token = self.peek()
         raise self.syntax_error(message, token)
 
+    def _at_terminator(self, terminator: str) -> bool:
+        """Only the closing brace ends a block whose token kind is OP."""
+        return self.peek().kind == terminator and (
+            terminator != "OP" or self.check("}")
+        )
+
     def statements(self, terminator: str) -> list[Statement]:
         out: list[Statement] = []
-        while self.peek().kind != terminator and not (terminator == "OP" and self.check("}")):
+        while not self._at_terminator(terminator):
             if self.peek().kind == "EOF":
                 if terminator != "EOF":
                     token = self.peek()
@@ -125,7 +131,7 @@ class Parser:
             out.append(self.statement())
             if self.match(";"):
                 self.skip_separators()
-            elif self.peek().kind != terminator and not (terminator == "OP" and self.check("}")) and self.peek().kind != "EOF":
+            elif not self._at_terminator(terminator) and self.peek().kind != "EOF":
                 token = self.peek()
                 raise self.syntax_error("Expected a newline or ';' between statements", token)
         return out
@@ -153,10 +159,13 @@ class Parser:
             if keyword == "let":
                 start = self.advance()
                 name = self.consume_ident("Expected a variable name after 'let'")
-                self.consume("=", "Expected '=' after variable name")
+                annotation = None
+                if self.match(":"):
+                    annotation = self.type_annotation()
+                self.consume("=", "Expected '=' after variable name and optional type")
                 value = self.expression()
                 return LetStatement(
-                    str(name.value), value, _cover(start.span, value.span)
+                    str(name.value), value, _cover(start.span, value.span), annotation
                 )
             if keyword == "fn":
                 return self.function_declaration({})
@@ -222,15 +231,20 @@ class Parser:
         name = self.consume_ident("Expected a function name after 'fn'")
         self.consume("(", "Expected '(' after function name")
         params: list[str] = []
+        parameter_types: list[str | None] = []
         self.skip_separators()
         if not self.check(")"):
             while True:
-                params.append(str(self.consume_ident("Expected parameter name").value))
+                parameter = self.consume_ident("Expected parameter name")
+                params.append(str(parameter.value))
+                annotation = self.type_annotation() if self.match(":") else None
+                parameter_types.append(annotation)
                 self.skip_separators()
                 if not self.match(","):
                     break
                 self.skip_separators()
         closing_params = self.consume(")", "Expected ')' after parameters")
+        return_type = self.type_annotation() if self.match("->") else None
         if len(params) != len(set(params)):
             raise self.syntax_error("Function parameters must be unique", name)
         is_abstract = "abstract" in modifiers
@@ -257,6 +271,8 @@ class Parser:
             is_static="static" in modifiers,
             is_abstract=is_abstract,
             is_final="final" in modifiers,
+            parameter_types=tuple(parameter_types),
+            return_type=return_type,
         )
 
     def _member_modifiers(self) -> set[str]:
@@ -403,6 +419,23 @@ class Parser:
             self.skip_separators()
         closing = self.consume("}", "Expected '}' after trait body")
         return TraitStatement(str(name.value), tuple(methods), _cover(start.span, closing.span))
+
+    def type_annotation(self) -> str:
+        """Parse a compact nominal/generic type name after ':' or '->'."""
+        first = self.consume_ident("Expected a type name")
+        name = str(first.value)
+        while self.match("."):
+            part = self.consume_ident("Expected a type name after '.'")
+            name += "." + str(part.value)
+        if self.match("<"):
+            arguments: list[str] = []
+            while True:
+                arguments.append(self.type_annotation())
+                if not self.match(","):
+                    break
+            self.consume(">", "Expected '>' after generic type arguments")
+            name += "<" + ", ".join(arguments) + ">"
+        return name
 
     def consume_ident(self, message: str) -> Token:
         if self.peek().kind == "IDENT":
