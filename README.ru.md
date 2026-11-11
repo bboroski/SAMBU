@@ -64,6 +64,7 @@ Native compiler slice пока не является полным конвейе
 - [Программирование с помощью emoji](docs/EMOJI_PROGRAMMING.md)
 - [Архитектура native-компилятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архитектура экосистемы](docs/ECOSYSTEM_ARCHITECTURE.md)
+- [Smart Integration Pipeline](docs/SMART_INTEGRATION_PIPELINE.md)
 
 ## NUN Mesh и связанные репозитории
 

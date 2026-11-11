@@ -64,6 +64,7 @@ These repository images show the application workspace, reports and XML inspecto
 - [Emoji programming](docs/EMOJI_PROGRAMMING.md)
 - [Native compiler architecture](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Ecosystem architecture](docs/ECOSYSTEM_ARCHITECTURE.md)
+- [Smart Integration Pipeline](docs/SMART_INTEGRATION_PIPELINE.md)
 
 ## NUN Mesh and related repositories
 
