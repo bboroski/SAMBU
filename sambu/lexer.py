@@ -129,9 +129,25 @@ def tokenize(source: str) -> list[Token]:
                     span=span_to_eof(start, start_line, start_col),
                     code="SAMBU-L003",
                 )
-            raw = source[i:closing + 2]
-            advance(raw)
-            i = closing + 2
+            comment_end = closing + 2
+            cursor = i
+            while cursor < comment_end:
+                newline = source.find("\n", cursor, comment_end)
+                if newline == -1:
+                    advance(source[cursor:comment_end])
+                    cursor = comment_end
+                    continue
+                advance(source[cursor:newline])
+                separator_line, separator_col = line, col
+                advance("\n")
+                tokens.append(
+                    Token(
+                        "SEMI", ";", separator_line, separator_col,
+                        line, col, newline, newline + 1, "\\n",
+                    )
+                )
+                cursor = newline + 1
+            i = comment_end
             continue
 
         # $$...$$ is a verbatim multiline string.  Its contents do not
