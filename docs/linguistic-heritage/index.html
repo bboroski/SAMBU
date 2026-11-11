@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Linguistic Heritage Engine — Ы</title>
+<style>
+:root{color-scheme:light dark;font:16px/1.55 system-ui,sans-serif}body{max-width:900px;margin:0 auto;padding:2rem 1.2rem}
+header{border-bottom:1px solid #8886;padding-bottom:1rem;margin-bottom:1.5rem}.glyph{font-size:clamp(5rem,18vw,10rem);line-height:1;margin:.2em 0}
+nav{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}button{padding:.65rem .9rem;border:1px solid #888;border-radius:.6rem;background:transparent;cursor:pointer}
+button[aria-pressed=true]{background:#8883}article{border:1px solid #8886;border-radius:.8rem;padding:1rem;margin:1rem 0}
+small,.muted{opacity:.75}.status{font-weight:700;text-transform:uppercase;font-size:.78rem;letter-spacing:.04em}a{overflow-wrap:anywhere}
+</style></head><body>
+<header><p class="muted">LINGUISTIC HERITAGE ENGINE · CASE STUDY 001</p><h1>Тайная генеалогия буквы Ы</h1>
+<div class="glyph" aria-label="Буква Ы">Ы ы</div><p>Интерактивная справка: графема, звук и исторические гипотезы — отдельно друг от друга.</p></header>
+<nav aria-label="Разделы"><button data-view="profile" aria-pressed="true">Профиль</button><button data-view="claims" aria-pressed="false">Проверка утверждений</button><button data-view="vowels" aria-pressed="false">Сравнение гласных</button></nav>
+<main id="content" aria-live="polite"></main>
+<script>
+const profile={profile:[["Название","еры (yery)"],["IPA русского","/ɨ/"],["Unicode","U+042B (Ы), U+044B (ы)"],["Традиционный графический анализ","ъ + і"],["Фонетическое описание","Высокий центральный неогублённый гласный; реализация зависит от языка и контекста."]],claims:[
+["Устройство кириллической графемы","established","Традиционно анализируется как сочетание ъ + і. Это графическая генеалогия, а не объяснение происхождения самого звука."],
+["Тюркское влияние как причина появления /ɨ/","hypothesis","Языковые контакты заслуживают изучения, но сходство звуков и соседство языков не доказывают причинность."],
+["Запрет Ы Петром I","unsupported","Надёжного подтверждения запрета в рассмотренном источнике нет; реформу гражданского шрифта нельзя пересказывать как гонение на Ы."]]};
+const content=document.getElementById("content");
+function render(view){
+ document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.view===view)));
+ if(view==="profile"){content.innerHTML="<h2>Паспорт графемы</h2>"+profile.profile.map(x=>"<article><strong>"+x[0]+"</strong><p>"+x[1]+"</p></article>").join("");}
+ else if(view==="claims"){content.innerHTML="<h2>Историческая проверка</h2>"+profile.claims.map(x=>"<article><div class='status'>"+x[1]+"</div><h3>"+x[0]+"</h3><p>"+x[2]+"</p></article>").join("");}
+ else{content.innerHTML="<h2>Три артикуляционных ориентира</h2><article><h3>[i]</h3><p>Высокий передний неогублённый гласный.</p></article><article><h3>[ɨ]</h3><p>Высокий центральный неогублённый гласный.</p></article><article><h3>[ɯ]</h3><p>Высокий задний неогублённый гласный.</p></article><p class='muted'>Это категории IPA, а не взаимозаменяемые варианты одной буквы.</p>";}
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>render(b.dataset.view)));render("profile");
+</script></body></html>
