@@ -77,8 +77,8 @@
       "patterns": [
         {
           "name": "string.quoted.raw.glyph.sambu",
-          "begin": "\\\\$\\\\$",
-          "end": "\\\\$\\\\$"
+          "begin": "\\$\\$",
+          "end": "\\$\\$"
         },
         {
           "name": "string.quoted.multi.glyph.sambu",
