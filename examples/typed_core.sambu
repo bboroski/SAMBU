@@ -1,0 +1,15 @@
+# Opt-in type annotations and gradual checks in SAMBU.
+
+let observations: Array<Number> = [12, 18, 21, 24]
+
+fn average(values: Array<Number>) -> Number {
+    return sum(values) / count(values)
+}
+
+fn describe(label: String, value: Number) -> String {
+    return label + ": " + value
+}
+
+let mean_value: Number = average(observations)
+print(mean_value)
+print(describe("mean", mean_value))
