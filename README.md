@@ -24,6 +24,7 @@
 - Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами та записами.
 - Наукові моделі: SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
 - Просторові дані: sparse voxel grids, чанки, Morton keys, octrees та графові операції.
+- Статичний семантичний аналіз імен/областей, арності відомих функцій і явних помилок примітивних операторів (`sambu check`).
 - CLI, Tkinter IDE, тестовий runner і архітектурні перевірки.
 - Окремий C11 native-compiler slice з типізованими IR; це ще не повний native-компілятор.
 
@@ -64,6 +65,7 @@ Native compiler slice не має повного source-to-machine-code конв
 
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE та редактор](docs/IDE.md)
+- [Статичний семантичний аналіз](docs/SEMANTIC_ANALYSIS.md)
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 
