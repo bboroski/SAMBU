@@ -98,9 +98,11 @@ def _prelude_names() -> frozenset[str]:
     # built-ins do not require a second manually maintained name list.
     from .runtime import _BUILTINS
     from .values import UNITS
+    from .articulatory import BUILTIN_ALIASES
 
     return frozenset(
         set(_BUILTINS)
+        | {name for name, target in BUILTIN_ALIASES.items() if target == "print"}
         | set(UNITS)
         | {
             "print", "pi", "e", "k_B", "h", "hbar", "c", "N_A",
@@ -230,12 +232,16 @@ class _Analyzer:
         for _, value in node.static_fields:
             self.expression(value, scope)
         members = _Scope(scope)
+        seen_methods: set[str] = set()
         for method in node.methods:
-            self.declare(
-                members, method.name, _Symbol("method", len(method.parameters)), method.span
-            )
-        for method in node.methods:
-            self.function(method, members)
+            if method.name in seen_methods:
+                self.report(
+                    "SAMBU-SEM-002",
+                    f"method {method.name!r} is already declared in this class",
+                    method.span,
+                )
+            seen_methods.add(method.name)
+            self.function(method, scope)
 
     def expression(self, node: Expression, scope: _Scope) -> str:
         if isinstance(node, LiteralExpr):
