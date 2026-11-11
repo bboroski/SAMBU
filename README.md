@@ -80,13 +80,13 @@ MIT
 **Створено з любов'ю до інженерії, системності та людей.**
 
 
-## Duck Studio GUI
+## Графічний інтерфейс Duck Studio
 
-The repository includes a responsive, standalone [SAMBU Studio interface prototype](docs/gui/index.html) and a [1600×900 vector preview](docs/gui/preview.svg). The prototype explores the scientific workspace, language tooling, dimensional models and voxel workflows in the shared Duck Black / Yellow visual system. **Preview data is synthetic; this is not a live runtime screenshot or a claim that the panels are connected to the SAMBU engine.**
+У репозиторії додано [адаптивний прототип SAMBU Studio](docs/gui/index.html) та [векторне прев'ю 1600 × 900](docs/gui/preview.svg). Інтерфейс охоплює робочий простір, мовні інструменти, розмірнісні наукові моделі та voxel-процеси в спільній системі Duck Black / Yellow. **Дані в прев'ю синтетичні: це не знімок живого runtime і не твердження про підключення панелей до рушія SAMBU.**
 
-- [GUI design notes and run instructions](docs/gui/README.md)
-- [Existing Duck Studio application screenshots](docs/images/)
-- [Duck UI design system](design/DUCK_UI_SYSTEM.md)
-- [Architecture and IDE documentation](docs/ECOSYSTEM_ARCHITECTURE.md) · [IDE guide](docs/IDE.md)
+- [Нотатки з дизайну GUI та запуск](docs/gui/README.md)
+- [Наявні скриншоти Duck Studio](docs/images/)
+- [Система дизайну Duck UI](design/DUCK_UI_SYSTEM.md)
+- [Архітектура](docs/ECOSYSTEM_ARCHITECTURE.md) · [Посібник IDE](docs/IDE.md)
 
-The prototype is mobile-responsive, keyboard-operable and honours reduced-motion preferences.
+Прототип адаптивний, підтримує клавіатурну навігацію та налаштування reduced motion.
