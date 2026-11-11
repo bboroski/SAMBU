@@ -169,7 +169,7 @@
       "patterns": [
         {
           "name": "punctuation.section.block.begin.glyph.sambu",
-          "match": "\\[\\[|--\\{|\\]\\]|}-"
+          "match": "--\\{|}-"
         },
         {
           "name": "punctuation.separator.statement.glyph.sambu",
