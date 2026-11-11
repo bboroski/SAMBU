@@ -34,7 +34,7 @@ The native compiler slice is not a complete source-to-machine-code toolchain. Th
 Each repository retains its canonical name, code, APIs, release lifecycle and ownership boundaries. Integration means versioned contracts, not automatic merging of independent runtimes.
 
 ## Design and documentation
-The shared interface direction is **Duck Black / Yellow**: dark surfaces, yellow accents for actions and state, readable typography, accessible contrast, keyboard navigation and reduced-motion support. See [design/DUCK_UI_SYSTEM.md](design/DUCK_UI_SYSTEM.md) when present.
+The shared interface direction is **Duck Black / Yellow**: deep black `#111111` surfaces and signal-yellow `#FFD600` accents for actions and state, readable typography, accessible contrast, keyboard navigation and reduced-motion support. See [design/DUCK_UI_SYSTEM.md](design/DUCK_UI_SYSTEM.md) when present.
 
 ## License
 MIT
