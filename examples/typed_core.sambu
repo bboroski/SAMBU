@@ -6,10 +6,10 @@ fn average(values: Array<Number>) -> Number {
     return sum(values) / count(values)
 }
 
-fn describe(label: String, value: Number) -> String {
-    return label + ": " + value
+fn label(value: String) -> String {
+    return value
 }
 
 let mean_value: Number = average(observations)
 print(mean_value)
-print(describe("mean", mean_value))
+print(label("mean"))
