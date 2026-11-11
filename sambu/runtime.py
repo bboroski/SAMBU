@@ -26,6 +26,7 @@ from .values import (
     ENERGY, MASS, SPEED, TEMP, Quantity, Record, UNITS,
     number_value, require_quantity,
 )
+from .type_system import assert_value_type
 
 
 class SambuRuntimeError(Exception):
@@ -454,6 +455,8 @@ class UserFunction:
         self.is_static = bool(metadata.get("static", False))
         self.is_abstract = bool(metadata.get("abstract", False))
         self.is_final = bool(metadata.get("final", False))
+        self.parameter_types = dict(metadata.get("parameter_types", {}))
+        self.return_type = metadata.get("return_type")
         self.owner_class: SambuClass | None = None
 
     def invoke(
@@ -469,6 +472,9 @@ class UserFunction:
             raise SambuRuntimeError("maximum function call depth (200) exceeded")
         local = Environment(self.closure)
         for name, value in zip(self.params, args):
+            annotation = self.parameter_types.get(name)
+            if annotation:
+                assert_value_type(value, str(annotation), self.closure, context=f"parameter {name!r} of {self.name}")
             local.define(name, value)
         if defining_class is not None:
             if bound_instance is not None:
@@ -480,12 +486,15 @@ class UserFunction:
                 local.define("__class__", defining_class)
         self.interpreter.call_depth += 1
         try:
-            self.interpreter.execute_statements(self.body, local)
-        except _ReturnSignal as signal:
-            return signal.value
+            try:
+                result = self.interpreter.execute_statements(self.body, local)
+            except _ReturnSignal as signal:
+                result = signal.value
+            if self.return_type:
+                assert_value_type(result, str(self.return_type), self.closure, context=f"return value of {self.name}")
+            return result
         finally:
             self.interpreter.call_depth -= 1
-        return None
 
     def __call__(self, args: list[object]) -> object:
         return self.invoke(args)
@@ -728,14 +737,20 @@ class Interpreter:
         for statement in statements:
             kind = statement[0]
             if kind == "let":
-                _, name, expr = statement
-                env.define(name, self.evaluate(expr, env))
+                _, name, expr = statement[:3]
+                metadata = statement[3] if len(statement) > 3 else {}
+                value = self.evaluate(expr, env)
+                annotation = metadata.get("type") if isinstance(metadata, dict) else None
+                if annotation:
+                    assert_value_type(value, str(annotation), env, context=f"binding {name!r}")
+                env.define(name, value)
                 result = env.get(name)
             elif kind == "expr":
                 result = self.evaluate(statement[1], env)
             elif kind == "fn":
-                _, name, params, body = statement
-                env.define(name, UserFunction(name, params, body, env, self))
+                _, name, params, body = statement[:4]
+                metadata = statement[4] if len(statement) > 4 else {}
+                env.define(name, UserFunction(name, params, body, env, self, metadata))
                 result = env.get(name)
             elif kind == "interface":
                 _, name, method_nodes = statement
@@ -801,6 +816,8 @@ class Interpreter:
                                 "static": False,
                                 "abstract": False,
                                 "final": source_method.is_final,
+                                "parameter_types": source_method.parameter_types,
+                                "return_type": source_method.return_type,
                             },
                         )
 
