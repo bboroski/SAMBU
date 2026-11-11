@@ -251,7 +251,7 @@ class SambuMachineTests(unittest.TestCase):
         self.assertEqual(output[1], "12")
         self.assertEqual(
             [float(value) for value in output[2:8]],
-            [270.0, 135.0, 180.0, 4.5, 390.0, 270.0],
+            [270.0, 135.0, 4.5, 390.0, 270.0, 1305.0],
         )
         self.assertEqual(float(output[-1]), 108.75)
 
