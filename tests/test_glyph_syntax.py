@@ -30,7 +30,7 @@ class GlyphSyntaxTests(unittest.TestCase):
     def test_symbolic_block_delimiters_parse_function(self):
         source = """fn square(value) --{
     return value /+-* value
-]]
+}-
 print(square(5))
 """
         program = parse_ast(source)
