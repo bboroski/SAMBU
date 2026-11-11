@@ -15,6 +15,10 @@ from .ast import (  # noqa: F401
     SetFieldStatement, TraitStatement, UnaryExpr,
 )
 from .interpreter import execute  # noqa: F401
+from .type_system import (  # noqa: F401
+    SambuTypeError, TypeDiagnostic, assert_value_type, check_program,
+    check_source, infer_runtime_type, value_matches_type,
+)
 from .lexer import SambuSyntaxError, Token, tokenize  # noqa: F401
 from .parser import parse, parse_ast  # noqa: F401
 from .source import SourcePosition, SourceSpan  # noqa: F401
