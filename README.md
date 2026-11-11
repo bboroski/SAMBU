@@ -21,7 +21,7 @@
 > **SAMBU** — SAMBU — експериментальне Python-hosted середовище для програмування, наукового моделювання та відтворюваних workflow.
 
 ## Поточні можливості
-- Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами та записами.
+- Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами, записами та emoji-синтаксисом команд і операторів.
 - Наукові моделі: SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
 - Просторові дані: sparse voxel grids, чанки, Morton keys, octrees та графові операції.
 - Статичний семантичний аналіз імен/областей, арності відомих функцій і явних помилок примітивних операторів (`sambu check`).
@@ -66,6 +66,7 @@ Native compiler slice не має повного source-to-machine-code конв
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE та редактор](docs/IDE.md)
 - [Статичний семантичний аналіз](docs/SEMANTIC_ANALYSIS.md)
+- [Emoji-програмування](docs/EMOJI_PROGRAMMING.md)
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 
