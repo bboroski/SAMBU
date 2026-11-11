@@ -25,9 +25,7 @@ The native compiler does not provide a complete source-to-machine-code pipeline.
 ## Project documentation
 ![Duck Studio workspace](docs/images/duck-studio-overview.webp)
 
-![Duck Studio reports](docs/images/duck-studio-reports-findings.webp)
 
-![Duck Studio XML inspector](docs/images/duck-studio-xml-inspector.webp)
 
 ## Related
 [Duck Studio](docs/DUCK_STUDIO.md) · [IDE](docs/IDE.md) · [semantic analysis](docs/SEMANTIC_ANALYSIS.md)
