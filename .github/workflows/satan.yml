@@ -1,0 +1,22 @@
+name: Satan repository audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "41 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  satan:
+    name: Satan read-only audit
+    permissions:
+      contents: read
+    uses: bboroski/Hellduck/.github/workflows/satan-audit.yml@d39a18745acd0634349f653159edff5ce2455ce3
+    with:
+      core_ref: d39a18745acd0634349f653159edff5ce2455ce3
