@@ -41,3 +41,7 @@ MIT
 
 ---
 **Built with care for engineering, clarity and people.**
+
+
+## Duck Black / Yellow palette
+The legacy badge and mark compatibility colors remain `#FFD600` (yellow) and `#111111` (near-black). The current interface canvas is `#0D0D0D`. The complete six-color palette, fourteen functional shades and RGB/HSL values are maintained in `design/duck-ui.tokens.json` (schema 3.0.0). Yellow is reserved for primary actions, focus and selection; red and cyan identify semantic error and information states.
