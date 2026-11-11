@@ -247,7 +247,7 @@ class SambuMachineTests(unittest.TestCase):
         example = Path(__file__).resolve().parents[1] / "examples" / "mulberry_charlotte.sambu"
         output: list[str] = []
         execute(example.read_text(encoding="utf-8"), output=output.append)
-        self.assertEqual(output[0], "SAMBU Mulberry Charlotte")
+        self.assertEqual(output[0], "Batch scaling fixture")
         self.assertEqual(output[1], "12")
         self.assertEqual(
             [float(value) for value in output[2:8]],
