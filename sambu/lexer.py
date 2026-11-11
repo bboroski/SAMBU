@@ -143,7 +143,7 @@ def tokenize(source: str) -> list[Token]:
                 tokens.append(
                     Token(
                         "SEMI", ";", separator_line, separator_col,
-                        line, col, newline, newline + 1, "\\n",
+                        line, col, newline, newline + 1, "\n",
                     )
                 )
                 cursor = newline + 1
