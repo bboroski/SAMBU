@@ -287,6 +287,32 @@
       "reference_only": true,
       "clinical_decision_support": false,
       "hardware_control": false
+    },
+    "linguistic_heritage_letter_v1": {
+      "version": 1,
+      "schema": "schemas/linguistic-heritage-letter.schema.json",
+      "specification": "docs/LINGUISTIC_HERITAGE_ENGINE.md",
+      "canonical_dataset": "data/linguistic-heritage/cyrillic-letter-y.json",
+      "validator": "tools/validate_linguistic_heritage.py",
+      "participants": [
+        "SAMBU",
+        "ToolNG",
+        "ReaperCripple",
+        "Kloz",
+        "CO",
+        "SaintSI",
+        "Klipot",
+        "NUN",
+        "NUNLauncher",
+        "Fragile-Baby",
+        "Luci",
+        "Hellduck",
+        "9circ"
+      ],
+      "metadata_only": true,
+      "runtime_dependency": false,
+      "raw_text_embedded": false,
+      "evidence_policy": "Separate grapheme history, sound history, comparative phonetics and cultural interpretation; unsupported claims remain labelled."
     }
   }
 }
