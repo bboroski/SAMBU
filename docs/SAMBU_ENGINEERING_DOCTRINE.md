@@ -248,7 +248,7 @@ Not yet implemented: graphical editor, LSP transport, semantic type-aware comple
 
 “Шарлотка из шелковицы” is the named end-to-end sample: a small and understandable program that exercises the interpreter with reproducible portion scaling, ingredient totals, and a useful output report.
 
-The recipe values are illustrative example inputs, not a nutritional or food-safety database. The fixture is useful because its arithmetic has clear invariants:
+The numeric workload values are illustrative example inputs, not a nutritional or food-safety database. The fixture is useful because its arithmetic has clear invariants:
 
 - scaling from 8 to 12 portions multiplies every quantity by 1.5;
 - all ingredient quantities and the total mass remain positive;
