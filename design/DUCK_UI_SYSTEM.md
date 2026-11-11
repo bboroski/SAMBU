@@ -35,3 +35,17 @@ Target at least 4.5:1 contrast for normal text and 3:1 for large text. Preserve 
 - Web surfaces: load the shared stylesheet and use the `duck-*` component classes or map local classes to these tokens.
 - Desktop surfaces: mirror the token values in native theme configuration; preserve native focus, keyboard and scaling behavior.
 - CLI and specification-only repositories: keep terminal output and documentation legible using the same semantic colors and typography; do not fabricate a GUI where no application UI exists.
+
+## Material system: glass, metal and paper
+
+The shared stylesheet exposes three optional, semantic surface treatments: `.duck-glass`, `.duck-metal` and `.duck-paper`. Use them by content role, not as decoration on every card.
+
+- **Glass** is a translucent, layered surface with backdrop blur and a fully opaque fallback. CSS blur is visual depth, not physically accurate refraction. True optical refraction is an optional renderer-specific enhancement and must have a measured GPU budget.
+- **Metal** uses a restrained directional highlight and layered graphite gradients. A static highlight is the default; any window- or pointer-reactive reflection must be subtle, non-blocking and disabled under reduced motion.
+- **Paper** is reserved for notes, annotations and document previews. It may use a quieter night tint through an explicit `data-cycle="night"` preference; never infer a user's schedule or silently change work content.
+
+Material effects never replace hierarchy, text labels, focus indicators or semantic status. Every surface needs a readable no-backdrop-filter fallback. Preserve contrast, keyboard operation, browser/OS scaling and reduced-motion preferences. Do not place critical diagnostics on low-contrast or animated surfaces.
+
+## Release evidence for visual changes
+
+A material effect is considered integrated only when the running application uses the shared stylesheet, the opaque fallback is checked, keyboard focus and high-contrast states are verified, reduced-motion behavior is tested, and screenshots are captured from the running application. SVG boards and static previews are design references, not implementation evidence.
