@@ -32,7 +32,6 @@ _SECTION_ALIASES = {
     "предприпев": "pre_chorus",
     "chorus": "chorus", "hook": "chorus", "припев": "chorus", "хук": "chorus",
     "melody sing chorus": "chorus", "melodic chorus": "chorus",
-    "spoken chorus": "chorus",
     "bridge": "bridge", "бридж": "bridge",
     "outro": "outro", "аутро": "outro",
 }
