@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/bboroski/SAMBU/blob/main/schemas/creative-metadata.schema.json",
-  "title": "SAMBU Creative Metadata Document",
-  "description": "Metadata-only annotation contract. Raw creative source text is intentionally excluded.",
+  "title": "SAMBU Structured Annotation Metadata Document",
+  "description": "Metadata-only annotation contract. Raw source content is intentionally excluded.",
   "$defs": {
     "record": {
       "type": "object",
