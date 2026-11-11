@@ -1,10 +1,10 @@
-# Creative Learning and the Improvement Loop
+# Text Signal Analysis and Preference Tuning
 
-This guide connects measurable text diagnostics, explicit author choices and repeatable engineering practice. It does not treat writing as an optimization problem with one universal score.
+This guide connects measurable text diagnostics, explicit parameter choices and repeatable revision workflows. It does not assume that one score can represent overall quality.
 
-## 1. Creative preference memory
+## 1. Preference profile
 
-Use `CreativeLearningProfile` only after the author explicitly opts in:
+The existing `CreativeLearningProfile` name remains a compatibility API. Enable collection only after explicit opt-in:
 
 ```python
 from sambu import CreativeLearningProfile
@@ -13,66 +13,57 @@ profile = CreativeLearningProfile(enabled=True)
 profile.record_feedback("rhythm", "prefer")
 profile.record_feedback("multisyllabic_rhyme", "prefer")
 profile.record_feedback("clean_language", "prefer")
-
 print(profile.ranked_preferences())
 ```
 
-The profile records only aggregate counters for a fixed registry of dimensions. It does not accept text, prompts, raw comments or example passages. It is in-memory by default. Export is explicit:
+The profile stores aggregate counters for a fixed dimension registry. It does not accept raw source text, prompts, comments or example passages. State is in-memory by default; export is explicit:
 
 ```python
 snapshot = profile.to_json()
 restored = CreativeLearningProfile.from_json(snapshot)
-assert restored.enabled is False  # loading never resumes collection implicitly
+assert restored.enabled is False
 ```
 
-Callers must obtain consent before enabling collection and must protect any exported file according to their own storage policy. The profile contains no user identity, but preference patterns can still be personal data in context; do not publish them without permission.
+Obtain consent before enabling collection. Protect exported profiles under the caller's storage policy. Aggregate preference patterns may still be sensitive in context and must not be published without permission.
 
-## 2. The creative refinement cycle
+## 2. Revision cycle
 
-Use one meaningful edit per cycle:
+Apply one measurable change per cycle:
 
-1. **Declare intent.** Record the target format, speaker, point of view, register, language mix and constraints that must remain unchanged.
-2. **Measure the baseline.** Run `text_profile`, `prosody_profile`, `text_structure_profile` and, for a compact refrain, `hook_profile`.
-3. **Choose one hypothesis.** Examples: smooth a crowded line, strengthen an internal rhyme, make a returning phrase develop its meaning, or reduce an unintended register shift.
-4. **Produce a candidate.** Preserve source order, signature vocabulary and deliberate deviations. Apply clean-language constraints only when explicitly selected.
-5. **Compare evidence.** Re-run the same diagnostics. Compare line count, syllable spread, sound echoes, repetition and section structure; do not assume that increasing every metric improves the work.
-6. **Read aloud and decide.** The author accepts, edits or rejects the candidate. A heuristic cannot replace performance or semantic review.
-7. **Record an optional preference.** Only after an explicit choice, store a `prefer` or `avoid` vote against one registered dimension.
+1. **Declare constraints:** target format, language, register and invariants.
+2. **Measure baseline:** run `text_profile`, `prosody_profile`, `text_structure_profile` and, where relevant, `hook_profile`.
+3. **Select a hypothesis:** reduce local density, improve phonetic alignment, clarify repeated segments or normalize register transitions.
+4. **Generate a candidate:** preserve source order and declared constraints; keep the source snapshot immutable.
+5. **Compare metrics:** line count, syllable distribution, phonetic overlap, repetition and segment structure. Do not optimize every metric simultaneously.
+6. **Review output:** the operator accepts, adjusts or rejects the candidate. Heuristic metrics do not prove semantic correctness.
+7. **Record an optional preference:** store one explicit `prefer` or `avoid` value for a registered dimension.
 
-Keep the original and candidate separate until approval. Every accepted change should have a reason; rejected experiments can still teach the author what not to do without being added to the preference profile.
+Keep source and candidate snapshots separate until approval. Rejected candidates may be retained as test evidence only when the caller's data policy permits it.
 
-## 3. Engineering the improvement of improvements
+## 3. Engineering change loop
 
-For code and system changes, use a parallel acceptance loop:
+For code and system revisions, use the same bounded process:
 
-- define the baseline workload and measurements;
+- define baseline workload and measurements;
 - propose a small, reviewable change;
 - run unit, integration, compatibility and safety tests;
-- compare performance and resource use under the same conditions;
-- reject a candidate that introduces an unapproved regression;
-- keep a reversible patch or rollback path;
-- document the measured result and the limits of the measurement.
+- compare performance and resource use under equivalent conditions;
+- reject unapproved regressions;
+- preserve a reversible patch or rollback path;
+- record results and measurement limits.
 
-The existing `EffortAmplification` model in the engineering doctrine can summarize declared metric changes per engineering hour. It is only useful when the workload, hardware, metric definitions and test protocol are comparable. It must not be used to turn unlike tasks into a misleading universal score.
+The `EffortAmplification` model can summarize declared metric change per engineering hour. Compare only equivalent workloads, hardware, metric definitions and test protocols; do not convert unlike tasks into a universal score.
 
-## 4. Hook-building rules in clean language
+## 4. Signal-quality constraints
 
-The default revision order is:
-
-1. natural spoken rhythm and breath length;
-2. a clear central image, phrase or proposition;
-3. purposeful internal and multisyllabic sound links;
-4. a returning anchor that changes meaning or raises the stakes;
-5. concise wording and deliberate register control.
-
-Do not force a rhyme on every line. Do not repeat a phrase solely to fill a bar. Do not sacrifice intelligibility for density. Examples and default suggestions in this guide use clean language. A supplied source remains untouched unless the author explicitly asks for a clean-language rewrite.
+Prioritize intelligibility, controlled repetition, segment continuity and explicit register selection. Do not force a pattern merely to increase density, and do not optimize a proxy metric at the expense of the declared output constraints.
 
 ## 5. Safety and limits
 
-- The preference profile is not model training, embeddings, automatic classification or online adaptation.
+- The preference profile is not model training, embedding generation, automatic classification or online adaptation.
 - It learns only from explicit aggregate choices supplied by a caller.
-- A preference score describes the balance of recorded choices; it is not a probability or confidence estimate.
-- Text diagnostics use spelling and structure heuristics. They do not hear a performance, infer lexical stress or prove semantic quality.
-- The author remains the final reviewer for meaning, cultural context, legality, licensing and suitability.
+- A preference score summarizes recorded choices; it is not a probability or confidence estimate.
+- Text diagnostics use spelling and structure heuristics. They do not prove semantic quality or replace domain review.
+- The content owner remains responsible for meaning, source context, licensing and suitability.
 
-A useful system does not merely create more output. It makes each next decision easier to inspect, reproduce and reverse.
+The goal is not maximal output volume. It is a revision process that is inspectable, reproducible and reversible.
