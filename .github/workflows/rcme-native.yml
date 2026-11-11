@@ -1,0 +1,29 @@
+name: RCME native C11 tests
+
+on:
+  pull_request:
+    paths:
+      - "rcme/**"
+      - ".github/workflows/rcme-native.yml"
+  workflow_dispatch:
+
+jobs:
+  native-tests:
+    name: C11 / ${{ matrix.compiler }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install compiler
+        run: |
+          if [ "${{ matrix.compiler }}" = "clang" ]; then
+            sudo apt-get update
+            sudo apt-get install -y clang
+          fi
+      - name: Build and run RCME tests
+        env:
+          CC: ${{ matrix.compiler }}
+        run: make -C rcme test
