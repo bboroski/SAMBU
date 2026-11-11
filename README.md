@@ -94,3 +94,8 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+
+## GRAND-SLAM engineering protocol
+
+Four-vector engineering acceptance standard (physical efficiency, human factors, technical quality and resilience), adapted to this repository: [docs/GRAND_SLAM.md](docs/GRAND_SLAM.md).
