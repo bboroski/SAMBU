@@ -84,17 +84,6 @@ class SimulationResult:
     evidence: str = "simulated"
 
 
-def reynolds_number(particle: Particle, profile: DustProfile) -> float:
-    """Particle Reynolds number using diameter and relative fluid speed."""
-    relative = tuple(particle.velocity_m_s[i] - profile.fluid_velocity_m_s[i]
-                     for i in range(3))
-    speed = math.sqrt(sum(v * v for v in relative))
-    # Air density is not guessed: this reference profile requires the caller
-    # to supply it in a future extension. Use the dimensionless Stokes check
-    # only when density is supplied by the explicit helper below.
-    return speed
-
-
 def simulate(
     particles: Iterable[Particle],
     profile: DustProfile,
