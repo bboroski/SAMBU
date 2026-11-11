@@ -19,7 +19,7 @@ int main(void) {
     assert(fabs(od[0] - 0.7071067811865475) < 1e-12);
     assert(fabs(od[3] - 0.7071067811865475) < 1e-12);
     residual = rcme_residual_l2(&out,&out,&status);
-    assert(status == RCME_OK && residual == 0.0);
+    assert(status == RCME_OK && residual == 0.0);\n    residual = rcme_residual_l2(&out, &b, &status);\n    assert(status == RCME_OK && fabs(residual - 1.0) < 1e-12);
     assert(rcme_domain_weights(weights,8) == RCME_OK);
     assert(rcme_domain_measure(&out,&measure) == RCME_OK);
     assert(isfinite(measure));
