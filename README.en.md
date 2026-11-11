@@ -1,3 +1,5 @@
+
+> **Brand palette:** signal yellow `#FFD600`; deep black `#111111`.
 <p align="center"><img src="assets/duck-ui/duck-mark.svg" alt="SAMBU mark" width="92"></p>
 <h1 align="center">SAMBU</h1>
 <p align="center"><strong>Scientific Modeling &amp; Automation Environment</strong></p>
