@@ -130,7 +130,7 @@ def tokenize(source: str) -> list[Token]:
             start, start_line, start_col = i, line, col
             j = i + 2
             while j < n:
-                if source.startswith("\$$", j):
+                if source.startswith("\\$", j):
                     j += 3
                     continue
                 if source.startswith("$$", j):
@@ -143,7 +143,7 @@ def tokenize(source: str) -> list[Token]:
                     code="SAMBU-L004",
                 )
             raw = source[i:j + 2]
-            body = source[i + 2:j].replace("\$$", "$$")
+            body = source[i + 2:j].replace("\\$", "$")
             advance(raw)
             i = j + 2
             emit("STRING", body, start, start_line, start_col, raw)
