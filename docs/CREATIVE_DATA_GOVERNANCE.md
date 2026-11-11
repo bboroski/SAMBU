@@ -68,7 +68,7 @@ from sambu.creative_metadata import CreativeMetadata
 
 record = CreativeMetadata.from_mapping({
     "cluster_id": "T-006",
-    "theme": "technological_metaphor",
+    "theme": "system_analogy_mapping",
     "tone": "neutral_explanatory",
     "key_symbols": ["service_request", "queue_state"],
     "language": ["en"],
