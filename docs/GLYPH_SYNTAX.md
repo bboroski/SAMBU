@@ -45,7 +45,7 @@ and diagnostics.
 ## String and comment forms
 
 Single- and double-quoted strings continue to work as before. The paired
-`$...$` form adds a verbatim multiline string: its content is returned as
+`$$...$$` form adds a verbatim multiline string: its content is returned as
 one `STRING` token, with no escape processing. The lexer also accepts
 C-style `/* ... */` block comments in addition to `#` line comments.
 
@@ -93,7 +93,7 @@ than rewriting arbitrary punctuation runs. Quote-bearing fragments such as
 retain their ordinary string-delimiter meaning. Long decorative or repeated
 backslash/bracket chains that are not listed in the active registry remain
 ordinary source text candidates, not executable grammar productions. They can
-be placed safely inside `$$...\$\$` raw strings or comments.
+be placed safely inside `$$...$$` raw strings or comments.
 
 This boundary prevents ambiguous tokenization and avoids assigning accidental
 runtime meaning to arbitrary character sequences. New glyphs must be added to
