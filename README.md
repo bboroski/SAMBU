@@ -78,3 +78,15 @@ MIT
 
 ---
 **Створено з любов'ю до інженерії, системності та людей.**
+
+
+## Duck Studio GUI
+
+The repository includes a responsive, standalone [SAMBU Studio interface prototype](docs/gui/index.html) and a [1600×900 vector preview](docs/gui/preview.svg). The prototype explores the scientific workspace, language tooling, dimensional models and voxel workflows in the shared Duck Black / Yellow visual system. **Preview data is synthetic; this is not a live runtime screenshot or a claim that the panels are connected to the SAMBU engine.**
+
+- [GUI design notes and run instructions](docs/gui/README.md)
+- [Existing Duck Studio application screenshots](docs/images/)
+- [Duck UI design system](design/DUCK_UI_SYSTEM.md)
+- [Architecture and IDE documentation](docs/ECOSYSTEM_ARCHITECTURE.md) · [IDE guide](docs/IDE.md)
+
+The prototype is mobile-responsive, keyboard-operable and honours reduced-motion preferences.
