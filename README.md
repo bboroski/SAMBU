@@ -1,78 +1,128 @@
-<p align="center"><img src="assets/duck-ui/duck-mark.svg" alt="SAMBU mark" width="92"></p>
-<h1 align="center">SAMBU</h1>
-<p align="center"><strong>Scientific Modeling & Automation Environment</strong></p>
-<p align="center"><img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL%20ALPHA-FFD600?style=for-the-badge&labelColor=111111" alt="Experimental alpha"></p>
-<p align="center"><a href="README.md">🇺🇦 Українська</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.ru.md">🇷🇺 Русский</a></p>
-<sub>Оновлено: 2026-11-11</sub>
+<!-- Title: SAMBU — експериментальна мова програмування, наукове моделювання та IDE -->
+<p align="center"><img src="assets/duck-ui/duck-mark.svg" alt="Логотип SAMBU" width="76"></p>
 
+# SAMBU — мова програмування, наукове моделювання та IDE
 
-## Навигация
+[![CI](https://github.com/bboroski/SAMBU/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/bboroski/SAMBU/actions/workflows/tests.yml) [![MIT License](https://img.shields.io/badge/license-MIT-FFD600?style=flat&labelColor=111111)](LICENSE)
 
-- [Поточні можливості](#поточні-можливості)
-- [Швидкий старт і перевірка](#швидкий-старт-і-перевірка)
-- [Архітектура, межі та достовірність](#архітектура-межі-та-достовірність)
-- [Скриншоти Duck Studio](#скриншоти-duck-studio)
-- [Інженерна якість](#інженерна-якість)
-- [Карта документації](#карта-документації)
-- [NUN Mesh та пов'язані репозиторії](#nun-mesh-та-повязані-репозиторії)
-- [Дизайн і документація](#дизайн-і-документація)
+**SAMBU** — експериментальне Python-hosted середовище для власної мови програмування, наукових обчислень, роботи з просторовими даними та відтворюваних інженерних workflow.
+
+<sub>Оновлено: 2026-11-11 · Версія пакета: 0.11.0 · Стадія: alpha</sub>
+
+> **TL;DR:** встановіть пакет командою нижче, запустіть перевірки, а потім відкрийте документацію мови або IDE. SAMBU перебуває в alpha: експериментальні модулі не слід вважати production-ready.
+
+[Українська](README.md) · [English](README.en.md) · [Русский](README.ru.md)
+
+## Зміст
+
+- [Призначення](#призначення)
+- [Можливості](#можливості)
+- [Вимоги та швидкий старт](#вимоги-та-швидкий-старт)
+- [Перевірка та розробка](#перевірка-та-розробка)
+- [Структура й архітектура](#структура-й-архітектура)
+- [Межі та безпека](#межі-та-безпека)
+- [Зображення](#зображення)
+- [Документація та пов'язані проєкти](#документація-та-повязані-проєкти)
+- [FAQ](#faq)
+- [Підтримка та внески](#підтримка-та-внески)
 - [Ліцензія](#ліцензія)
 
-> **SAMBU** — SAMBU — експериментальне Python-hosted середовище для програмування, наукового моделювання та відтворюваних workflow.
+## Призначення
 
-## Поточні можливості
-- Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами та записами.
-- Наукові моделі: SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
-- Просторові дані: sparse voxel grids, чанки, Morton keys, octrees та графові операції.
-- CLI, Tkinter IDE, тестовий runner і архітектурні перевірки.
-- Окремий C11 native-compiler slice з типізованими IR; це ще не повний native-компілятор.
+SAMBU поєднує інтерпретатор власної мови, інструменти розробника та предметні моделі. Це не операційна система, універсальний sandbox або завершений native-компілятор.
 
-## Швидкий старт і перевірка
-```bash
+## Можливості
+
+- **Мова:** lexer/parser, AST, функції, області видимості, масиви та записи.
+- **Наукові обчислення:** SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
+- **Просторові структури:** sparse voxel grids, чанки, Morton keys, octrees і графові операції.
+- **Інструменти:** CLI, Tkinter IDE, тестовий runner та архітектурні перевірки.
+- **Native-напрям:** частковий C11 compiler slice з типізованим IR; повного source-to-machine-code конвеєра ще немає.
+
+## Вимоги та швидкий старт
+
+Потрібен **Python 3.10 або новіший**. Базовий пакет не оголошує обов'язкових runtime-залежностей; для складання editable-пакета pip встановить build-залежності з pyproject.
+
+~~~bash
 python -m pip install -e .
+~~~
+
+Для перевірки встановіть pytest, якщо його ще немає, і виконайте:
+
+~~~bash
 python -m pytest
 python one.py check
-```
+~~~
 
-## Архітектура, межі та достовірність
-Native compiler slice не має повного source-to-machine-code конвеєра; IDE не є повноцінною LSP-системою. Експериментальні можливості не слід трактувати як production-ready.
+Необов'язкові web-інтеграції визначені extra-групами Flask, Django, FastAPI та web. Повний web-набір встановлюється командою:
 
-## Скриншоти Duck Studio
+~~~bash
+python -m pip install -e ".[web]"
+~~~
 
-Нижче — знімки інтерфейсу застосунку з репозиторію. Вони ілюструють робочий простір, звіти та XML-інспектор.
+## Перевірка та розробка
 
-<p align="center"><img src="docs/images/duck-studio-overview.webp" alt="Duck Studio: головний робочий простір" width="960"></p>
-<p align="center"><em>Duck Studio — головний робочий простір</em></p>
+| Завдання | Команда |
+|---|---|
+| Тестовий набір | python -m pytest |
+| Перевірка репозиторію й архітектурних правил | python one.py check |
+| Editable-встановлення | python -m pip install -e . |
+| Запуск IDE після встановлення | sambu-ide |
 
+CI: [workflow тестів](.github/workflows/tests.yml), [native-перевірки](.github/workflows/native.yml) та [quality gate](.github/workflows/duck-quality-gate.yml). Статус CI не замінює перевірку конкретної ОС або апаратної платформи.
+
+## Структура й архітектура
+
+| Каталог / файл | Призначення |
+|---|---|
+| sambu/ | ядро мови та runtime |
+| sambu_ide/ | IDE |
+| sambu_studio/ | Duck Studio |
+| tests/ | автоматизовані тести |
+| docs/ | специфікації, архітектура та інструкції |
+| pyproject.toml | версія пакета, Python requirement та optional extras |
+| sambu.module.json | machine-readable manifest модуля |
+
+Почніть із [огляду мови](docs/LANGUAGE.md), [IDE](docs/IDE.md), [архітектури систем](docs/SYSTEMS_LANGUAGE_ARCHITECTURE.md) та [native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md).
+
+## Межі та безпека
+
+- Python-hosted workflow не виконує довільну native firmware.
+- Доступ до процесів, пристроїв, мережі та обладнання потребує окремих явних адаптерів і дозволів.
+- Native compiler slice є частковим; це не повноцінний компілятор.
+- Наявність manifest або workflow-декларації не доводить, що зовнішня дія справді відбулася.
+- Не додавайте до репозиторію токени, паролі, приватні ключі або персональні дані.
+
+## Зображення
+
+<p align="center"><img src="docs/images/duck-studio-overview.webp" alt="Duck Studio: головне робоче вікно" width="960"></p>
 <p align="center"><img src="docs/images/duck-studio-reports-findings.webp" alt="Duck Studio: звіти та результати перевірок" width="960"></p>
-<p align="center"><em>Звіти та результати перевірок</em></p>
-
 <p align="center"><img src="docs/images/duck-studio-xml-inspector.webp" alt="Duck Studio: XML-інспектор" width="960"></p>
-<p align="center"><em>XML-інспектор</em></p>
 
-## Інженерна якість
-- Перевіряйте збірку й тести саме для цільової платформи; host CI не замінює hardware qualification.
-- Статуси **implemented**, **partial**, **planned** мають підтверджуватися кодом, тестами та документацією.
-- Не оголошуйте функцію production-ready лише на підставі макета, специфікації чи відкритого Pull Request.
-- Зовнішні інтеграції мають бути явними, версіонованими, ізольованими й перевірюваними.
+У README використані статичні локальні WebP-ілюстрації; анімації та важкі зовнішні ресурси не завантажуються.
 
-## Карта документації
+## Документація та пов'язані проєкти
 
-- [Duck Studio](docs/DUCK_STUDIO.md)
-- [IDE та редактор](docs/IDE.md)
-- [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
-- [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
+- [Duck Studio](docs/DUCK_STUDIO.md) · [IDE та редактор](docs/IDE.md)
+- [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md) · [інженерна доктрина](docs/SAMBU_ENGINEERING_DOCTRINE.md)
+- [Зміни](CHANGELOG.md) · [manifest модуля](sambu.module.json)
+- [Klipot](https://github.com/bboroski/Klipot) відображає каталог і контракти екосистеми; [ToolNG](https://github.com/bboroski/ToolNG) реалізує окремий Windows-інструмент діагностики.
+- [NUN](https://github.com/bboroski/NUN) та [NUNLauncher](https://github.com/bboroski/NUNLauncher) мають окремі системні й boot-контракти.
 
-## NUN Mesh та пов'язані репозиторії
-[SAMBU](https://github.com/bboroski/SAMBU) · [ToolNG](https://github.com/bboroski/ToolNG) · [ReaperCripple](https://github.com/bboroski/ReaperCripple) · [Kloz](https://github.com/bboroski/Kloz) · [CO](https://github.com/bboroski/CO) · [SaintSI](https://github.com/bboroski/SaintSI) · [Klipot](https://github.com/bboroski/Klipot) · [NUN](https://github.com/bboroski/NUN) · [NUNLauncher](https://github.com/bboroski/NUNLauncher)
+## FAQ
 
-Репозиторії зберігають власні назви, код, API, цикли випуску та межі відповідальності. Інтеграція означає узгоджені контракти, а не автоматичне злиття незалежних runtime.
+**Чи готовий SAMBU для production?** Ні. Поточний статус пакета — alpha.
 
-## Дизайн і документація
-Базовий інтерфейсний напрям екосистеми — **Duck Black / Yellow**: чорні поверхні, жовтий акцент для дій і станів, читабельна типографіка, доступний контраст, клавіатурна навігація та підтримка reduced motion. Деталі дивіться в [design/DUCK_UI_SYSTEM.md](design/DUCK_UI_SYSTEM.md), якщо файл присутній у цьому репозиторії.
+**Чи є повноцінний native-компілятор?** Ні. Доступний лише частковий C11 compiler slice.
+
+**Чи обов'язкові Flask, Django або FastAPI?** Ні. Це optional extras, а не базові залежності.
+
+## Підтримка та внески
+
+Помилки й пропозиції: [Issue tracker](https://github.com/bboroski/SAMBU/issues) · [створити bug report](https://github.com/bboroski/SAMBU/issues/new). Pull Request має містити опис зміни, пов'язані issue (за наявності), тести та оновлення документації.
+
+Профіль супроводу: [bboroski](https://github.com/bboroski). Для вразливостей не публікуйте експлуатаційні деталі або секрети у відкритому issue; скористайтеся приватним каналом GitHub, якщо він доступний для репозиторію.
 
 ## Ліцензія
-MIT
 
----
-**Створено з любов'ю до інженерії, системності та людей.**
+SAMBU поширюється за **MIT License**. Повний текст — у [LICENSE](LICENSE).
