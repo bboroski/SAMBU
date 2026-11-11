@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Added opt-in SAMBU type annotations for bindings, function parameters and return values, plus a gradual static checker exposed as `sambu check` and a public Python API.
+- Enforced declared runtime type contracts for typed bindings, function arguments and return values; retained the legacy tuple AST shape for all unannotated declarations.
+- Fixed parser block termination so only the actual closing brace ends a block; unary expression statements now parse correctly at the start of function, conditional and loop bodies.
+
+
 - Added Nun initial-condition modeling: immutable bounded snapshots, explicit boundary contracts, deterministic SHA-256 genesis manifests, regression tests and a runnable example. The API records model inputs; it does not enforce physical laws or run simulations.
 
 - Added a read-only Apple Device Toolkit for libimobiledevice discovery, allow-listed iPhone/iPad metadata, existing-pairing validation, Windows USB/service diagnostics and RU/EN CLI output. Hardware coverage requires a controlled USB lab runner.
