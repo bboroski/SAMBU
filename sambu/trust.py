@@ -54,10 +54,12 @@ class PortfolioVerification:
 def _iso_date(value: str, field: str) -> date:
     if not isinstance(value, str):
         raise ValueError(f"{field} must be an ISO date string")
+    if not re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value):
+        raise ValueError(f"{field} must use YYYY-MM-DD")
     try:
         return date.fromisoformat(value)
     except ValueError as exc:
-        raise ValueError(f"{field} must use YYYY-MM-DD") from exc
+        raise ValueError(f"{field} must use a valid YYYY-MM-DD date") from exc
 
 class PortfolioVerifier:
     """Verify artifact integrity and provenance against an explicit trust policy."""
@@ -118,12 +120,19 @@ class PortfolioVerifier:
                 except ValueError:
                     reasons.append("invalid_expires_on")
             weight = item.weight
-            if isinstance(weight, bool) or not isinstance(weight, (int, float)) or not math.isfinite(float(weight)) or weight <= 0:
+            try:
+                numeric_weight = float(weight) if not isinstance(weight, bool) and isinstance(weight, (int, float)) else math.nan
+            except (OverflowError, ValueError):
+                numeric_weight = math.nan
+            if not math.isfinite(numeric_weight) or numeric_weight <= 0:
                 reasons.append("invalid_weight")
                 effective_weight = 1.0
             else:
-                effective_weight = float(weight)
-            total_weight += effective_weight
+                effective_weight = numeric_weight
+            next_total_weight = total_weight + effective_weight
+            if not math.isfinite(next_total_weight):
+                raise ValueError("combined artifact weight exceeds the finite numeric range")
+            total_weight = next_total_weight
             verified = not reasons
             if verified:
                 verified_weight += effective_weight
