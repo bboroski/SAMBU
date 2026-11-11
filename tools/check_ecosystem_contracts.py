@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import json
 import re
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,10 +14,10 @@ MAX_README_CHARS = 10_000
 
 
 def read_heading(content: str) -> str | None:
-    html = re.search(r"<h1\\b[^>]*>(.*?)</h1>", content, re.IGNORECASE | re.DOTALL)
+    html = re.search(r"<h1\b[^>]*>(.*?)</h1>", content, re.IGNORECASE | re.DOTALL)
     if html:
         return re.sub(r"<[^>]+>", "", html.group(1)).strip()
-    markdown = re.search(r"(?m)^#\\s+(.+?)\\s*$", content)
+    markdown = re.search(r"(?m)^#\s+(.+?)\s*$", content)
     return markdown.group(1).strip() if markdown else None
 
 
