@@ -14,6 +14,7 @@ from sambu import (
     LetStatement,
     NameExpr,
     SetFieldStatement,
+    UnaryExpr,
     parse,
     parse_ast,
 )
