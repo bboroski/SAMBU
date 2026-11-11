@@ -70,3 +70,11 @@ MIT — see [LICENSE](LICENSE). Review the architecture and tests before contrib
 ---
 
 **Made with love for knowledge, engineering, and people.**
+
+## NUN Mesh
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh — seven connected engineering repositories with versioned contracts" width="100%"></p>
+
+SAMBU is the authoring and research layer of NUN Mesh: language tooling, IDE, Duck Studio, scientific models, and reproducible workflows. Integration descriptions and policies do not grant hidden hardware access or silently execute external actions.
+
+Shared interface contract: [Adaptive Workspace Integration](docs/ADAPTIVE_WORKSPACE_INTEGRATION.md).
