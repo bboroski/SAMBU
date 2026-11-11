@@ -1,0 +1,76 @@
+{
+  "schema_version": "linguistic-heritage.letter.v1",
+  "id": "cyrl-ы",
+  "script": "Cyrillic",
+  "grapheme": "Ы",
+  "lowercase": "ы",
+  "name_ru": "еры",
+  "phoneme_profile": {
+    "language": "Russian",
+    "broad_transcription": "/ɨ/",
+    "common_phone": "[ɨ]",
+    "description": "High central or retracted unrounded vowel; its exact realization varies by speaker, context and analysis.",
+    "phonological_status": "The relationship between /i/ and /ɨ/ is debated: analyses include separate phonemes and contextually conditioned allophones.",
+    "distribution_note": "In native Russian vocabulary, [ɨ] is strongly associated with non-palatalized consonant contexts; the distribution is not a simple universal rule."
+  },
+  "historical_graphics": {
+    "widely_accepted_origin": "A Cyrillic ligature combining yerъ (Ъ) and i (І or И), conventionally represented as ЪІ / ЪИ.",
+    "attested_early_variant": "Ꙑ / ꙑ",
+    "modern_form": "Ы / ы",
+    "confidence": "high_for_ligature_relationship",
+    "dating": "The development was gradual; do not assign a single invention year without a cited manuscript witness.",
+    "caution": "The graphic origin of the letter does not mean that the modern vowel [ɨ] was created by mechanically combining the sounds of Ъ and І."
+  },
+  "historical_phonology": {
+    "yer_note": "Old Church Slavonic ъ and ь represented reduced vowels (yers); their later outcomes depended on language, position and sound change.",
+    "caution": "Do not describe ъ as simply becoming modern [ɨ] in every context. The history of the vowel and the history of the grapheme are related but distinct questions."
+  },
+  "comparative_slavic": {
+    "polish_y": "A related high central/centralized vowel category in Polish, but its phonetic realization and phonological pattern are not identical to Russian /ɨ/.",
+    "ukrainian_y": "Ukrainian и has its own phonetic and phonological profile; it should not be treated as an exact equivalent of Russian ы.",
+    "rule": "Shared Slavic transcription symbols do not establish identical pronunciation or direct letter-to-letter descent."
+  },
+  "orthographic_history": {
+    "civil_script": "The Petrine civil-type reform of the early eighteenth century standardized printed letterforms; avoid claiming that one decree created the modern glyph in exactly its present shape.",
+    "1917_1918_reform": "The reforms changed several orthographic conventions but did not abolish the letter Ы.",
+    "transliteration": "Latin transliteration depends on the adopted standard and context; Y is common in some systems but is not a universal phonetic equivalence."
+  },
+  "interpretive_layer": {
+    "title": "Philosophy of the hard sign and the soft echo",
+    "status": "cultural_interpretation_not_historical_evidence",
+    "thesis": "The image of a union between a hard-sign component and an i-component can serve as a metaphor for graphic synthesis.",
+    "numerology": "The proposed sum 16 + 10 = 26 is not an established etymological or historical explanation; Ъ has no ordinary independent numeral value in the standard Cyrillic numeral system."
+  },
+  "claims_policy": {
+    "separate_grapheme_history_from_sound_history": true,
+    "label_hypotheses_and_metaphors": true,
+    "require_primary_witness_for_exact_manuscript_dates": true,
+    "do_not_infer_etymology_from_visual_similarity_alone": true,
+    "do_not_claim_direct_greek_upsilon_descent": true
+  },
+  "references": [
+    {
+      "id": "ipa-russian-2015",
+      "title": "Russian",
+      "publisher": "Journal of the International Phonetic Association",
+      "url": "https://www.cambridge.org/core/journals/journal-of-the-international-phonetic-association/article/russian/55589EC639ADEF1764B5ECD0B76970FA",
+      "supports": ["Russian /i/ and /ɨ/ phonological analyses", "distribution and phonetic realization"]
+    },
+    {
+      "id": "cavar-et-al-2025",
+      "title": "High central vowels in Polish, Ukrainian and Russian",
+      "publisher": "Journal of the International Phonetic Association",
+      "doi": "10.1017/S0025100325000040",
+      "url": "https://doi.org/10.1017/S0025100325000040",
+      "supports": ["comparative phonetics", "cross-language differences"]
+    },
+    {
+      "id": "cyrillic-ligature-reference",
+      "title": "Cyrillic script: early alphabet and yery ligature",
+      "url": "https://www.newworldencyclopedia.org/entry/Cyrillic_script",
+      "source_quality": "secondary_reference",
+      "supports": ["conventional ЪІ ligature account"],
+      "note": "Use as a starting reference; manuscript-level claims require specialist palaeographic sources."
+    }
+  ]
+}
