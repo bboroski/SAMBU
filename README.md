@@ -19,9 +19,6 @@ python -m pytest
 python one.py check
 ```
 
-## Додатково
-![Звіти Duck Studio](docs/images/duck-studio-reports-findings.webp)
-![XML inspector](docs/images/duck-studio-xml-inspector.webp)
 
 ## Межі
 Native compiler slice не має повного source-to-machine-code конвеєра. IDE не є повноцінною LSP-системою. Експериментальні функції не слід вважати production-ready.
