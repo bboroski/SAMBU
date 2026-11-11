@@ -29,11 +29,10 @@ let auxiliary = scale_quantity(40, source_units, target_units)
 let total = aggregate_total(core, aggregate, auxiliary)
 let unit_value = total / target_units
 
-print("Batch scaling fixture")
+print("SAMBU Mulberry Charlotte")
 print(target_units)
 print(quantity_a)
 print(quantity_b)
-print(quantity_c)
 print(quantity_d)
 print(component_a)
 print(component_b)
