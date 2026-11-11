@@ -28,7 +28,7 @@ Use SEGA-era multi-processor architectures as design studies for ownership, shar
 Run:
 
 ```sh
-python -m unittest tests.test_ecosystem_runtime -v
+python -m unittest discover -s tests -p test_ecosystem_runtime.py -v
 python -m unittest discover -s tests -v
 python one.py check
 ```
