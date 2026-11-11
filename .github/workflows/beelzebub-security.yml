@@ -1,0 +1,31 @@
+name: Beelzebub Security Gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  repository-scan:
+    name: Sambo defensive security gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout without a persistent token
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Test Beelzebub rules
+        run: python3 .beelzebub/scan.py --self-test
+
+      - name: Scan repository working tree
+        run: python3 .beelzebub/scan.py --root .
