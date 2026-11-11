@@ -1,15 +1,12 @@
 from __future__ import annotations
 
-import tempfile
 import unittest
-from pathlib import Path
 
 from sambu.satan import (
     ChangePipeline, ChangeProposal, DependencyGraph, MeshError, Nexus,
     PipelineDecision, PythonContractIndex, create_envelope, forward_envelope,
     verify_envelope,
 )
-
 
 KEY_A = b"a" * 32
 KEY_B = b"b" * 32
@@ -41,6 +38,12 @@ class MeshTests(unittest.TestCase):
         with self.assertRaises(MeshError):
             create_envelope(event_id="evt-x", kind="arbitrary", origin="repo-a",
                             payload={}, secret=KEY_A, now=100)
+
+    def test_fractional_ttl_is_rejected(self):
+        with self.assertRaises(MeshError):
+            create_envelope(event_id="evt-f", kind="security.finding",
+                            origin="repo-a", payload={}, secret=KEY_A,
+                            now=100, ttl_seconds=1.5)
 
 
 class NexusTests(unittest.TestCase):
@@ -104,6 +107,14 @@ class PipelineTests(unittest.TestCase):
         result = pipeline.evaluate(self.proposal(paths=(".github/workflows/ci.yml",)),
                                    tests_passed=True, security_passed=True)
         self.assertEqual(result.decision, PipelineDecision.NEEDS_HUMAN_APPROVAL)
+
+    def test_path_traversal_and_windows_paths_are_rejected(self):
+        pipeline = ChangePipeline()
+        for path in ("src/../../etc/passwd", r"..\secrets.txt", "/etc/passwd", "C:/Windows/system.ini"):
+            result = pipeline.evaluate(self.proposal(paths=(path,)),
+                                       tests_passed=True, security_passed=True)
+            self.assertEqual(result.decision, PipelineDecision.REJECTED)
+            self.assertIn("unsafe_changed_path", result.reasons)
 
 
 if __name__ == "__main__":
