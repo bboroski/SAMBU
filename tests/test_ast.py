@@ -75,14 +75,14 @@ class TypedAstTests(unittest.TestCase):
 
     def test_unary_expression_statements_are_parsed_inside_all_block_kinds(self):
         source = (
-            "fn unary_function() {\\n"
-            "  -1\\n"
-            "}\\n"
-            "if true {\\n"
-            "  !false\\n"
-            "}\\n"
-            "for item in [1] {\\n"
-            "  +item\\n"
+            "fn unary_function() {\n"
+            "  -1\n"
+            "}\n"
+            "if true {\n"
+            "  !false\n"
+            "}\n"
+            "for item in [1] {\n"
+            "  +item\n"
             "}"
         )
         function, conditional, loop = parse_ast(source).statements
