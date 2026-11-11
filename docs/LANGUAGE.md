@@ -1,6 +1,6 @@
 # SAMBU language guide (0.11 baseline)
 
-> This guide describes the implemented Python-hosted interpreter. Native compilation, static type checking, ownership, language-level async and zero-cost abstractions are future targets, not current guarantees. See [Language Evolution Architecture](LANGUAGE_EVOLUTION.md) for the staged systems-language design and [Autonomy Constitution](AUTONOMY_CONSTITUTION.md) for 50 auditable engineering rules.
+> This guide describes the implemented Python-hosted interpreter and its gradual, annotation-driven type-checking subset. Full whole-program inference, native machine-code generation, ownership/borrowing, language-level async and zero-cost abstractions remain future targets. See [Language Evolution Architecture](LANGUAGE_EVOLUTION.md) for the staged systems-language design and [Autonomy Constitution](AUTONOMY_CONSTITUTION.md) for 50 auditable engineering rules.
 
 ## Design goal
 
@@ -70,6 +70,35 @@ The example uses `kava` (`let`), `tava` (`fn`), `tavum` (`return`), `teva` (`if`
 Reserved words are not silently interpreted. Query a word from source with `word_info("kava")` (articulatory form `leven("kava")`) or list the lexicon with `wordbook()` (articulatory form `levir()`). The CLI also exposes `sambu lexicon --status reserved`.
 
 The complete word-by-word definitions and sound families are in [Articulatory Syntax](ARTICULATORY_SYNTAX.md). For provenance-led experiments that design token sets and grammar productions, see [Language Craft](LANGUAGE_CRAFT.md). The old syntax remains source-compatible, and articulatory forms can be mixed with canonical keywords during migration.
+
+## Optional type annotations and static checks
+
+SAMBU keeps the original dynamic syntax and adds opt-in type contracts. An annotation is checked by the source checker and enforced again when a typed binding or function is executed.
+
+```sambu
+let speed: Quantity = 12 * m / s
+let samples: Array<Number> = [1, 2, 3]
+
+fn average(values: Array<Number>) -> Number {
+  return sum(values) / count(values)
+}
+
+let result: Number = average(samples)
+print(result)
+```
+
+Supported annotation forms are `Number`, `Float`, `Int`, `Bool`, `String`, `Null`, `Unit`, `Quantity`, `Record`, `Function`, `Object`, user-declared class names, and `Array<T>` / `List<T>`. Generic arguments can be nested. Numeric literals are represented as floating-point values by the current lexer; `Int` accepts only finite whole-number values. `Number` excludes booleans and physical `Quantity` values.
+
+Check a file without running it:
+
+```bash
+sambu check examples/typed_core.sambu
+sambu check examples/typed_core.sambu --json
+```
+
+The checker is deliberately gradual: unannotated and unresolved dynamic expressions have type `Any`, and record-field/built-in result types are inferred only where the current catalogue has a reliable contract. It validates declared bindings, function parameters, return values and statically known calls. It is not yet a complete sound type system, dimensional type inference, borrow checker or whole-program proof. Runtime annotations are still enforced for typed function calls and bindings even when execution is launched without `sambu check`.
+
+The legacy `parse()` tuple representation and all unannotated source forms remain compatible. Typed metadata is carried through the tuple adapter without changing tuples for unannotated declarations.
 
 ## Expressions
 
