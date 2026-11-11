@@ -24,13 +24,13 @@ The language runtime exposes actors, supervision and typed-channel built-ins. Th
 
 The full feature contract, runnable examples, limits and C++-class capability roadmap are in [Systems Language Architecture](SYSTEMS_LANGUAGE_ARCHITECTURE.md). The six engineering domains are specified in [Engineering Capability and Reliability Charter](ENGINEERING_CAPABILITY_CHARTER.md). Current implementation is always subordinate to code and regression tests; the remainder of this document stays a future design unless marked otherwise.
 
-## 1.1. Autonomy constitution and status audit
+## 1.1. Autonomy control specification and status audit
 
-The companion [100-rule Autonomy Constitution](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and host-independence requirements to the 0.11 repository baseline. It preserves stable AUT-01–AUT-100 IDs, truthful statuses, current evidence and acceptance gates. The matrix is organized into two thematic series of 50 rules across ten blocks and is independently checked by tests/test_autonomy_constitution.py.
+The companion [100-rule Autonomy Control Specification](AUTONOMY_CONSTITUTION.md) maps topology, syntax, safety, tooling and host-independence requirements to the 0.11 repository baseline. It preserves stable AUT-01–AUT-100 IDs, truthful statuses, current evidence and acceptance gates. The matrix is organized into two thematic series of 50 rules across ten blocks and is independently checked by tests/test_autonomy_constitution.py.
 
 The 100-rule matrix complements, rather than replaces, the 101 lower-level language contracts in this document. Its purpose is to prevent architectural aspirations from being reported as shipped capabilities.
 
-## 2. Constitutional principles
+## 2. Core semantic invariants
 
 **Law over convention.** Source has one defined meaning. Evaluation order, conversions, overflow, effects, ownership, cancellation and error propagation are specified before optimization. Unknown or ambiguous semantics are rejected.
 
@@ -255,8 +255,8 @@ This is a direction sketch, not accepted source syntax until lexer, parser, chec
 
 SAMBU becomes more powerful by making contracts sharper, not by accumulating keywords. The compiler establishes meaning before optimization; the runtime checks capabilities before execution; tools explain accepted, rejected and expensive operations. Physics guides models and metaphors, not unsupported guarantees. Every feature earns its status through implementation, tests, documentation and measured limits.
 
-## 1.0.2 Engineering doctrine and developer control plane
+## 1.0.2 Engineering control specification and developer control plane
 
-The five-letter engineering code and its acceptance gates are formalized in [SAMBU Engineering Doctrine](SAMBU_ENGINEERING_DOCTRINE.md). The current Python-hosted implementation provides `SambuMachine` (layer-contract validation, bounded workspace parsing, deterministic AST sampling, failure signatures and capability profiles) and `SambuIDE` (versioned source snapshots, syntax diagnostics, outline and lexical completion). These are experimental developer services, not a native compiler, full static analyzer, process sandbox, graphical IDE or LSP server.
+The five-letter engineering code and its acceptance gates are formalized in [SAMBU Engineering Control Specification](SAMBU_ENGINEERING_DOCTRINE.md). The current Python-hosted implementation provides `SambuMachine` (layer-contract validation, bounded workspace parsing, deterministic AST sampling, failure signatures and capability profiles) and `SambuIDE` (versioned source snapshots, syntax diagnostics, outline and lexical completion). These are experimental developer services, not a native compiler, full static analyzer, process sandbox, graphical IDE or LSP server.
 
 The shared `examples/mulberry_charlotte.sambu` compatibility path now contains a small reproducible numeric batch-scaling fixture for CI.
