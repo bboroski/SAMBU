@@ -34,9 +34,7 @@ def validate_readmes(errors: list[str]) -> int:
         if not content.strip():
             errors.append(f"{filename}: file is empty")
         if len(content) > MAX_README_CHARS:
-            errors.append(
-                f"{filename}: {len(content)} characters exceeds {MAX_README_CHARS}"
-            )
+            errors.append(f"{filename}: {len(content)} characters exceeds {MAX_README_CHARS}")
         for marker in required:
             if marker not in content:
                 errors.append(f"{filename}: missing language/navigation marker {marker!r}")
@@ -45,8 +43,10 @@ def validate_readmes(errors: list[str]) -> int:
                 errors.append(f"{filename}: missing Duck design token {token}")
         print(f"PASS {filename}: {len(content)}/{MAX_README_CHARS} characters")
 
-    if not any(repo_name.casefold() in (ROOT / name).read_text(encoding="utf-8").casefold()
-               for name in READMES if (ROOT / name).is_file()):
+    if not any(
+        repo_name.casefold() in (ROOT / name).read_text(encoding="utf-8").casefold()
+        for name in READMES if (ROOT / name).is_file()
+    ):
         errors.append(f"No README identifies the canonical repository name {repo_name!r}")
     return total
 
