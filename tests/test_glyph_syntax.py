@@ -56,21 +56,21 @@ class GlyphSyntaxTests(unittest.TestCase):
         self.assertEqual(string.lexeme, '"{first line\\nsecond line}"')
 
     def test_dollar_delimited_raw_multiline_string(self):
-        source = "let raw = $first line\\nsecond line$"
+        source = """let raw = $$first line
+second line$$"""
         token = next(item for item in tokenize(source) if item.kind == "STRING")
         self.assertEqual(token.value, "first line\\nsecond line")
-        self.assertEqual(token.lexeme, "$first line\\nsecond line$")
+        self.assertEqual(token.lexeme, "$$first line\\nsecond line$$")
 
     def test_escaped_dollar_delimiter_is_preserved_as_content(self):
-        source = r"$left \\$ right$"
+        source = r"$$left \$$ right$$"
         token = next(item for item in tokenize(source) if item.kind == "STRING")
-        self.assertEqual(token.value, "left $ right")
+        self.assertEqual(token.value, "left $$ right")
 
     def test_unterminated_raw_glyph_string_reports_error(self):
         with self.assertRaises(SambuSyntaxError) as caught:
-            tokenize("$unfinished")
+            tokenize("$$unfinished")
         self.assertEqual(caught.exception.code, "SAMBU-L004")
-
     def test_unterminated_multiline_glyph_string_reports_error(self):
         with self.assertRaises(SambuSyntaxError) as caught:
             tokenize('let note = "{unfinished')
