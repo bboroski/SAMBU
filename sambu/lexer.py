@@ -57,6 +57,29 @@ class SambuSyntaxError(Exception):
 _OPERATORS = ("==", "!=", "<=", ">=", "&&", "||", "**")
 _SINGLE = set("+-*/%^<>=!(),.[];{}")
 
+# SGS-1 glyph aliases normalize into the established SAMBU token vocabulary.
+GLYPH_SYNTAX_VERSION = "SGS-1"
+GLYPH_ALIASES: dict[str, tuple[str, object]] = {
+    "[[": ("OP", "["), "]]": ("OP", "]"),
+    "}-": ("IDENT", "fn"), "--{": ("OP", "{"), "::": ("OP", "."),
+    ";;": ("SEMI", ";"), ":;": ("SEMI", ";"), ";:": ("SEMI", ";"),
+    "++_": ("OP", "+"), "/+-*": ("OP", "+"), "+_": ("OP", "+"),
+    "-=": ("OP", "-"),
+    "-*/+_": ("OP", "*"), "/]--*/=*": ("OP", "*"), "=*/--": ("OP", "*"),
+    "-*/": ("OP", "*"), "-/*": ("OP", "*"), "/*-": ("OP", "*"),
+    "*/-": ("OP", "*"), "*/=": ("OP", "*"), "=/*": ("OP", "*"),
+    "/*=": ("OP", "*"), "/*": ("OP", "*"), "*/": ("OP", "*"),
+    "*-/": ("OP", "*"), "=*": ("OP", "*"),
+    "/=-*/": ("OP", "/"), "/-]*/": ("OP", "/"), "/-=": ("OP", "/"),
+    "/=-": ("OP", "/"), "/--": ("OP", "/"), "/-": ("OP", "/"), "=/": ("OP", "/"),
+    "=-*-": ("OP", "**"), "--**": ("OP", "**"), "==*": ("OP", "**"),
+    ";;-": ("OP", "<="), ";-": ("OP", ">="), ":-": ("OP", "<"), "-:": ("OP", ">"),
+    "=-]": ("OP", "=="), "=]": ("OP", "=="), "=-": ("OP", "=="),
+    "]=\\": ("OP", "!="), "=\\]": ("OP", "!="), "\\]=": ("OP", "!="),
+    "]-=": ("OP", "="), "--=": ("OP", "="),
+}
+_GLYPH_TOKENS = tuple(sorted(GLYPH_ALIASES, key=len, reverse=True))
+
 
 def tokenize(source: str) -> list[Token]:
     tokens: list[Token] = []
@@ -103,6 +126,57 @@ def tokenize(source: str) -> list[Token]:
             advance(source[i:j])
             i = j
             continue
+        # Multiline glyph string: "{ ... }".
+        if source.startswith('"{', i):
+            start, start_line, start_col = i, line, col
+            j = i + 2
+            escaped = False
+            while j < n:
+                if source.startswith('}"', j) and not escaped:
+                    break
+                current = source[j]
+                if current == "\\" and not escaped:
+                    escaped = True
+                else:
+                    escaped = False
+                j += 1
+            if j >= n:
+                raise SambuSyntaxError(
+                    "Unterminated glyph string literal", start_line, start_col,
+                    span=SourceSpan.point(SourcePosition(start, start_line, start_col)),
+                    code="SAMBU-L003",
+                )
+            raw = source[i:j + 2]
+            body = source[i + 2:j]
+            value = body.replace("\\n", "\n").replace("\\t", "\t").replace("\\r", "\r")
+            value = value.replace("\\\\", "\\").replace('\\"', '"').replace("\\'", "'")
+            advance(raw)
+            i = j + 2
+            emit("STRING", value, start, start_line, start_col, raw)
+            continue
+
+        # Compact else-arm marker: close the current block, then open its else block.
+        if source.startswith("}{", i):
+            start, start_line, start_col = i, line, col
+            advance("}{")
+            i += 2
+            tokens.append(Token("OP", "}", start_line, start_col,
+                                start_line, start_col + 1, start, start + 1, "}"))
+            tokens.append(Token("IDENT", "else", start_line, start_col + 1,
+                                start_line, start_col + 1, start + 1, start + 1, "else"))
+            tokens.append(Token("OP", "{", start_line, start_col + 1,
+                                line, col, start + 1, i, "{"))
+            continue
+
+        glyph = next((item for item in _GLYPH_TOKENS if source.startswith(item, i)), None)
+        if glyph is not None:
+            start, start_line, start_col = i, line, col
+            kind, value = GLYPH_ALIASES[glyph]
+            advance(glyph)
+            i += len(glyph)
+            emit(kind, value, start, start_line, start_col, glyph)
+            continue
+
         if ch in "\"'":
             start, start_line, start_col, quote = i, line, col, ch
             j = i + 1
