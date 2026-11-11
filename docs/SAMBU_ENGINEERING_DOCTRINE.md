@@ -244,7 +244,7 @@ sambu ide complete actor
 
 Not yet implemented: graphical editor, LSP transport, semantic type-aware completion, hover/type inference, refactoring, debugger UI, formatter, live execution preview and source maps into native code. The current completion list is lexical, not a semantic symbol engine.
 
-## 9. Mulberry Charlotte — reference integration workload
+## 9. Batch-scaling fixture — reference integration workload
 
 “Шарлотка из шелковицы” is the named end-to-end sample: a small and understandable program that exercises the interpreter with reproducible portion scaling, ingredient totals, and a useful output report.
 
