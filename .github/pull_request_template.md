@@ -1,46 +1,61 @@
-## 🎯 Goal and context
+## Цель и контекст
 
-<!-- What problem does this PR solve, and why is this change needed? Link an issue/design note when one exists. -->
+<!-- Какую задачу решает изменение и почему оно необходимо? Укажите issue/ticket или объясните, почему отдельная задача не заведена. -->
+Closes #
 
-## 🔧 Change type
+## Тип изменения
 
-- [ ] Bug fix
-- [ ] Feature
-- [ ] Refactoring
-- [ ] Documentation
-- [ ] Build / CI / infrastructure
-- [ ] Security
-- [ ] Performance
+- [ ] feat — новая функциональность
+- [ ] fix — исправление ошибки
+- [ ] docs — документация
+- [ ] refactor — рефакторинг без изменения поведения
+- [ ] perf — производительность
+- [ ] test — тесты
+- [ ] build / ci — сборка и автоматизация
+- [ ] chore — обслуживание/зависимости
+- [ ] security — безопасность
+- [ ] breaking — несовместимое изменение
 
-## 🧩 Implementation
+## Реализация
 
-<!-- Describe the approach, important alternatives, and any behavior that reviewers should inspect. -->
+<!-- Что изменено, какие компоненты/контракты затронуты, какие альтернативы рассмотрены? -->
 
-## 🧪 Validation
+## Влияние и совместимость
 
-<!-- List the exact commands/workflows and scenarios executed. Include results; do not write only "tested locally". -->
+<!-- Breaking changes, API/config/data migrations, supported platforms, feature flags, operational impact. Напишите "Не выявлено", если применимо. -->
 
-- [ ] Relevant automated checks pass on this PR head.
-- [ ] Tests were added or updated where behavior changed.
-- [ ] Manual checks / platform coverage (if applicable):
+## Проверка и доказательства
 
-## ⚠️ Risk, compatibility, and rollback
+<!-- Точные команды, workflow links, сценарии и фактические результаты. Не писать только "tested". -->
 
-<!-- Breaking changes, data/config migrations, operational risk, feature flags, and rollback plan. Write "None identified" when appropriate. -->
+- [ ] Сборка/валидация проекта пройдена (указать результат).
+- [ ] Релевантные unit/integration/E2E тесты пройдены или объяснено, почему они неприменимы.
+- [ ] Lint/static/security/documentation checks пройдены, если они настроены в проекте.
+- [ ] Проверки выполнены на текущем head commit PR.
+- [ ] Для UI/API/CLI изменений приложены скриншоты, примеры или логи, если это помогает ревью.
 
-## 📚 Documentation and release notes
+## Риск, rollout и откат
 
-- [ ] README / API / configuration / operational docs updated where needed.
-- [ ] Changelog or release notes updated when required by this repository.
-- [ ] No documentation change is needed (explain why):
+<!-- Риски, совместимость, миграции, staging/canary/feature flags и rollback/recovery plan. -->
 
-## 📸 Evidence
+## Документация и релиз
 
-<!-- Screenshots, recordings, API request/response samples, logs, or benchmark results. -->
+- [ ] README/API/configuration/operational docs обновлены, если поведение или интерфейс изменились.
+- [ ] CHANGELOG/release notes обновлены, если это предусмотрено проектом.
+- [ ] ADR добавлен/обновлён для значимого архитектурного решения.
+- [ ] Документация не требует изменений (объяснить почему):
 
-## ✅ Author self-review
+## Безопасность
 
-- [ ] I reviewed the complete diff and removed temporary/debug code.
-- [ ] No secrets, tokens, credentials, or private data are included.
-- [ ] The PR has one clear purpose and a reviewable scope.
-- [ ] Relevant conversations and follow-up decisions are documented.
+- [ ] Нет секретов, токенов, credentials, персональных данных или случайно добавленных файлов.
+- [ ] Зависимости/лицензии рассмотрены, если они изменились.
+- [ ] Workflow permissions и доступы не расширены без необходимости.
+
+## Самопроверка автора
+
+- [ ] PR решает одну логически завершённую задачу; крупное изменение декомпозировано.
+- [ ] Я просмотрел полный diff и удалил debug/temporary code.
+- [ ] Конфликты отсутствуют; ветка синхронизирована с base branch.
+- [ ] Blocking review threads разрешены или на них дан аргументированный ответ.
+- [ ] Для слияния потребуется независимое одобрение либо документированный компенсирующий контроль.
+- [ ] Риски и ограничения сформулированы без неподтверждённых заявлений.
