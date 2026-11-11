@@ -36,9 +36,9 @@ class ScannerTests(unittest.TestCase):
         self.assertEqual(report["summary"]["findings"], 0)
 
     def test_private_key_is_critical_and_redacted(self):
+        marker = "-----" + "BEGIN RSA " + "PRIVATE KEY" + "-----\n"
         result, report = self.run_scan(
-            {"config/key.txt": "-----BEGIN RSA PRIVATE KEY-----\n"},
-            fail_on="critical",
+            {"config/key.txt": marker}, fail_on="critical"
         )
         self.assertEqual(result.returncode, 1)
         self.assertEqual(report["summary"]["by_severity"]["critical"], 1)
