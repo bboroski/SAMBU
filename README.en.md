@@ -22,6 +22,7 @@
 
 ## Current capabilities
 - Language core with lexer/parser, AST, functions, scopes, arrays and records.
+- Optional binding/function annotations, gradual checks via `sambu check`, and runtime enforcement of declared contracts.
 - Scientific layer with SI quantities, dimensional checks, physical constants and reproducible sampling.
 - Sparse voxel grids, chunks, Morton keys, octrees and graph operations.
 - CLI, Tkinter IDE, test runner and a partial C11 native-compiler slice.
@@ -31,6 +32,7 @@
 python -m pip install -e .
 python -m pytest
 python one.py check
+sambu check examples/typed_core.sambu
 ```
 
 ## Architecture and verified scope
