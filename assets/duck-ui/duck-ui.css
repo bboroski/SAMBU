@@ -392,3 +392,62 @@ button, input, select, textarea, a, [tabindex] { accent-color: var(--duck-yellow
   .duck-edge-panel { transition: none; }
   .duck-spatial-canvas, .duck-spatial-layer { perspective: none; transform: none; }
 }
+
+
+/* DUCK_MOTION_CATALOG_2026 — reusable, opt-in motion and transition utilities. */
+:root {
+  --duck-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duck-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --duck-ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --duck-motion-fast: 140ms;
+  --duck-motion-standard: 180ms;
+  --duck-motion-enter: 220ms;
+  --duck-motion-layout: 240ms;
+}
+@keyframes duck-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes duck-rise-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes duck-scale-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes duck-slide-in-inline { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes duck-pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 #FFD60000; } 50% { box-shadow: 0 0 0 4px #FFD60025; } }
+@keyframes duck-shimmer { from { background-position: 180% 0; } to { background-position: -180% 0; } }
+@keyframes duck-spin { to { transform: rotate(360deg); } }
+@keyframes duck-progress-fill { from { width: 0; } to { width: var(--duck-progress-to, 100%); } }
+@keyframes duck-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@keyframes duck-breathe { 0%, 100% { box-shadow: 0 0 0 0 #FFD60000; } 50% { box-shadow: 0 0 0 3px #FFD60018; } }
+
+.duck-animate-fade-in { animation: duck-fade-in 180ms var(--duck-ease-standard) both; }
+.duck-animate-rise-in { animation: duck-rise-in 220ms var(--duck-ease-emphasized) both; }
+.duck-animate-scale-in { animation: duck-scale-in 180ms var(--duck-ease-emphasized) both; }
+.duck-animate-slide-in-inline { animation: duck-slide-in-inline 220ms var(--duck-ease-emphasized) both; }
+.duck-animate-pulse-soft { animation: duck-pulse-soft 900ms ease-in-out 1; }
+.duck-animate-shimmer { background-image: linear-gradient(100deg, transparent 25%, #FFFFFF12 45%, transparent 65%); background-size: 220% 100%; animation: duck-shimmer 1200ms linear infinite; }
+.duck-animate-spin { animation: duck-spin 900ms linear infinite; }
+.duck-animate-progress-fill { animation: duck-progress-fill 260ms var(--duck-ease-standard) both; }
+.duck-animate-shake { animation: duck-shake 260ms cubic-bezier(.36,.07,.19,.97) 1; }
+.duck-animate-breathe { animation: duck-breathe 1800ms ease-in-out infinite; }
+
+.duck-transition-color { transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease; }
+.duck-transition-surface { transition: background-color 180ms var(--duck-ease-standard), border-color 180ms var(--duck-ease-standard), box-shadow 180ms var(--duck-ease-standard); }
+.duck-transition-transform { transition: transform 180ms var(--duck-ease-emphasized); }
+.duck-transition-opacity { transition: opacity 140ms linear; }
+.duck-transition-panel { transition: transform 220ms var(--duck-ease-emphasized), opacity 220ms var(--duck-ease-emphasized); }
+.duck-transition-modal { transition: transform 200ms var(--duck-ease-standard), opacity 200ms var(--duck-ease-standard); }
+.duck-transition-tab { transition: color 180ms var(--duck-ease-standard), background-color 180ms var(--duck-ease-standard), transform 180ms var(--duck-ease-standard); }
+.duck-transition-toast { transition: transform 200ms var(--duck-ease-emphasized), opacity 200ms var(--duck-ease-emphasized); }
+.duck-transition-layout { transition: grid-template-columns 240ms var(--duck-ease-standard), gap 240ms var(--duck-ease-standard), width 240ms var(--duck-ease-standard), max-width 240ms var(--duck-ease-standard); }
+.duck-transition-progress { transition: width 260ms linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  .duck-animate-fade-in, .duck-animate-rise-in, .duck-animate-scale-in,
+  .duck-animate-slide-in-inline, .duck-animate-pulse-soft, .duck-animate-shimmer,
+  .duck-animate-spin, .duck-animate-progress-fill, .duck-animate-shake,
+  .duck-animate-breathe {
+    animation: none !important;
+  }
+  .duck-transition-color, .duck-transition-surface, .duck-transition-transform,
+  .duck-transition-opacity, .duck-transition-panel, .duck-transition-modal,
+  .duck-transition-tab, .duck-transition-toast, .duck-transition-layout,
+  .duck-transition-progress {
+    transition-duration: 0.01ms !important;
+  }
+}
