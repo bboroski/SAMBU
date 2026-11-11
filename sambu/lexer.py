@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from .source import SourcePosition, SourceSpan
 from .articulatory import KEYWORD_ALIASES
+from .glyph_syntax import GLYPH_TOKEN_ALIASES, GLYPH_TOKEN_ALIASES_BY_LENGTH
 
 
 @dataclass(frozen=True)
@@ -72,6 +73,17 @@ def tokenize(source: str) -> list[Token]:
         else:
             col += len(text)
 
+    def span_to_eof(start: int, start_line: int, start_col: int) -> SourceSpan:
+        tail = source[start:]
+        end_line = start_line + tail.count("\n")
+        end_col = len(tail.rsplit("\n", 1)[-1]) + 1
+        if "\n" not in tail:
+            end_col = start_col + len(tail)
+        return SourceSpan(
+            SourcePosition(start, start_line, start_col),
+            SourcePosition(n, end_line, end_col),
+        )
+
     def emit(
         kind: str,
         value: object,
@@ -103,6 +115,45 @@ def tokenize(source: str) -> list[Token]:
             advance(source[i:j])
             i = j
             continue
+
+        # C-style block comments are part of the glyph family.  They are
+        # recognized before operators so the closing */ is never a token.
+        if source.startswith("/*", i):
+            start, start_line, start_col = i, line, col
+            closing = source.find("*/", i + 2)
+            if closing == -1:
+                raise SambuSyntaxError(
+                    "Unterminated block comment",
+                    start_line,
+                    start_col,
+                    span=span_to_eof(start, start_line, start_col),
+                    code="SAMBU-L003",
+                )
+            raw = source[i:closing + 2]
+            advance(raw)
+            i = closing + 2
+            continue
+
+        # $$...$$ is a verbatim multiline string.  Its contents do not
+        # interpret escapes or any of the symbolic operators.
+        if source.startswith("$$", i):
+            start, start_line, start_col = i, line, col
+            closing = source.find("$$", i + 2)
+            if closing == -1:
+                raise SambuSyntaxError(
+                    "Unterminated raw string literal; expected closing '$$'",
+                    start_line,
+                    start_col,
+                    span=span_to_eof(start, start_line, start_col),
+                    code="SAMBU-L004",
+                )
+            value = source[i + 2:closing]
+            raw = source[i:closing + 2]
+            advance(raw)
+            i = closing + 2
+            emit("STRING", value, start, start_line, start_col, raw)
+            continue
+
         if ch in "\"'":
             start, start_line, start_col, quote = i, line, col, ch
             j = i + 1
@@ -131,17 +182,11 @@ def tokenize(source: str) -> list[Token]:
                     escaped = False
                 j += 1
             if j >= n:
-                tail = source[i:]
-                end_line = start_line + tail.count("\n")
-                end_col = len(tail.rsplit("\n", 1)[-1]) + 1
-                if "\n" not in tail:
-                    end_col = start_col + len(tail)
                 raise SambuSyntaxError(
-                    "Unterminated string literal", start_line, start_col,
-                    span=SourceSpan(
-                        SourcePosition(start, start_line, start_col),
-                        SourcePosition(n, end_line, end_col),
-                    ),
+                    "Unterminated string literal",
+                    start_line,
+                    start_col,
+                    span=span_to_eof(start, start_line, start_col),
                     code="SAMBU-L002",
                 )
             raw = source[i:j + 1]
@@ -150,8 +195,9 @@ def tokenize(source: str) -> list[Token]:
             value = value.replace("\\\\", "\\").replace('\\"', '"').replace("\\'", "'")
             advance(raw)
             i = j + 1
-            emit("STRING", value, start, start_line, start_col)
+            emit("STRING", value, start, start_line, start_col, raw)
             continue
+
         if ch.isdigit() or (ch == "." and i + 1 < n and source[i + 1].isdigit()):
             start = i
             start_line, start_col = line, col
@@ -178,8 +224,9 @@ def tokenize(source: str) -> list[Token]:
                     i = exp_start
             raw = source[start:i]
             advance(raw)
-            emit("NUMBER", float(raw), start, start_line, start_col)
+            emit("NUMBER", float(raw), start, start_line, start_col, raw)
             continue
+
         if ch.isalpha() or ch == "_":
             start = i
             start_line, start_col = line, col
@@ -193,19 +240,38 @@ def tokenize(source: str) -> list[Token]:
             canonical = KEYWORD_ALIASES.get(raw, raw)
             emit("IDENT", canonical, start, start_line, start_col, raw)
             continue
+
+        # Match complete glyph spellings before ordinary operators or
+        # punctuation.  This is deterministic longest-match lexing.
+        glyph = next(
+            (
+                spelling
+                for spelling in GLYPH_TOKEN_ALIASES_BY_LENGTH
+                if source.startswith(spelling, i)
+            ),
+            None,
+        )
+        if glyph is not None:
+            kind, value = GLYPH_TOKEN_ALIASES[glyph]
+            start, start_line, start_col = i, line, col
+            advance(glyph)
+            i += len(glyph)
+            emit(kind, value, start, start_line, start_col, glyph)
+            continue
+
         op = next((op for op in _OPERATORS if source.startswith(op, i)), None)
         if op:
             start, start_line, start_col = i, line, col
             advance(op)
             i += len(op)
-            emit("OP", op, start, start_line, start_col)
+            emit("OP", op, start, start_line, start_col, op)
             continue
         if ch in _SINGLE:
             start, start_line, start_col = i, line, col
             kind = "SEMI" if ch == ";" else "OP"
             advance(ch)
             i += 1
-            emit(kind, ch, start, start_line, start_col)
+            emit(kind, ch, start, start_line, start_col, ch)
             continue
         raise SambuSyntaxError(
             f"Unexpected character {ch!r}", line, col,
