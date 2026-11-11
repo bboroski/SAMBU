@@ -111,7 +111,7 @@ fn square(x) [[
 print(square(value))
 ```
 
-The lexer also supports verbatim multiline strings delimited by `$...$`
+The lexer also supports verbatim multiline strings delimited by `$$...$$`
 and C-style block comments delimited by `/*...*/`. Original glyph spellings
 remain available through `Token.lexeme`; canonical SAMBU punctuation remains
 fully supported.
