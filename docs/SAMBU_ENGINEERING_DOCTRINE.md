@@ -246,11 +246,11 @@ Not yet implemented: graphical editor, LSP transport, semantic type-aware comple
 
 ## 9. Batch-scaling fixture — reference integration workload
 
-“Шарлотка из шелковицы” is the named end-to-end sample: a small and understandable program that exercises the interpreter with reproducible portion scaling, ingredient totals, and a useful output report.
+The stable example path contains a compact numeric workload that exercises the interpreter with reproducible batch scaling, component aggregation and a machine-readable output report.
 
-The numeric workload values are illustrative example inputs, not a nutritional or food-safety database. The fixture is useful because its arithmetic has clear invariants:
+The numeric values are deterministic test inputs, not domain-specific measurements or a product dataset. The fixture is useful because its arithmetic has clear invariants:
 
-- scaling from 8 to 12 portions multiplies every quantity by 1.5;
+- scaling from 8 to 12 units multiplies every quantity by 1.5;
 - all ingredient quantities and the total mass remain positive;
 - total mass equals the sum of the declared base, filling and topping;
 - per-portion mass equals total mass divided by target portions;
@@ -263,7 +263,7 @@ sambu machine sample examples/mulberry_charlotte.sambu --ratio 100 --seed 17
 sambu ide inspect examples/mulberry_charlotte.sambu
 ~~~
 
-This is not an artificial claim that a dessert is a systems benchmark. It is a compact integration specimen: familiar data, visible arithmetic, known expected properties and a stable file that can pass through Machine, IDE, parser, interpreter and CI.
+This is a compact integration fixture: bounded inputs, visible arithmetic, known invariants and a stable path that can pass through Machine, IDE, parser, interpreter and CI.
 
 ## 10. Acceptance gates
 
@@ -276,7 +276,7 @@ This is not an artificial claim that a dessert is a systems benchmark. It is a c
 | U — Interoperability | Public API compatibility tests; stable schemas; explicit adapters; exportable JSON |
 | Machine | One command to parse-check a workspace and emit machine-readable evidence |
 | IDE | Versioned document snapshots, source-aware diagnostics and deterministic outline |
-| Charlotte | Reproducible arithmetic invariants and CI execution |
+| Batch scaling | Reproducible arithmetic invariants and CI execution |
 
 ## 11. Non-negotiable limits
 
