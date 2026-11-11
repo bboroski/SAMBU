@@ -67,7 +67,7 @@ let result = counter.get()
     def test_cli_check_reports_json_without_executing_source(self):
         with TemporaryDirectory() as directory:
             path = Path(directory) / "sample.sambu"
-            path.write_text("let answer = unknown_value\\nprint(answer)\\n", encoding="utf-8")
+            path.write_text("let answer = unknown_value\nprint(answer)\n", encoding="utf-8")
             output = StringIO()
             with redirect_stdout(output):
                 exit_code = sambu_main(["check", str(path), "--json"])
