@@ -26,6 +26,8 @@ jobs:
           python tools/validate_reaper_domain.py
       - run: python -m unittest discover -s tests -v
       - run: sambu-test tests --repeat 2
+      - run: sambu check examples/typed_core.sambu
+      - run: sambu examples/typed_core.sambu
       - run: sambu examples/percentages.sambu
       - run: sambu examples/anatidae_biophysics.sambu
       - run: sambu examples/ecosystem_primitives.sambu
