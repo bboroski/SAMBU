@@ -35,8 +35,8 @@ The symbolic forms can be mixed with canonical SAMBU syntax in one file.
 | `='[` | `!=` | Inequality |
 | `]-=`, `-]=` | `<` | Less-than |
 | `=-]` | `>` | Greater-than |
-| `\\]=`, `=\\]` | `<=` | Less-than or equal |
-| `]=\\`, `=-\\` | `>=` | Greater-than or equal |
+| `\]=`, `=\]` | `<=` | Less-than or equal |
+| `]=\`, `=-\` | `>=` | Greater-than or equal |
 
 Canonical tokens are deliberately reused, so all expressions keep the existing
 SAMBU precedence, right-associative exponentiation rules, runtime type checks
@@ -45,7 +45,7 @@ and diagnostics.
 ## String and comment forms
 
 Single- and double-quoted strings continue to work as before. The paired
-`$$...\$\$` form adds a verbatim multiline string: its content is returned as
+`$...$` form adds a verbatim multiline string: its content is returned as
 one `STRING` token, with no escape processing. The lexer also accepts
 C-style `/* ... */` block comments in addition to `#` line comments.
 
