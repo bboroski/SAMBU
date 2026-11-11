@@ -41,7 +41,7 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 | AST and source spans | Implemented and tested | Frozen typed AST dataclasses in sambu/ast.py; SourcePosition/SourceSpan in sambu/source.py; AST/source tests | Preserve spans through every new node and future lowering |
 | Structured diagnostics | Implemented partially | SambuSyntaxError codes/spans; IDE diagnostic records in sambu/ide.py | Unify lexical, parser, semantic and runtime diagnostics under one stable public contract |
 | Public API / compatibility | Implemented partially | Exports in sambu/__init__.py; parse legacy tuple adapter and parse_ast; package version 0.11.0 | Add explicit API compatibility tests and deprecation policy before changing exports or legacy tuple shapes |
-| Static typing / dimensional semantics | Implemented partially | Runtime Quantity in sambu/values.py enforces dimension-safe arithmetic; native HIR carries scalar types | No complete pre-runtime semantic type/dimension pass; add one with source-ranged diagnostics |
+| Static typing / dimensional semantics | Implemented partially | `sambu/semantics.py` adds pre-execution name/scope, known-call-arity and definite primitive-operator diagnostics; runtime Quantity still enforces SI dimensions | No declared source types, complete type/dimension pass, generic inference, ownership or effect analysis; extend only with explicit type contracts |
 | Python runtime / standard library | Implemented partially | sambu/runtime.py, sambu/concurrency.py, domain modules and runnable examples; CI exercises them | Runtime remains Python-hosted; specify contracts and test failure/resource boundaries before expanding built-ins |
 | OOP | Implemented partially | Class/instance, init, fields, methods, single inheritance and override exercised in tests/test_oop_games.py; runtime has interface/trait/access machinery | Generics, complete static/class-member behavior and all super-dispatch cases are not established as complete |
 | RPS / Tic-Tac-Toe built-ins | Implemented partially | Deterministic built-ins and tests for wins, draw, illegal moves, occupied cells and unreachable boards | Complete exhaustive outcome/turn/state matrix, including no move after terminal state, before calling rules complete |
@@ -58,6 +58,11 @@ The Actions log also emitted a Node.js 20 deprecation warning for actions/checko
 | Autonomy constitution / rule catalog | Implemented and tested | docs/AUTONOMY_CONSTITUTION.md contains 100 ordered AUT rules in ten blocks; docs/LANGUAGE_EVOLUTION.md contains 101 numbered technical contracts; tests/test_autonomy_constitution.py checks IDs, statuses, block counts and the architecture link | Behavioral test traceability is not complete for every rule; preserve source statuses and map implementation tests incrementally |
 | Workflow permissions / security | Implemented partially | At audit start both workflows omitted explicit permissions; this branch adds contents: read and a stdlib regression test, passed on Python 3.10–3.13 at the checked candidate SHA | CodeQL aggregate check is neutral because the Rust default code-scanning configuration is missing; Analyze (rust) remained in progress at last check. Review that configuration; branch-protection settings remain unclear |
 | Performance | Implemented partially | benchmarks/benchmark_voxels.py and CI smoke run exist | No comparable SAMBU-vs-PHP benchmark or general runtime profile; make no speed claims without controlled measurements |
+
+
+## Semantic analysis update (2026-11-11)
+
+The opt-in `sambu.analyze` / `sambu check` pass now performs conservative source-aware semantic checks before execution. It reports unresolved names, duplicate declarations, known SAMBU function arity errors, top-level returns and definite primitive operator mismatches. Dynamic member access and unknown domain return types remain intentionally unchecked. This is not a complete static type system and does not change interpreter execution.
 
 ## Open work at audit start
 
