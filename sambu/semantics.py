@@ -231,7 +231,6 @@ class _Analyzer:
                 self.report("SAMBU-SEM-001", f"unknown trait {name!r}", node.span)
         for _, value in node.static_fields:
             self.expression(value, scope)
-        members = _Scope(scope)
         seen_methods: set[str] = set()
         for method in node.methods:
             if method.name in seen_methods:
