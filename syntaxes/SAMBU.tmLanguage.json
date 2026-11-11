@@ -154,7 +154,7 @@
     },
     "operators": {
       "name": "keyword.operator.sambu",
-      "match": ":=|<>|==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
+      "match": "->|:|:=|<>|==|!=|<=|>=|&&|\\|\\||\\*\\*|[+*/%<>=!^-]"
     },
     "punctuation": {
       "name": "punctuation.separator.sambu",
