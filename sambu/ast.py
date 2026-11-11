@@ -82,6 +82,7 @@ class LetStatement:
     name: str
     value: Expression
     span: SourceSpan
+    type_annotation: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -102,6 +103,8 @@ class FunctionStatement:
     is_static: bool = False
     is_abstract: bool = False
     is_final: bool = False
+    parameter_types: tuple[str | None, ...] = ()
+    return_type: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -220,7 +223,10 @@ def expression_to_legacy(expression: Expression) -> tuple:
 def statement_to_legacy(statement: Statement) -> tuple:
     """Convert one typed statement to the historical tuple representation."""
     if isinstance(statement, LetStatement):
-        return ("let", statement.name, expression_to_legacy(statement.value))
+        legacy = ("let", statement.name, expression_to_legacy(statement.value))
+        if statement.type_annotation is not None:
+            return legacy + ({"type": statement.type_annotation},)
+        return legacy
     if isinstance(statement, FunctionStatement):
         legacy = (
             "fn",
@@ -228,19 +234,24 @@ def statement_to_legacy(statement: Statement) -> tuple:
             list(statement.parameters),
             [statement_to_legacy(item) for item in statement.body],
         )
-        if (
-            statement.visibility != "public"
-            or statement.is_static
-            or statement.is_abstract
-            or statement.is_final
-        ):
-            return legacy + ({
-                "visibility": statement.visibility,
-                "static": statement.is_static,
-                "abstract": statement.is_abstract,
-                "final": statement.is_final,
-            },)
-        return legacy
+        metadata: dict[str, object] = {}
+        if statement.visibility != "public":
+            metadata["visibility"] = statement.visibility
+        if statement.is_static:
+            metadata["static"] = True
+        if statement.is_abstract:
+            metadata["abstract"] = True
+        if statement.is_final:
+            metadata["final"] = True
+        if statement.parameter_types:
+            metadata["parameter_types"] = {
+                name: annotation
+                for name, annotation in zip(statement.parameters, statement.parameter_types)
+                if annotation is not None
+            }
+        if statement.return_type is not None:
+            metadata["return_type"] = statement.return_type
+        return legacy + (metadata,) if metadata else legacy
     if isinstance(statement, SetFieldStatement):
         return (
             "set_field", expression_to_legacy(statement.target), statement.name,
