@@ -94,3 +94,8 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+
+## Motion and GUI system
+
+Repository-scoped animation, rendering, accessibility and interface contract: [docs/MOTION_GUI_SYSTEM.md](docs/MOTION_GUI_SYSTEM.md).
