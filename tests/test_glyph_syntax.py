@@ -70,6 +70,10 @@ print(square(5))
         self.assertEqual((print_token.line, print_token.column), (2, 15))
         self.assertEqual(len(parse(source)), 2)
 
+    def test_newline_inside_block_comment_separates_statements(self):
+        source = "let x :: 1 /* comment\\n*/ print(x)"
+        self.assertEqual(len(parse(source)), 2)
+
     def test_unterminated_block_comment_has_stable_diagnostic(self):
         with self.assertRaises(SambuSyntaxError) as caught:
             tokenize("/* never closed")
