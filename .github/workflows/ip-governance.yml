@@ -1,0 +1,28 @@
+name: IP governance
+
+on:
+  push:
+    paths:
+      - "ip-governance/**"
+      - ".github/workflows/ip-governance.yml"
+  pull_request:
+    paths:
+      - "ip-governance/**"
+      - ".github/workflows/ip-governance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-provenance-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate rights metadata and artifact digests
+        run: python ip-governance/verify.py
