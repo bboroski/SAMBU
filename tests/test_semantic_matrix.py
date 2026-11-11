@@ -33,7 +33,7 @@ class SemanticMatrixTests(unittest.TestCase):
     def test_rejects_overflowing_matrix_products(self):
         cases = (
             (((1e308,),), ((2.0,),)),
-            (((1.0, 1.0),), ((1e308,), (1e308,))),
+            (((1e308, 1e308), (0.0, 0.0)), ((1.0, 0.0), (1.0, 0.0))),
         )
         for left, right in cases:
             with self.subTest(left=left, right=right):
