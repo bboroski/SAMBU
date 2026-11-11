@@ -7,8 +7,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
-from typing import Any as TypingAny
-
 from .ast import (
     ArrayExpr, BinaryExpr, CallExpr, ClassStatement, Expression,
     ExpressionStatement, FieldExpr, ForStatement, FunctionStatement,
@@ -193,7 +191,7 @@ class FunctionSignature:
 class _TypeChecker:
     def __init__(self) -> None:
         self.diagnostics: list[TypeDiagnostic] = []
-        self.known_types = set(PRIMITIVES) | {"Array", "List"} | set(UNIT_NAMES)
+        self.known_types = set(PRIMITIVES) | {"Array", "List"}
         self.class_bases: dict[str, str | None] = {}
         self.functions: dict[str, FunctionSignature] = {}
         self._return_stack: list[str | None] = []
@@ -374,8 +372,11 @@ class _TypeChecker:
         local = dict(parent_scope)
         if owner_class is not None and function.parameters and function.parameters[0] == "self" and parameter_types[0] is None:
             local["self"] = owner_class
-        for name, annotation in zip(function.parameters, typed):
-            local[name] = annotation
+        for index, (name, annotation) in enumerate(zip(function.parameters, typed)):
+            if owner_class is not None and index == 0 and name == "self" and parameter_types[index] is None:
+                local[name] = owner_class
+            else:
+                local[name] = annotation
         if function.return_type is not None:
             self.valid_type(function.return_type, function)
         self._return_stack.append(function.return_type)
@@ -433,7 +434,15 @@ class _TypeChecker:
             if isinstance(statement, ClassStatement):
                 self.known_types.add(statement.name)
                 self.class_bases[statement.name] = statement.base_name
-        # Function signatures are registered while walking; recursion is supported.
+        # Predeclare top-level signatures so calls are checked even when a
+        # function appears later in the source file.
+        for statement in program.statements:
+            if isinstance(statement, FunctionStatement):
+                parameter_types = statement.parameter_types or tuple(None for _ in statement.parameters)
+                self.functions[statement.name] = FunctionSignature(
+                    tuple(annotation or "Any" for annotation in parameter_types),
+                    statement.return_type or "Any",
+                )
         for statement in program.statements:
             self.check_statements((statement,), scope)
         return tuple(self.diagnostics)
