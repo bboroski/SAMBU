@@ -11,9 +11,7 @@ GLYPH_SYNTAX_VERSION = "1.0"
 # tooling, tests and documentation can audit the exact spelling contract.
 GLYPH_TOKEN_ALIASES: dict[str, tuple[str, str]] = {
     # Block delimiters.
-    "[[": ("OP", "{"),
     "--{": ("OP", "{"),
-    "]]": ("OP", "}"),
     "}-": ("OP", "}"),
 
     # Statement separators.
