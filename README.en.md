@@ -63,6 +63,8 @@ These repository images show the application workspace, reports and XML inspecto
 - [Ecosystem architecture](docs/ECOSYSTEM_ARCHITECTURE.md)
 
 ## NUN Mesh and related repositories
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh repository contracts and integration boundaries" width="960"></p>
 [SAMBU](https://github.com/bboroski/SAMBU) · [ToolNG](https://github.com/bboroski/ToolNG) · [ReaperCripple](https://github.com/bboroski/ReaperCripple) · [Kloz](https://github.com/bboroski/Kloz) · [CO](https://github.com/bboroski/CO) · [SaintSI](https://github.com/bboroski/SaintSI) · [Klipot](https://github.com/bboroski/Klipot) · [NUN](https://github.com/bboroski/NUN) · [NUNLauncher](https://github.com/bboroski/NUNLauncher)
 
 Each repository retains its canonical name, code, APIs, release lifecycle and ownership boundaries. Integration means versioned contracts, not automatic merging of independent runtimes.
