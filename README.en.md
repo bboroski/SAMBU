@@ -78,3 +78,7 @@ MIT — see [LICENSE](LICENSE). Review the architecture and tests before contrib
 SAMBU is the authoring and research layer of NUN Mesh: language tooling, IDE, Duck Studio, scientific models, and reproducible workflows. Integration descriptions and policies do not grant hidden hardware access or silently execute external actions.
 
 Shared interface contract: [Adaptive Workspace Integration](docs/ADAPTIVE_WORKSPACE_INTEGRATION.md).
+
+## Product system
+
+Shared Duck design, multilingual documentation, capability governance, marketing-claim controls and release rules: [docs/PRODUCT_SYSTEM.md](docs/PRODUCT_SYSTEM.md). The 10,000-ID registry is planning capacity, not a claim of 10,000 shipped functions.
