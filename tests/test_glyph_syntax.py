@@ -12,14 +12,20 @@ from sambu.lexer import SambuSyntaxError, tokenize
 class GlyphSyntaxTests(unittest.TestCase):
     def test_profile_and_public_registry(self):
         self.assertEqual(GLYPH_SYNTAX_VERSION, "SGS-1")
-        self.assertIn("[[", GLYPH_ALIASES)
+        self.assertIn("}-", GLYPH_ALIASES)
         self.assertIn("]-=", GLYPH_ALIASES)
+        self.assertNotIn("[[", GLYPH_ALIASES)
+        self.assertNotIn("]]", GLYPH_ALIASES)
 
     def test_function_and_operator_aliases_reach_typed_ast(self):
         function = parse_ast("}- square(x) --{ return x */ x }").statements[0]
         self.assertIsInstance(function, FunctionStatement)
         self.assertIsInstance(function.body[0].value, BinaryExpr)
         self.assertEqual(function.body[0].value.operator, "*")
+
+    def test_double_brackets_remain_two_tokens_and_nested_arrays_work(self):
+        tokens = tokenize("[[1], [2]]")
+        self.assertEqual([t.value for t in tokens if t.value in ("[", "]")], ["[", "[", "]", "[", "]", "]"])
 
     def test_nested_arrays_and_member_access(self):
         program = parse_ast("let values = [[1, 2], [3, 4]];; let result = model::rms")
