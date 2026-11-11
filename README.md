@@ -71,3 +71,11 @@ MIT — див. [LICENSE](LICENSE). Перед внеском ознайомте
 ---
 
 **Створено з любов'ю до знань, інженерії та людей.**
+
+## NUN Mesh
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh — seven connected engineering repositories with versioned contracts" width="100%"></p>
+
+SAMBU — авторський і дослідницький шар NUN Mesh: мова, IDE, Duck Studio, наукові моделі та відтворювані workflow. Інтеграційні описи й політики не надають SAMBU прихованого доступу до обладнання чи автоматичного виконання зовнішніх дій.
+
+Спільний інтерфейсний контракт: [Adaptive Workspace Integration](docs/ADAPTIVE_WORKSPACE_INTEGRATION.md).
