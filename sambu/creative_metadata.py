@@ -283,7 +283,7 @@ class CreativeMetadata:
         result: dict[str, object] = {
             "@context": JSONLD_CONTEXT,
             "@type": "CreativeWork",
-            "name": f"Creative cluster {self.cluster_id}",
+            "name": f"Annotation cluster {self.cluster_id}",
             "description": cluster.description,
             "keywords": list(self.key_symbols) + [cluster.name, self.tone],
             "inLanguage": list(self.language),
