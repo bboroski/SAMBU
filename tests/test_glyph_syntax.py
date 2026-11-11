@@ -28,7 +28,7 @@ class GlyphSyntaxTests(unittest.TestCase):
         self.assertEqual(len(parse(source)), 2)
 
     def test_symbolic_block_delimiters_parse_function(self):
-        source = """fn square(value) [[
+        source = """fn square(value) --{
     return value /+-* value
 ]]
 print(square(5))
@@ -52,6 +52,13 @@ print(square(5))
             (token.kind, token.value, token.lexeme) for token in tokens
         ])
         self.assertNotIn(":", [token.value for token in tokens])
+
+    def test_doubled_brackets_preserve_nested_array_literals(self):
+        source = "let matrix :: [[1, 2], [3, 4]]"
+        tokens = tokenize(source)
+        bracket_values = [token.value for token in tokens if token.value in {"[", "]"}]
+        self.assertEqual(bracket_values, ["[", "[", "]", "[", "]", "]"])
+        self.assertEqual(len(parse(source)), 1)
 
     def test_raw_multiline_string_is_verbatim(self):
         source = "let note :: $$first line\nsecond /* line */$$;; print(note)"
