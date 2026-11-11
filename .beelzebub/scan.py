@@ -30,7 +30,7 @@ SECRET_PATTERNS = (
 
 GENERIC_CREDENTIAL = re.compile(
     r"""(?i)\b(?:api[_-]?key|access[_-]?token|client[_-]?secret|password|passwd)\b"""
-    r"""\\s*[:=]\\s*["']([^"'\\s]{20,})["']"""
+    r"""\s*[:=]\s*["']([^"'\s]{20,})["']"""
 )
 PLACEHOLDERS = (
     "example", "sample", "placeholder", "changeme", "change_me",
@@ -39,7 +39,7 @@ PLACEHOLDERS = (
 
 ADVISORIES = (
     (re.compile(r"\b(?:eval|exec)\s*\("), "BBZ-DYNAMIC-EXEC", "Dynamic code execution needs a human security review."),
-    (re.compile(r"\bsubprocess\.[A-Za-z_]+\s*\([^\\n]{0,240}shell\s*=\s*True"), "BBZ-SHELL-TRUE", "Shell execution can create command-injection risk; validate inputs and avoid shell=True."),
+    (re.compile(r"\bsubprocess\.[A-Za-z_]+\s*\([^\n]{0,240}shell\s*=\s*True"), "BBZ-SHELL-TRUE", "Shell execution can create command-injection risk; validate inputs and avoid shell=True."),
     (re.compile(r"\bpickle\.loads?\s*\("), "BBZ-PICKLE", "Pickle can execute code while deserializing untrusted data."),
     (re.compile(r"\byaml\.load\s*\("), "BBZ-UNSAFE-YAML", "Review YAML loader choice; use a safe loader for untrusted input."),
 )
