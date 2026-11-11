@@ -43,7 +43,7 @@ class EmojiProgrammingTests(unittest.TestCase):
         output: list[str] = []
         result = execute(source, output=output.append)
 
-        self.assertIsNone(result)
+        self.assertEqual(result, 3.0)
         self.assertEqual(output, ["84", "Emoji syntax is active", "1", "2", "3"])
 
     def test_emoji_inside_strings_and_comments_are_not_rewritten(self):
