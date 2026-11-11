@@ -1,7 +1,7 @@
-# SAMBU Engineering Doctrine, Machine and IDE
+# SAMBU Engineering Control Specification, Machine and IDE
 
 **Baseline:** SAMBU 0.11.0  
-**Status:** Machine and headless IDE services are implemented as experimental Python APIs and CLI commands. This doctrine is the design contract; graphical editor, LSP transport, static type analysis and privileged host/device execution remain roadmap items.
+**Status:** Machine and headless IDE services are implemented as experimental Python APIs and CLI commands. This specification is the design contract; graphical editor, LSP transport, static type analysis and privileged host/device execution remain roadmap items.
 
 This document defines implementable engineering rules for capability governance, controlled exploration, supervision, extension isolation, modularity and interoperability.
 
