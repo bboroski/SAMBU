@@ -1,7 +1,8 @@
 
-> **Фирменная палитра:** сигнальный жёлтый `#FFD600`; глубокий чёрный `#111111`.
 <p align="center"><img src="assets/duck-ui/duck-mark.svg" alt="SAMBU mark" width="92"></p>
 <h1 align="center">SAMBU</h1>
+
+> **Фирменная палитра:** сигнальный жёлтый `#FFD600`; глубокий чёрный `#111111`.
 <p align="center"><strong>Scientific Modeling &amp; Automation Environment</strong></p>
 <p align="center">
 <img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL%20ALPHA-FFD600?style=for-the-badge&labelColor=111111" alt="Experimental alpha">
