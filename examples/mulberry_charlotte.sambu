@@ -1,41 +1,41 @@
-# Mulberry Charlotte: SAMBU's layered integration workload.
-# The recipe is a deterministic example, not a nutritional database.
+# Deterministic batch-scaling fixture. The path remains for CI compatibility.
 
-fn scale_amount(amount, original_portions, target_portions) {
-  return amount * target_portions / original_portions
+fn scale_quantity(value, source_units, target_units) {
+  return value * target_units / source_units
 }
 
-fn filling_weight(mulberries, apples) {
-  return mulberries + apples
+fn aggregate_components(component_a, component_b) {
+  return component_a + component_b
 }
 
-fn assemble_charlotte(base, filling, topping) {
-  return base + filling + topping
+fn aggregate_total(core, aggregate, auxiliary) {
+  return core + aggregate + auxiliary
 }
 
-let original_portions = 8
-let target_portions = 12
+let source_units = 8
+let target_units = 12
 
-let flour_g = scale_amount(180, original_portions, target_portions)
-let butter_g = scale_amount(90, original_portions, target_portions)
-let sugar_g = scale_amount(120, original_portions, target_portions)
-let eggs = scale_amount(3, original_portions, target_portions)
+let quantity_a = scale_quantity(180, source_units, target_units)
+let quantity_b = scale_quantity(90, source_units, target_units)
+let quantity_c = scale_quantity(120, source_units, target_units)
+let quantity_d = scale_quantity(3, source_units, target_units)
 
-let mulberries_g = scale_amount(260, original_portions, target_portions)
-let apples_g = scale_amount(180, original_portions, target_portions)
-let filling_g = filling_weight(mulberries_g, apples_g)
+let component_a = scale_quantity(260, source_units, target_units)
+let component_b = scale_quantity(180, source_units, target_units)
+let aggregate = aggregate_components(component_a, component_b)
 
-let base_g = flour_g + butter_g + sugar_g
-let topping_g = scale_amount(40, original_portions, target_portions)
-let finished_g = assemble_charlotte(base_g, filling_g, topping_g)
-let portion_g = finished_g / target_portions
+let core = quantity_a + quantity_b + quantity_c
+let auxiliary = scale_quantity(40, source_units, target_units)
+let total = aggregate_total(core, aggregate, auxiliary)
+let unit_value = total / target_units
 
-print("SAMBU Mulberry Charlotte")
-print(target_portions)
-print(flour_g)
-print(butter_g)
-print(eggs)
-print(mulberries_g)
-print(apples_g)
-print(finished_g)
-print(portion_g)
+print("Batch scaling fixture")
+print(target_units)
+print(quantity_a)
+print(quantity_b)
+print(quantity_c)
+print(quantity_d)
+print(component_a)
+print(component_b)
+print(total)
+print(unit_value)
