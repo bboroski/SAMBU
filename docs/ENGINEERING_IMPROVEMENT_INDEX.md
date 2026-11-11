@@ -30,6 +30,8 @@ The current repository scope and user-facing capabilities are described in [READ
 - [native/tests/](../native/tests/)
 
 ### Existing governance and project rules
+- [ENGINEERING_GOVERNANCE.md](./ENGINEERING_GOVERNANCE.md)
+- [TECHNICAL_DEBT_REGISTER.md](./TECHNICAL_DEBT_REGISTER.md)
 - [ANTI_TERADAYN_PROTOCOL.md](./ANTI_TERADAYN_PROTOCOL.md)
 - [EXPERIENCE_ENGINEERING.md](./EXPERIENCE_ENGINEERING.md)
 
