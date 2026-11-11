@@ -22,6 +22,7 @@
 
 ## Поточні можливості
 - Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами та записами.
+- Необов'язкові типи для змінних і функцій, перевірка `sambu check` та runtime-контроль анотованих контрактів (gradual subset).
 - Наукові моделі: SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
 - Просторові дані: sparse voxel grids, чанки, Morton keys, octrees та графові операції.
 - CLI, Tkinter IDE, тестовий runner і архітектурні перевірки.
@@ -32,6 +33,7 @@
 python -m pip install -e .
 python -m pytest
 python one.py check
+sambu check examples/typed_core.sambu
 ```
 
 ## Архітектура, межі та достовірність
