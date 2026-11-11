@@ -24,8 +24,9 @@ The symbolic forms can be mixed with canonical SAMBU syntax in one file.
 
 | Glyph spelling | Canonical token | Role |
 |---|---|---|
-| `[[`, `--{` | `{` | Begin a block |
-| `]]`, `}-` | `}` | End a block |
+| `--{` | `{` | Begin a block |
+| `}-` | `}` | End a block |
+| `[[`, `]]` | `[` and `]` twice | Nested array delimiters (two bracket tokens) |
 | `;;-`, `;;`, `:;`, `;:`, `;-`, `:-`, `-:` | `;` | Separate statements |
 | `::` | `=` | Bind or initialize a value |
 | `+_`, `++_` | `+` | Addition |
@@ -59,7 +60,7 @@ let scale :: 3;;-
 let title :: $$Glyph mode
 preserves source spelling.$$;;
 
-fn square(value) [[
+fn square(value) --{
   return value /+-* value
 ]]
 
@@ -95,7 +96,9 @@ backslash/bracket chains that are not listed in the active registry remain
 ordinary source text candidates, not executable grammar productions. They can
 be placed safely inside `$$...$$` raw strings or comments.
 
-This boundary prevents ambiguous tokenization and avoids assigning accidental
+The doubled bracket forms deliberately expand to two ordinary array-bracket tokens,
+so nested arrays keep their established meaning. This boundary prevents ambiguous
+tokenization and avoids assigning accidental
 runtime meaning to arbitrary character sequences. New glyphs must be added to
 the registry with a canonical token mapping, source-span tests and editor
 grammar coverage before they are considered part of the language.
