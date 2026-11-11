@@ -243,7 +243,7 @@ def statement_to_legacy(statement: Statement) -> tuple:
             metadata["abstract"] = True
         if statement.is_final:
             metadata["final"] = True
-        if statement.parameter_types:
+        if any(statement.parameter_types):
             metadata["parameter_types"] = {
                 name: annotation
                 for name, annotation in zip(statement.parameters, statement.parameter_types)
