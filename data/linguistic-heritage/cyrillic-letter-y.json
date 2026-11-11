@@ -90,7 +90,7 @@
     {
       "id": "yeri-ligature",
       "statement": "The Cyrillic letter Ы is conventionally explained as a ligature of yerъ (Ъ) and i (І/И).",
-      "status": "established",
+      "status": "qualified",
       "rationale": "The graphic genealogy is widely described as a ligature; exact manuscript chronology still requires palaeographic evidence.",
       "sources": [
         "https://www.newworldencyclopedia.org/entry/Cyrillic_script"
