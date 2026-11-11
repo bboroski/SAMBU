@@ -159,7 +159,27 @@ The Internet-Dust concept from *Metropolitan* is treated as speculative fiction 
 
 A trans-substrate adapter may eventually translate semantic state between software runtimes or validated BCI devices. It must be opt-in, consent-based, isolated, auditable, reversible where technically possible, and backed by clinical/device-specific safety evidence. Until then, `biological`, `dust-field`, and `quantum` are research-domain labels only.
 
-## 11. Acceptance gates
+## 11. Repository ownership map
+
+| Repository | Owns in this architecture | First integration boundary |
+|---|---|---|
+| SAMBU | Canonical schemas, Python reference validator/codec, bounded local event queue, policy/workflow descriptions | Event envelope, resource descriptor, registry and conformance fixtures |
+| ToolNG | Windows-local, read-only device diagnostics and evidence reporting | Redacted diagnostic events and evidence-artifact descriptors |
+| ReaperCripple | Embedded BSP, calibration, fixture and manufacturing boundaries | Board/peripheral descriptors, fixed-width C ABI and bounded telemetry callbacks |
+| Kloz | Portable bare-metal memory/resource substrate and versioned platform operations | Caller-owned memory descriptors, ABI version/size gates and platform capabilities |
+| CO | Deterministic component lifecycle | State-transition events, callback ordering, bounded poll/backpressure |
+| SaintSI | Runtime health/integrity observation | Heartbeat observations, freshness, sequence and bounded health metrics |
+| Klipot | Static ecosystem portal and registry projection | Schema/catalog presentation, evidence provenance and compatibility status |
+| NUN | Kernel bring-up and future OS primitives | Virtual-memory, process, syscall, interrupt and driver contracts, each staged behind target tests |
+| NUNLauncher | Read-only pre-handoff image admission | Image/resource metadata, digest, load bounds and provenance |
+| Fragile-Baby | Elbrus/E2K target qualification workstream | Exact target/ABI/toolchain descriptors and vendor/emulator/board evidence |
+| Luci | Local engineering domain control plane and default-deny policy inspection | Capability graph, manifest/schema validation and evidence indexing |
+| Hellduck | Federated workspace snapshot and contract consistency checks | Module identity, source provenance, version compatibility and workspace validation |
+| 9circ | Unclassified scaffold until project scope is documented | Scope/target/owner/test definition before enabling any runtime integration |
+
+The table assigns ownership boundaries; it does not declare every row's desired features implemented. See each repository's `docs/INTERSUBSTRATE_RUNTIME_PROFILE.md` for its local acceptance gates.
+
+## 12. Acceptance gates
 
 - [ ] Schema fixtures cover valid, missing, unknown-version, malformed-ID, stale, and oversized input.
 - [ ] Event queue tests cover FIFO, capacity rejection, and concurrent producer/consumer operation.
