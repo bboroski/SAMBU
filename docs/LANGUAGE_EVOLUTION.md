@@ -259,4 +259,4 @@ SAMBU becomes more powerful by making contracts sharper, not by accumulating key
 
 The five-letter engineering code and its acceptance gates are formalized in [SAMBU Engineering Doctrine](SAMBU_ENGINEERING_DOCTRINE.md). The current Python-hosted implementation provides `SambuMachine` (layer-contract validation, bounded workspace parsing, deterministic AST sampling, failure signatures and capability profiles) and `SambuIDE` (versioned source snapshots, syntax diagnostics, outline and lexical completion). These are experimental developer services, not a native compiler, full static analyzer, process sandbox, graphical IDE or LSP server.
 
-The shared `examples/mulberry_charlotte.sambu` workload gives the CI pipeline a small reproducible arithmetic fixture with explicit scaling and mass-balance assertions.
+The shared `examples/mulberry_charlotte.sambu` compatibility path now contains a small reproducible numeric batch-scaling fixture for CI.
