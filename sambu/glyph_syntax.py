@@ -2,7 +2,7 @@
 
 Glyph spellings are lexical aliases, not a second runtime.  Each spelling maps
 to an existing token consumed by the established parser and interpreter.
-Longest-match tokenization is applied by :mod:\`sambu.lexer\`.
+Longest-match tokenization is applied by :mod:`sambu.lexer`.
 """
 
 GLYPH_SYNTAX_VERSION = "1.0"
@@ -43,7 +43,7 @@ GLYPH_TOKEN_ALIASES: dict[str, tuple[str, str]] = {
     "=-]": ("OP", ">"),
     r"\]=": ("OP", "<="),
     r"=\]": ("OP", "<="),
-    r"]=\\"": ("OP", ">="),
+    "]=\\": ("OP", ">="),
     r"=-\\": ("OP", ">="),
 }
 
