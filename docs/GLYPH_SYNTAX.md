@@ -48,20 +48,19 @@ evaluation order, or runtime capabilities.
 
 ## Multiline glyph strings
 
-Two explicit multiline string forms are supported:
+Two multiline string forms are supported:
 
-- `"{ ... }"` is an escaped multiline string. The close marker preceded by an
+- `"{ ... }"` is an escaped multiline string. A closing marker preceded by an
   unescaped backslash is treated as content; standard escape sequences apply.
-- `$ ... $` is a raw multiline string. The body is preserved verbatim;
-  write `\\$` to include a literal closing delimiter.
+- `$$ ... $$` is a raw multiline string. Its body is preserved verbatim;
+  write `\$$` to include a literal closing delimiter.
 
 ```sambu
 let message = "{First line
 Second line}"
-let raw = $First raw line
-Second raw line$
+let raw = $$First raw line
+Second raw line$$
 ```
-
 ## Complete example
 
 ```sambu
