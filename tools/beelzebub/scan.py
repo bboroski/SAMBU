@@ -23,7 +23,7 @@ DEPENDENCY_FILES = {
     "pnpm-lock.yaml", "requirements.txt", "poetry.lock", "Pipfile",
     "Pipfile.lock", "pyproject.toml", "Cargo.toml", "Cargo.lock",
     "go.mod", "go.sum", "Gemfile", "Gemfile.lock", "composer.json",
-    "composer.lock", " pom.xml", "build.gradle", "build.gradle.kts",
+    "composer.lock", "pom.xml", "build.gradle", "build.gradle.kts",
     "gradle.lockfile", "Podfile", "Podfile.lock",
 }
 
