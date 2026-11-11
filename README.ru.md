@@ -63,6 +63,8 @@ Native compiler slice пока не является полным конвейе
 - [Архитектура экосистемы](docs/ECOSYSTEM_ARCHITECTURE.md)
 
 ## NUN Mesh и связанные репозитории
+
+<p align="center"><img src="assets/nun-mesh.svg" alt="NUN Mesh repository contracts and integration boundaries" width="960"></p>
 [SAMBU](https://github.com/bboroski/SAMBU) · [ToolNG](https://github.com/bboroski/ToolNG) · [ReaperCripple](https://github.com/bboroski/ReaperCripple) · [Kloz](https://github.com/bboroski/Kloz) · [CO](https://github.com/bboroski/CO) · [SaintSI](https://github.com/bboroski/SaintSI) · [Klipot](https://github.com/bboroski/Klipot) · [NUN](https://github.com/bboroski/NUN) · [NUNLauncher](https://github.com/bboroski/NUNLauncher)
 
 Каждый репозиторий сохраняет каноническое имя, собственный код, API, цикл выпуска и границы ответственности. Интеграция означает версионированные контракты, а не автоматическое слияние независимых runtime.
