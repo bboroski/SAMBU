@@ -1,0 +1,493 @@
+{
+  "name": "LOVE-66",
+  "expansion": "Language of Organized Value & Emotional Engineering",
+  "version": "1.0.0",
+  "status": "SPECIFIED",
+  "canonical_repository": "bboroski/Klipot",
+  "scope": [
+    "bboroski/9circ",
+    "bboroski/Fragile-Baby",
+    "bboroski/SAMBU",
+    "bboroski/ToolNG",
+    "bboroski/ReaperCripple",
+    "bboroski/Kloz",
+    "bboroski/CO",
+    "bboroski/SaintSI",
+    "bboroski/Klipot",
+    "bboroski/NUN",
+    "bboroski/NUNLauncher",
+    "bboroski/Luci",
+    "bboroski/Hellduck"
+  ],
+  "principles": [
+    "Translate emotional vocabulary into observable engineering behaviors; do not simulate or claim human emotions.",
+    "Protect user agency, privacy, consent, and accessibility.",
+    "Prefer clear contracts, reversible actions, graceful degradation, and helpful diagnostics.",
+    "No automatic destructive changes, secret collection, permission escalation, or unreviewed merges.",
+    "A control is ACTIVE only when implementation, tests, and evidence exist; otherwise it remains SPECIFIED."
+  ],
+  "groups": [
+    {
+      "id": "core_love",
+      "name": "Core Love",
+      "range": "1-10",
+      "purpose": "Principles for humane, predictable component interaction.",
+      "words": [
+        "Love",
+        "Affection",
+        "Adoration",
+        "Devotion",
+        "Passion",
+        "Romance",
+        "Desire",
+        "Attachment",
+        "Infatuation",
+        "Liking"
+      ]
+    },
+    {
+      "id": "tenderness",
+      "name": "Tenderness",
+      "range": "11-20",
+      "purpose": "Careful error handling, resource stewardship, and user-sensitive defaults.",
+      "words": [
+        "Tenderness",
+        "Warmth",
+        "Fondness",
+        "Care",
+        "Cherishing",
+        "Kindness",
+        "Compassion",
+        "Empathy",
+        "Sensitivity",
+        "Sweetness"
+      ]
+    },
+    {
+      "id": "bond",
+      "name": "Bond",
+      "range": "21-30",
+      "purpose": "Trustworthy contracts, compatibility, identity, and cooperative operation.",
+      "words": [
+        "Loyalty",
+        "Fidelity",
+        "Commitment",
+        "Dedication",
+        "Trust",
+        "Intimacy",
+        "Connection",
+        "Harmony",
+        "Unity",
+        "Fellowship"
+      ]
+    },
+    {
+      "id": "affinity",
+      "name": "Affinity",
+      "range": "31-40",
+      "purpose": "Respectful user communication, interaction design, and supportive feedback.",
+      "words": [
+        "Darling",
+        "Sweetheart",
+        "Honey",
+        "Beloved",
+        "Dearest",
+        "Treasure",
+        "Angel",
+        "Cuddle",
+        "Hug",
+        "Kiss"
+      ]
+    },
+    {
+      "id": "reverence",
+      "name": "Reverence",
+      "range": "41-50",
+      "purpose": "Respect for maintainability, quality, provenance, and project history.",
+      "words": [
+        "Adulation",
+        "Worship",
+        "Reverence",
+        "Idolization",
+        "Enamoralment",
+        "Yearning",
+        "Longing",
+        "Captivation",
+        "Enthusiasm",
+        "Rhapsody"
+      ]
+    },
+    {
+      "id": "kindness",
+      "name": "Kindness",
+      "range": "51-66",
+      "purpose": "Accessibility, goodwill, hospitality, attention, and resilience.",
+      "words": [
+        "Amicability",
+        "Friendliness",
+        "Benevolence",
+        "Sympathy",
+        "Goodwill",
+        "Cordiality",
+        "Geniality",
+        "Hospitality",
+        "Attentiveness",
+        "Selflessness",
+        "Euphoria",
+        "Bliss",
+        "Ecstasy",
+        "Rapture",
+        "Solace",
+        "Heat"
+      ]
+    }
+  ],
+  "terms": [
+    {
+      "index": 1,
+      "word": "Love",
+      "group": "core_love"
+    },
+    {
+      "index": 2,
+      "word": "Affection",
+      "group": "core_love"
+    },
+    {
+      "index": 3,
+      "word": "Adoration",
+      "group": "core_love"
+    },
+    {
+      "index": 4,
+      "word": "Devotion",
+      "group": "core_love"
+    },
+    {
+      "index": 5,
+      "word": "Passion",
+      "group": "core_love"
+    },
+    {
+      "index": 6,
+      "word": "Romance",
+      "group": "core_love"
+    },
+    {
+      "index": 7,
+      "word": "Desire",
+      "group": "core_love"
+    },
+    {
+      "index": 8,
+      "word": "Attachment",
+      "group": "core_love"
+    },
+    {
+      "index": 9,
+      "word": "Infatuation",
+      "group": "core_love"
+    },
+    {
+      "index": 10,
+      "word": "Liking",
+      "group": "core_love"
+    },
+    {
+      "index": 11,
+      "word": "Tenderness",
+      "group": "tenderness"
+    },
+    {
+      "index": 12,
+      "word": "Warmth",
+      "group": "tenderness"
+    },
+    {
+      "index": 13,
+      "word": "Fondness",
+      "group": "tenderness"
+    },
+    {
+      "index": 14,
+      "word": "Care",
+      "group": "tenderness"
+    },
+    {
+      "index": 15,
+      "word": "Cherishing",
+      "group": "tenderness"
+    },
+    {
+      "index": 16,
+      "word": "Kindness",
+      "group": "tenderness"
+    },
+    {
+      "index": 17,
+      "word": "Compassion",
+      "group": "tenderness"
+    },
+    {
+      "index": 18,
+      "word": "Empathy",
+      "group": "tenderness"
+    },
+    {
+      "index": 19,
+      "word": "Sensitivity",
+      "group": "tenderness"
+    },
+    {
+      "index": 20,
+      "word": "Sweetness",
+      "group": "tenderness"
+    },
+    {
+      "index": 21,
+      "word": "Loyalty",
+      "group": "bond"
+    },
+    {
+      "index": 22,
+      "word": "Fidelity",
+      "group": "bond"
+    },
+    {
+      "index": 23,
+      "word": "Commitment",
+      "group": "bond"
+    },
+    {
+      "index": 24,
+      "word": "Dedication",
+      "group": "bond"
+    },
+    {
+      "index": 25,
+      "word": "Trust",
+      "group": "bond"
+    },
+    {
+      "index": 26,
+      "word": "Intimacy",
+      "group": "bond"
+    },
+    {
+      "index": 27,
+      "word": "Connection",
+      "group": "bond"
+    },
+    {
+      "index": 28,
+      "word": "Harmony",
+      "group": "bond"
+    },
+    {
+      "index": 29,
+      "word": "Unity",
+      "group": "bond"
+    },
+    {
+      "index": 30,
+      "word": "Fellowship",
+      "group": "bond"
+    },
+    {
+      "index": 31,
+      "word": "Darling",
+      "group": "affinity"
+    },
+    {
+      "index": 32,
+      "word": "Sweetheart",
+      "group": "affinity"
+    },
+    {
+      "index": 33,
+      "word": "Honey",
+      "group": "affinity"
+    },
+    {
+      "index": 34,
+      "word": "Beloved",
+      "group": "affinity"
+    },
+    {
+      "index": 35,
+      "word": "Dearest",
+      "group": "affinity"
+    },
+    {
+      "index": 36,
+      "word": "Treasure",
+      "group": "affinity"
+    },
+    {
+      "index": 37,
+      "word": "Angel",
+      "group": "affinity"
+    },
+    {
+      "index": 38,
+      "word": "Cuddle",
+      "group": "affinity"
+    },
+    {
+      "index": 39,
+      "word": "Hug",
+      "group": "affinity"
+    },
+    {
+      "index": 40,
+      "word": "Kiss",
+      "group": "affinity"
+    },
+    {
+      "index": 41,
+      "word": "Adulation",
+      "group": "reverence"
+    },
+    {
+      "index": 42,
+      "word": "Worship",
+      "group": "reverence"
+    },
+    {
+      "index": 43,
+      "word": "Reverence",
+      "group": "reverence"
+    },
+    {
+      "index": 44,
+      "word": "Idolization",
+      "group": "reverence"
+    },
+    {
+      "index": 45,
+      "word": "Enamoralment",
+      "group": "reverence"
+    },
+    {
+      "index": 46,
+      "word": "Yearning",
+      "group": "reverence"
+    },
+    {
+      "index": 47,
+      "word": "Longing",
+      "group": "reverence"
+    },
+    {
+      "index": 48,
+      "word": "Captivation",
+      "group": "reverence"
+    },
+    {
+      "index": 49,
+      "word": "Enthusiasm",
+      "group": "reverence"
+    },
+    {
+      "index": 50,
+      "word": "Rhapsody",
+      "group": "reverence"
+    },
+    {
+      "index": 51,
+      "word": "Amicability",
+      "group": "kindness"
+    },
+    {
+      "index": 52,
+      "word": "Friendliness",
+      "group": "kindness"
+    },
+    {
+      "index": 53,
+      "word": "Benevolence",
+      "group": "kindness"
+    },
+    {
+      "index": 54,
+      "word": "Sympathy",
+      "group": "kindness"
+    },
+    {
+      "index": 55,
+      "word": "Goodwill",
+      "group": "kindness"
+    },
+    {
+      "index": 56,
+      "word": "Cordiality",
+      "group": "kindness"
+    },
+    {
+      "index": 57,
+      "word": "Geniality",
+      "group": "kindness"
+    },
+    {
+      "index": 58,
+      "word": "Hospitality",
+      "group": "kindness"
+    },
+    {
+      "index": 59,
+      "word": "Attentiveness",
+      "group": "kindness"
+    },
+    {
+      "index": 60,
+      "word": "Selflessness",
+      "group": "kindness"
+    },
+    {
+      "index": 61,
+      "word": "Euphoria",
+      "group": "kindness"
+    },
+    {
+      "index": 62,
+      "word": "Bliss",
+      "group": "kindness"
+    },
+    {
+      "index": 63,
+      "word": "Ecstasy",
+      "group": "kindness"
+    },
+    {
+      "index": 64,
+      "word": "Rapture",
+      "group": "kindness"
+    },
+    {
+      "index": 65,
+      "word": "Solace",
+      "group": "kindness"
+    },
+    {
+      "index": 66,
+      "word": "Heat",
+      "group": "kindness"
+    }
+  ],
+  "conformance": {
+    "required_checks": [
+      "manifest-valid-json",
+      "exactly-66-unique-terms",
+      "six-groups-present",
+      "local-profile-present",
+      "no-unsafe-automation-claims"
+    ],
+    "statuses": [
+      "SPECIFIED",
+      "IMPLEMENTED",
+      "VERIFIED",
+      "ACTIVE"
+    ],
+    "activation_rule": "A repository may claim ACTIVE only after executable checks and review evidence are linked."
+  }
+}
