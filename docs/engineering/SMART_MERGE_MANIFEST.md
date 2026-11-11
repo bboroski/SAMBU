@@ -1,91 +1,168 @@
-# Smart Merge Manifest — Main Branch Governance
+# Стандарт интеграции кода и целостности репозитория
 
-**Status:** Repository engineering standard  
-**Version:** 1.0  
-**Adopted through:** Pull request  
-**Scope:** All development, maintenance, documentation, infrastructure, and release changes in this repository.
+**Статус:** обязательная инженерная политика репозитория  
+**Версия:** 1.1  
+**Область действия:** все изменения кода, конфигурации, документации, зависимостей, CI/CD и релизных артефактов.  
+**Основная ветка:** фактическая default branch репозитория (в текущем контуре — \`main\`).
 
-This policy defines the expected path from a proposed change to a safe merge. It complements this repository's existing build and test workflows; it does not replace project-specific engineering requirements.
+## 1. Цели и нормативные принципы
 
-## 1. Main branch is protected
+Основная ветка является доверенным источником интегрированного состояния проекта. Изменения попадают в неё через Pull Request (PR), проверяются автоматизированными и ручными средствами и сопровождаются достаточными сведениями для воспроизведения, аудита и отката.
 
-- Treat the default branch (`main` in this repository) as the integration source of truth.
-- Integrate changes through pull requests. Do not push directly to the protected branch during normal development.
-- Disable force-pushes and branch deletion for `main` and maintained release branches.
-- Require the repository's stable, relevant CI checks to pass before merge. Select check names from actual workflow runs; do not invent or require checks that this repository does not produce.
-- Require resolution of review conversations before merge.
-- Enforce linear history when the repository's release and contribution model supports it.
-- Use signed commits where the team has a reliable signing-key policy. Do not enable a setting that would lock out legitimate maintainers without a recovery path.
+Обязательные принципы:
 
-Branch protection and rulesets are GitHub repository settings, not files in the Git tree. Configure them in **Settings → Branches** or **Settings → Rules → Rulesets** after confirming the real status-check names and reviewer availability.
+- безопасность и корректность важнее скорости формального слияния;
+- существующие команды сборки, тесты, workflow, релизные процессы и архитектурные границы проекта сохраняются;
+- не вводить фиктивные проверки, команды, coverage, поддерживаемые платформы, CODEOWNERS-команды или результаты тестов;
+- не отключать и не ослаблять существующие проверки ради прохождения PR;
+- не выполнять force-push, переписывание истории основной ветки или обход защиты;
+- каждый существенный отказ от требования фиксировать с причиной, владельцем риска, сроком и компенсирующим контролем.
 
-## 2. Pull requests are atomic change contracts
+Этот документ задаёт общий минимум. Технологически специфичные правила проекта имеют приоритет в части команд сборки, тестирования, упаковки и деплоя, если они не снижают требования безопасности настоящей политики.
 
-- Keep each PR focused on one coherent purpose. Split broad work into dependent, reviewable PRs.
-- Use Draft PRs for work that is not ready for review.
-- Explain the problem, proposed solution, important alternatives, and observable impact.
-- Link an issue or design decision when one exists; do not fabricate ticket identifiers.
-- Include reproducible test instructions and evidence for UI/API changes.
-- State breaking changes, migration requirements, operational risks, and rollback steps.
-- Review the complete diff before requesting review. Remove debug output, accidental files, temporary code, and secrets.
-- Prefer Conventional Commit prefixes in PR titles when they are useful to the repository's release tooling: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `build:`, `ci:`, `chore:`.
+## 2. Защита основной ветки
 
-## 3. Review is a quality and knowledge-transfer step
+В GitHub Settings → Rules → Rulesets или Settings → Branches для default branch необходимо настроить:
 
-- Request reviewers who understand the affected subsystem. Maintain `CODEOWNERS` only when real, active GitHub users or teams are known; never add guessed team names.
-- Separate blocking correctness/security issues from questions, suggestions, and cosmetic nits.
-- Do not approve your own PR. Where multiple maintainers exist, require at least one independent approval; adapt approval requirements for single-maintainer repositories so the workflow does not become impossible to merge.
-- Resolve every blocking review thread and record the decision behind significant design trade-offs.
-- AI-assisted review may suggest issues or tests, but it is not an approval and cannot replace accountable human review.
+1. Требовать PR перед слиянием; прямые push запрещены, включая администраторские исключения, если платформа позволяет enforce.
+2. Запретить force-push и удаление основной ветки.
+3. Требовать успешные обязательные status checks: сборку, релевантные тесты, lint/static analysis, проверки безопасности и документации — только если такие проверки реально существуют и стабильно публикуют статус.
+4. Требовать актуальность ветки относительно base branch (strict/up-to-date) там, где это совместимо с CI и моделью интеграции.
+5. Требовать разрешения всех blocking review conversations.
+6. Включить dismissal устаревших approvals после новых коммитов.
+7. Требовать независимые approvals: обычно 1 для обычных изменений и 2 для критичных компонентов, если в проекте есть достаточное число независимых ревьюеров. Автор PR не засчитывается как независимый reviewer.
+8. Включить CODEOWNER review для защищаемых областей, когда назначены действующие владельцы.
+9. Включить enforce для администраторов и запрет bypass, кроме документированного break-glass механизма с аудитом, если платформа поддерживает такую модель.
 
-## 4. CI quality gates
+Точные имена required checks берутся из реальных workflow runs. Нельзя задавать выдуманные имена статусов: это создаёт вечные pending checks или ложную защиту. При path filters следует предусмотреть агрегирующую проверку, которая всегда публикует итоговый статус.
 
-Use this repository's existing workflows and project commands as the source of truth.
+Подпись коммитов GPG/SSH рекомендуется для проектов с соответствующими ключами и процедурами восстановления. Не включать обязательную подпись до проверки, что все участники и автоматизация могут создавать verified commits.
 
-- Run formatting, lint, static analysis, unit tests, and relevant integration tests on pull requests.
-- Run broader end-to-end, platform, performance, and regression suites according to change risk and the capabilities of this project.
-- Keep security and dependency checks active where supported. Never put credentials or tokens in workflow logs or committed files.
-- Make documentation validation/build checks part of CI where documentation tooling exists.
-- Keep required status-check names stable. If path filters are used, provide an always-running aggregate/check job so a skipped workflow cannot leave a required check permanently pending.
-- Treat flaky tests as defects: report retries, assign an owner, track remediation, and time-limit quarantine. Do not silently convert persistent failures into success.
-- Use dependency-aware test selection only when the repository's dependency graph and fallback behavior are trustworthy.
-- Use isolated preview environments for UI/API changes when the deployment stack supports them; do not introduce infrastructure solely to satisfy a generic checklist.
+Branch protection/rulesets — настройки GitHub, а не файлы Git. Изменение конфигурации в репозитории само по себе не доказывает, что защита включена. После настройки проверить её в UI/API и зафиксировать фактический результат.
 
-## 5. Merge and release strategy
+## 3. Ветвление и стратегия слияния
 
-- Default to **Squash and merge** for ordinary feature and bug-fix PRs when linear history is enabled.
-- Use **Rebase and merge** only when individual commits are meaningful and the repository benefits from retaining them.
-- Reserve merge commits for release or integration branches where preserving branch topology is intentional.
-- Enable a merge queue only when concurrent PR throughput makes it valuable and its required checks are fully configured.
-- A successful merge is not automatically a production release. Use the repository's established deployment/release workflow, staged rollout, feature flags, and rollback mechanism where applicable.
-- Remove temporary feature flags after rollout and track their cleanup.
+- Использовать короткоживущие feature/fix/docs/security branches, регулярно синхронизируя их с base branch.
+- Базовый метод — **Squash and merge** для обычных feature, fix, docs и chore PR, если это соответствует настройкам проекта.
+- **Rebase and merge** применять, когда отдельные коммиты атомарны, осмысленны и полезны для истории. Не переписывать опубликованную ветку, которой пользуются другие разработчики, без согласования.
+- **Merge commit** оставлять для релизных веток, интеграции upstream или случаев, где важно сохранить топологию истории.
+- Не смешивать методы произвольно: критерий выбора определяется типом изменения и политикой репозитория.
+- Не сливать WIP/Draft PR. Для незавершённой функциональности использовать отдельную ветку или feature flag, если это оправдано архитектурой.
+- Откат выполнять отдельным revert-коммитом/PR, не переписывая историю main.
 
-## 6. Documentation changes belong with code
+## 4. Pre-commit и локальная проверка
 
-- Update relevant README, API/schema, configuration examples, operational instructions, and user-facing docs in the same PR as the behavior they describe.
-- Record significant architecture decisions as ADRs in `docs/adr/` using **Context, Decision, Consequences, Status**.
-- Generate API/config/CLI reference material from source schemas or commands when practical.
-- Keep changelog and release notes aligned with the repository's actual release process. Do not introduce a generator that conflicts with existing versioning conventions.
-- Validate Markdown, links, examples, and documentation builds using the tools already adopted by this repository.
+Конфигурация локальных хуков хранится в репозитории и должна быть воспроизводимой. Допустимы pre-commit, lefthook, husky или проектный эквивалент.
 
-## 7. Operational safety and measurement
+По применимости включать форматирование, lint, синтаксическую проверку YAML/JSON/TOML, Conventional Commits validation и secret scanning. Локальные хуки ускоряют обратную связь, но не заменяют CI: проверки должны повторяться на сервере.
 
-- Prefer short-lived branches and frequent integration. Use feature flags to merge incomplete user-facing work safely when appropriate.
-- Do not bypass CI because a change is urgent. Emergency changes still require the strongest feasible automated checks and a documented follow-up review.
-- Track PR cycle time, time to first review, failed-change rate, recovery time, and flaky-test frequency when repository activity is sufficient to make the metrics meaningful.
-- Use blameless incident reviews to improve tests, automation, and ownership rather than assign personal blame.
+Обход через --no-verify допускается только при реальном аварийном основании. Причина фиксируется в PR/issue и журнале инцидента; соответствующие проверки выполняются компенсирующим способом до слияния либо по утверждённому emergency-процессу.
 
-## 8. Merge readiness checklist
+## 5. Pull Request: атомарность, метаданные и ревью
 
-A PR is ready to merge only when:
-- [ ] The change has one clear purpose and a reviewable scope.
-- [ ] Relevant CI checks pass on the current PR head.
-- [ ] Required independent review is complete, where applicable.
-- [ ] Blocking conversations are resolved.
-- [ ] Tests and documentation match the behavior being changed.
-- [ ] Security, compatibility, migration, and rollback risks are addressed.
-- [ ] The selected merge method matches repository policy.
+Каждый PR решает одну логически завершённую задачу, допускает отдельное тестирование и безопасный revert. Крупные изменения разбиваются на связанные PR. Порог около 400 изменённых строк — сигнал рассмотреть декомпозицию, а не абсолютный запрет; generated files и тесты оцениваются отдельно.
 
-## 9. Repository-specific configuration rule
+Не смешивать несвязанные feature, bug fix, рефакторинг, обновления зависимостей и документацию без обоснования.
 
-This manifest is intentionally technology-neutral. Existing workflows, build systems, tests, deployment configuration, branch names, release conventions, and documentation languages remain authoritative for this repository. Any stronger gate must be based on a check that actually exists and can run reliably. Changes to branch protection, required reviewers, merge queue, secrets, or deployment environments must be configured and verified in GitHub settings by an administrator.
+Заголовок PR должен быть семантическим и по возможности соответствовать Conventional Commits: \`type(scope): imperative description\`. Scope указывается, когда он помогает определить компонент. Описание — краткое, конкретное, без точки в конце. Типы: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
+
+Описание PR содержит:
+- контекст и мотивацию; ссылку на issue/ticket, если задача заведена;
+- суть реализации и затронутые компоненты;
+- impact, breaking changes, совместимость и миграции;
+- фактические команды и результаты тестирования;
+- риски, rollback/recovery plan и feature flags, если применимо;
+- ссылки на скриншоты, логи, benchmark или API evidence для соответствующих изменений;
+- отметку об обновлении документации либо объяснение, почему она не требуется.
+
+Не придумывать номера задач и не блокировать независимый технический дефект только из-за отсутствия внешнего трекера: в таком случае PR должен содержать достаточный контекст и решение о необходимости issue.
+
+Ревью проверяет в порядке приоритета: корректность и регрессии, безопасность, архитектурные контракты, совместимость/миграции, производительность, сопровождаемость. Стиль, покрываемый автоматическими линтерами, не обсуждать повторно без причины. Комментарии конкретны и помечаются по смыслу: [blocking], [non-blocking], [question], [nit], [suggestion].
+
+Автор отвечает на все blocking threads изменением или аргументированным решением. Итоговое ревью фиксируется как Approve или Request Changes; Comment без дальнейшего решения не является одобрением. Для однопользовательских/малых проектов, где независимый reviewer недоступен, требуется явно задокументированный компенсирующий контроль: CI, self-review, diff audit и последующая независимая проверка при первой возможности.
+
+SLA ревью устанавливается командой с учётом часовых поясов и доступности. Рекомендованный ориентир: первый ответ в течение одного рабочего дня; критические hotfix — приоритетный канал. SLA не является основанием пропускать проверки.
+
+## 6. CI/CD и тестирование
+
+CI должен запускаться на PR и проверять изменения на текущем head SHA. Минимальный набор выбирается по фактическому стеку проекта:
+
+- build/package validation;
+- unit tests для затронутой логики;
+- integration/contract tests для границ между компонентами, API, БД и очередями;
+- E2E/smoke tests для критичных пользовательских сценариев, если проект имеет такую среду;
+- formatter/linter/static analysis;
+- dependency, secret, license и security scanning, где инструменты применимы;
+- документационные проверки, если проект имеет соответствующий tooling.
+
+Критические пути бизнес-логики должны иметь сильное тестовое покрытие; ориентир >80% допустим для измеримых критических модулей, но общий процент coverage не должен подменять анализ рисков и качества тестов. Не устанавливать единый порог для репозиториев, где он технически не измерим или вводит в заблуждение.
+
+Тесты должны быть детерминированными. Flaky tests регистрируются как дефекты с владельцем и сроком устранения; карантин ограничивается по времени и не должен маскировать постоянные сбои. Повторный запуск допустим для диагностики, но первоначальный отказ не скрывается.
+
+Перед слиянием проверяется итоговый статус на актуальном commit SHA, а не на старом прогоне. После слияния выполняется post-merge smoke/build/test согласно возможностям проекта. Не заявлять о прохождении теста без ссылки или фактического результата.
+
+## 7. Безопасное развёртывание и эксплуатация
+
+Для приложений, которые действительно разворачиваются в production, применять staging, smoke checks и контролируемый rollout. Canary/blue-green и начальная доля 1–5% используются там, где инфраструктура поддерживает маршрутизацию трафика и наблюдаемость. Для библиотек, CLI, исследовательских или документационных репозиториев эти требования не применяются механически.
+
+Feature flags использовать для рискованных или постепенно включаемых пользовательских изменений, а не для каждой функции без исключения. У каждого флага должны быть владелец, назначение, дата/условие удаления и тесты обоих состояний. Удалять завершённые флаги и мёртвый код после rollout в согласованный срок.
+
+Миграции БД должны учитывать совместимость версий приложения. Для breaking schema changes применять Expand/Contract: сначала совместимое расширение, затем перевод приложения, затем удаление старого контракта. Миграции должны быть повторяемыми или защищёнными от повторного применения и иметь документированное восстановление.
+
+Production rollout контролируется метриками error rate, latency, saturation и бизнес-показателями. Автоматический rollback включается, если платформа позволяет определить надёжные пороги. Для сервисов применять структурированные логи и trace/correlation IDs; не записывать секреты и персональные данные. Каждый actionable alert должен ссылаться на runbook или процедуру диагностики.
+
+## 8. Документация как часть изменения
+
+Документация хранится и версионируется рядом с кодом. README — точка входа и содержит только применимые к проекту сведения: назначение, статус реализации, поддерживаемые платформы, prerequisites, установка, quick start, конфигурация, тестирование, troubleshooting, contribution и license.
+
+Изменения публичного API, CLI, форматов данных, конфигурации, пользовательского поведения и процедур сборки сопровождаются обновлением соответствующей документации в том же PR. Примеры должны быть проверяемыми, если это поддерживает стек.
+
+CHANGELOG генерируется или поддерживается в соответствии с реальным release workflow; не внедрять второй конкурирующий механизм. Conventional Commits могут служить входом для semantic versioning, release-please или semantic-release, если проект использует SemVer и автоматические релизы.
+
+Значимые архитектурные решения фиксируются ADR: Context, Decision, Consequences, Alternatives, Status и References. Принятые ADR не переписываются задним числом: создаётся новый ADR, который supersedes предыдущий.
+
+README и docs проверяются на корректность ссылок, навигации, примеров и заявлений. Не указывать неподтверждённые функции, платформы, benchmarks или готовность к production. Документация проходит то же ревью, что и код.
+
+## 9. Зависимости, секреты и контроль доступа
+
+- Lock files коммитятся для пакетных менеджеров, которые их используют.
+- Dependabot или Renovate настраивается после обнаружения реальных manifest/lock-файлов и используемых ecosystem.
+- Minor/patch updates можно группировать; automerge допустим только при успешных релевантных CI/security checks и низком риске. Major updates требуют отдельного ревью.
+- Проверять уязвимости по поддерживаемым источникам (например, OSV/NVD/GitHub advisories). Приоритет устранения: Critical — немедленная оценка и срочное исправление; High — приоритетный срок, согласованный с риском и доступностью фикса.
+- Лицензионная совместимость проверяется по политике проекта. Copyleft/ограничительные лицензии требуют отдельной оценки до включения.
+- Секреты, токены, ключи и credentials не хранятся в Git. Использовать GitHub Secrets/Environments или внешнее secret manager-хранилище. При утечке секрет немедленно отзывается/ротируется; удаление файла из последнего коммита не устраняет утечку из истории.
+- Применять least privilege для пользователей, deploy keys, GitHub Apps и workflow permissions. Доступы регулярно пересматриваются и отзываются при завершении сотрудничества.
+- CODEOWNERS должен отражать реально существующих активных владельцев/команды. Для критичных директорий назначать primary и fallback owner. Не создавать вымышленные team slugs; если владелец не определён, зафиксировать пробел и назначить ответственного за его устранение.
+
+## 10. Управление инцидентами и улучшение процесса
+
+Инциденты разбираются без поиска виноватых. Post-mortem включает timeline, impact, contributing factors, detection gaps, recovery, action items, owner и deadline. Git history используется для восстановления контекста, а не персонального обвинения.
+
+При достаточном объёме релизов отслеживать DORA-показатели (deployment frequency, lead time for changes, change failure rate, time to restore), а также PR cycle time, review latency, flaky tests, defect escape rate и технический долг. Метрики служат улучшению системы, а не индивидуальному рейтингу разработчиков. Пороговые уровни DORA пересматриваются по актуальной методологии и контексту проекта.
+
+Проводить периодический аудит CODEOWNERS, branch rules, workflows, зависимостей, секретов, README и ADR не реже одного раза в квартал либо после существенного изменения архитектуры. Политику пересматривать минимум раз в полгода.
+
+## 11. Definition of Done и Merge Readiness
+
+PR может быть слит, только когда применимые пункты подтверждены:
+
+- [ ] Изменение имеет одну ясную цель и обозримый diff.
+- [ ] Заголовок и описание PR семантически корректны.
+- [ ] Изменения основаны на актуальной base branch; конфликтов нет.
+- [ ] Сборка и все обязательные релевантные checks прошли на текущем head SHA.
+- [ ] Новые/изменённые тесты покрывают изменение и критичные регрессии.
+- [ ] Не осталось blocking review threads; независимые approvals получены или применён документированный компенсирующий контроль.
+- [ ] Документация, примеры, changelog и ADR обновлены, когда это требуется.
+- [ ] Нет секретов, случайных файлов, небезопасных разрешений и необоснованных зависимостей.
+- [ ] Совместимость, миграции, rollout и rollback рассмотрены.
+- [ ] Выбран разрешённый merge method; основная ветка не переписывается.
+
+После слияния: проверить новый commit в main, выполнить post-merge checks, подтвердить публикацию документации/релизных артефактов, если они предусмотрены, и закрыть связанные задачи.
+
+## 12. Администрирование и исключения
+
+Настройки branch protection, rulesets, required checks, approvals, signed commits, repository permissions, secrets и environments подтверждаются отдельно в GitHub Settings. Файлы репозитория не могут служить доказательством, что эти серверные настройки включены.
+
+Любое исключение оформляется письменно: требование, причина, область действия, риск, компенсирующие меры, ответственный, срок истечения и ссылка на issue/incident. Постоянные исключения пересматриваются при каждом полугодовом обновлении политики.
+
+**Главное правило:** не сливать изменение, пока его безопасность и корректность не подтверждены фактическими проверками.
