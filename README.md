@@ -34,6 +34,10 @@ python -m pytest
 python one.py check
 ```
 
+## Вимірювання якості workflow
+
+`ExperienceJournal` додає opt-in, local-only метрики завершення, помилок, тривалості та повторюваного тертя. Буфер обмежений і очищається після відкликання згоди. Деталі: [docs/EXPERIENCE_ENGINEERING.md](docs/EXPERIENCE_ENGINEERING.md).
+
 ## Архітектура, межі та достовірність
 Native compiler slice не має повного source-to-machine-code конвеєра; IDE не є повноцінною LSP-системою. Експериментальні можливості не слід трактувати як production-ready.
 
