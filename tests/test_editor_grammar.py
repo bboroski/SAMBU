@@ -117,6 +117,7 @@ class SambuEditorGrammarTests(unittest.TestCase):
                 "string.quoted.single.sambu",
                 "string.quoted.double.sambu",
                 "string.quoted.multi.glyph.sambu",
+                "string.quoted.raw.glyph.sambu",
             },
         )
 
