@@ -159,3 +159,7 @@ Do not invent debt entries to make the register look complete. Mark an area **no
 A change is complete only when its acceptance criteria, implementation, applicable tests, security/accessibility checks, documentation, localization and release notes agree. Known limitations and follow-up debt are recorded. Generated previews are labelled as previews; a mock-up is never evidence of a running feature.
 
 **The standard optimizes for truthful product claims, controlled change, maintainable systems and user trust.**
+
+
+## Operational debt register
+The live, evidence-based findings and quarterly audit status are maintained in [`docs/TECHNICAL_DEBT_REGISTER.md`](TECHNICAL_DEBT_REGISTER.md). Keep the register synchronized with CI, incident reviews, accepted-risk decisions and remediation PRs.
