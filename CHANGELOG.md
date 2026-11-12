@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added a conservative source-aware semantic analysis pass with lexical name resolution, duplicate-declaration checks, known-function arity validation, primitive operator diagnostics, JSON reports and a non-executing `sambu check` command.
+- Fixed parser block termination so unary expression statements are accepted inside function, conditional and loop bodies; added AST regression coverage.
+
 - Added Nun initial-condition modeling: immutable bounded snapshots, explicit boundary contracts, deterministic SHA-256 genesis manifests, regression tests and a runnable example. The API records model inputs; it does not enforce physical laws or run simulations.
 
 - Added a read-only Apple Device Toolkit for libimobiledevice discovery, allow-listed iPhone/iPad metadata, existing-pairing validation, Windows USB/service diagnostics and RU/EN CLI output. Hardware coverage requires a controlled USB lab runner.

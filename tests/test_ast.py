@@ -6,6 +6,7 @@ from sambu import (
     BinaryExpr,
     CallExpr,
     ClassStatement,
+    ExpressionStatement,
     FieldExpr,
     ForStatement,
     FunctionStatement,
@@ -13,6 +14,7 @@ from sambu import (
     LetStatement,
     NameExpr,
     SetFieldStatement,
+    UnaryExpr,
     parse,
     parse_ast,
 )
@@ -70,6 +72,29 @@ class TypedAstTests(unittest.TestCase):
             )
         self.assertEqual(len(conditional.then_body), 1)
         self.assertEqual(len(conditional.else_body), 1)
+
+    def test_unary_expression_statements_are_parsed_inside_all_block_kinds(self):
+        source = (
+            "fn unary_function() {\n"
+            "  -1\n"
+            "}\n"
+            "if true {\n"
+            "  !false\n"
+            "}\n"
+            "for item in [1] {\n"
+            "  +item\n"
+            "}"
+        )
+        function, conditional, loop = parse_ast(source).statements
+
+        for statement, operator in (
+            (function.body[0], "-"),
+            (conditional.then_body[0], "!"),
+            (loop.body[0], "+"),
+        ):
+            self.assertIsInstance(statement, ExpressionStatement)
+            self.assertIsInstance(statement.expression, UnaryExpr)
+            self.assertEqual(statement.expression.operator, operator)
 
     def test_postfix_field_and_index_spans_are_end_exclusive(self):
         source = "let result = stats.rms[0]"

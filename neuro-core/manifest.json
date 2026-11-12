@@ -1,0 +1,4087 @@
+{
+  "schema_version": "1.0.0",
+  "architecture": "NEURO-CORE",
+  "target_innovations_per_repository": 666,
+  "repository": "bboroski/SAMBU",
+  "default_branch": "main",
+  "repository_role": "Language runtime, parser/AST, semantic analysis, scientific workflows",
+  "implementation_note": "The source brief specifies 9 clusters × 74 slots, but does not fully define all 666 individual innovations. Named seed items are proposals; unexpanded slots remain explicitly BACKLOG and are not claimed as implemented.",
+  "safety_invariants": [
+    "least privilege",
+    "fail closed on policy ambiguity",
+    "no destructive cleanup without verified target and approval",
+    "privacy by default",
+    "human approval for irreversible production actions",
+    "tests and evidence required before promotion"
+  ],
+  "clusters": [
+    {
+      "id": "C1",
+      "title": "KERNEL + DELPHI",
+      "scope": "Typed low-level interfaces, lifecycle inspection, resource ownership, diagnostics",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-01-001",
+          "title": "Typed kernel interfaces",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-002",
+          "title": "Lifecycle-safe component model",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-003",
+          "title": "Syscall inventory and evidence",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-004",
+          "title": "Event-driven threat reporting",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-005",
+          "title": "Pointer and bounds discipline",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-006",
+          "title": "Memory-map visualization",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-007",
+          "title": "RAII and finally-style cleanup",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-008",
+          "title": "Versioned module packages",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-009",
+          "title": "Audited platform intrinsics",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-010",
+          "title": "Cross-platform build contracts",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-011",
+          "title": "Process-tree inspection",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-012",
+          "title": "Deadlock-safe telemetry queues",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-013",
+          "title": "Kernel profiling hooks",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-014",
+          "title": "Code/data separation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-015",
+          "title": "Safe module replacement",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-016",
+          "title": "Published health metrics",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-01-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "LUA + TRICKSTER",
+      "scope": "Capability-limited scripting, deterministic test doubles, honeypots in isolated labs",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-02-001",
+          "title": "Sandboxed Lua runtime",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-002",
+          "title": "Metatable-based test doubles",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-003",
+          "title": "Virtual filesystem honeypots",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-004",
+          "title": "Cooperative coroutine scheduling",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-005",
+          "title": "Privilege-boundary simulation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-006",
+          "title": "Versioned scenario scripts",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-007",
+          "title": "Deterministic virtual clock",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-008",
+          "title": "Honey-token tripwires",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-009",
+          "title": "Local network test adapters",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-010",
+          "title": "Scripted UI behavior",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-011",
+          "title": "Legacy API emulation in lab",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-012",
+          "title": "Bounded garbage collection",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-013",
+          "title": "Rotating decoy identifiers",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-014",
+          "title": "C2 protocol capture in lab",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-015",
+          "title": "Audited C API bindings",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-016",
+          "title": "Behavior-based response selection",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-02-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "BRAIN + NEUROBIOLOGY",
+      "scope": "Evidence-based anomaly correlation, feedback, bounded adaptation and health",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-03-001",
+          "title": "Cross-repository rule distribution",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-002",
+          "title": "Evidence-weighted rule confidence",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-003",
+          "title": "Stale-rule pruning proposals",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-004",
+          "title": "Dependency trust boundary",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-005",
+          "title": "Hot-path caching",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-006",
+          "title": "Failover routing contracts",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-007",
+          "title": "Local reflex rules",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-008",
+          "title": "Load-aware scan budgets",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-009",
+          "title": "Cross-project anomaly correlation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-010",
+          "title": "Scheduled maintenance analysis",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-011",
+          "title": "Bounded log and temp cleanup",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-012",
+          "title": "Telemetry transport contract",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-013",
+          "title": "Anomaly accumulation thresholds",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-014",
+          "title": "Language-specific analyzers",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-015",
+          "title": "Quarantine lifecycle",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-016",
+          "title": "Detector proposal pipeline",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-03-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "SCENARIOS + SCRUPLES",
+      "scope": "Scenario testing, privacy, licensing, human approval and blast-radius controls",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-04-001",
+          "title": "Intent and capability audit",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-002",
+          "title": "Non-destructive remediation policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-003",
+          "title": "Pre-merge scenario matrix",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-004",
+          "title": "License compatibility gate",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-005",
+          "title": "Fault-injection test plan",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-006",
+          "title": "Human approval for destructive actions",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-007",
+          "title": "Strict type and error policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-008",
+          "title": "Graceful failover scenario",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-009",
+          "title": "PII-redacted logs",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-010",
+          "title": "Backup restore playbooks",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-011",
+          "title": "Least-privilege checks",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-012",
+          "title": "Isolated incident lab",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-013",
+          "title": "Consent and telemetry policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-014",
+          "title": "Blast-radius estimation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-015",
+          "title": "Dependency provenance review",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-016",
+          "title": "Quarantine pull-request workflow",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-04-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "DO + WHAT",
+      "scope": "Declared intent, semantic change review, transactional actions and provenance",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-05-001",
+          "title": "Declared action manifest",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-002",
+          "title": "Preflight what-changes report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-003",
+          "title": "Policy mismatch denial",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-004",
+          "title": "Semantic change summary",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-005",
+          "title": "Atomic configuration updates",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-006",
+          "title": "Input provenance tracking",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-007",
+          "title": "Remediation proposal generator",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-008",
+          "title": "Service self-health endpoint",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-009",
+          "title": "Evidence-preserving cleanup",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-010",
+          "title": "Semantic code search hooks",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-011",
+          "title": "Loop and recursion budgets",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-012",
+          "title": "What-if isolated test harness",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-013",
+          "title": "W^X and data/code separation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-014",
+          "title": "Cause-and-effect event journal",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-015",
+          "title": "Minimal privilege action set",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-016",
+          "title": "Actionable CI diagnostics",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-05-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C6",
+      "title": "GIRL + FUDGE",
+      "scope": "Adaptive UX, safe tolerance bands, graceful degradation and accessible feedback",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-06-001",
+          "title": "Adaptive detection thresholds",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-002",
+          "title": "Keyboard-first navigation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-003",
+          "title": "Load-smoothing budgets",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-004",
+          "title": "Boundary input normalization",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-005",
+          "title": "Nero design tokens",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-006",
+          "title": "Explainable anomaly hints",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-007",
+          "title": "Graceful quarantine",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-008",
+          "title": "Frame-rate-aware UI",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-009",
+          "title": "Configuration drift report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-010",
+          "title": "Actionable error messages",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-011",
+          "title": "Measured network timeouts",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-012",
+          "title": "Dependency compatibility report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-013",
+          "title": "Low-bandwidth UI mode",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-014",
+          "title": "Alert grouping and deduplication",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-015",
+          "title": "Timing-safe primitives review",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-016",
+          "title": "Accessible contrast settings",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-06-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C7",
+      "title": "QUANTUM + HUMAN",
+      "scope": "Post-quantum readiness, hybrid crypto migration and human-controlled release gates",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-07-001",
+          "title": "ML-KEM migration plan",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-002",
+          "title": "ML-DSA signature readiness",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-003",
+          "title": "Blue/green deployment contract",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-004",
+          "title": "Human release override",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-005",
+          "title": "OS entropy source audit",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-006",
+          "title": "Human-readable architecture map",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-007",
+          "title": "Long-term archive crypto review",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-008",
+          "title": "FIDO2/WebAuthn release approval",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-009",
+          "title": "Signed policy propagation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-010",
+          "title": "Incident postmortem generator",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-011",
+          "title": "Probabilistic analysis benchmark",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-012",
+          "title": "Focus mode notification policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-013",
+          "title": "Hybrid key exchange design",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-014",
+          "title": "Immutable audit trail",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-015",
+          "title": "ASLR and entropy review",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-016",
+          "title": "Keyboard-only control",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-07-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C8",
+      "title": "FREE + DEAD",
+      "scope": "Open formats, dependency lifecycle, dead-code evidence and safe resource cleanup",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-08-001",
+          "title": "Dead-code evidence report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-002",
+          "title": "Allocator ownership contract",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-003",
+          "title": "Zombie-task diagnostics",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-004",
+          "title": "Open data format policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-005",
+          "title": "Deprecated API inventory",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-006",
+          "title": "License and source transparency",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-007",
+          "title": "Socket lifecycle audit",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-008",
+          "title": "Artifact retention policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-009",
+          "title": "Abandoned dependency report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-010",
+          "title": "Provider-neutral domain boundary",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-011",
+          "title": "Descriptor cleanup checks",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-012",
+          "title": "Merged-branch cleanup policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-013",
+          "title": "Bounded lock-free queue evaluation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-014",
+          "title": "Legacy TLS rejection policy",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-015",
+          "title": "Cache locality benchmark",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-016",
+          "title": "Health-checked service restart",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-08-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "C9",
+      "title": "JOY + GYM",
+      "scope": "Fuzzing, performance budgets, recovery drills and non-toxic engineering feedback",
+      "capacity": 74,
+      "items": [
+        {
+          "id": "NC-09-001",
+          "title": "Isolated adversarial test gym",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-002",
+          "title": "Reproducible quality report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-003",
+          "title": "Load and stress profile",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-004",
+          "title": "Evidence-based mastery badges",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-005",
+          "title": "Cache warm-up benchmark",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-006",
+          "title": "Coverage-guided fuzzing",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-007",
+          "title": "UI latency budget",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-008",
+          "title": "Disaster recovery drill",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-009",
+          "title": "Repository maturity rubric",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-010",
+          "title": "Technical-debt trend report",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-011",
+          "title": "Spike test profile",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-012",
+          "title": "Release evidence summary",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-013",
+          "title": "Risk-weighted fuzzing",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-014",
+          "title": "Distraction-minimal UI",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-015",
+          "title": "Reliability scorecard",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-016",
+          "title": "Network fault simulation",
+          "status": "PROPOSED",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-017",
+          "title": "Unspecified expansion slot 17",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-018",
+          "title": "Unspecified expansion slot 18",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-019",
+          "title": "Unspecified expansion slot 19",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-020",
+          "title": "Unspecified expansion slot 20",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-021",
+          "title": "Unspecified expansion slot 21",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-022",
+          "title": "Unspecified expansion slot 22",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-023",
+          "title": "Unspecified expansion slot 23",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-024",
+          "title": "Unspecified expansion slot 24",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-025",
+          "title": "Unspecified expansion slot 25",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-026",
+          "title": "Unspecified expansion slot 26",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-027",
+          "title": "Unspecified expansion slot 27",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-028",
+          "title": "Unspecified expansion slot 28",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-029",
+          "title": "Unspecified expansion slot 29",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-030",
+          "title": "Unspecified expansion slot 30",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-031",
+          "title": "Unspecified expansion slot 31",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-032",
+          "title": "Unspecified expansion slot 32",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-033",
+          "title": "Unspecified expansion slot 33",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-034",
+          "title": "Unspecified expansion slot 34",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-035",
+          "title": "Unspecified expansion slot 35",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-036",
+          "title": "Unspecified expansion slot 36",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-037",
+          "title": "Unspecified expansion slot 37",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-038",
+          "title": "Unspecified expansion slot 38",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-039",
+          "title": "Unspecified expansion slot 39",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-040",
+          "title": "Unspecified expansion slot 40",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-041",
+          "title": "Unspecified expansion slot 41",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-042",
+          "title": "Unspecified expansion slot 42",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-043",
+          "title": "Unspecified expansion slot 43",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-044",
+          "title": "Unspecified expansion slot 44",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-045",
+          "title": "Unspecified expansion slot 45",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-046",
+          "title": "Unspecified expansion slot 46",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-047",
+          "title": "Unspecified expansion slot 47",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-048",
+          "title": "Unspecified expansion slot 48",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-049",
+          "title": "Unspecified expansion slot 49",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-050",
+          "title": "Unspecified expansion slot 50",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-051",
+          "title": "Unspecified expansion slot 51",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-052",
+          "title": "Unspecified expansion slot 52",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-053",
+          "title": "Unspecified expansion slot 53",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-054",
+          "title": "Unspecified expansion slot 54",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-055",
+          "title": "Unspecified expansion slot 55",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-056",
+          "title": "Unspecified expansion slot 56",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-057",
+          "title": "Unspecified expansion slot 57",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-058",
+          "title": "Unspecified expansion slot 58",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-059",
+          "title": "Unspecified expansion slot 59",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-060",
+          "title": "Unspecified expansion slot 60",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-061",
+          "title": "Unspecified expansion slot 61",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-062",
+          "title": "Unspecified expansion slot 62",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-063",
+          "title": "Unspecified expansion slot 63",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-064",
+          "title": "Unspecified expansion slot 64",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-065",
+          "title": "Unspecified expansion slot 65",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-066",
+          "title": "Unspecified expansion slot 66",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-067",
+          "title": "Unspecified expansion slot 67",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-068",
+          "title": "Unspecified expansion slot 68",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-069",
+          "title": "Unspecified expansion slot 69",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-070",
+          "title": "Unspecified expansion slot 70",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-071",
+          "title": "Unspecified expansion slot 71",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-072",
+          "title": "Unspecified expansion slot 72",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-073",
+          "title": "Unspecified expansion slot 73",
+          "status": "BACKLOG",
+          "evidence": null
+        },
+        {
+          "id": "NC-09-074",
+          "title": "Unspecified expansion slot 74",
+          "status": "BACKLOG",
+          "evidence": null
+        }
+      ]
+    }
+  ]
+}
