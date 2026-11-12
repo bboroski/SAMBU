@@ -392,3 +392,26 @@ button, input, select, textarea, a, [tabindex] { accent-color: var(--duck-yellow
   .duck-edge-panel { transition: none; }
   .duck-spatial-canvas, .duck-spatial-layer { perspective: none; transform: none; }
 }
+
+/* UTYA-ZHNETS — original machine-console extension; preserves the host brand accent. */
+:root{
+  --uz-machine-canvas:#090C0B;--uz-machine-surface:#141A17;--uz-machine-raised:#1D2521;
+  --uz-machine-edge:#3B4841;--uz-machine-text:#F1F4EF;--uz-machine-muted:#89968F;
+  --uz-machine-amber:#F2BD4B;--uz-machine-cyan:#76DAD2;--uz-machine-success:#75C995;
+  --uz-machine-critical:#ED706A;--uz-machine-unknown:#A4ADA7;--uz-machine-accent:var(--duck-yellow, #FFD600);
+}
+.uz-machine-shell{color:var(--uz-machine-text);background:var(--uz-machine-canvas);min-width:0}
+.uz-machine-panel{position:relative;min-width:0;padding:16px;border:1px solid var(--uz-machine-edge);border-radius:12px;background:linear-gradient(145deg,var(--uz-machine-raised),var(--uz-machine-surface));box-shadow:inset 0 1px 0 #FFFFFF0A,0 12px 28px #00000026}
+.uz-machine-panel:before{content:"";display:block;height:2px;width:clamp(28px,18%,72px);margin:-16px 0 14px -16px;background:var(--uz-machine-accent)}
+.uz-machine-kicker{font:700 .7rem/1.3 "Cascadia Mono",Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--uz-machine-cyan)}
+.uz-machine-readout{display:flex;align-items:center;gap:10px;min-height:40px;padding:9px 12px;border-left:3px solid var(--uz-machine-amber);background:#FFFFFF08;font-variant-numeric:tabular-nums}
+.uz-machine-state{display:inline-flex;align-items:center;gap:7px;min-height:28px;padding:4px 9px;border:1px solid var(--uz-machine-edge);border-radius:7px;font:700 .7rem/1.2 "Cascadia Mono",Consolas,monospace;letter-spacing:.04em}
+.uz-machine-state[data-state="READY"]{color:var(--uz-machine-success);border-color:#35634A}
+.uz-machine-state[data-state="ACTIVE"]{color:var(--uz-machine-cyan);border-color:#28615D}
+.uz-machine-state[data-state="DEGRADED"],.uz-machine-state[data-state="NOT TESTED"]{color:var(--uz-machine-amber);border-color:#705A28}
+.uz-machine-state[data-state="BLOCKED"],.uz-machine-state[data-state="FAILED"]{color:var(--uz-machine-critical);border-color:#713D3A}
+.uz-machine-state[data-state="UNKNOWN"]{color:var(--uz-machine-unknown)}
+.uz-machine-seam{height:1px;background:var(--uz-machine-edge);border:0}
+.uz-machine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.uz-machine-number{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+@media(prefers-reduced-motion:reduce){.uz-machine-pulse{animation:none!important;transition:none!important}}
