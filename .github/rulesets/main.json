@@ -1,12 +1,12 @@
 {
-  "name": "Protect main — production baseline",
+  "name": "Protect default branch — production baseline",
   "target": "branch",
   "source_type": "Repository",
   "enforcement": "active",
   "conditions": {
     "ref_name": {
       "include": [
-        "refs/heads/main"
+        "~DEFAULT_BRANCH"
       ],
       "exclude": []
     }
@@ -28,7 +28,11 @@
         "require_last_push_approval": false,
         "dismiss_stale_reviews_on_push": true,
         "required_approving_review_count": 0,
-        "required_review_thread_resolution": true
+        "required_review_thread_resolution": true,
+        "allowed_merge_methods": [
+          "squash",
+          "rebase"
+        ]
       }
     },
     {
@@ -69,9 +73,9 @@
     {
       "type": "commit_message_pattern",
       "parameters": {
-        "name": "Conventional Commits",
+        "name": "Conventional Commit header",
         "negate": false,
-        "pattern": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\\\([a-z0-9][a-z0-9._/-]*\\\\))?(!)?: [^\\\\n]{1,72}(\\\\n[\\\\s\\\\S]*)?$",
+        "pattern": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([A-Za-z0-9._/-]+\\))?!?: .{1,72}([\\s\\S]*)$",
         "operator": "regex"
       }
     }
