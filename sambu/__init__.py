@@ -86,6 +86,11 @@ from .articulatory import (  # noqa: F401
 )
 
 
+from .nun_os import (  # noqa: F401
+    NUNOSFeature, NUNOSFeatureUnavailable, NUNOSProfile, NUNOSProfileError,
+    load_nun_os_profile, validate_nun_os_profile,
+)
+
 from .nun import (  # noqa: F401
     BoundaryProfile, GenesisFinding, GenesisManifest, GenesisReport,
     GenesisSpec, NunEngine, NunError, PrimordialState,

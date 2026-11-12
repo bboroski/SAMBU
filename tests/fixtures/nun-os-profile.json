@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "os": "NUN",
+  "profile_id": "nun-test-profile",
+  "profile_version": "1.0.0",
+  "maturity": "bring-up",
+  "targets": [{"architecture": "x86_64", "boot_protocol": "Multiboot2", "status": "partial", "firmware": ["unknown"]}],
+  "contracts": [{"id": "nun.service-graph", "version": "1", "status": "implemented", "evidence": ["include/nun/service_graph.h", "src/services/graph.c", "tests/test_service_graph.c"]}],
+  "features": [
+    {"id": "services.dependency-graph", "domain": "services", "status": "implemented", "evidence": ["src/services/graph.c"]},
+    {"id": "scheduler.preemptive", "domain": "execution", "status": "planned", "evidence": [], "notes": "Not implemented yet."}
+  ]
+}

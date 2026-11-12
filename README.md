@@ -69,6 +69,7 @@ Native compiler slice не має повного source-to-machine-code конв
 - [Emoji-програмування](docs/EMOJI_PROGRAMMING.md)
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
+- [NUN OS SDK/profile tooling](docs/NUN_OS_SDK.md)
 
 ## NUN Mesh та пов'язані репозиторії
 

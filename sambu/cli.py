@@ -409,6 +409,57 @@ def _check(argv: list[str]) -> int:
     return 0 if report.valid else 1
 
 
+def _os(argv: list[str]) -> int:
+    import json
+    from .nun_os import NUNOSFeatureUnavailable, NUNOSProfileError, load_nun_os_profile
+
+    parser = argparse.ArgumentParser(prog="sambu os")
+    commands = parser.add_subparsers(dest="command", required=True)
+    profile = commands.add_parser("profile", help="inspect a NUN OS capability profile")
+    actions = profile.add_subparsers(dest="action", required=True)
+    check = actions.add_parser("check", help="validate a profile and report feature maturity")
+    check.add_argument("path", type=Path)
+    check.add_argument("--json", action="store_true", dest="as_json")
+    check.add_argument("--require", dest="required_feature", help="require an exact feature ID")
+    check.add_argument("--allow-partial", action="store_true",
+                       help="accept partial support for --require")
+    args = parser.parse_args(argv)
+
+    try:
+        selected = load_nun_os_profile(args.path)
+    except (OSError, NUNOSProfileError) as exc:
+        print(f"sambu os profile check: {exc}", file=sys.stderr)
+        return 2
+
+    requirement = None
+    if args.required_feature:
+        try:
+            item = selected.require_feature(args.required_feature, allow_partial=args.allow_partial)
+            requirement = {"id": item.identifier, "accepted": True, "status": item.status}
+        except NUNOSFeatureUnavailable as exc:
+            requirement = {"id": args.required_feature, "accepted": False, "reason": str(exc)}
+
+    if args.as_json:
+        print(json.dumps({"profile": selected.summary(),
+                          "features": [item.to_dict() for item in selected.features],
+                          "requirement": requirement},
+                         ensure_ascii=False, sort_keys=True, indent=2))
+    else:
+        summary = selected.summary()
+        print(f"NUN OS profile {selected.profile_id} v{selected.profile_version} [{selected.maturity}]")
+        print(f"Targets: {summary['target_count']} | Contracts: {summary['contract_count']} | Features: {summary['feature_count']}")
+        print("Feature states: " + ", ".join(
+            f"{key}={value}" for key, value in summary["status_counts"].items()
+        ))
+        for item in selected.features:
+            print(f"  [{item.status}] {item.identifier} ({item.domain})")
+        if requirement is not None and not requirement["accepted"]:
+            print(f"Required feature rejected: {requirement['reason']}", file=sys.stderr)
+        elif requirement is not None:
+            print(f"Required feature accepted: {requirement['id']} [{requirement['status']}]")
+    return 1 if requirement is not None and not requirement["accepted"] else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     arguments = list(sys.argv[1:] if argv is None else argv)
     if arguments and arguments[0] == "check":
@@ -427,6 +478,8 @@ def main(argv: list[str] | None = None) -> int:
         return _lexicon(arguments[1:])
     if arguments and arguments[0] == "creative":
         return _creative(arguments[1:])
+    if arguments and arguments[0] == "os":
+        return _os(arguments[1:])
     if arguments and arguments[0] == "dialect":
         return _dialect(arguments[1:])
 
