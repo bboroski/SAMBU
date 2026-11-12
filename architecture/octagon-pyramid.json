@@ -1,0 +1,130 @@
+{
+  "name": "octagon-pyramid",
+  "version": "1.0.0",
+  "repository": "bboroski/SAMBU",
+  "branch": "feat/octagon-pyramid-matrix",
+  "status": "proposal",
+  "architecture": {
+    "base": "octagon",
+    "body": "pyramid",
+    "apex": "nexus"
+  },
+  "methods": [
+    {
+      "index": 1,
+      "id": "ANALYSIS",
+      "description": "Inspect repository structure, interfaces, dependencies, tests and runtime behavior."
+    },
+    {
+      "index": 2,
+      "id": "DECOMPOSITION",
+      "description": "Split cross-project goals into bounded, independently reviewable tasks."
+    },
+    {
+      "index": 3,
+      "id": "SYNTHESIS",
+      "description": "Combine compatible designs through versioned contracts; never copy code blindly."
+    },
+    {
+      "index": 4,
+      "id": "SYNCHRONIZATION",
+      "description": "Exchange versioned events and dependency state without sharing mutable internals."
+    },
+    {
+      "index": 5,
+      "id": "ADAPTATION",
+      "description": "Translate shared contracts into each repository's native language and conventions."
+    },
+    {
+      "index": 6,
+      "id": "VALIDATION",
+      "description": "Verify schemas, security, tests, provenance and compatibility before promotion."
+    },
+    {
+      "index": 7,
+      "id": "OPTIMIZATION",
+      "description": "Measure bottlenecks and improve only with reproducible evidence."
+    },
+    {
+      "index": 8,
+      "id": "EVOLUTION",
+      "description": "Propose incremental improvements, guarded by review, tests and rollback."
+    }
+  ],
+  "participants": [
+    {
+      "repository": "SAMBU",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "ToolNG",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "ReaperCripple",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "Kloz",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "CO",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "SaintSI",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "Klipot",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "NUN",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "NUNLauncher",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "Fragile-Baby",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "Luci",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "Hellduck",
+      "relationship": "contract-mediated"
+    },
+    {
+      "repository": "9circ",
+      "relationship": "contract-mediated"
+    }
+  ],
+  "matrix": {
+    "nodes": 13,
+    "directedPairs": 156,
+    "methodsPerPair": 8,
+    "crossRepositoryPathways": 1248,
+    "selfEdgesExcluded": true
+  },
+  "policies": {
+    "crossRepositoryWrites": false,
+    "automaticMerge": false,
+    "secretSharing": false,
+    "requirePullRequest": true,
+    "requireValidation": true,
+    "humanApprovalForPromotion": true
+  },
+  "rollout": [
+    "contract-only",
+    "read-only-discovery",
+    "signed-event-exchange",
+    "coordinated-proposals",
+    "controlled-adoption"
+  ]
+}
