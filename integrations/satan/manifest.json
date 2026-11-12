@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "system": "Satan",
+  "role": "central-control-plane",
+  "canonical_repository": "bboroski/SAMBU",
+  "python_package": "sambu.satan",
+  "branch": "feature/satan-qegm-autonomous-core",
+  "capabilities": [
+    "authenticated-event-envelope",
+    "repository-registry",
+    "idempotent-event-inbox",
+    "threat-memory",
+    "python-ast-dependency-index",
+    "policy-gated-change-proposals"
+  ],
+  "transport": {
+    "profile": "qegm-gossip-envelope-v1",
+    "network_adapter": "not-yet-installed",
+    "requires_authenticated_tls": true
+  },
+  "security": {
+    "secret_source": "external-secret-manager",
+    "no_committed_credentials": true,
+    "human_approval_for_protected_changes": true,
+    "automatic_merge": false,
+    "automatic_production_deploy": false
+  }
+}
