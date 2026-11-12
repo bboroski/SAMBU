@@ -51,7 +51,6 @@ jobs:
           python3 - <<'PY'
           import json
           import os
-          import re
           import subprocess
           from pathlib import Path
 
@@ -60,7 +59,11 @@ jobs:
               check=True,
               stdout=subprocess.PIPE,
           ).stdout
-          tracked = [Path(p.decode("utf-8", "surrogateescape")) for p in raw.split(b"\\0") if p]
+          tracked = [
+              Path(p.decode("utf-8", "surrogateescape"))
+              for p in raw.split(bytes([0]))
+              if p
+          ]
           warnings = []
           scanned_json = 0
           scanned_text = 0
@@ -106,27 +109,35 @@ jobs:
               if not Path(name).is_file():
                   warnings.append(f"Readiness gap: {name} — {purpose}")
 
-          if not any(p.as_posix().lower() in {"tests", "test"} or p.parts[0].lower() in {"tests", "test"} for p in tracked if p.parts):
+          if not any(
+              p.as_posix().lower() in {"tests", "test"} or p.parts[0].lower() in {"tests", "test"}
+              for p in tracked if p.parts
+          ):
               warnings.append("Readiness gap: no tracked tests/ directory detected")
 
-          workflow_files = [p for p in tracked if p.as_posix().startswith(".github/workflows/") and p.suffix in {".yml", ".yaml"}]
+          workflow_files = [
+              p for p in tracked
+              if p.as_posix().startswith(".github/workflows/") and p.suffix in {".yml", ".yaml"}
+          ]
           unpinned = []
           missing_permissions = []
-          action_ref = re.compile(r"^\\s*uses:\\s*[^@\\s]+@([^\\s#]+)", re.MULTILINE)
           for path in workflow_files:
               try:
                   body = path.read_text(encoding="utf-8")
               except (UnicodeDecodeError, OSError):
                   continue
-              for ref in action_ref.findall(body):
-                  if not re.fullmatch(r"[0-9a-fA-F]{40}", ref):
-                      unpinned.append(f"{path} uses @{ref}")
-              if not re.search(r"^permissions:", body, re.MULTILINE):
+              for line in body.splitlines():
+                  statement = line.strip()
+                  if statement.startswith("uses:") and "@" in statement:
+                      ref = statement.split("@", 1)[1].split("#", 1)[0].strip()
+                      if not (len(ref) == 40 and all(ch in "0123456789abcdefABCDEF" for ch in ref)):
+                          unpinned.append(f"{path} uses @{ref}")
+              if not any(line.strip() == "permissions:" for line in body.splitlines()):
                   missing_permissions.append(str(path))
           if unpinned:
               warnings.append(f"{len(unpinned)} workflow action reference(s) are not pinned to full commit SHAs")
           if missing_permissions:
-              warnings.append(f"{len(missing_permissions)} workflow(s) lack an explicit top-level permissions block")
+              warnings.append(f"{len(missing_permissions)} workflow(s) lack an explicit permissions block")
 
           print(f"Repository audit: {len(tracked)} tracked files, {scanned_text} text files, {scanned_json} JSON manifests, {len(workflow_files)} workflow files.")
           if warnings:
@@ -138,15 +149,16 @@ jobs:
 
           summary = os.environ.get("GITHUB_STEP_SUMMARY")
           if summary:
+              newline = chr(10)
               with open(summary, "a", encoding="utf-8") as stream:
-                  stream.write("## Production baseline audit\\n\\n")
-                  stream.write(f"- Tracked files: {len(tracked)}\\n")
-                  stream.write(f"- Text files scanned: {scanned_text}\\n")
-                  stream.write(f"- JSON manifests inspected: {scanned_json}\\n")
-                  stream.write(f"- Workflow files inspected: {len(workflow_files)}\\n")
-                  stream.write(f"- Advisory findings: {len(warnings)}\\n")
+                  stream.write("## Production baseline audit" + newline * 2)
+                  stream.write(f"- Tracked files: {len(tracked)}" + newline)
+                  stream.write(f"- Text files scanned: {scanned_text}" + newline)
+                  stream.write(f"- JSON manifests inspected: {scanned_json}" + newline)
+                  stream.write(f"- Workflow files inspected: {len(workflow_files)}" + newline)
+                  stream.write(f"- Advisory findings: {len(warnings)}" + newline)
                   if warnings:
-                      stream.write("\\n### Findings\\n")
+                      stream.write(newline + "### Findings" + newline)
                       for warning in warnings:
-                          stream.write(f"- {warning}\\n")
+                          stream.write(f"- {warning}" + newline)
           PY
