@@ -1,6 +1,9 @@
 name: GitHub Merge Automation Audit
 
 on:
+  push:
+    branches:
+      - chore/github-merge-automation-standard-*
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
