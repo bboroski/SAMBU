@@ -1,0 +1,84 @@
+{
+  "schema_version": "moontreach.repository.v1",
+  "repository": "bboroski/SAMBU",
+  "always_run": [
+    "project-check"
+  ],
+  "fallback_on_unmapped": true,
+  "full_suite_on_merge_group": true,
+  "max_changed_files": 250,
+  "commands": {
+    "install": {
+      "argv": [
+        "python",
+        "-m",
+        "pip",
+        "install",
+        "-e",
+        "."
+      ],
+      "timeout_seconds": 600
+    },
+    "pytest": {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "timeout_seconds": 1800
+    },
+    "project-check": {
+      "argv": [
+        "python",
+        "one.py",
+        "check"
+      ],
+      "timeout_seconds": 1800
+    }
+  },
+  "rules": [
+    {
+      "id": "python-source",
+      "paths": [
+        "**/*.py",
+        "tests/**",
+        "pyproject.toml",
+        "setup.py",
+        "setup.cfg",
+        "tox.ini",
+        "requirements*.txt"
+      ],
+      "checks": [
+        "install",
+        "pytest"
+      ]
+    },
+    {
+      "id": "documentation",
+      "paths": [
+        "docs/**",
+        "README*",
+        "*.md"
+      ],
+      "checks": [
+        "project-check"
+      ]
+    },
+    {
+      "id": "ci-policy",
+      "paths": [
+        ".github/**",
+        "moontreach.json"
+      ],
+      "checks": [
+        "full"
+      ]
+    }
+  ],
+  "fallback_checks": [
+    "install",
+    "pytest",
+    "project-check"
+  ]
+}
