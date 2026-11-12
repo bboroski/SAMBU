@@ -94,3 +94,7 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+## Engineering improvement index
+
+[Repository-specific engineering roadmap and verification boundaries](docs/ENGINEERING_IMPROVEMENT_INDEX.md).
