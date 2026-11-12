@@ -1,23 +1,29 @@
 # MoonTreach
 
-MoonTreach is the shared, path-aware CI accelerator and read-only merge-evidence assistant for the bboroski repository fleet.
+This repository uses the canonical MoonTreach engine and reusable workflow hosted by `bboroski/Hellduck`, pinned to immutable core revision `edc139b8e08f098b708ce846ac0af60f206e7efb`.
 
-## How it works
+## What it does
 
-- **Change-aware planning:** changed paths select only the matching configured suites. Missing or unreliable Git history, or changes to MoonTreach's own policy/workflow, select every configured suite.
-- **Parallel tests:** GitHub Actions expands the plan into independent matrix jobs and cancels obsolete runs for the same ref.
-- **Native test commands:** every suite uses explicit argv arrays and the repository's documented commands. No shell command is assembled from untrusted config.
-- **PR Radar:** a manual, read-only fleet inventory groups repeated normalized titles as review candidates; it never closes or merges PRs.
-- **Merge Intelligence:** PR inspection reads mergeability, check runs and commit statuses. Results are BLOCKED, WAITING_FOR_EVIDENCE or REVIEW_CANDIDATE; that last result is not merge authorization.
+- Computes changed paths from the exact base/head commit range.
+- Selects only checks mapped to changed files; unknown paths, missing diffs, oversized changes and merge-group candidates fail closed to the configured full suite.
+- Runs configured commands as argument arrays without shell interpolation and applies per-command timeouts.
+- Runs the full configured suite on GitHub `merge_group` candidates.
+- Uploads a machine-readable evidence report with SHAs, changed files, matched rules, selected checks, outcomes and elapsed time.
 
-## Run
+The authoritative repository contract is `moontreach.json` at the repository root. The workflow checks the exact PR merge ref, or the synthetic merge-group commit, rather than testing an unrelated branch head.
 
-Open Actions → MoonTreach → Run workflow. Use `force_all` to run every configured suite. On SAMBU, `run_pr_radar` runs the cross-repository inventory. An optional `MOONTREACH_TOKEN` repository secret gives the inventory a higher API rate limit; the tool never prints or persists it.
+## Operation and safety
 
-The shared engine lives at `.github/actions/moontreach/` in SAMBU. Other repositories pin that action to an immutable commit SHA.
+The workflow uses read-only `contents` permissions, does not persist checkout credentials, and does not receive repository secrets. MoonTreach never merges PRs, rewrites branches, resolves semantic conflicts, or bypasses branch protection.
 
-## Safety
+A passing MoonTreach check is evidence for the configured checks only. Enable the check as a required branch-protection or ruleset check only after reviewing actual CI results. Human review and existing required checks remain authoritative.
 
-MoonTreach does not merge, auto-approve, rebase, force-push, delete branches, repair conflicts, change permissions, or bypass branch protection. Missing check evidence is never reported as success. A repeated PR title is only a deduplication lead, not proof of duplicate code.
+## Local commands
 
-A passing host test does not prove physical hardware, target firmware, emulator or release qualification unless the repository has an explicit check for that evidence. A repository with no configured suites remains unverified.
+```bash
+python tools/moontreach/engine.py validate --root . --config moontreach.json
+python tools/moontreach/engine.py plan --root . --config moontreach.json --base BASE_SHA --head HEAD_SHA
+python tools/moontreach/engine.py run --root . --config moontreach.json --base BASE_SHA --head HEAD_SHA --report artifacts/moontreach-evidence.json
+```
+
+The engine source is maintained centrally in Hellduck; these commands are intended for use from a checkout of that core repository or through the reusable workflow.
