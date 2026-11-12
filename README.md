@@ -3,7 +3,7 @@
 <p align="center"><strong>Scientific Modeling & Automation Environment</strong></p>
 <p align="center"><img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL%20ALPHA-FFD600?style=for-the-badge&labelColor=111111" alt="Experimental alpha"></p>
 <p align="center"><a href="README.md">🇺🇦 Українська</a> · <a href="README.en.md">🇬🇧 English</a> · <a href="README.ru.md">🇷🇺 Русский</a></p>
-<sub>Оновлено: 2026-11-11</sub>
+<sub>Оновлено: 2026-11-12</sub>
 
 
 ## Навигация
@@ -74,6 +74,12 @@ Native compiler slice не має повного source-to-machine-code конв
 MIT
 
 ---
+
+## Статус інтеграцій
+
+- Репозиторій зберігає власні API, збірку, тести та цикл випуску; міжпроєктна взаємодія відбувається через явні версіоновані контракти.
+- STaas (SaaS integration control plane) і MoonTreach (CI/test acceleration) розвиваються окремими Pull Requests. Їх не слід вважати можливостями `main` або production-ready до злиття та проходження обов'язкових перевірок.
+- Правила федерації та інтеграції: [Hellduck Integration Playbook](https://github.com/bboroski/Hellduck/blob/main/docs/INTEGRATION_PLAYBOOK.md).
 
 ## Інженерний стандарт
 Індекс аудиту, тестових воріт, безпеки, супроводу та критеріїв інтеграції: [Engineering Improvement Index](docs/ENGINEERING_IMPROVEMENT_INDEX.md).
