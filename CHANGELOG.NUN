@@ -1,0 +1,6 @@
+# NUN change log
+
+## 0.1.0-phase-a (unreleased)
+
+- Added `docs/NUN_INTEGRATION.md` defining this repository's NUN responsibility, evidence requirements and safety boundaries.
+- No implementation code, public API or ABI was changed by this documentation-only integration update.
