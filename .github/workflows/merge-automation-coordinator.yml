@@ -18,7 +18,7 @@ permissions:
   statuses: read
 
 concurrency:
-  group: merge-coordinator-\${{ github.repository }}
+  group: merge-coordinator-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
@@ -27,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      GH_TOKEN: \${{ github.token }}
-      GH_REPO: \${{ github.repository }}
-      PR_HEAD_REPO: \${{ github.event.pull_request.head.repo.full_name || '' }}
-      PR_HEAD_REF: \${{ github.event.pull_request.head.ref || '' }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name || '' }}
+      PR_HEAD_REF: ${{ github.event.pull_request.head.ref || '' }}
     steps:
       - name: Clean merged source branch safely
         if: github.event_name == 'pull_request_target' && github.event.action == 'closed' && github.event.pull_request.merged == true
@@ -151,7 +151,7 @@ jobs:
             and checks_ok
           ' <<< "$latest" >/dev/null
 
-          merge_method="\${MERGE_METHOD:-squash}"
+          merge_method="${MERGE_METHOD:-squash}"
           case "$merge_method" in
             squash) allowed="$(gh api "repos/$GH_REPO" --jq '.allow_squash_merge')" ;;
             merge)  allowed="$(gh api "repos/$GH_REPO" --jq '.allow_merge_commit')" ;;
