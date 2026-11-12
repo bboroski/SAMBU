@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "repository": "bboroski/SAMBU",
+  "default_base": "main",
+  "fallback": "all",
+  "fleet": ["bboroski/SAMBU", "bboroski/ToolNG", "bboroski/ReaperCripple", "bboroski/Kloz", "bboroski/CO", "bboroski/SaintSI", "bboroski/Klipot", "bboroski/NUN", "bboroski/NUNLauncher", "bboroski/Fragile-Baby", "bboroski/Luci", "bboroski/Hellduck", "bboroski/9circ"],
+  "suites": [{
+    "id": "sambu-python",
+    "description": "Install the package, run Python tests, and validate the CLI",
+    "paths": ["**/*.py", "pyproject.toml", "setup.py", "setup.cfg", "tox.ini", "requirements*.txt", "tests/**"],
+    "steps": [
+      {"name": "Install package", "command": ["python", "-m", "pip", "install", "-e ."], "cwd": "."},
+      {"name": "Run test suite", "command": ["python", "-m", "pytest", "-q"], "cwd": "."},
+      {"name": "Run repository checks", "command": ["python", "one.py", "check"], "cwd": "."}
+    ],
+    "runs_on": "ubuntu-latest",
+    "timeout_seconds": 1800
+  }],
+  "policy": {
+    "auto_merge": false,
+    "required_checks_must_pass": true,
+    "draft_prs_block_merge": true,
+    "merge_conflicts_block_merge": true,
+    "never_bypass_branch_protection": true,
+    "no_suite_means_unverified": true
+  }
+}
