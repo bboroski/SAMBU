@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bboroski/SAMBU/blob/main/schemas/resource-descriptor-v1.schema.json",
+  "title": "SAMBU Resource Descriptor v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "resource_id",
+    "resource_type",
+    "owner_module_id",
+    "lifetime",
+    "state",
+    "rights",
+    "capabilities"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "resource_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "resource_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "owner_module_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "lifetime": {
+      "enum": [
+        "call",
+        "session",
+        "process",
+        "persistent",
+        "device"
+      ]
+    },
+    "state": {
+      "enum": [
+        "declared",
+        "ready",
+        "busy",
+        "degraded",
+        "released",
+        "faulted"
+      ]
+    },
+    "rights": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "observe",
+          "read",
+          "write",
+          "execute",
+          "configure"
+        ]
+      }
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "alignment_bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      }
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
