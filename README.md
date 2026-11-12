@@ -94,3 +94,8 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+
+## UTYA-ZHNETS machine design
+
+This project includes an original industrial machine-design profile and machine-readable tokens. The profile extends the existing brand and does not claim unimplemented runtime features: [design profile](design/UTYA_ZHNETS.md) · [tokens](design/utya-zhnetz.tokens.json).
