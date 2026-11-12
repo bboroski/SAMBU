@@ -1,0 +1,24 @@
+name: Abyssal Developer Matrix
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  domain-audit:
+    name: Validate engineering domains
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Test the auditor
+        run: python tools/abyssal_audit.py --self-test
+      - name: Verify declared capabilities and evidence
+        run: python tools/abyssal_audit.py --format markdown

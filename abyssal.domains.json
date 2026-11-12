@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "repository": "bboroski/SAMBU",
+  "role": "language runtime, IDE and scientific developer platform",
+  "maturity": "experimental-alpha",
+  "domains": {
+    "lucifer": {
+      "status": "partial",
+      "evidence": [
+        "docs/CRIPPLE_SYSTEMS_ARCHITECTURE.md",
+        "docs/SAMBU_ENGINEERING_DOCTRINE.md"
+      ]
+    },
+    "beelzebub": {
+      "status": "partial",
+      "evidence": [
+        "docs/TEST_AUTOPSY.md",
+        "tools/validate_biology_terms.py"
+      ]
+    },
+    "leviathan": {
+      "status": "implemented",
+      "evidence": [
+        "ecosystem/manifest.json",
+        "docs/ECOSYSTEM_INTEGRATION.md"
+      ]
+    },
+    "asmodeus": {
+      "status": "implemented",
+      "evidence": [
+        "engine_adapters/README.md",
+        "docs/INTEGRATIONS.md"
+      ]
+    },
+    "belphegor": {
+      "status": "partial",
+      "evidence": [
+        "sambu_ide/",
+        "docs/IDE.md"
+      ]
+    },
+    "mammon": {
+      "status": "partial",
+      "evidence": [
+        "benchmarks/benchmark_voxels.py",
+        "docs/PERCENTAGES.md"
+      ]
+    },
+    "satan": {
+      "status": "partial",
+      "evidence": [
+        "docs/quality/AUTO_IMPROVEMENT_POLICY.md"
+      ]
+    },
+    "belial": {
+      "status": "partial",
+      "evidence": [
+        "docs/TRUST_AND_PORTFOLIOS.md"
+      ]
+    },
+    "astaroth": {
+      "status": "implemented",
+      "evidence": [
+        "docs/LANGUAGE.md",
+        "schemas/"
+      ]
+    },
+    "baal": {
+      "status": "partial",
+      "evidence": [
+        "native/",
+        "docs/NATIVE_COMPILER_ARCHITECTURE.md"
+      ]
+    },
+    "adramelech": {
+      "status": "partial",
+      "evidence": [
+        ".github/workflows/tests.yml",
+        "docs/quality/RULE_CATALOG.md"
+      ]
+    },
+    "ariel": {
+      "status": "implemented",
+      "evidence": [
+        "sambu_studio/",
+        "docs/DUCK_STUDIO.md"
+      ]
+    },
+    "pazuzu": {
+      "status": "partial",
+      "evidence": [
+        "tests/",
+        "benchmarks/"
+      ]
+    }
+  },
+  "integrations": [
+    {
+      "repository": "bboroski/ToolNG",
+      "relation": "adapter",
+      "status": "implemented"
+    },
+    {
+      "repository": "bboroski/Klipot",
+      "relation": "metadata",
+      "status": "implemented"
+    },
+    {
+      "repository": "bboroski/ReaperCripple",
+      "relation": "metadata",
+      "status": "partial"
+    }
+  ]
+}
