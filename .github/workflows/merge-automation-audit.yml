@@ -54,6 +54,10 @@ jobs:
           elif [[ -n "${PR_NUMBER:-}" ]]; then
             base_ref="$(gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json baseRefName --jq '.baseRefName')"
             printf '%s\t%s\n' "$PR_NUMBER" "$base_ref" >> "$targets"
+          elif [[ "$EVENT_NAME" == "push" ]]; then
+            gh pr list --repo "$GH_REPO" --head "$GITHUB_REF_NAME" --state open --limit 100 \
+              --json number,baseRefName \
+              --jq '.[] | [.number, .baseRefName] | @tsv' >> "$targets"
           else
             gh pr list --repo "$GH_REPO" --state open --limit 1000 \
               --json number,baseRefName \
@@ -69,6 +73,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           TARGET_FILE: ${{ steps.discover.outputs.target_file }}
         shell: bash
         run: |
@@ -146,19 +152,46 @@ jobs:
             head_changed="$(git diff --name-only "$merge_base" "$head_sha" | sort -u)"
             shared_paths="$(comm -12 <(printf '%s\n' "$base_changed") <(printf '%s\n' "$head_changed") | sed '/^$/d' || true)"
 
-            status_json="$(gh api "repos/$GH_REPO/commits/$head_sha/status" 2>/dev/null || echo '{}')"
-            status_state="$(printf '%s' "$status_json" | jq -r '.state // "unavailable"')"
-            status_failures="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "failure" or .state == "error")] | length')"
+            max_attempts=20
+            if [[ "$EVENT_NAME" == "workflow_dispatch" && -z "${PR_NUMBER:-}" ]]; then
+              max_attempts=1
+            fi
 
-            checks_json="$(gh api "repos/$GH_REPO/commits/$head_sha/check-runs?per_page=100" --jq '[.check_runs[] | select(.name != "Analyze mergeability") | {name, status, conclusion}]' 2>/dev/null || echo '[]')"
-            checks_count="$(printf '%s' "$checks_json" | jq 'length')"
-            checks_pending="$(printf '%s' "$checks_json" | jq '[.[] | select(.status != "completed")] | length')"
-            checks_failed="$(printf '%s' "$checks_json" | jq '[.[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')"
+            checks_json='[]'
+            checks_count=0
+            checks_pending=0
+            checks_failed=0
+            status_state="unavailable"
+            status_pending=0
+            status_failures=0
+
+            for attempt in $(seq 1 "$max_attempts"); do
+              status_json="$(gh api "repos/$GH_REPO/commits/$head_sha/status" 2>/dev/null || echo '{}')"
+              status_state="$(printf '%s' "$status_json" | jq -r '.state // "unavailable"')"
+              status_pending="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "pending")] | length')"
+              status_failures="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "failure" or .state == "error")] | length')"
+
+              checks_json="$(gh api "repos/$GH_REPO/commits/$head_sha/check-runs?per_page=100" --jq '[.check_runs[] | select(.name != "Analyze mergeability") | {name, status, conclusion}]' 2>/dev/null || echo '[]')"
+              checks_count="$(printf '%s' "$checks_json" | jq 'length')"
+              checks_pending="$(printf '%s' "$checks_json" | jq '[.[] | select(.status != "completed")] | length')"
+              checks_failed="$(printf '%s' "$checks_json" | jq '[.[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')"
+
+              if [[ "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
+                break
+              fi
+              if [[ "$checks_count" -gt 0 && "$checks_pending" -eq 0 && "$status_pending" -eq 0 ]]; then
+                break
+              fi
+              if [[ "$attempt" -lt "$max_attempts" ]]; then
+                sleep 30
+              fi
+            done
+
             checks_summary="$(printf '%s' "$checks_json" | jq -r 'if length == 0 then "no native check-runs reported" else map("\(.name): \(.status)/\(.conclusion // "pending")") | join("; ") end')"
 
-            ci_result="PASS"
-            if [[ "$checks_count" -eq 0 || "$checks_pending" -gt 0 || "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
-              ci_result="BLOCK — native CI is missing, pending or failing."
+            ci_result="PASS — all reported native checks completed successfully."
+            if [[ "$checks_count" -eq 0 || "$checks_pending" -gt 0 || "$status_pending" -gt 0 || "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
+              ci_result="BLOCK — native CI is missing, pending or failing after the observation window."
               ci_errors=1
             fi
 
