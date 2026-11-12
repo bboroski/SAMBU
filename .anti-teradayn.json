@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "system": "Anti-Teradayn",
+  "release": "0.1.0",
+  "status": "architecture-contract",
+  "rollout_date": "2026-11-11",
+  "policy": {
+    "web_addons": {
+      "default": "disabled",
+      "allow_only_when": [
+        "explicitly required by repository profile",
+        "maintained and licensed",
+        "version-pinned and reviewed",
+        "provenance and permissions documented",
+        "security and CI checks pass"
+      ],
+      "reject_when": [
+        "unmaintained",
+        "unreviewed or remotely injected",
+        "duplicate or unused",
+        "excessively privileged",
+        "without reproducible tests"
+      ],
+      "removal": "Inventory usage, licenses, transitive dependencies and CI impact before removal; never bulk-delete blindly."
+    },
+    "parsing_and_builds": {
+      "mode": "incremental-streaming-and-staged",
+      "requirements": [
+        "bounded inputs",
+        "deterministic stages",
+        "explicit validation gates",
+        "reproducible outputs",
+        "fail-closed on invalid manifests"
+      ]
+    },
+    "language_architecture": {
+      "native": [
+        "C11",
+        "C++"
+      ],
+      "managed_host": [
+        "C#"
+      ],
+      "automation": [
+        "Ruby"
+      ],
+      "optional_bridges": [
+        "Swift",
+        "target-specific assembly",
+        "Lua"
+      ],
+      "boundary": "Versioned stable C ABI; never force a language into targets that cannot support it.",
+      "c_to_csharp_contracts": [
+        "versioned ABI and opaque handles",
+        "memory ownership and lifetime",
+        "status and error mapping",
+        "component lifecycle",
+        "logging and diagnostics",
+        "capabilities and device access"
+      ]
+    },
+    "adapters": {
+      "ruby_driver_workflows": "Host-side inventory, build, test and evidence automation; Ruby is never a kernel-mode driver.",
+      "drivers": "Target-specific signed least-privilege interfaces; no automatic installation or mutation.",
+      "games": "Optional host-process orchestration with executable allowlists and explicit user consent.",
+      "pe_xe_gui": "Format-specific artifact pipeline and GUI integration; PE/COFF is distinct from an unspecified XE format.",
+      "lua": "Optional sandboxed scripting with bounded CPU, memory, file and process capabilities.",
+      "google_adaptive_backend": {
+        "default": "disabled",
+        "mode": "optional provider adapter, not a hard dependency",
+        "controls": [
+          "least-privilege API scopes",
+          "secrets from environment or secret store only",
+          "TLS and endpoint validation",
+          "local/offline fallback",
+          "explicit operator enablement",
+          "no silent telemetry or code execution"
+        ]
+      },
+      "swift_assembly": "Optional interop/performance layer only after ABI, compiler and target-ISA qualification."
+    },
+    "truthfulness": {
+      "statuses": [
+        "implemented",
+        "partial",
+        "planned",
+        "blocked"
+      ],
+      "rule": "A manifest is not evidence that a runtime adapter, driver or target build is implemented.",
+      "required_evidence": [
+        "source code",
+        "automated tests",
+        "documented target/toolchain",
+        "CI result"
+      ]
+    }
+  },
+  "repository_profile": {
+    "repository": "bboroski/SAMBU",
+    "role": "Python-hosted scientific modeling, automation and language environment",
+    "existing_foundation": [
+      "Python host",
+      "C11 native-compiler slice"
+    ],
+    "in_scope": [
+      "C++ toolchain adapter",
+      "Ruby host automation",
+      "Lua scripting",
+      "PE/COFF artifact and GUI workflows",
+      "game-launch orchestration via executable allowlists",
+      "optional C# host tooling",
+      "Swift/assembly only on qualified targets"
+    ],
+    "out_of_scope": [
+      "kernel-mode driver loading",
+      "implicit execution of downloaded binaries"
+    ],
+    "integration_note": "Keep SAMBU as a concrete workflow reference without making every repository depend on its runtime.",
+    "implementation_status": {
+      "manifest": "added-on-rollout-branch",
+      "runtime_adapters": "planned-until-source-code-and-tests-prove-otherwise"
+    }
+  }
+}
