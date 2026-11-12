@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "repository": "bboroski/SAMBU",
+  "optimization_method": "four-vector",
+  "status": "baseline_pending",
+  "implementation_status": "profile_added",
+  "product_role": "language-runtime",
+  "detected_stack": "python-cpp",
+  "vectors": {
+    "physics": {
+      "focus": "latency-throughput-resource-cost",
+      "metrics": [
+        "compile_latency",
+        "execution_latency",
+        "queue_wait",
+        "peak_rss",
+        "throughput"
+      ],
+      "baseline": "not_measured"
+    },
+    "biology": {
+      "focus": "bounded-resource-lifecycle-and-feedback",
+      "controls": [
+        "task_budget",
+        "bounded_queue",
+        "deterministic_replay",
+        "safe_cancellation"
+      ],
+      "baseline": "not_measured"
+    },
+    "technology": {
+      "focus": "modularity-contracts-security",
+      "boundaries": [
+        "compiler",
+        "language",
+        "ide",
+        "adapters",
+        "scientific_models"
+      ]
+    },
+    "sambo": {
+      "focus": "reuse-leverage-and-safe-deferral",
+      "strategies": [
+        "reuse_adapters",
+        "bounded_fifo",
+        "backpressure"
+      ]
+    }
+  },
+  "verification": {
+    "commands": [
+      "python -m pytest",
+      "python one.py check"
+    ],
+    "results": "not_run_in_this_change"
+  },
+  "guardrails": [
+    "No network broker without transport design"
+  ],
+  "acceptance": [
+    "baseline recorded on a named platform",
+    "no unbounded queues caches retries or loops",
+    "errors and partial results remain explicit",
+    "public contracts remain compatible or are versioned",
+    "performance claims have before-after evidence"
+  ],
+  "updated_at": "2026-11-11"
+}
