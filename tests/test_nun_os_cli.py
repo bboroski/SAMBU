@@ -27,11 +27,13 @@ class NUNOSCommandTests(unittest.TestCase):
         self.assertIn("rejected", errors.getvalue())
 
     def test_partial_requires_explicit_flag(self):
-        fixture = FIXTURE.read_text(encoding="utf-8").replace('"status": "implemented"', '"status": "partial"', 1)
+        import json
         from tempfile import TemporaryDirectory
+        payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+        payload["features"][0]["status"] = "partial"
         with TemporaryDirectory() as directory:
             path = Path(directory) / "partial.json"
-            path.write_text(fixture, encoding="utf-8")
+            path.write_text(json.dumps(payload), encoding="utf-8")
             with redirect_stderr(io.StringIO()):
                 self.assertEqual(_os(["profile", "check", str(path), "--require", "services.dependency-graph"]), 1)
             with redirect_stdout(io.StringIO()):
