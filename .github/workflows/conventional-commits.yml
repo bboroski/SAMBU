@@ -1,0 +1,26 @@
+name: Conventional Commits
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: conventional-commits-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate commit messages and PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull-request commit history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate Conventional Commits
+        run: python3 .github/scripts/validate_conventional_commits.py

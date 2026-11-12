@@ -1,0 +1,15 @@
+# Critical engineering areas are reviewed by the repository maintainer.
+/.github/                  @bboroski
+/src/                      @bboroski
+/include/                  @bboroski
+/kernel/                   @bboroski
+/boot/                     @bboroski
+/ecosystem/                @bboroski
+/spec/                     @bboroski
+/schemas/                  @bboroski
+/tools/                    @bboroski
+/CMakeLists.txt            @bboroski
+/Makefile                  @bboroski
+/pyproject.toml            @bboroski
+/Package.swift             @bboroski
+/LICENSE                   @bboroski

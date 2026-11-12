@@ -1,1 +1,54 @@
+# Normalize text files across Windows, Linux, and macOS.
 * text=auto eol=lf
+
+# Windows command scripts retain native CRLF line endings.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Shell and source/configuration files use LF.
+*.sh text eol=lf
+*.bash text eol=lf
+*.py text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.S text eol=lf
+*.asm text eol=lf
+*.swift text eol=lf
+*.rs text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.svg text eol=lf
+
+# Binary assets must never be newline-normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.bin binary
+*.img binary
+*.iso binary
+*.efi binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.a binary
+*.o binary
+*.obj binary
+*.lib binary
+*.zip binary
+*.gz binary
+*.zst binary
+*.wasm binary
