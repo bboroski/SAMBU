@@ -1,0 +1,47 @@
+{
+  "schema_version": "satan.repository.v1",
+  "system": "Satan",
+  "engine_version": "0.1.0",
+  "repository": "bboroski/SAMBU",
+  "profile": "python-native-mixed",
+  "role": "Language/runtime and engineering platform",
+  "expected_languages": [
+    "Python",
+    "C",
+    "C++",
+    "Swift"
+  ],
+  "quality_expectations": {
+    "require_readme": true,
+    "require_license": true,
+    "require_ci": true,
+    "require_tests": true
+  },
+  "exclude_paths": [
+    ".satan-core",
+    "third_party",
+    "vendor",
+    "node_modules",
+    "dist",
+    "build",
+    "target"
+  ],
+  "automation": {
+    "mode": "observe-only",
+    "auto_heal": {
+      "enabled": false,
+      "mode": "proposal-only",
+      "path_allowlist": []
+    },
+    "dependency_updates": {
+      "enabled": false,
+      "mode": "report-only"
+    },
+    "code_generation": {
+      "enabled": false,
+      "mode": "proposal-only"
+    },
+    "auto_merge": false,
+    "deployments": false
+  }
+}
