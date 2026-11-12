@@ -1,0 +1,3 @@
+# Default review owner for this repository.
+# This records ownership; branch protection must separately require review.
+* @bboroski
