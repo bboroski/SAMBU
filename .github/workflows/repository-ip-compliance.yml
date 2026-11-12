@@ -1,0 +1,33 @@
+name: Repository IP and Secret Review
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compliance-review:
+    name: Advisory repository compliance scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository without persisting credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Validate scanner syntax
+        run: python3 -m py_compile tools/repository_compliance.py
+
+      - name: Run scanner unit tests
+        run: python3 -m unittest discover -s tests -p 'test_repository_compliance.py' -v
+
+      - name: Run repository compliance review
+        run: python3 tools/repository_compliance.py --policy compliance/repository-policy.json

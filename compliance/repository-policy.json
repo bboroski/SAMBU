@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "license": {
+    "spdx_id": null,
+    "status": "owner-review-required",
+    "require_spdx_headers": false,
+    "source_globs": []
+  },
+  "trademark_watchlist": [],
+  "scan": {
+    "max_file_bytes": 1048576,
+    "exclude_paths": [],
+    "trademark_allow_paths": []
+  }
+}
