@@ -1,0 +1,82 @@
+name: Jun-Jun Governance Policy Validation
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - ".jun-jun/governance.json"
+      - "JUNJUN-GOVERNANCE.md"
+      - ".github/workflows/jun-jun-governance.yml"
+  pull_request:
+    paths:
+      - ".jun-jun/governance.json"
+      - "JUNJUN-GOVERNANCE.md"
+      - ".github/workflows/jun-jun-governance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jun-jun-governance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-policy:
+    name: Validate governance contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Validate machine-readable policy and charter
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          policy_path = Path(".jun-jun/governance.json")
+          charter_path = Path("JUNJUN-GOVERNANCE.md")
+          if not policy_path.is_file() or not charter_path.is_file():
+              raise SystemExit("Jun-Jun governance files are missing")
+
+          policy = json.loads(policy_path.read_text(encoding="utf-8"))
+          required = {
+              "schema_version", "system", "repository", "profile",
+              "operating_mode", "principles", "prohibited_automated_actions",
+              "controls", "risk_levels", "integration", "validation"
+          }
+          missing = sorted(required - policy.keys())
+          if missing:
+              raise SystemExit("Missing policy keys: " + ", ".join(missing))
+          if policy["system"] != "Jun-Jun" or policy["schema_version"] != 1:
+              raise SystemExit("Unsupported Jun-Jun policy identity or schema")
+          if policy["operating_mode"] != "observation-only":
+              raise SystemExit("Initial governance mode must remain observation-only")
+          if policy["integration"].get("auto_merge") is not False:
+              raise SystemExit("Automatic merging must remain disabled")
+          if policy["integration"].get("auto_release") is not False:
+              raise SystemExit("Automatic releases must remain disabled")
+          if policy["integration"].get("automated_enforcement") is not False:
+              raise SystemExit("Automated enforcement must remain disabled")
+          for key in ("human_review_required_for_adverse_decisions",
+                      "independent_appeal_path_required",
+                      "audit_log_must_be_append_only",
+                      "secrets_must_never_be_logged"):
+              if policy["controls"].get(key) is not True:
+                  raise SystemExit("Required safeguard is not enabled: " + key)
+          charter = charter_path.read_text(encoding="utf-8")
+          for heading in ("## 1. Mission", "## 4. Constitutional engineering principles",
+                          "## 5. Prohibited behavior", "## 6. Evidence and finding format",
+                          "## 8. Governance and change control",
+                          "## 9. Privacy, retention, and appeals",
+                          "## 11. What a passing check means"):
+              if heading not in charter:
+                  raise SystemExit("Required charter section missing: " + heading)
+          print("Jun-Jun governance policy validation passed.")
+          print("Scope: policy structure and required safeguards only; no application certification implied.")
+          PY

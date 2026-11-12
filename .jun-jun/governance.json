@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "system": "Jun-Jun",
+  "repository": "SAMBU",
+  "profile": "anti-authoritarian-governance",
+  "operating_mode": "observation-only",
+  "purpose": "Detect governance and software-process risks using documented system behavior and verifiable evidence; do not classify people by identity, belief, association, or protected characteristics.",
+  "project_role": "python-language",
+  "project_invariant": "Preserve interpreter semantics, AST validation, deterministic scientific computation, and the native C11 boundary.",
+  "principles": {
+    "distributed_authority": true,
+    "least_privilege": true,
+    "separation_of_duties": true,
+    "transparent_decisions": true,
+    "independent_review": true,
+    "evidence_provenance": true,
+    "privacy_by_design": true,
+    "non_discrimination": true,
+    "appeal_and_correction": true,
+    "reversible_changes": true,
+    "documented_emergency_powers": true,
+    "accountability_for_automation": true
+  },
+  "prohibited_automated_actions": [
+    "classify_people_by_political_belief_or_identity",
+    "infer_extremism_from_keywords_symbols_or_associations_alone",
+    "conduct_covert_surveillance_or_personal_profiling",
+    "impose_discipline_or_deny_human_rights",
+    "modify_source_code_or_security_policy",
+    "change_permissions_or_revoke_access",
+    "merge_pull_requests",
+    "publish_releases_or_deploy_artifacts",
+    "delete_or_rewrite_audit_evidence"
+  ],
+  "controls": {
+    "evidence_required_for_findings": true,
+    "record_observed_fact_vs_inference": true,
+    "confidence_and_coverage_must_be_reported": true,
+    "human_review_required_for_adverse_decisions": true,
+    "independent_appeal_path_required": true,
+    "audit_log_must_be_append_only": true,
+    "secrets_must_never_be_logged": true,
+    "collect_minimum_necessary_data": true,
+    "retention_period_must_be_documented": true,
+    "emergency_access_must_be_time_limited_and_reviewed": true,
+    "policy_changes_require_separate_review": true
+  },
+  "risk_levels": {
+    "informational": "Documented observation; no action.",
+    "low": "Minor control weakness; owner review.",
+    "moderate": "Material weakness; tracked remediation and independent review.",
+    "high": "Credible risk to integrity, privacy, access control, or availability; notify maintainers and require human decision.",
+    "critical": "Verified active compromise or severe safety impact; follow documented incident response, preserve evidence, and require authorized human approval for containment."
+  },
+  "integration": {
+    "network_gossip": false,
+    "cross_repository_personal_data_sharing": false,
+    "automated_enforcement": false,
+    "auto_healing": false,
+    "auto_merge": false,
+    "auto_release": false,
+    "enable_only_after_separate_review": true
+  },
+  "validation": {
+    "policy_schema_check": true,
+    "governance_document_check": true,
+    "project_build_and_tests": "separate_project_specific_workflow",
+    "security_certification_claimed": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "system": "Jun-Jun",
+  "repository": "SAMBU",
+  "project_role": "python-language",
+  "operating_mode": "observation-only",
+  "safety": {
+    "read_only": true,
+    "auto_fix": false,
+    "auto_merge": false,
+    "auto_release": false,
+    "execute_remote_code": false,
+    "print_secret_values": false
+  },
+  "invariants": [
+    "Preserve interpreter semantics, AST checks, reproducible scientific calculations and native C11 boundary.",
+    "Do not claim a check passed unless it actually ran.",
+    "Project-specific build/test commands must be documented and reviewed before automation is added."
+  ],
+  "checks": {
+    "tracked_source_inventory": true,
+    "high_confidence_secret_markers": true,
+    "merge_conflict_markers": true
+  },
+  "exclusions": [
+    "binary files",
+    "files larger than 2 MB",
+    "untracked files"
+  ],
+  "escalation": {
+    "on_finding": "fail CI and report file plus line number; never modify source automatically"
+  },
+  "integration": {
+    "network_gossip": false,
+    "shared_threat_memory": false,
+    "artifact_signing": false,
+    "auto_healing": false,
+    "enabled_only_after_separate_review": true
+  }
+}
