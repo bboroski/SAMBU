@@ -1,0 +1,58 @@
+name: ERCF-20 contract
+
+on:
+  pull_request:
+    paths:
+      - '.github/ercf-20.json'
+      - '.github/workflows/ercf-20.yml'
+  push:
+    branches:
+      - main
+      - 'feature/ercf-20-readiness-coordination'
+    paths:
+      - '.github/ercf-20.json'
+      - '.github/workflows/ercf-20.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-contract:
+    name: Validate ERCF-20 manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate manifest structure and invariants
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path(".github/ercf-20.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          assert data.get("framework") == "ERCF-20"
+          assert data.get("schema_version") == "1.0.0"
+          assert isinstance(data.get("repository"), str) and "/" in data["repository"]
+          assert data.get("readiness_order") == [
+              "declared", "implemented", "verified", "qualified"
+          ]
+          groups = data.get("groups")
+          assert isinstance(groups, list) and len(groups) == 20, "exactly 20 groups required"
+          ids = [group.get("id") for group in groups]
+          assert all(isinstance(item, str) and item for item in ids)
+          assert len(set(ids)) == 20, "group IDs must be unique"
+          allowed = set(data["readiness_order"])
+          for index, group in enumerate(groups, start=1):
+              terms = group.get("source_terms")
+              assert isinstance(terms, list) and len(terms) == 3, f"group {index}: expected three source terms"
+              assert all(isinstance(term, str) and term.strip() for term in terms)
+              assert isinstance(group.get("control"), str) and group["control"].strip()
+              assert group.get("maturity") in allowed
+              assert isinstance(group.get("evidence_required"), str) and group["evidence_required"].strip()
+          print(f"ERCF-20 valid: {len(groups)} groups, {sum(len(g['source_terms']) for g in groups)} terms")
+          PY

@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "framework": "ERCF-20",
+  "repository": "bboroski/SAMBU",
+  "scope": "Scientific modeling, language tooling, reproducible workflows and typed scientific data.",
+  "interpretation": "Software engineering readiness and coordination only. Military vocabulary is mapped to software provisioning, authorization and release readiness; no weapons, destructive actions, privileged hardware writes or autonomous deployment are authorized.",
+  "readiness_order": [
+    "declared",
+    "implemented",
+    "verified",
+    "qualified"
+  ],
+  "failure_state": "blocked",
+  "groups": [
+    {
+      "id": "capability-intent-agreement",
+      "source_terms": [
+        "Вооружённость",
+        "Волеизъявление",
+        "Согласование"
+      ],
+      "control": "Inventory declared capabilities and assign explicit ownership; require a reviewed scope decision and compatible interface contract.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "resource-decision-sync",
+      "source_terms": [
+        "Оснащённость",
+        "Волевое решение",
+        "Синхронизация"
+      ],
+      "control": "Declare dependencies and resource limits; synchronize generated state and configuration from a single versioned source.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "completeness-provisioning-coupling",
+      "source_terms": [
+        "Укомплектованность",
+        "Вооружение",
+        "Сопряжение"
+      ],
+      "control": "Check required modules and tools before enabling a feature; provision only declared dependencies and validate adapter boundaries.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "deployment-upgrade-consistency",
+      "source_terms": [
+        "Экипированность",
+        "Перевооружение",
+        "Согласованность"
+      ],
+      "control": "Record supported deployment profiles; upgrades must be staged, reversible and compatibility-checked.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "readiness-reconfiguration-interaction",
+      "source_terms": [
+        "Снаряжённость",
+        "Переоснащение",
+        "Взаимодействие"
+      ],
+      "control": "Require readiness evidence before reconfiguration; interactions use documented APIs and bounded failure behavior.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "inventory-configuration-control",
+      "source_terms": [
+        "Оборудованность",
+        "Оснащение",
+        "Управление"
+      ],
+      "control": "Keep an auditable inventory of tools and settings; lifecycle changes are explicit and observable.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "qualification-dependency-regulation",
+      "source_terms": [
+        "Подготовленность",
+        "Укомплектование",
+        "Регулирование"
+      ],
+      "control": "Require qualification evidence for critical dependencies; reject unknown states and enforce bounded policy values.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "provenance-setup-organization",
+      "source_terms": [
+        "Снабжённость",
+        "Экипирование",
+        "Организация"
+      ],
+      "control": "Record provenance and reproducible setup inputs; assign ownership for each provisioned artifact.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "resilience-provisioning-order",
+      "source_terms": [
+        "Усиленность",
+        "Снаряжение",
+        "Упорядочивание"
+      ],
+      "control": "Define safety margins and resource budgets; order initialization and cleanup deterministically.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "security-authorization-unification",
+      "source_terms": [
+        "Защищённость",
+        "Вооружённость",
+        "Унификация"
+      ],
+      "control": "Declare security assumptions and capability grants; apply one consistent policy at each boundary.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "release-qualification-integration",
+      "source_terms": [
+        "Боеготовность",
+        "Боеспособность",
+        "Интеграция"
+      ],
+      "control": "Gate release on relevant tests and qualification; integrations must demonstrate contract compatibility.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "activation-readiness-centralization",
+      "source_terms": [
+        "Мобилизованность",
+        "Боеготовность",
+        "Централизация"
+      ],
+      "control": "Make activation explicit and observable; central status is derived from source evidence, not manual claims.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "toolchain-activation-inventory",
+      "source_terms": [
+        "Техническая оснащённость",
+        "Мобилизация",
+        "Систематизация"
+      ],
+      "control": "Record required toolchain versions and availability; activate only approved tools and index their outputs.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "tooling-hardening-composition",
+      "source_terms": [
+        "Инструментальность",
+        "Укрепление",
+        "Комбинирование"
+      ],
+      "control": "Keep tools composable behind narrow interfaces; hardening changes require regression evidence.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "feature-improvement-composition",
+      "source_terms": [
+        "Функциональность",
+        "Усиление",
+        "Сочетание"
+      ],
+      "control": "Define expected behavior and measurable improvement; preserve compatibility when composing features.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "autonomy-dependencies-adapters",
+      "source_terms": [
+        "Самостоятельность",
+        "Обеспечение",
+        "Стыковка"
+      ],
+      "control": "Support local operation where intended; external dependencies are declared and connected through adapters.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "portability-inputs-connection",
+      "source_terms": [
+        "Независимость",
+        "Снабжение",
+        "Соединение"
+      ],
+      "control": "Use portable inputs and versioned interfaces; connect components only after validating formats and ownership.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "budget-allocation-distribution",
+      "source_terms": [
+        "Ресурсность",
+        "Комплектование",
+        "Распределение"
+      ],
+      "control": "Set hard resource budgets; allocation and dispatch are bounded, deterministic and observable.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "headroom-provisioning-dispatch",
+      "source_terms": [
+        "Потенциал",
+        "Техническое оснащение",
+        "Диспетчеризация"
+      ],
+      "control": "Measure capacity and headroom; provision platform-specific resources and dispatch only eligible work.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    },
+    {
+      "id": "performance-offline-orchestration",
+      "source_terms": [
+        "Мощность",
+        "Самообеспечение",
+        "Оркестрация"
+      ],
+      "control": "Define performance limits and degraded modes; orchestration remains explicit, restartable and offline-safe.",
+      "maturity": "declared",
+      "evidence_required": "Repository-local tests, configuration checks, or target qualification appropriate to this control; host evidence must not imply target qualification."
+    }
+  ]
+}
