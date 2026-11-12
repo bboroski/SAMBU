@@ -106,13 +106,15 @@ def scan(root: Path) -> int:
         for line_no, line in enumerate(content.splitlines(), start=1):
             for rule in _credential_hits(line):
                 critical += 1
-                message = f"[{rule}] Possible credential exposure. Revoke/rotate the credential; do not paste its value into an issue."
-                print(f"::error file={_github_escape(rel)},line={line_no}::{_github_escape(message)}")
+                # Emit only a fixed diagnostic. Never interpolate matched source text
+                # or a value derived from it into a workflow command or log message.
+                print(f"::error file={_github_escape(rel)},line={line_no}::[BBZ-CREDENTIAL] Potential credential exposure detected; value redacted.")
             if suffix in {".py", ".pyw", ".js", ".mjs", ".cjs"}:
                 for pattern, rule, message in ADVISORIES:
                     if pattern.search(line):
                         advisory += 1
-                        print(f"::warning file={_github_escape(rel)},line={line_no}::{_github_escape('[' + rule + '] ' + message)}")
+                        safe_message = _github_escape(f"[{rule}] {message}")
+                        print(f"::warning file={_github_escape(rel)},line={line_no}::{safe_message}")
 
         if rel.startswith(".github/workflows/") and path.suffix.lower() in {".yml", ".yaml"}:
             lower = content.lower()
