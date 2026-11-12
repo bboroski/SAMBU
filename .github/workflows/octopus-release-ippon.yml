@@ -3,6 +3,7 @@ name: Octopus Ippon Release — SAMBU
 on:
   push:
     tags: ["v*"]
+  pull_request:
   workflow_dispatch:
 
 permissions:
