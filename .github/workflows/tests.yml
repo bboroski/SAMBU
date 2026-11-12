@@ -29,9 +29,19 @@ jobs:
         shell: bash
         run: |
           set +e
-          python -m sambu.testing tests --repeat 2 --json > "$RUNNER_TEMP/sambu-test-report.json"
+          python - > "$RUNNER_TEMP/sambu-test-report.json" <<'PY'
+          import json
+          from sambu.testing import run_autotests
+          report = run_autotests("tests", repeat=2)
+          print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+          raise SystemExit(0 if report.all_passed else 1)
+          PY
           status=$?
           set -e
+          if [ ! -s "$RUNNER_TEMP/sambu-test-report.json" ]; then
+            echo "Repeated test runner exited with status $status before producing its diagnostic report."
+            exit "${status:-1}"
+          fi
           python - "$RUNNER_TEMP/sambu-test-report.json" <<'PY'
           import json, pathlib, sys
           report = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
