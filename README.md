@@ -21,9 +21,10 @@
 > **SAMBU** — SAMBU — експериментальне Python-hosted середовище для програмування, наукового моделювання та відтворюваних workflow.
 
 ## Поточні можливості
-- Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами, записами та Glyph Syntax v1.
+- Мовне ядро з lexer/parser, AST, функціями, областями видимості, масивами, записами та emoji-синтаксисом команд і операторів.
 - Наукові моделі: SI-величини, перевірка розмірностей, фізичні константи й відтворюване семплювання.
 - Просторові дані: sparse voxel grids, чанки, Morton keys, octrees та графові операції.
+- Статичний семантичний аналіз імен/областей, арності відомих функцій і явних помилок примітивних операторів (`sambu check`).
 - CLI, Tkinter IDE, тестовий runner і архітектурні перевірки.
 - Окремий C11 native-compiler slice з типізованими IR; це ще не повний native-компілятор.
 
@@ -66,6 +67,8 @@ Native compiler slice не має повного source-to-machine-code конв
 
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE та редактор](docs/IDE.md)
+- [Статичний семантичний аналіз](docs/SEMANTIC_ANALYSIS.md)
+- [Emoji-програмування](docs/EMOJI_PROGRAMMING.md)
 - [Архітектура native-компілятора](docs/NATIVE_COMPILER_ARCHITECTURE.md)
 - [Архітектура екосистеми](docs/ECOSYSTEM_ARCHITECTURE.md)
 
@@ -87,4 +90,9 @@ MIT
 
 ## Федерація Hellduck
 
-Цей репозиторій входить до федерації [Hellduck](https://github.com/bboroski/Hellduck) — спільного каталогу проєктів, контрактних зв’язків і станів інтеграції. Вихідний код, API, тести та цикл випуску залишаються відповідальністю цього репозиторію; Hellduck індексує зв’язки й не завантажує та не виконує код учасників.
+Цей репозиторій входить до федерації [Hellduck](https://github.com/bboroski/Hellduck) — спільного каталогу проєктів, контрактних зв’язків і станів інтеграції. Вихідний код, API, тести та цикл випуску залишаються відповідальністю цього репозиторію; Hellduck індексує зв’язки й не завантажує та не виконує код учасників. Практичні сценарії взаємодії, типи адаптерів і межі сумісності: [Integration Playbook](https://github.com/bboroski/Hellduck/blob/main/docs/INTEGRATION_PLAYBOOK.md).
+
+
+## Anti-Teradayn Protocol
+
+Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).

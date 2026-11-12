@@ -59,6 +59,39 @@ _OPERATORS = ("==", "!=", "<=", ">=", "&&", "||", "**")
 _SINGLE = set("+-*/%^<>=!(),.[];{}")
 
 
+# Emoji are lexical aliases, not a separate runtime or execution path. They
+# normalize to existing SAMBU tokens so the parser, AST and evaluator stay
+# authoritative and ordinary source remains fully interoperable.
+EMOJI_SYNTAX: dict[str, tuple[str, object]] = {
+    "📦": ("IDENT", "let"),
+    "🧱": ("IDENT", "fn"),
+    "↩️": ("IDENT", "return"),
+    "↩": ("IDENT", "return"),
+    "❓": ("IDENT", "if"),
+    "🙃": ("IDENT", "else"),
+    "🔁": ("IDENT", "for"),
+    "🧺": ("IDENT", "in"),
+    "📣": ("IDENT", "print"),
+    "🖨️": ("IDENT", "print"),
+    "🖨": ("IDENT", "print"),
+    "✅": ("IDENT", "true"),
+    "❌": ("IDENT", "false"),
+    "🚫": ("IDENT", "not"),
+    "🤝": ("IDENT", "and"),
+    "🔀": ("IDENT", "or"),
+    "🟰🟰": ("OP", "=="),
+    "🟰": ("OP", "="),
+    "➕": ("OP", "+"),
+    "➖": ("OP", "-"),
+    "✖️": ("OP", "*"),
+    "✖": ("OP", "*"),
+    "➗": ("OP", "/"),
+}
+
+# Longest match keeps variation selectors and compound symbols in one token.
+_EMOJI_ORDER = tuple(sorted(EMOJI_SYNTAX, key=len, reverse=True))
+
+
 def tokenize(source: str) -> list[Token]:
     tokens: list[Token] = []
     i, line, col = 0, 1, 1
@@ -242,7 +275,17 @@ def tokenize(source: str) -> list[Token]:
             advance(raw)
             emit("NUMBER", float(raw), start, start_line, start_col, raw)
             continue
-
+        emoji = next(
+            (symbol for symbol in _EMOJI_ORDER if source.startswith(symbol, i)),
+            None,
+        )
+        if emoji is not None:
+            start, start_line, start_col = i, line, col
+            kind, value = EMOJI_SYNTAX[emoji]
+            advance(emoji)
+            i += len(emoji)
+            emit(kind, value, start, start_line, start_col, emoji)
+            continue
         if ch.isalpha() or ch == "_":
             start = i
             start_line, start_col = line, col
