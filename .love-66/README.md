@@ -86,7 +86,7 @@ Maintainability, provenance, quality, and project history.
 42. Worship
 43. Reverence
 44. Idolization
-45. Enamoralment
+45. Endearment
 46. Yearning
 47. Longing
 48. Captivation
