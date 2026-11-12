@@ -1,0 +1,52 @@
+{
+  "schema_version": "graceful.integration.v1",
+  "product": {
+    "id": "graceful-desktop-suite",
+    "name": "Graceful Desktop Suite",
+    "canonical_repository": "bboroski/Hellduck",
+    "catalog_path": "apps/graceful-desktop/catalog.json",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ]
+  },
+  "integration": {
+    "mode": "explicit-versioned-adapter",
+    "transport": "local-file-or-reviewed-ipc",
+    "default_access": "none",
+    "network_access": false,
+    "code_execution": false,
+    "secret_exchange": false,
+    "telemetry": false
+  },
+  "shared_capabilities": [
+    "catalog.discovery.v1",
+    "workspace.record.v1",
+    "workspace.export.v1",
+    "workspace.import.v1"
+  ],
+  "privacy": {
+    "data_minimization": true,
+    "local_first": true,
+    "medical_data_requires_separate_security_review": true,
+    "do_not_claim_encryption_without_verified_implementation": true
+  },
+  "compatibility": {
+    "contract_version": "1.0.0",
+    "backward_compatibility": "additive-with-versioned-breaking-changes",
+    "unknown_fields": "ignore"
+  },
+  "status": "adapter-declaration-only",
+  "repository": "bboroski/SAMBU",
+  "adapter": {
+    "roles": [
+      "workflow-expression",
+      "structured-data-validation",
+      "local-automation-adapter"
+    ],
+    "implementation_status": "declaration-only",
+    "owned_by_repository": true,
+    "execution_requires_explicit_adapter": true
+  }
+}
