@@ -1,0 +1,102 @@
+name: Satan Repository Sanitation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: satan-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sanitation:
+    name: Semantic noise and maintainability scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout complete history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Select comparison range
+        id: range
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          CURRENT: ${{ github.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            echo "base=$PR_BASE" >> "$GITHUB_OUTPUT"
+          elif [ -n "$PUSH_BEFORE" ] && ! echo "$PUSH_BEFORE" | grep -q '^0\+$'; then
+            echo "base=$PUSH_BEFORE" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=$(git rev-parse "$CURRENT^" 2>/dev/null || git hash-object -t tree /dev/null)" >> "$GITHUB_OUTPUT"
+          fi
+          echo "head=$CURRENT" >> "$GITHUB_OUTPUT"
+      - name: Run Satan non-destructive scanner
+        env:
+          SATAN_BASE: ${{ steps.range.outputs.base }}
+          SATAN_HEAD: ${{ steps.range.outputs.head }}
+          SATAN_STRICT: "false"
+        run: |
+          python3 - <<'PY'
+          import os, re, subprocess, sys
+          base, head = os.environ["SATAN_BASE"], os.environ["SATAN_HEAD"]
+          if not base or not head:
+              print("::warning title=Satan::Comparison range unavailable; scan skipped.")
+              sys.exit(0)
+          diff = subprocess.run(
+              ["git", "diff", "--no-ext-diff", "--unified=0", f"{base}...{head}"],
+              text=True, capture_output=True
+          )
+          if diff.returncode:
+              print("::warning title=Satan::Git diff unavailable; scan skipped.")
+              sys.exit(0)
+          ignored = (".lock", ".min.", ".map", ".svg", ".png", ".jpg", ".jpeg",
+                     ".gif", ".pdf", ".zip", ".sum", ".snap")
+          rules = [
+              (re.compile(r"\b(lorem ipsum|TODO: fill this|insert text here)\b", re.I),
+               "Placeholder text remains in changed lines."),
+              (re.compile(r"\b(we have always done it this way|because grandma said)\b", re.I),
+               "Appeal to tradition: replace with a verifiable engineering reason."),
+              (re.compile(r"\b(temporary hack|quick and dirty)\b", re.I),
+               "Temporary workaround needs an owner, rationale, and removal condition."),
+              (re.compile(r"\b(debugger;|console\.log\(|print\(['\"]debug)", re.I),
+               "Possible debug output; verify it is intentional.")
+          ]
+          findings, files, additions = 0, set(), 0
+          current = ""
+          for line in diff.stdout.splitlines():
+              if line.startswith("+++ b/"):
+                  current = line[6:]
+                  continue
+              if line.startswith("diff --git "):
+                  continue
+              if not line.startswith("+") or line.startswith("+++"):
+                  continue
+              additions += 1
+              if current and (current.endswith(ignored) or "/vendor/" in current or "/node_modules/" in current):
+                  continue
+              files.add(current)
+              text = line[1:]
+              for pattern, message in rules:
+                  if pattern.search(text):
+                      print(f"::warning file={current}::{message}")
+                      findings += 1
+          if additions > 1200:
+              print(f"::warning title=Satan::Large change set: {additions} added lines across {len(files)} files; consider splitting the PR.")
+              findings += 1
+          print(f"Satan scan complete: {len(files)} text files, {additions} added lines, {findings} advisory finding(s).")
+          print("Policy: advisory by default; human review decides context and intent.")
+          if os.getenv("SATAN_STRICT", "false").lower() == "true" and findings:
+              sys.exit(1)
+          PY
