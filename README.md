@@ -94,3 +94,7 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+## Owner working profile & engineering translation
+
+Project-facing working preferences, engineering principles, definition of done and repository-specific integration boundaries: [docs/OWNER_WORKING_PROFILE.md](docs/OWNER_WORKING_PROFILE.md).
