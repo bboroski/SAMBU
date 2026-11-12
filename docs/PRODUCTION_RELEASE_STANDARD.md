@@ -1,8 +1,8 @@
 # Production Release Standard
 
-**Repository:** bboroski/SAMBU  
-**Default branch:** `main`  
-**Project profile:** Python package with native/CMake subsystems  
+**Repository:** bboroski/SAMBU
+**Default branch:** `main`
+**Project profile:** Python package with native/CMake subsystems
 **Existing workflow inventory:** 11 workflow file(s) were visible at the time this baseline was prepared.
 
 ## Purpose and scope
