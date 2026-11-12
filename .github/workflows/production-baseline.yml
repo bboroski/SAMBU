@@ -1,0 +1,164 @@
+name: Production baseline
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-baseline-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-baseline:
+    name: Repository hygiene and readiness audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout reviewed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Enforce patch whitespace integrity
+        shell: bash
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            git diff --check "${PR_BASE_SHA}...${GITHUB_SHA}"
+          elif [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            if [[ "${PUSH_BEFORE_SHA}" =~ ^0+$ ]]; then
+              git diff --check HEAD^ HEAD || git diff --check
+            else
+              git diff --check "${PUSH_BEFORE_SHA}" "${GITHUB_SHA}"
+            fi
+          else
+            git diff --check HEAD^ HEAD || git diff --check
+          fi
+
+      - name: Audit manifests and release governance
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          raw = subprocess.run(
+              ["git", "ls-files", "-z"],
+              check=True,
+              stdout=subprocess.PIPE,
+          ).stdout
+          tracked = [
+              Path(p.decode("utf-8", "surrogateescape"))
+              for p in raw.split(bytes([0]))
+              if p
+          ]
+          warnings = []
+          scanned_json = 0
+          scanned_text = 0
+          ignored_dirs = {".git", ".venv", "venv", "node_modules", "build", "dist", "target", "vendor"}
+          text_suffixes = {
+              ".md", ".py", ".toml", ".yaml", ".yml", ".json", ".jsonc", ".sh",
+              ".ps1", ".bat", ".cmd", ".c", ".cc", ".cpp", ".h", ".hpp", ".cmake",
+              ".txt", ".html", ".css", ".js", ".ts", ".tsx", ".swift", ".rs", ".go",
+              ".xml", ".ini", ".cfg", ".properties",
+          }
+          for path in tracked:
+              if any(part in ignored_dirs for part in path.parts):
+                  continue
+              if path.suffix.lower() == ".json":
+                  scanned_json += 1
+                  try:
+                      json.loads(path.read_text(encoding="utf-8"))
+                  except Exception as exc:
+                      warnings.append(f"JSON parse warning: {path}: {exc}")
+              if path.suffix.lower() in text_suffixes:
+                  try:
+                      content = path.read_text(encoding="utf-8")
+                  except (UnicodeDecodeError, OSError):
+                      continue
+                  scanned_text += 1
+                  for line_no, line in enumerate(content.splitlines(), 1):
+                      stripped = line.lstrip()
+                      if stripped.startswith(("<<<<<<< ", ">>>>>>> ")):
+                          warnings.append(f"Possible unresolved conflict marker: {path}:{line_no}")
+              if path.name in {".env", ".env.local", ".env.production", ".env.development"}:
+                  warnings.append(f"Potentially sensitive environment file is tracked: {path}")
+
+          required = {
+              "README.md": "project overview and setup",
+              "LICENSE": "explicit license decision",
+              "SECURITY.md": "vulnerability disclosure policy",
+              "CONTRIBUTING.md": "contribution and review instructions",
+              ".gitignore": "generated-file and local-state exclusions",
+              ".gitattributes": "deterministic text handling",
+              ".github/CODEOWNERS": "ownership for critical paths",
+          }
+          for name, purpose in required.items():
+              if not Path(name).is_file():
+                  warnings.append(f"Readiness gap: {name} — {purpose}")
+
+          if not any(
+              p.as_posix().lower() in {"tests", "test"} or p.parts[0].lower() in {"tests", "test"}
+              for p in tracked if p.parts
+          ):
+              warnings.append("Readiness gap: no tracked tests/ directory detected")
+
+          workflow_files = [
+              p for p in tracked
+              if p.as_posix().startswith(".github/workflows/") and p.suffix in {".yml", ".yaml"}
+          ]
+          unpinned = []
+          missing_permissions = []
+          for path in workflow_files:
+              try:
+                  body = path.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+              for line in body.splitlines():
+                  statement = line.strip()
+                  if statement.startswith("uses:") and "@" in statement:
+                      ref = statement.split("@", 1)[1].split("#", 1)[0].strip()
+                      if not (len(ref) == 40 and all(ch in "0123456789abcdefABCDEF" for ch in ref)):
+                          unpinned.append(f"{path} uses @{ref}")
+              if not any(line.strip() == "permissions:" for line in body.splitlines()):
+                  missing_permissions.append(str(path))
+          if unpinned:
+              warnings.append(f"{len(unpinned)} workflow action reference(s) are not pinned to full commit SHAs")
+          if missing_permissions:
+              warnings.append(f"{len(missing_permissions)} workflow(s) lack an explicit permissions block")
+
+          print(f"Repository audit: {len(tracked)} tracked files, {scanned_text} text files, {scanned_json} JSON manifests, {len(workflow_files)} workflow files.")
+          if warnings:
+              print(f"Advisory findings: {len(warnings)}")
+              for warning in warnings:
+                  print(f"::warning::{warning}")
+          else:
+              print("No baseline findings detected.")
+
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              newline = chr(10)
+              with open(summary, "a", encoding="utf-8") as stream:
+                  stream.write("## Production baseline audit" + newline * 2)
+                  stream.write(f"- Tracked files: {len(tracked)}" + newline)
+                  stream.write(f"- Text files scanned: {scanned_text}" + newline)
+                  stream.write(f"- JSON manifests inspected: {scanned_json}" + newline)
+                  stream.write(f"- Workflow files inspected: {len(workflow_files)}" + newline)
+                  stream.write(f"- Advisory findings: {len(warnings)}" + newline)
+                  if warnings:
+                      stream.write(newline + "### Findings" + newline)
+                      for warning in warnings:
+                          stream.write(f"- {warning}" + newline)
+          PY
