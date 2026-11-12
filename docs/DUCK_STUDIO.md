@@ -22,7 +22,7 @@ sambu-studio inspect /path/to/module --format json
 
 ## Historical application screenshots — previous visual revision
 
-The following images are **authentic captures of an earlier light-theme revision** of the running Tkinter application, recorded at **1280 × 818 pixels**. They are retained as historical reference only and must not be mistaken for the current black/yellow visual system. The updated interface is implemented in `sambu_studio/duck_gui.py`; see [Duck UI system](DUCK_UI_SYSTEM.md) and the vector layout previews under `../assets/duck-ui/`. The previews are design references, not runtime screenshots. Capture fresh runtime screenshots on the target desktop after launching the updated application. The example project and diagnostics remain illustrative SAMPLE DATA.
+The following images are **authentic captures of an earlier light-theme revision** of the running Tkinter application, recorded at **1280 × 818 pixels**. They are retained as historical reference only and must not be mistaken for the current NEON SYNDICATE cyber-noir visual system. The updated interface is implemented in `sambu_studio/duck_gui.py`; see [Duck UI system](DUCK_UI_SYSTEM.md) and the vector layout previews under `../assets/duck-ui/`. The previews are design references, not runtime screenshots. Capture fresh runtime screenshots on the target desktop after launching the updated application. The example project and diagnostics remain illustrative SAMPLE DATA.
 
 ### 1. Overview
 
@@ -54,9 +54,9 @@ The report view consolidates the review summary and diagnostic messages, and inc
 <img src="images/duck-studio-hq/reports-findings-10.webp" width="25%" alt="Reports and findings screenshot, lower-left segment" /><img src="images/duck-studio-hq/reports-findings-11.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-12.webp" width="25%" alt="" /><img src="images/duck-studio-hq/reports-findings-13.webp" width="25%" alt="" />
 </div>
 
-## Current black/yellow vector layout previews
+## Current NEON SYNDICATE vector layout previews
 
-The following assets are **1920 × 1080 vector design previews** using the shared Duck palette. They show the intended layout of the current application surfaces, use synthetic SAMPLE DATA, and are not screenshots captured from a running process.
+The following assets are **1920 × 1080 vector design previews** using the NEON SYNDICATE palette. They show the intended layout of the current application surfaces, use synthetic SAMPLE DATA, and are not screenshots captured from a running process.
 
 ### Duck Studio workspace
 

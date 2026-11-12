@@ -11,18 +11,18 @@ from tkinter import filedialog, messagebox, ttk
 
 from sambu.ide import SambuIDE
 
-DARK = "#0D0D0D"
-PANEL = "#1A1A1A"
-PANEL_ALT = "#141414"
-YELLOW = "#FFD600"
-YELLOW_HOVER = "#FFE34D"
-YELLOW_PRESSED = "#BFA100"
-SURFACE_HOVER = "#242424"
-BORDER = "#303030"
-TEXT = "#E6E6E6"
-MUTED = "#999999"
+DARK = "#050505"
+PANEL = "#11171C"
+PANEL_ALT = "#0D1115"
+YELLOW = "#FCEE0A"
+YELLOW_HOVER = "#FFF67A"
+YELLOW_PRESSED = "#A69B00"
+SURFACE_HOVER = "#202A31"
+BORDER = "#2A353D"
+TEXT = "#FFFFFF"
+MUTED = "#A6B2BC"
 GREEN = "#4CAF50"
-RED = "#FF4444"
+RED = "#FF003C"
 
 STRINGS = {
     "en": {
@@ -172,8 +172,8 @@ class DuckStudio:
         editor_head.pack(fill="x")
         self.file_label = tk.Label(editor_head, text="untitled.sambu", bg=PANEL, fg=YELLOW, padx=12, pady=8)
         self.file_label.pack(side="left")
-        self.editor = tk.Text(center, bg="#141414", fg=TEXT, insertbackground=YELLOW,
-                              selectbackground="#332B00", relief="flat", undo=True, wrap="none", highlightthickness=1,
+        self.editor = tk.Text(center, bg="#0D1115", fg=TEXT, insertbackground=YELLOW,
+                              selectbackground="#252400", relief="flat", undo=True, wrap="none", highlightthickness=1,
                               highlightbackground=BORDER, highlightcolor=YELLOW,
                               font=("Cascadia Code", 11), padx=14, pady=12, tabs=("4c",))
         self.editor.pack(fill="both", expand=True)
