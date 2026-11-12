@@ -1,0 +1,184 @@
+name: Merge Automation Coordinator
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, edited, closed]
+  pull_request_review:
+    types: [submitted, dismissed]
+  check_suite:
+    types: [completed]
+  status:
+  workflow_dispatch:
+
+# Metadata-only workflow: never checks out or executes PR code.
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  statuses: read
+
+concurrency:
+  group: merge-coordinator-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  coordinate:
+    if: github.event_name != 'status' || github.event.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name || '' }}
+      PR_HEAD_REF: ${{ github.event.pull_request.head.ref || '' }}
+    steps:
+      - name: Clean merged source branch safely
+        if: github.event_name == 'pull_request_target' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          default_branch="$(gh repo view "$GH_REPO" --json defaultBranchRef --jq '.defaultBranchRef.name')"
+
+          if [[ "$PR_HEAD_REPO" != "$GH_REPO" ]]; then
+            echo "Cleanup skipped: PR source belongs to a fork." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [[ -z "$PR_HEAD_REF" || "$PR_HEAD_REF" == "$default_branch" ]]; then
+            echo "Cleanup skipped: source ref is empty or is the default branch." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          open_prs="$(gh api --method GET "repos/$GH_REPO/pulls" \
+            -f state=open -f head="$GH_REPO:$PR_HEAD_REF" -F per_page=100 --jq 'length')"
+          if [[ "$open_prs" -gt 0 ]]; then
+            echo "Cleanup skipped: source branch is still used by $open_prs open PR(s)." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if gh api --method DELETE "repos/$GH_REPO/git/refs/heads/$PR_HEAD_REF"; then
+            echo "Deleted merged source branch: $PR_HEAD_REF." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::GitHub refused to delete $PR_HEAD_REF (it may be protected)."
+            echo "Cleanup could not delete $PR_HEAD_REF; inspect branch protection and permissions." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Activate Auto-Merge for the oldest verified PR
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          trap 'echo "::error::Merge coordinator failed; inspect this workflow run before retrying."' ERR
+
+          default_branch="$(gh repo view "$GH_REPO" --json defaultBranchRef --jq '.defaultBranchRef.name')"
+          prs="$(gh pr list --repo "$GH_REPO" --state open --limit 1000 \
+            --json number,createdAt,isDraft,baseRefName,headRefOid,mergeable,reviewDecision,statusCheckRollup,autoMergeRequest)"
+
+          active="$(jq '[.[] | select(.autoMergeRequest != null)] | length' <<< "$prs")"
+          if [[ "$active" -gt 0 ]]; then
+            {
+              echo "# Merge Automation Coordinator"
+              echo
+              echo "Repository lock is occupied: $active open PR(s) already have Auto-Merge enabled."
+              echo "No additional PR was activated. The coordinator will run again after the active PR closes or another qualifying event occurs."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          candidate="$(jq -c --arg base "$default_branch" '
+            def checks_ok:
+              (.statusCheckRollup // []) as $checks
+              | ($checks | length) > 0
+              and all($checks[];
+                if .__typename == "CheckRun" then
+                  .status == "COMPLETED"
+                  and (.conclusion == "SUCCESS" or .conclusion == "SKIPPED" or .conclusion == "NEUTRAL")
+                elif .__typename == "StatusContext" then
+                  .state == "SUCCESS"
+                else
+                  false
+                end);
+            [.[] | select(
+              .baseRefName == $base
+              and (.isDraft | not)
+              and .mergeable == "MERGEABLE"
+              and .reviewDecision == "APPROVED"
+              and checks_ok
+            )]
+            | sort_by(.createdAt)
+            | .[0] // empty
+          ' <<< "$prs")"
+
+          if [[ -z "$candidate" ]]; then
+            {
+              echo "# Merge Automation Coordinator"
+              echo
+              echo "No PR currently satisfies every activation gate."
+              echo
+              echo "| PR | Draft | Target | Mergeability | Review | Check runs |"
+              echo "|---:|---|---|---|---|---:|"
+              jq -r '.[] | "| #\(.number) | \(.isDraft) | \(.baseRefName) | \(.mergeable) | \(.reviewDecision // "not approved") | \((.statusCheckRollup // []) | length) |"' <<< "$prs" >> "$GITHUB_STEP_SUMMARY"
+            }
+            exit 0
+          fi
+
+          number="$(jq -r '.number' <<< "$candidate")"
+          expected_sha="$(jq -r '.headRefOid' <<< "$candidate")"
+
+          latest="$(gh pr view "$number" --repo "$GH_REPO" \
+            --json headRefOid,baseRefName,isDraft,mergeable,reviewDecision,statusCheckRollup)"
+          actual_sha="$(jq -r '.headRefOid' <<< "$latest")"
+          if [[ "$actual_sha" != "$expected_sha" ]]; then
+            echo "PR #$number changed during validation; wait for its new CI run." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          jq -e --arg base "$default_branch" '
+            def checks_ok:
+              (.statusCheckRollup // []) as $checks
+              | ($checks | length) > 0
+              and all($checks[];
+                if .__typename == "CheckRun" then
+                  .status == "COMPLETED"
+                  and (.conclusion == "SUCCESS" or .conclusion == "SKIPPED" or .conclusion == "NEUTRAL")
+                elif .__typename == "StatusContext" then
+                  .state == "SUCCESS"
+                else
+                  false
+                end);
+            .baseRefName == $base
+            and (.isDraft | not)
+            and .mergeable == "MERGEABLE"
+            and .reviewDecision == "APPROVED"
+            and checks_ok
+          ' <<< "$latest" >/dev/null
+
+          merge_method="${MERGE_METHOD:-squash}"
+          case "$merge_method" in
+            squash) allowed="$(gh api "repos/$GH_REPO" --jq '.allow_squash_merge')" ;;
+            merge)  allowed="$(gh api "repos/$GH_REPO" --jq '.allow_merge_commit')" ;;
+            rebase) allowed="$(gh api "repos/$GH_REPO" --jq '.allow_rebase_merge')" ;;
+            *) echo "Invalid MERGE_METHOD: $merge_method"; exit 1 ;;
+          esac
+          if [[ "$allowed" != "true" ]]; then
+            echo "Merge method '$merge_method' is disabled in repository settings; no PR was changed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          gh pr merge "$number" --repo "$GH_REPO" --auto "--$merge_method"
+
+          {
+            echo "# Merge Automation Coordinator"
+            echo
+            echo "Auto-Merge activated for PR #$number."
+            echo
+            echo "- Target: $default_branch"
+            echo "- Validated head SHA: $expected_sha"
+            echo "- Review decision: APPROVED"
+            echo "- Mergeability: MERGEABLE"
+            echo "- All reported check runs: completed successfully, skipped, or neutral"
+            echo "- Merge method: $merge_method"
+            echo
+            echo "GitHub remains authoritative for required branch rules and merge-queue admission."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          gh pr comment "$number" --repo "$GH_REPO" --body \
+            "Merge Automation Coordinator: Auto-Merge was enabled after verifying the current head SHA, clean mergeability, approved review decision, and completed successful check runs. GitHub branch protection and merge-queue rules remain authoritative."

@@ -1,0 +1,241 @@
+name: GitHub Merge Automation Audit
+
+on:
+  push:
+    branches:
+      - chore/github-merge-automation-standard-*
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Optional PR number. Leave empty to audit all open PRs (up to 1,000)."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+  statuses: read
+
+concurrency:
+  group: merge-audit-${{ github.repository }}-${{ github.event.pull_request.number || inputs.pr_number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Analyze mergeability
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository metadata
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Discover PR targets
+        id: discover
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          targets="$RUNNER_TEMP/merge-audit-targets.tsv"
+          : > "$targets"
+
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            printf '%s\t%s\n' "$PR_NUMBER" "$PR_BASE_REF" >> "$targets"
+          elif [[ -n "${PR_NUMBER:-}" ]]; then
+            base_ref="$(gh pr view "$PR_NUMBER" --repo "$GH_REPO" --json baseRefName --jq '.baseRefName')"
+            printf '%s\t%s\n' "$PR_NUMBER" "$base_ref" >> "$targets"
+          elif [[ "$EVENT_NAME" == "push" ]]; then
+            gh pr list --repo "$GH_REPO" --head "$GITHUB_REF_NAME" --state open --limit 100 \
+              --json number,baseRefName \
+              --jq '.[] | [.number, .baseRefName] | @tsv' >> "$targets"
+          else
+            gh pr list --repo "$GH_REPO" --state open --limit 1000 \
+              --json number,baseRefName \
+              --jq '.[] | [.number, .baseRefName] | @tsv' >> "$targets"
+          fi
+
+          if [[ ! -s "$targets" ]]; then
+            echo "No open pull requests were found."
+          fi
+          echo "target_file=$targets" >> "$GITHUB_OUTPUT"
+
+      - name: Analyze mergeability and CI evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          TARGET_FILE: ${{ steps.discover.outputs.target_file }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          summary="$RUNNER_TEMP/merge-audit-summary.md"
+          : > "$summary"
+          printf '# Merge Automation Audit\n\n' >> "$summary"
+
+          has_conflicts=0
+          has_errors=0
+          whitespace_errors=0
+          ci_errors=0
+          audited=0
+
+          while IFS=$'\t' read -r pr_number base_ref; do
+            [[ -n "${pr_number:-}" && -n "${base_ref:-}" ]] || continue
+            audited=$((audited + 1))
+            printf '## PR #%s\n\n' "$pr_number" >> "$summary"
+
+            if ! git check-ref-format "refs/heads/$base_ref" >/dev/null 2>&1; then
+              printf -- '- **Result:** BLOCK — invalid or unavailable base ref.\n\n' >> "$summary"
+              has_errors=1
+              continue
+            fi
+
+            base_tracking="refs/remotes/merge-audit/base-$pr_number"
+            head_tracking="refs/remotes/merge-audit/pr-$pr_number"
+
+            if ! git fetch --no-tags origin "+refs/heads/$base_ref:$base_tracking"; then
+              printf -- '- **Result:** BLOCK — could not fetch target branch.\n\n' >> "$summary"
+              has_errors=1
+              continue
+            fi
+            if ! git fetch --no-tags origin "+refs/pull/$pr_number/head:$head_tracking"; then
+              printf -- '- **Result:** BLOCK — could not fetch PR head ref.\n\n' >> "$summary"
+              has_errors=1
+              continue
+            fi
+
+            base_sha="$(git rev-parse "$base_tracking")"
+            head_sha="$(git rev-parse "$head_tracking")"
+            merge_base="$(git merge-base "$base_sha" "$head_sha" 2>/dev/null || true)"
+
+            if [[ -z "$merge_base" ]]; then
+              printf -- '- **Result:** BLOCK — no common merge base found.\n' >> "$summary"
+              printf -- '- **Base SHA:** `%s`\n- **Head SHA:** `%s`\n\n' "$base_sha" "$head_sha" >> "$summary"
+              has_errors=1
+              continue
+            fi
+
+            if merge_output="$(git merge-tree --write-tree --name-only "$base_sha" "$head_sha" 2>&1)"; then
+              merge_result="PASS — Git produced a clean three-way merge tree."
+              conflict_paths=""
+            else
+              merge_rc=$?
+              if [[ "$merge_rc" -eq 1 ]]; then
+                merge_result="BLOCK — unresolved merge conflict(s); per-file review is required."
+                conflict_paths="$(printf '%s\n' "$merge_output" | tail -n +2 | sed '/^[[:space:]]*$/d' || true)"
+                has_conflicts=1
+              else
+                merge_result="BLOCK — merge-tree returned an unexpected error."
+                conflict_paths="$merge_output"
+                has_errors=1
+              fi
+            fi
+
+            if git diff --check "$base_sha...$head_sha"; then
+              whitespace_result="PASS"
+            else
+              whitespace_result="FAIL — inspect whitespace errors in the PR diff."
+              whitespace_errors=1
+            fi
+
+            base_changed="$(git diff --name-only "$merge_base" "$base_sha" | sort -u)"
+            head_changed="$(git diff --name-only "$merge_base" "$head_sha" | sort -u)"
+            shared_paths="$(comm -12 <(printf '%s\n' "$base_changed") <(printf '%s\n' "$head_changed") | sed '/^$/d' || true)"
+
+            max_attempts=20
+            if [[ "$EVENT_NAME" == "workflow_dispatch" && -z "${PR_NUMBER:-}" ]]; then
+              max_attempts=1
+            fi
+
+            checks_json='[]'
+            checks_count=0
+            checks_pending=0
+            checks_failed=0
+            status_state="unavailable"
+            status_pending=0
+            status_failures=0
+
+            for attempt in $(seq 1 "$max_attempts"); do
+              status_json="$(gh api "repos/$GH_REPO/commits/$head_sha/status" 2>/dev/null || echo '{}')"
+              status_state="$(printf '%s' "$status_json" | jq -r '.state // "unavailable"')"
+              status_pending="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "pending")] | length')"
+              status_failures="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "failure" or .state == "error")] | length')"
+
+              checks_json="$(gh api "repos/$GH_REPO/commits/$head_sha/check-runs?per_page=100" --jq '[.check_runs[] | select(.name != "Analyze mergeability") | {name, status, conclusion}]' 2>/dev/null || echo '[]')"
+              checks_count="$(printf '%s' "$checks_json" | jq 'length')"
+              checks_pending="$(printf '%s' "$checks_json" | jq '[.[] | select(.status != "completed")] | length')"
+              checks_failed="$(printf '%s' "$checks_json" | jq '[.[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')"
+
+              if [[ "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
+                break
+              fi
+              if [[ "$checks_count" -gt 0 && "$checks_pending" -eq 0 && "$status_pending" -eq 0 ]]; then
+                break
+              fi
+              if [[ "$attempt" -lt "$max_attempts" ]]; then
+                sleep 30
+              fi
+            done
+
+            checks_summary="$(printf '%s' "$checks_json" | jq -r 'if length == 0 then "no native check-runs reported" else map("\(.name): \(.status)/\(.conclusion // "pending")") | join("; ") end')"
+
+            ci_result="PASS — all reported native checks completed successfully."
+            if [[ "$checks_count" -eq 0 || "$checks_pending" -gt 0 || "$status_pending" -gt 0 || "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
+              ci_result="BLOCK — native CI is missing, pending or failing after the observation window."
+              ci_errors=1
+            fi
+
+            printf -- '- **Target:** `%s`\n' "$base_ref" >> "$summary"
+            printf -- '- **Base SHA:** `%s`\n- **Incoming SHA:** `%s`\n' "$base_sha" "$head_sha" >> "$summary"
+            printf -- '- **Merge analysis:** %s\n- **Whitespace check:** %s\n' "$merge_result" "$whitespace_result" >> "$summary"
+            printf -- '- **CI gate:** %s\n- **Legacy status state:** %s (%s failure/error contexts)\n' "$ci_result" "$status_state" "$status_failures" >> "$summary"
+            printf -- '- **Native check-runs:** %s\n' "$checks_summary" >> "$summary"
+
+            if [[ -n "$shared_paths" ]]; then
+              printf -- '- **Files changed on both sides (review candidates):**\n' >> "$summary"
+              while IFS= read -r path; do
+                [[ -n "$path" ]] && printf '  - `%s`\n' "$path" >> "$summary"
+              done <<< "$shared_paths"
+            else
+              printf -- '- **Files changed on both sides:** none\n' >> "$summary"
+            fi
+
+            if [[ -n "$conflict_paths" ]]; then
+              printf -- '- **Conflict paths:**\n' >> "$summary"
+              while IFS= read -r path; do
+                [[ -n "$path" ]] && printf '  - `%s`\n' "$path" >> "$summary"
+              done <<< "$conflict_paths"
+            fi
+            printf '\n' >> "$summary"
+          done < "$TARGET_FILE"
+
+          if [[ "$audited" -eq 0 ]]; then
+            printf 'No pull requests were audited; no merge-readiness conclusion is available.\n' >> "$summary"
+            has_errors=1
+          fi
+
+          cat "$summary" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Audited PRs: %s\n' "$audited"
+
+          if [[ "$has_errors" -ne 0 || "$has_conflicts" -ne 0 || "$whitespace_errors" -ne 0 || "$ci_errors" -ne 0 ]]; then
+            exit 1
+          fi
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge-automation-audit
+          path: ${{ runner.temp }}/merge-audit-summary.md
+          if-no-files-found: ignore
+          retention-days: 14
