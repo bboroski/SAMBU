@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "system": "Nero Spider / Mallard",
+  "scope": "Flat visual contract for repository tools, desktop shells, portals and diagnostics.",
+  "principles": [
+    "flat square surfaces only",
+    "no shadows, gradients, silhouettes, 3D or skeuomorphism",
+    "Mallard green marks verified success, trust and protection",
+    "security state always has text or an icon",
+    "motion respects reduced-motion",
+    "preserve repository identity, APIs, runtime boundaries and licenses"
+  ],
+  "color": {
+    "nero_void": "#050505",
+    "anthracite": "#121212",
+    "surface": "#171717",
+    "divider": "#1F1F1F",
+    "mallard_green": "#006442",
+    "text": "#F4F4F4",
+    "text_secondary": "#C8C8C8",
+    "text_muted": "#929292",
+    "critical": "#FF1E1E",
+    "warning": "#F2C94C",
+    "info": "#58C7E8"
+  },
+  "geometry": {
+    "corner_radius_px": 0,
+    "border_width_px": 1,
+    "grid_step_px": 24,
+    "grid_opacity": 0.02,
+    "control_min_height_px": 36,
+    "touch_target_min_px": 44
+  },
+  "typography": {
+    "ui": [
+      "Inter",
+      "Segoe UI",
+      "Roboto",
+      "Arial",
+      "sans-serif"
+    ],
+    "technical": [
+      "JetBrains Mono",
+      "Fira Code",
+      "Cascadia Code",
+      "Consolas",
+      "monospace"
+    ],
+    "body_px": 14,
+    "line_height": 1.5,
+    "tabular_numbers": true
+  },
+  "motion_ms": {
+    "micro": 100,
+    "standard": 160,
+    "panel": 220,
+    "ripple": 420,
+    "reduced_motion": 0
+  },
+  "motion": {
+    "allowed": [
+      "opacity",
+      "transform",
+      "stroke-dashoffset"
+    ],
+    "reduced_motion_media_query": "prefers-reduced-motion: reduce",
+    "no_audio_by_default": true
+  },
+  "graphics": {
+    "format": "SVG",
+    "gradients": false,
+    "shadows": false,
+    "silhouettes": false,
+    "duck_mark": "abstract geometric line glyph",
+    "anime_motifs": "abstract geometry and typography only"
+  },
+  "components": {
+    "status_bar": {
+      "height_px": 28,
+      "background": "#121212",
+      "border_bottom": "#1F1F1F"
+    },
+    "button": {
+      "radius_px": 0,
+      "min_height_px": 36,
+      "primary_background": "#006442"
+    },
+    "card": {
+      "radius_px": 0,
+      "background": "#121212",
+      "border": "#1F1F1F",
+      "shadow": "none"
+    },
+    "progress": {
+      "track": "#1F1F1F",
+      "fill": "#006442"
+    }
+  },
+  "accessibility": {
+    "normal_text_contrast_min": 4.5,
+    "large_text_contrast_min": 3,
+    "keyboard_navigation": true,
+    "visible_focus": true,
+    "reduced_motion": true,
+    "state_not_color_only": true,
+    "minimum_touch_target_px": 44
+  },
+  "documentation": {
+    "screenshot_directory": "docs/screenshots/",
+    "live_status_section": "Live Security Status",
+    "unknown_status_never_pass": true,
+    "runtime_screenshots_require_running_app": true
+  },
+  "governance": {
+    "canonical_tokens_repository": "Luci",
+    "preserve_repository_identity": true,
+    "preserve_licenses": true,
+    "no_claim_of_runtime_without_implementation": true
+  }
+}
