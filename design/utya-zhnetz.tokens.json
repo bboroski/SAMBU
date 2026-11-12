@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "design_system": "UTYA-ZHNETS",
+  "identity": "original industrial field-reclaimer machine design",
+  "repository": "SAMBU",
+  "status": "design specification; implementation claims remain project-specific",
+  "extends": "existing repository brand and native platform conventions",
+  "colors": {
+    "canvas": "#090C0B",
+    "surface": "#141A17",
+    "surface_raised": "#1D2521",
+    "edge": "#3B4841",
+    "text": "#F1F4EF",
+    "text_secondary": "#BCC6BF",
+    "text_muted": "#89968F",
+    "signal_amber": "#F2BD4B",
+    "signal_cyan": "#76DAD2",
+    "signal_success": "#75C995",
+    "signal_critical": "#ED706A",
+    "signal_unknown": "#A4ADA7"
+  },
+  "brand_accent": "inherit existing Duck Black/Yellow or NEON SYNDICATE accent",
+  "typography": {
+    "body": [
+      "Inter",
+      "Segoe UI",
+      "system-ui",
+      "sans-serif"
+    ],
+    "technical": [
+      "Cascadia Mono",
+      "Consolas",
+      "monospace"
+    ],
+    "external_font_download_required": false
+  },
+  "geometry": {
+    "grid_unit_px": 8,
+    "panel_radius_px": [
+      10,
+      14
+    ],
+    "control_radius_px": [
+      7,
+      9
+    ],
+    "border_px": 1,
+    "silhouette": "low broad asymmetrical chassis; forward sensor cowl; three-aperture crest; replaceable side armor"
+  },
+  "motion": {
+    "state_transition_ms": [
+      100,
+      220
+    ],
+    "looping_animation_requires_live_data": true,
+    "reduced_motion": "disable nonessential motion"
+  },
+  "accessibility": {
+    "minimum_control_height_px": 40,
+    "minimum_touch_target_px": [
+      44,
+      44
+    ],
+    "normal_text_contrast_ratio": 4.5,
+    "large_text_and_ui_contrast_ratio": 3,
+    "state_requires_text_or_icon": true,
+    "keyboard_focus_visible": true
+  },
+  "telemetry_states": [
+    "READY",
+    "ACTIVE",
+    "DEGRADED",
+    "BLOCKED",
+    "FAILED",
+    "UNKNOWN",
+    "NOT TESTED"
+  ],
+  "project_profile": "Python-hosted engineering environment with scientific modeling, language tooling, CLI and Tkinter IDE. Apply the system to the IDE workbench, AST/model views and developer diagnostics; preserve the existing Duck UI foundation.",
+  "intellectual_property": {
+    "original_assets_only": true,
+    "no_third_party_franchise_names_logos_characters_assets_or_recognizable_designs": true,
+    "no_mass_effect_expression_or_assets": true,
+    "source_asset_license_required": true
+  }
+}
