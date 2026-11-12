@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          sambu-test tests --repeat 2 --json > "$RUNNER_TEMP/sambu-test-report.json"
+          python -m sambu.testing tests --repeat 2 --json > "$RUNNER_TEMP/sambu-test-report.json"
           status=$?
           set -e
           python - "$RUNNER_TEMP/sambu-test-report.json" <<'PY'
