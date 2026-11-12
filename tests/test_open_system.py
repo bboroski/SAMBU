@@ -26,6 +26,19 @@ print(ensemble.entropy_nats)
         self.assertEqual(output[1:4], ["2", "0.5", "0.5"])
         self.assertAlmostEqual(float(output[4]), math.log(2), places=7)
 
+    def test_canonical_variance_is_invariant_to_large_energy_offsets(self):
+        output = self.run_sambu("""
+let base = canonical_ensemble([0 * J, 2 * J], 1e25 * K)
+let shifted = canonical_ensemble([10000000000000000 * J, 10000000000000002 * J], 1e25 * K)
+print(base.probabilities[0])
+print(shifted.probabilities[0])
+print(base.energy_variance)
+print(shifted.energy_variance)
+""")
+        self.assertEqual(output[0], output[1])
+        self.assertEqual(output[2], output[3])
+        self.assertAlmostEqual(float(output[2].split()[0]), 0.99994754, places=6)
+
     def test_microcanonical_energy_window(self):
         output = self.run_sambu("""
 let ensemble = microcanonical_ensemble([0 * J, 1 * J, 2 * J], 1.5 * J, 0.5 * J)
@@ -76,6 +89,8 @@ print(transport.entropy_production)
     def test_invalid_thermodynamic_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
             execute("canonical_ensemble([0 * J], 0 * K)")
+        with self.assertRaises(ValueError):
+            execute("canonical_ensemble([-1.7e308 * J, 1.7e308 * J], 300 * K)")
         with self.assertRaises(ValueError):
             execute("markov_relaxation([0 * J, 1 * J], [1, -0.1], 300 * K, 1 * Hz, 1 * s)")
         with self.assertRaises(ValueError):
