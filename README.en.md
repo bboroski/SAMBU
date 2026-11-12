@@ -58,6 +58,8 @@ These repository images show the application workspace, reports and XML inspecto
 
 ## Documentation map
 
+- [Glyph Syntax v1](docs/GLYPH_SYNTAX.md)
+
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE and editor](docs/IDE.md)
 - [Static semantic analysis](docs/SEMANTIC_ANALYSIS.md)

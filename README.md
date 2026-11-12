@@ -63,6 +63,8 @@ Native compiler slice не має повного source-to-machine-code конв
 
 ## Карта документації
 
+- [Glyph Syntax v1](docs/GLYPH_SYNTAX.md)
+
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE та редактор](docs/IDE.md)
 - [Статичний семантичний аналіз](docs/SEMANTIC_ANALYSIS.md)

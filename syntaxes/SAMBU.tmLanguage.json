@@ -37,6 +37,9 @@
       "include": "#builtins"
     },
     {
+      "include": "#glyph_syntax"
+    },
+    {
       "include": "#operators"
     },
     {
@@ -46,6 +49,11 @@
   "repository": {
     "comments": {
       "patterns": [
+        {
+          "name": "comment.block.c.sambu",
+          "begin": "\\/\\*",
+          "end": "\\*\\/"
+        },
         {
           "name": "comment.line.number-sign.sambu",
           "match": "#.*$"
@@ -72,6 +80,11 @@
     },
     "strings": {
       "patterns": [
+        {
+          "name": "string.quoted.other.multiline.glyph.sambu",
+          "begin": "\\$\\$",
+          "end": "\\$\\$"
+        },
         {
           "name": "string.quoted.double.sambu",
           "begin": "\"",
@@ -149,6 +162,22 @@
         {
           "name": "support.function.builtin.sambu",
           "match": "\\b(?:hemispheric_sleep_budget|biometric_taxonomy_sort|countercurrent_exchange|feather_barrier_profile|voxel_spectral_profile|wetland_ecosystem_loop|flight_muscle_profile|oxygen_pressure_ratio|tic_tac_toe_best_move|visual_system_profile|accreditation_record|accreditation_status|flight_energy_budget|avian_air_sac_cycle|bill_lamella_filter|countercurrent_sync|flock_flight_budget|avian_gas_exchange|digestive_grinding|plumage_insulation|imprinting_window|percentage_points|reduce_by_percent|supervisor_status|tic_tac_toe_state|voxel_solve_field|magnetic_heading|percent_to_ratio|ratio_to_percent|tic_tac_toe_move|voxel_frame_plan|voxel_octree_get|channel_metrics|channel_receive|idempotency_key|imprint_closure|migration_speed|network_metrics|package_pricing|prosody_profile|v_vector_stream|weekly_schedule|craft_assemble|mimic_distance|order_pipeline|percent_change|retry_schedule|sample_maxwell|thermal_energy|unit_economics|voxel_sparsify|apply_percent|audio_profile|capture_tower|clamp_percent|gift_transfer|mimic_profile|mine_patterns|queue_profile|signal_report|voxel_raycast|capture_node|channel_send|cluster_glue|coq_pipeline|craft_master|craft_source|parse_report|salt_balance|studio_offer|text_profile|voxel_chunks|voxel_export|voxel_octree|voxel_remove|actor_drain|actor_state|coq_explain|craft_token|pitch_score|voxel_count|actor_send|attendance|blast_plan|coq_filter|craft_rule|gift_batch|percent_of|percentage|supervisor|voxel_grid|voxel_mesh|associate|boltzmann|coq_match|craft_cut|influence|negotiate|partition|rhyme_key|rps_round|supervise|syllables|voxel_get|voxel_set|word_info|allocate|coq_rule|variance|wordbook|ab_test|channel|entropy|maxwell|network|funnel|actor|canonical_ensemble|hook_profile|lindblad_dephase|markov_relaxation|microcanonical_ensemble|onsager_flux|phonon_decay|planck_time|count|daven|davir|davum|deven|devir|devum|diven|koven|kovir|kovum|kuven|laven|lavir|lavum|leven|levir|levum|liven|livir|livum|loven|maven|mavir|mavum|meven|mevir|mevum|miven|mivir|mivum|moven|naven|navir|navum|neven|nevir|nevum|niven|paven|pavir|pavum|peven|pevir|pevum|piven|pivir|pivum|poven|povir|povum|print|range|revir|revum|riven|rivir|rivum|roven|rovir|rovum|saven|savir|savum|seven|sevir|sevum|siven|sivir|sivum|soven|sovir|sovum|suven|tevir|tevum|tiven|tivir|tivum|toven|tovir|tovum|tuven|tuvir|tuvum|vaven|vavir|vavum|veven|vevir|vevum|viven|vivir|vivum|voven|vovir|vovum|vuven|dava|deva|diva|kuva|lava|leva|liva|lova|lovir|mava|muva|movir|muven|muvir|movum|mean|meva|miva|mova|nava|neva|niva|pava|peva|piva|pova|riva|rova|sava|seva|siva|sova|sqrt|suva|tiva|tova|tuva|vava|veva|viva|vova|vuva|vuvir|vuvum|abs|exp|len|log|max|min|sum)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "glyph_syntax": {
+      "patterns": [
+        {
+          "name": "punctuation.section.block.begin.glyph.sambu",
+          "match": "--\\{|}-"
+        },
+        {
+          "name": "punctuation.separator.statement.glyph.sambu",
+          "match": ";;-|;;|:;|;:|;-|:-|-:"
+        },
+        {
+          "name": "keyword.operator.glyph.sambu",
+          "match": "::|\\+\\+_|\\+_|/\\+-\\*|\\*/\\+-\\*|-\\*/|/=-\\*/|=\\]|='\\[|\\]-=|-\\]=|=-\\]|\\\\\\]=|=\\\\\\]|]=\\\\|=-\\\\"
         }
       ]
     },

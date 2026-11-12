@@ -58,6 +58,8 @@ Native compiler slice пока не является полным конвейе
 
 ## Карта документации
 
+- [Glyph Syntax v1](docs/GLYPH_SYNTAX.md)
+
 - [Duck Studio](docs/DUCK_STUDIO.md)
 - [IDE и редактор](docs/IDE.md)
 - [Статический семантический анализ](docs/SEMANTIC_ANALYSIS.md)
