@@ -1,0 +1,23 @@
+name: MoonTreach PR and merge-queue verification
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+  merge_group:
+    types: [checks_requested]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  moontreach:
+    uses: bboroski/Hellduck/.github/workflows/moontreach-reusable.yml@edc139b8e08f098b708ce846ac0af60f206e7efb
+    with:
+      repository: ${{ github.repository }}
+      target_ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.event_name == 'merge_group' && github.event.merge_group.head_sha) || github.sha }}
+      base_sha: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || '' }}
+      head_sha: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+      core_ref: edc139b8e08f098b708ce846ac0af60f206e7efb
+      merge_group: ${{ github.event_name == 'merge_group' }}
