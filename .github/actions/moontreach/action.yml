@@ -84,9 +84,9 @@ runs:
             python "$RUNNER_TEMP/moontreach.py" queue
             ;;
           inspect-pr)
-            python "$RUNNER_TEMP/moontreach.py" inspect-pr "MT_REPOSITORY" "$MT_NUMBER"
+            python "$RUNNER_TEMP/moontreach.py" inspect-pr "$MT_REPOSITORY" "$M_NUMBER"
             ;;
-         *)
+          *)
             echo "Unsupported MoonTreach mode: $MT_MODE" >&2
             exit 2
             ;;
