@@ -25,7 +25,34 @@ jobs:
           python tools/validate_biology_terms.py
           python tools/validate_reaper_domain.py
       - run: python -m unittest discover -s tests -v
-      - run: sambu-test tests --repeat 2
+      - name: Run repeated SAMBU tests with failure diagnostics
+        shell: bash
+        run: |
+          set +e
+          python - > "$RUNNER_TEMP/sambu-test-report.json" <<'PY'
+          import json
+          from sambu.testing import run_autotests
+          report = run_autotests("tests", repeat=2)
+          print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+          raise SystemExit(0 if report.all_passed else 1)
+          PY
+          status=$?
+          set -e
+          if [ ! -s "$RUNNER_TEMP/sambu-test-report.json" ]; then
+            echo "Repeated test runner exited with status $status before producing its diagnostic report."
+            exit "${status:-1}"
+          fi
+          python - "$RUNNER_TEMP/sambu-test-report.json" <<'PY'
+          import json, pathlib, sys
+          report = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+          for run in report.get("runs", []):
+              print(f"Run {run['iteration']}: {run['passed']} passed, {run['failed']} failed, {run['errors']} errors, {run['skipped']} skipped / {run['total']} total")
+          for failure in report.get("failures", []):
+              print(f"FAILURE {failure['test_id']} [{failure['category']}]: {failure['summary']}")
+              print(failure["traceback"])
+          print("Autopsy:", json.dumps(report.get("autopsy", {}), sort_keys=True))
+          PY
+          exit "$status"
       - run: sambu examples/percentages.sambu
       - run: sambu examples/anatidae_biophysics.sambu
       - run: sambu examples/ecosystem_primitives.sambu

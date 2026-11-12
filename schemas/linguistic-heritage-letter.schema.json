@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Linguistic Heritage Letter Profile",
+  "type": "object",
+  "required": ["id", "glyph", "lowercase", "unicode", "claims"],
+  "properties": {
+    "id": {"type": "string"},
+    "glyph": {"type": "string", "minLength": 1},
+    "lowercase": {"type": "string", "minLength": 1},
+    "unicode": {"type": "object", "required": ["uppercase", "lowercase"], "properties": {
+      "uppercase": {"type": "string", "pattern": "^U\\+[0-9A-F]{4,6}$"},
+      "lowercase": {"type": "string", "pattern": "^U\\+[0-9A-F]{4,6}$"}
+    }, "additionalProperties": false},
+    "claims": {"type": "array", "items": {"type": "object",
+      "required": ["id", "statement", "status", "rationale"],
+      "properties": {
+        "id": {"type": "string"}, "statement": {"type": "string"},
+        "status": {"enum": ["established", "qualified", "hypothesis", "unsupported"]},
+        "rationale": {"type": "string"},
+        "sources": {"type": "array", "items": {"type": "string", "format": "uri"}}
+      }, "additionalProperties": false}}
+  }, "additionalProperties": true
+}

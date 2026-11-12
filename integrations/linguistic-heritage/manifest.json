@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "product": "Linguistic Heritage Engine",
+  "role": "consumer-integration",
+  "canonical_core": "bboroski/SAMBU",
+  "canonical_path": "linguistic_heritage",
+  "documentation": "docs/linguistic-heritage/README.md",
+  "data_contract": "schemas/linguistic-heritage-letter.schema.json",
+  "evidence_statuses": [
+    "established",
+    "qualified",
+    "hypothesis",
+    "unsupported"
+  ],
+  "integration_policy": {
+    "main_branch_direct_writes": false,
+    "source_claims_require_citations": true,
+    "distinguish_grapheme_from_phoneme": true,
+    "infer_borrowing_from_similarity": false,
+    "external_runtime_dependencies": false
+  },
+  "initial_case_study": "cyrillic-yery",
+  "local_adaptation": "Connect project-specific UI, CLI, or data pipeline only after its runtime and architecture have been reviewed."
+}
