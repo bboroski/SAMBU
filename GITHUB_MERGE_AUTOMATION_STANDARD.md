@@ -1,8 +1,8 @@
 # GitHub Merge Automation Standard
 
-**ID:** GMAS-1.0  
-**Status:** Repository adoption proposal  
-**Effective:** After review and merge  
+**ID:** GMAS-1.0
+**Status:** Repository adoption proposal
+**Effective:** After review and merge
 **Scope:** Branch discovery, merge analysis, conflict handling, CI evidence, Pull Request preparation and historical PR recovery.
 
 > This standard is an additive GitHub governance layer. The repository's own architecture, APIs, toolchain, tests, release process and project-specific engineering rules remain authoritative.
