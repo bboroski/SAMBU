@@ -1,0 +1,25 @@
+name: Beelzebub local scanner (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-scan:
+    name: Optional local scanner and regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Test local scanner
+        run: python3 -I tools/beelzebub/test_scan.py
+      - name: Run optional local scan
+        run: python3 -I tools/beelzebub/scan.py --root . --report "$RUNNER_TEMP/beelzebub-local-report.json" --fail-on high
