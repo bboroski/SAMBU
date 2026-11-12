@@ -287,6 +287,22 @@
       "reference_only": true,
       "clinical_decision_support": false,
       "hardware_control": false
+    },
+    "nun_os_capability_profile_v1": {
+      "version": 1,
+      "canonical_repository": "bboroski/NUN",
+      "schema": "spec/os-capability-profile.schema.json",
+      "profile": "spec/os-capability-profile.json",
+      "validator": "sambu.nun_os",
+      "metadata_only": true,
+      "executes_artifact_code": false,
+      "required_during_kernel_boot": false,
+      "accepted_feature_states": [
+        "implemented",
+        "partial",
+        "planned",
+        "not_supported"
+      ]
     }
   }
 }
