@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "standard_id": "PERSONA-ENG-STD",
+  "repository": "bboroski/SAMBU",
+  "project": {
+    "domain": "Python-hosted language runtime and scientific modeling environment",
+    "mission": "Provide an experimental programming environment for scientific modeling and reproducible workflows.",
+    "maturity": "experimental-alpha"
+  },
+  "architecture": {
+    "preserve_existing_boundaries": true,
+    "primary_technologies": [
+      "Python-hosted runtime",
+      "lexer/parser and AST",
+      "scientific and spatial data models",
+      "separate C11 native-compiler slice"
+    ],
+    "explicit_non_goals": [
+      "Do not claim a complete source-to-machine-code native compiler",
+      "Do not claim a full LSP implementation",
+      "Do not treat experimental features as production-ready"
+    ]
+  },
+  "safety_boundaries": [
+    "Keep the Python-hosted runtime and native compiler slice as distinct execution paths unless an explicit contract is implemented.",
+    "Scientific outputs must state model assumptions and reproducibility limits.",
+    "Experimental syntax and extensions must not silently change stable language semantics."
+  ],
+  "native_validation": {
+    "status": "defined",
+    "commands": [
+      "python -m pip install -e .",
+      "python -m pytest",
+      "python one.py check"
+    ],
+    "evidence_note": "Run relevant commands for the changed component; target-specific compiler claims require target evidence."
+  },
+  "required_gates": [
+    "profile-validation",
+    "native-project-checks",
+    "architecture-and-compatibility-review",
+    "security-and-privacy-review",
+    "documentation-review",
+    "human-review",
+    "target-qualification-when-applicable"
+  ],
+  "merge_policy": {
+    "pull_request_required": true,
+    "direct_main_push_policy": "enforce-with-branch-rules",
+    "bypass_required_checks": false,
+    "release_requires_separate_qualification": true
+  },
+  "status_vocabulary": [
+    "PROPOSED",
+    "PLANNED",
+    "IMPLEMENTED",
+    "TESTED",
+    "VERIFIED",
+    "MERGED",
+    "RELEASED",
+    "BLOCKED"
+  ]
+}
