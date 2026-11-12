@@ -1,102 +1,23 @@
-name: MoonTreach
+name: MoonTreach PR and merge-queue verification
 
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review, edited]
-  push:
-    branches: [main]
+  merge_group:
+    types: [checks_requested]
   workflow_dispatch:
-    inputs:
-      force_all:
-        description: Run every configured project suite
-        required: false
-        type: boolean
-        default: false
-      run_pr_radar:
-        description: Run the read-only cross-repository PR inventory
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   contents: read
-  pull-requests: read
-
-concurrency:
-  group: moontreach-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  plan:
-    name: Plan and validate
-    if: github.event_name != 'workflow_dispatch' || !inputs.run_pr_radar
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.plan.outputs.matrix }}
-    steps:
-      - name: Checkout with history
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Validate MoonTreach and its unit tests
-        uses: ./.github/actions/moontreach
-        with:
-          mode: validate
-      - name: Select affected suites
-        id: plan
-        uses: ./.github/actions/moontreach
-        with:
-          mode: plan
-          base: ${{ github.event.pull_request.base.sha || github.event.before }}
-          head: ${{ github.sha }}
-          force_all: ${{ inputs.force_all || false }}
-
-  tests:
-    name: ${{ matrix.id }}
-    needs: plan
-    if: needs.plan.result == 'success' && needs.plan.outputs.matrix != '{"include":[]}'
-    runs-on: ${{ matrix.runs_on }}
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
-    steps:
-      - name: Checkout tested revision
-        uses: actions/checkout@v4
-      - name: Run selected suite
-        uses: ./.github/actions/moontreach
-        with:
-          mode: run
-          suite: ${{ matrix.id }}
-
-  report:
-    name: Pipeline report
-    if: always() && (github.event_name != 'workflow_dispatch' || !inputs.run_pr_radar)
-    needs: [plan, tests]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish run summary
-        env:
-          PLAN_RESULT: ${{ needs.plan.result }}
-          TEST_RESULT: ${{ needs.tests.result }}
-        run: |
-          {
-            echo '## MoonTreach pipeline'
-            echo
-            echo "- Planner: **${PLAN_RESULT}**"
-            echo "- Affected test suites: **${TEST_RESULT}**"
-            echo '- Merge policy: no checks are bypassed and no PR is merged automatically.'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  pr-radar:
-    name: Cross-repository PR Radar
-    if: github.event_name == 'workflow_dispatch' && inputs.run_pr_radar
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout MoonTreach engine
-        uses: actions/checkout@v4
-      - name: Run read-only PR inventory
-        uses: ./.github/actions/moontreach
-        with:
-          mode: queue
-          token: ${{ secrets.MOONTREACH_TOKEN }}
+  moontreach:
+    uses: bboroski/Hellduck/.github/workflows/moontreach-reusable.yml@edc139b8e08f098b708ce846ac0af60f206e7efb
+    with:
+      repository: ${{ github.repository }}
+      target_ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.event_name == 'merge_group' && github.event.merge_group.head_sha) || github.sha }}
+      base_sha: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || '' }}
+      head_sha: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+      core_ref: edc139b8e08f098b708ce846ac0af60f206e7efb
+      merge_group: ${{ github.event_name == 'merge_group' }}
