@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Discover PR targets
         id: discover
@@ -65,7 +65,7 @@ jobs:
           fi
           echo "target_file=$targets" >> "$GITHUB_OUTPUT"
 
-      - name: Analyze base and incoming trees
+      - name: Analyze mergeability and CI evidence
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -80,6 +80,7 @@ jobs:
           has_conflicts=0
           has_errors=0
           whitespace_errors=0
+          ci_errors=0
           audited=0
 
           while IFS=$'\t' read -r pr_number base_ref; do
@@ -118,22 +119,20 @@ jobs:
               continue
             fi
 
-            set +e
-            merge_output="$(git merge-tree --write-tree --name-only "$base_sha" "$head_sha" 2>&1)"
-            merge_rc=$?
-            set -e
-
-            if [[ "$merge_rc" -eq 0 ]]; then
+            if merge_output="$(git merge-tree --write-tree --name-only "$base_sha" "$head_sha" 2>&1)"; then
               merge_result="PASS — Git produced a clean three-way merge tree."
               conflict_paths=""
-            elif [[ "$merge_rc" -eq 1 ]]; then
-              merge_result="BLOCK — unresolved merge conflict(s); per-file review is required."
-              conflict_paths="$(printf '%s\n' "$merge_output" | tail -n +2 | sed '/^[[:space:]]*$/d' || true)"
-              has_conflicts=1
             else
-              merge_result="BLOCK — merge-tree returned an unexpected error."
-              conflict_paths="$merge_output"
-              has_errors=1
+              merge_rc=$?
+              if [[ "$merge_rc" -eq 1 ]]; then
+                merge_result="BLOCK — unresolved merge conflict(s); per-file review is required."
+                conflict_paths="$(printf '%s\n' "$merge_output" | tail -n +2 | sed '/^[[:space:]]*$/d' || true)"
+                has_conflicts=1
+              else
+                merge_result="BLOCK — merge-tree returned an unexpected error."
+                conflict_paths="$merge_output"
+                has_errors=1
+              fi
             fi
 
             if git diff --check "$base_sha...$head_sha"; then
@@ -147,14 +146,27 @@ jobs:
             head_changed="$(git diff --name-only "$merge_base" "$head_sha" | sort -u)"
             shared_paths="$(comm -12 <(printf '%s\n' "$base_changed") <(printf '%s\n' "$head_changed") | sed '/^$/d' || true)"
 
-            commit_status="$(gh api "repos/$GH_REPO/commits/$head_sha/status" --jq '.state' 2>/dev/null || echo unavailable)"
-            checks_json="$(gh api "repos/$GH_REPO/commits/$head_sha/check-runs?per_page=100" --jq '[.check_runs[] | {name, status, conclusion}]' 2>/dev/null || echo '[]')"
-            checks_summary="$(printf '%s' "$checks_json" | jq -r 'if length == 0 then "no check-runs reported" else map("\(.name): \(.status)/\(.conclusion // "pending")") | join("; ") end' 2>/dev/null || echo "check-run details unavailable")"
+            status_json="$(gh api "repos/$GH_REPO/commits/$head_sha/status" 2>/dev/null || echo '{}')"
+            status_state="$(printf '%s' "$status_json" | jq -r '.state // "unavailable"')"
+            status_failures="$(printf '%s' "$status_json" | jq -r '[.statuses[]? | select(.state == "failure" or .state == "error")] | length')"
+
+            checks_json="$(gh api "repos/$GH_REPO/commits/$head_sha/check-runs?per_page=100" --jq '[.check_runs[] | select(.name != "Analyze mergeability") | {name, status, conclusion}]' 2>/dev/null || echo '[]')"
+            checks_count="$(printf '%s' "$checks_json" | jq 'length')"
+            checks_pending="$(printf '%s' "$checks_json" | jq '[.[] | select(.status != "completed")] | length')"
+            checks_failed="$(printf '%s' "$checks_json" | jq '[.[] | select(.status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length')"
+            checks_summary="$(printf '%s' "$checks_json" | jq -r 'if length == 0 then "no native check-runs reported" else map("\(.name): \(.status)/\(.conclusion // "pending")") | join("; ") end')"
+
+            ci_result="PASS"
+            if [[ "$checks_count" -eq 0 || "$checks_pending" -gt 0 || "$checks_failed" -gt 0 || "$status_failures" -gt 0 ]]; then
+              ci_result="BLOCK — native CI is missing, pending or failing."
+              ci_errors=1
+            fi
 
             printf -- '- **Target:** `%s`\n' "$base_ref" >> "$summary"
             printf -- '- **Base SHA:** `%s`\n- **Incoming SHA:** `%s`\n' "$base_sha" "$head_sha" >> "$summary"
             printf -- '- **Merge analysis:** %s\n- **Whitespace check:** %s\n' "$merge_result" "$whitespace_result" >> "$summary"
-            printf -- '- **GitHub combined commit status:** %s\n- **Check runs:** %s\n' "$commit_status" "$checks_summary" >> "$summary"
+            printf -- '- **CI gate:** %s\n- **Legacy status state:** %s (%s failure/error contexts)\n' "$ci_result" "$status_state" "$status_failures" >> "$summary"
+            printf -- '- **Native check-runs:** %s\n' "$checks_summary" >> "$summary"
 
             if [[ -n "$shared_paths" ]]; then
               printf -- '- **Files changed on both sides (review candidates):**\n' >> "$summary"
@@ -175,13 +187,14 @@ jobs:
           done < "$TARGET_FILE"
 
           if [[ "$audited" -eq 0 ]]; then
-            printf 'No pull requests were audited.\n' >> "$summary"
+            printf 'No pull requests were audited; no merge-readiness conclusion is available.\n' >> "$summary"
+            has_errors=1
           fi
 
           cat "$summary" >> "$GITHUB_STEP_SUMMARY"
           printf 'Audited PRs: %s\n' "$audited"
 
-          if [[ "$has_errors" -ne 0 || "$has_conflicts" -ne 0 || "$whitespace_errors" -ne 0 ]]; then
+          if [[ "$has_errors" -ne 0 || "$has_conflicts" -ne 0 || "$whitespace_errors" -ne 0 || "$ci_errors" -ne 0 ]]; then
             exit 1
           fi
 
