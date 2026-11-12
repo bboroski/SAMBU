@@ -165,7 +165,10 @@ def robust_outlier_indices(values: Sequence[float | int], threshold: float = 3.5
     deviations = [abs(value - center) for value in numeric]
     mad = median(deviations)
     if mad == 0:
-        return [index for index, value in enumerate(numeric) if value != center]
+        nonzero_deviations = [deviation for deviation in deviations if deviation > 0]
+        if not nonzero_deviations:
+            return []
+        mad = median(nonzero_deviations)
     scale = 1.4826 * mad
     return [index for index, value in enumerate(numeric)
             if abs(value - center) / scale >= threshold]
