@@ -94,3 +94,8 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+
+## Багатошарова архітектура
+
+Репозиторій використовує NUN Mesh Multi-Axis Layer Fabric (MALF): [архітектурний контракт](MULTILAYER_ARCHITECTURE.md) · [машиночитана карта L0–L9](LAYER_MAP.json). Структурні межі перевіряються GitHub Actions workflow `.github/workflows/malf-layer-validation.yml`.
