@@ -170,6 +170,26 @@
         "sambu-module-manifest-v1",
         "public-repository-metadata"
       ]
+    },
+    {
+      "id": "jungelist-massive-coordinator",
+      "repository": "bboroski/Jungelist-Massive",
+      "role": "cross-repository-architecture-and-language-foundry-coordination",
+      "runtime": [
+        "Documentation-first architecture and roadmap coordination"
+      ],
+      "maturity": "bootstrap",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "cross-repository-roadmap-proposals-v1",
+        "federation-architecture-proposals-v1",
+        "language-foundry-research-specifications-v1"
+      ],
+      "consumes": [
+        "sambu-module-manifest-v1",
+        "versioned-adapter-descriptors",
+        "evidence-reports"
+      ]
     }
   ],
   "edges": [
@@ -249,6 +269,13 @@
       "kind": "optional-health-observation",
       "status": "adapter-ready",
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
+    },
+    {
+      "from": "sambu-core",
+      "to": "jungelist-massive-coordinator",
+      "kind": "federation-coordination-contract",
+      "status": "defined",
+      "scope": "Jungelist Massive coordinates cross-project proposals and language-foundry research; SAMBU retains authority over canonical module schema and registry semantics. No runtime dependency."
     }
   ],
   "shared_contracts": {
