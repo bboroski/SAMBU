@@ -99,3 +99,8 @@ Repository-specific engineering controls, seven-phase validation, typed-steaming
 ## LOVE-50 engineering profile
 
 This repository's application of the Chinese-maxim principles is documented in [SAMBU LOVE-50 adapter](docs/LOVE_50_ADAPTER.md). The profile is an engineering mapping, not a claim of implemented or verified runtime behaviour.
+
+
+## LOVE-50 engineering profile
+
+This repository's application of the Chinese-maxim principles is documented in [SAMBU LOVE-50 adapter](docs/LOVE_50_ADAPTER.md). The profile is guidance, not a claim of implemented or verified runtime behaviour.
