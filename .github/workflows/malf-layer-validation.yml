@@ -1,0 +1,70 @@
+name: MALF layer contract
+
+on:
+  pull_request:
+    paths:
+      - "LAYER_MAP.json"
+      - ".github/workflows/malf-layer-validation.yml"
+  push:
+    paths:
+      - "LAYER_MAP.json"
+      - ".github/workflows/malf-layer-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-layer-map:
+    name: Validate architecture layer map
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Validate MALF contract
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("LAYER_MAP.json")
+          if not path.is_file():
+              raise SystemExit("LAYER_MAP.json is missing")
+
+          data = json.loads(path.read_text(encoding="utf-8"))
+          required = {"schema_version", "architecture", "repository", "role", "maturity",
+                      "layers", "placement", "vertical_slices", "dependency_rules",
+                      "cross_cutting", "status_note"}
+          missing = required - data.keys()
+          if missing:
+              raise SystemExit(f"Missing top-level fields: {sorted(missing)}")
+          if data["schema_version"] != 1:
+              raise SystemExit("Unsupported layer-map schema_version")
+
+          expected = [f"L{i}" for i in range(10)]
+          actual = [layer.get("id") for layer in data["layers"]]
+          if actual != expected:
+              raise SystemExit(f"Layer IDs/order must be {expected}; got {actual}")
+          if len(set(actual)) != len(actual):
+              raise SystemExit("Layer IDs must be unique")
+
+          layer_ids = set(expected)
+          for entry in data["placement"]:
+              if entry.get("layer") not in layer_ids:
+                  raise SystemExit(f"Unknown placement layer: {entry.get('layer')}")
+              if not entry.get("area"):
+                  raise SystemExit("Every placement requires an area")
+          if not isinstance(data["vertical_slices"], list) or not data["vertical_slices"]:
+              raise SystemExit("At least one vertical slice is required")
+          for item in data["vertical_slices"]:
+              if not item.get("title") or not item.get("flow"):
+                  raise SystemExit("Each vertical slice requires title and flow")
+          if not data["dependency_rules"]:
+              raise SystemExit("Dependency rules must not be empty")
+          if not data["status_note"]:
+              raise SystemExit("A maturity/evidence status note is required")
+
+          print(f"MALF contract valid: {data['repository']} ({len(actual)} layers, "
+                f"{len(data['placement'])} placements, {len(data['vertical_slices'])} slices)")
+          PY
