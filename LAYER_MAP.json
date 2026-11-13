@@ -166,17 +166,17 @@
     {
       "id": "source-check",
       "title": "Source → static check",
-      "path": "CLI/IDE input → parser contract → AST and semantic domain → diagnostic policy → evidence-rich report."
+      "flow": "CLI/IDE input → parser contract → AST and semantic domain → diagnostic policy → evidence-rich report."
     },
     {
       "id": "compile",
       "title": "Source → compiler artifact",
-      "path": "Source → typed IR → validated lowering → backend adapter → artifact; unsupported stages must fail explicitly, never fabricate completion."
+      "flow": "Source → typed IR → validated lowering → backend adapter → artifact; unsupported stages must fail explicitly, never fabricate completion."
     },
     {
       "id": "scientific-workflow",
       "title": "Scientific workflow",
-      "path": "Versioned model input → dimensional validation → deterministic calculation/sampling → persisted result and reproducibility metadata."
+      "flow": "Versioned model input → dimensional validation → deterministic calculation/sampling → persisted result and reproducibility metadata."
     }
   ],
   "dependency_rules": [
