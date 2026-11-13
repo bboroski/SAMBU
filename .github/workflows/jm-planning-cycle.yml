@@ -1,0 +1,125 @@
+name: JUNGELIST MASSIVE — Planning Cycle
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run a planning audit or execute safe CI recovery"
+        required: true
+        type: choice
+        options:
+          - plan
+          - safe-recovery
+        default: plan
+  schedule:
+    - cron: "17 7 * * 1-6"
+    - cron: "17 8 * * 0"
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: jm-planning-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  planning:
+    name: Inspect repository and maintain its action plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Build planning report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const mode = context.eventName === "workflow_dispatch"
+              ? (context.payload.inputs?.mode || "plan")
+              : "plan";
+
+            const [repoInfo, issues, prs, runs, branches] = await Promise.all([
+              github.rest.repos.get({ owner, repo }),
+              github.rest.issues.listForRepo({ owner, repo, state: "open", per_page: 100 }),
+              github.rest.pulls.list({ owner, repo, state: "open", per_page: 100 }),
+              github.rest.actions.listWorkflowRunsForRepo({ owner, repo, per_page: 20 }),
+              github.rest.repos.listBranches({ owner, repo, per_page: 100 })
+            ]);
+
+            const now = Date.now();
+            const days = (date) => Math.floor((now - new Date(date).getTime()) / 86400000);
+            const failedRuns = runs.data.workflow_runs.filter(r =>
+              ["failure", "cancelled", "timed_out", "action_required"].includes(r.conclusion)
+            ).slice(0, 5);
+            const agedPRs = prs.data.filter(p => days(p.updated_at) >= 7);
+            const agedIssues = issues.data.filter(i => !i.pull_request && days(i.updated_at) >= 14);
+            const draftPRs = prs.data.filter(p => p.draft);
+            const defaultBranch = repoInfo.data.default_branch;
+
+            const lines = [];
+            lines.push("## Repository snapshot");
+            lines.push(`- Default branch: \`${defaultBranch}\``);
+            lines.push(`- Open issues: ${issues.data.filter(i => !i.pull_request).length}`);
+            lines.push(`- Open pull requests: ${prs.data.length} (${draftPRs.length} draft)`);
+            lines.push(`- Branches visible in first page: ${branches.data.length}`);
+            lines.push(`- Failed/cancelled recent workflow runs: ${failedRuns.length}`);
+            lines.push("");
+            lines.push("## Prioritized action plan");
+
+            let n = 1;
+            if (failedRuns.length) {
+              lines.push("### P0 — Restore CI health");
+              for (const r of failedRuns) {
+                lines.push(`${n++}. Investigate **${r.name}** (${r.conclusion}) — [run #${r.run_number}](${r.html_url}), updated ${days(r.updated_at)} day(s) ago.`);
+              }
+            }
+            if (agedPRs.length) {
+              lines.push("### P1 — Review aging pull requests");
+              for (const p of agedPRs.slice(0, 10)) lines.push(`${n++}. Review [#${p.number} ${p.title}](${p.html_url}) — unchanged for ${days(p.updated_at)} day(s).`);
+            }
+            if (agedIssues.length) {
+              lines.push("### P2 — Triage aging issues");
+              for (const i of agedIssues.slice(0, 10)) lines.push(`${n++}. Triage [#${i.number} ${i.title}](${i.html_url}) — unchanged for ${days(i.updated_at)} day(s).`);
+            }
+            if (n === 1) {
+              lines.push("No urgent workflow failures or aging PRs/issues detected in the inspected first page. Next: review architecture, tests, documentation, dependency freshness, and release readiness.");
+            }
+            lines.push("");
+            lines.push("## Execution policy");
+            lines.push("- This workflow inventories and prioritizes work; it does not modify source code, merge PRs, close issues, or change branch protections.");
+            lines.push("- Implement each task on a focused branch and pull request; require CI and review before merging.");
+            lines.push("- Safe CI recovery is an explicit manual action only. It retries failed jobs from the latest failed workflow runs and does not alter source.");
+            lines.push("");
+            lines.push(`<sub>Generated automatically by JUNGELIST MASSIVE Planning Cycle. Snapshot: ${new Date().toISOString()}.</sub>`);
+            const body = [
+              "<!-- JM-PLANNING-CYCLE -->",
+              "# JUNGELIST MASSIVE — Repository Action Plan",
+              "",
+              "This is the living planning issue for this repository. It is refreshed by scheduled GitHub Actions.",
+              "",
+              ...lines
+            ].join("\n");
+
+            const existing = issues.data.find(i => i.body?.includes("<!-- JM-PLANNING-CYCLE -->"));
+            if (existing) {
+              await github.rest.issues.update({ owner, repo, issue_number: existing.number, body });
+              core.info(`Updated planning issue #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner, repo,
+                title: "JUNGELIST MASSIVE: rolling repository plan",
+                body
+              });
+              core.info(`Created planning issue #${created.data.number}`);
+            }
+
+            if (mode === "safe-recovery") {
+              const latest = failedRuns.slice(0, 3);
+              for (const run of latest) {
+                await github.rest.actions.reRunFailedJobs({ owner, repo, run_id: run.id });
+                core.info(`Requested retry of failed jobs for run #${run.run_number}`);
+              }
+              if (!latest.length) core.info("No failed workflow runs eligible for retry.");
+            }
