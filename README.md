@@ -94,3 +94,8 @@ MIT
 ## Anti-Teradayn Protocol
 
 Repository-specific engineering controls, seven-phase validation, typed-steaming rules, and acceptance checklist: [docs/ANTI_TERADAYN_PROTOCOL.md](docs/ANTI_TERADAYN_PROTOCOL.md).
+
+
+## OMEGA product upgrade
+
+Repository-specific architecture, graphical-design and verification contract: [docs/OMEGA_PRODUCT_UPGRADE.md](docs/OMEGA_PRODUCT_UPGRADE.md). The document distinguishes proposed work from implemented and tested capabilities.
