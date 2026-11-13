@@ -1,0 +1,27 @@
+name: Modular monolith profile
+on:
+  push:
+    paths:
+      - "ARCHITECTURE_PROFILE.json"
+      - "tools/validate_architecture_profile.py"
+      - ".github/workflows/modular-monolith-profile.yml"
+  pull_request:
+    paths:
+      - "ARCHITECTURE_PROFILE.json"
+      - "tools/validate_architecture_profile.py"
+      - ".github/workflows/modular-monolith-profile.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-profile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validator self-test
+        run: python tools/validate_architecture_profile.py --self-test
+      - name: Validate repository composition profile
+        run: python tools/validate_architecture_profile.py

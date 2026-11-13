@@ -1,0 +1,112 @@
+{
+  "schema_version": "bboroski.modular-monolith-profile.v1",
+  "project": "SAMBU",
+  "maturity": "experimental-alpha",
+  "architecture": {
+    "mode": "modular-monolith",
+    "scope": "Python-hosted language and scientific workbench with a separately bounded C11 native compiler slice.",
+    "runtime_boundary": "Host Python runtime; native compiler slice is independently built and tested.",
+    "composition_rule": "Compose language, science, voxel and IDE capabilities through owned package interfaces; do not pull the Python runtime into freestanding targets."
+  },
+  "entrypoints": [
+    {
+      "path": "one.py",
+      "kind": "developer-cli"
+    },
+    {
+      "path": "sambu/__main__.py",
+      "kind": "python-module"
+    }
+  ],
+  "components": [
+    {
+      "id": "language-core",
+      "responsibility": "Lexer, parser, AST, scopes and semantic checks.",
+      "status": "implemented",
+      "integration": "in-process"
+    },
+    {
+      "id": "scientific-modeling",
+      "responsibility": "SI quantities, dimensional analysis and reproducible sampling.",
+      "status": "implemented",
+      "integration": "in-process"
+    },
+    {
+      "id": "voxel-space",
+      "responsibility": "Sparse spatial structures and Morton indexing.",
+      "status": "implemented",
+      "integration": "in-process"
+    },
+    {
+      "id": "native-compiler-slice",
+      "responsibility": "Typed C11 IR and platform boundary; not a complete native compiler.",
+      "status": "partial",
+      "integration": "static-link"
+    },
+    {
+      "id": "ide-and-tools",
+      "responsibility": "CLI, IDE, test runner and developer workflows.",
+      "status": "implemented",
+      "integration": "in-process"
+    }
+  ],
+  "dependencies": [
+    {
+      "project": "Kloz",
+      "relationship": "platform ABI reference",
+      "runtime_dependency": false
+    },
+    {
+      "project": "CO",
+      "relationship": "lifecycle contract reference",
+      "runtime_dependency": false
+    },
+    {
+      "project": "SaintSI",
+      "relationship": "assurance contract reference",
+      "runtime_dependency": false
+    }
+  ],
+  "preserved_boundaries": [
+    "Python-hosted execution remains explicit.",
+    "Native compiler slice has its own ABI and build profile.",
+    "Scientific dimensions and spatial indexing remain separate domain modules."
+  ],
+  "forbidden_composition": [
+    "Do not link Python runtime into freestanding kernel targets.",
+    "Do not equate module metadata with binary/runtime dependency.",
+    "Do not label the native compiler slice as a complete compiler."
+  ],
+  "build_profiles": [
+    {
+      "id": "python-host",
+      "status": "declared",
+      "commands": [
+        "python -m pip install -e .",
+        "python -m pytest"
+      ],
+      "evidence": [
+        "pyproject.toml",
+        "sambu/__main__.py",
+        "tests"
+      ]
+    },
+    {
+      "id": "native-c11-slice",
+      "status": "declared",
+      "commands": [
+        "cmake -S native -B build/native",
+        "cmake --build build/native",
+        "ctest --test-dir build/native"
+      ],
+      "evidence": [
+        "native/src/ir.c",
+        "native/tests/test_ir.c"
+      ]
+    }
+  ],
+  "gaps": [
+    "Run and record Python and native test suites on supported hosts.",
+    "Complete compiler feature and target-qualification evidence before raising maturity."
+  ]
+}

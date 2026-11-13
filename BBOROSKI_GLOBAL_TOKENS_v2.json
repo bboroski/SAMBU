@@ -1,0 +1,42 @@
+{
+  "schema": "bboroski.design-tokens/v2",
+  "project": "SAMBU",
+  "tag": "Scientific Modeling & Automation Environment",
+  "mode": "dark",
+  "colors": {
+    "canvas": "#0D0D0D",
+    "surface": "#141414",
+    "raised": "#1C1C1C",
+    "edge": "#303030",
+    "text": "#E6E6E6",
+    "muted": "#999999",
+    "accent": "#39D7E8",
+    "accentSecondary": "#FFD600",
+    "success": "#45D483",
+    "warning": "#FFD600",
+    "danger": "#FF5B62",
+    "info": "#66BFFF"
+  },
+  "typography": {
+    "ui": "Inter, Segoe UI, sans-serif",
+    "mono": "JetBrains Mono, Consolas, monospace"
+  },
+  "layout": {
+    "grid": 8,
+    "radius": 10,
+    "contentMax": 1440,
+    "sidebarWidth": 248,
+    "scaleMin": 1,
+    "scaleMax": 2
+  },
+  "accessibility": {
+    "contrastTarget": "WCAG AA",
+    "focusVisible": true,
+    "reducedMotion": true
+  },
+  "visual": {
+    "motif": "voxel",
+    "strokeWidth": 2,
+    "sampleDataMustBeLabeled": true
+  }
+}
