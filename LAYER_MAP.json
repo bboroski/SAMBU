@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "architecture": "NUN Mesh Multi-Axis Layer Fabric (MALF)",
+  "repository": "bboroski/SAMBU",
+  "role": "Scientific modeling, language engineering and automation environment",
+  "maturity": "Experimental alpha; Python-hosted workflow with a partial native compiler slice.",
+  "layers": [
+    {
+      "id": "L0",
+      "name": "Experience",
+      "responsibility": "CLI, GUI, portal, operator workflows; no business rules here."
+    },
+    {
+      "id": "L1",
+      "name": "Interface contracts",
+      "responsibility": "Public APIs, commands, schemas, ABI, events and versioned message formats."
+    },
+    {
+      "id": "L2",
+      "name": "Application orchestration",
+      "responsibility": "Use cases, workflows, sequencing, retries and transaction boundaries."
+    },
+    {
+      "id": "L3",
+      "name": "Domain kernel",
+      "responsibility": "Core models, invariants, algorithms and deterministic business logic."
+    },
+    {
+      "id": "L4",
+      "name": "Policy and capability",
+      "responsibility": "Authorization, safety gates, resource limits, maturity and allowed-operation policy."
+    },
+    {
+      "id": "L5",
+      "name": "Ports and contracts",
+      "responsibility": "Abstract clocks, storage, device, network, filesystem, compiler and platform interfaces."
+    },
+    {
+      "id": "L6",
+      "name": "Adapters and platform",
+      "responsibility": "Concrete OS, board, browser, hardware, protocol and external-service implementations."
+    },
+    {
+      "id": "L7",
+      "name": "State and data",
+      "responsibility": "Schemas, registries, persistence, caches, artifacts, migrations and provenance."
+    },
+    {
+      "id": "L8",
+      "name": "Runtime and delivery",
+      "responsibility": "Processes, boot, packaging, deployment, build graph, configuration and operational lifecycle."
+    },
+    {
+      "id": "L9",
+      "name": "Assurance and evidence",
+      "responsibility": "Unit/integration/system tests, static analysis, benchmarks, logs, attestations and qualification evidence."
+    }
+  ],
+  "placement": [
+    {
+      "layer": "L0",
+      "area": "Developer experience",
+      "components": [
+        "CLI",
+        "Tkinter IDE",
+        "SAMBU Studio"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L1",
+      "area": "Language and tool contracts",
+      "components": [
+        "lexer/parser APIs",
+        "AST and typed IR",
+        "sambu.module.json"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L2",
+      "area": "Use-case orchestration",
+      "components": [
+        "CLI workflows",
+        "project workflows",
+        "compiler orchestration"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L3",
+      "area": "Language and scientific domain",
+      "components": [
+        "lexer/parser",
+        "AST",
+        "semantic analysis",
+        "scientific models",
+        "spatial models"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L4",
+      "area": "Execution and capability policy",
+      "components": [
+        "execution policy",
+        "capability declarations",
+        "resource limits"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L5",
+      "area": "Compiler/runtime ports",
+      "components": [
+        "compiler interfaces",
+        "module interfaces",
+        "diagnostic interfaces"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L6",
+      "area": "Backend and host adapters",
+      "components": [
+        "Python host",
+        "C11 native compiler slice",
+        "Swift backend",
+        "IDE adapters"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L7",
+      "area": "Project and artifact data",
+      "components": [
+        "module manifests",
+        "schemas",
+        "data",
+        "build artifacts"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L8",
+      "area": "Runtime and packaging",
+      "components": [
+        "pyproject.toml",
+        "CMake",
+        "packaging"
+      ],
+      "status": "existing-or-target"
+    },
+    {
+      "layer": "L9",
+      "area": "Language and compiler verification",
+      "components": [
+        "tests",
+        "benchmarks",
+        "architecture checks"
+      ],
+      "status": "existing-or-target"
+    }
+  ],
+  "vertical_slices": [
+    {
+      "id": "source-check",
+      "title": "Source → static check",
+      "path": "CLI/IDE input → parser contract → AST and semantic domain → diagnostic policy → evidence-rich report."
+    },
+    {
+      "id": "compile",
+      "title": "Source → compiler artifact",
+      "path": "Source → typed IR → validated lowering → backend adapter → artifact; unsupported stages must fail explicitly, never fabricate completion."
+    },
+    {
+      "id": "scientific-workflow",
+      "title": "Scientific workflow",
+      "path": "Versioned model input → dimensional validation → deterministic calculation/sampling → persisted result and reproducibility metadata."
+    }
+  ],
+  "dependency_rules": [
+    "presentation-to-application-through-versioned-interface",
+    "application-to-domain-and-policy-through-ports",
+    "adapters-implement-ports; domain-never-imports-adapters",
+    "state-access-through-versioned-repositories-or-storage-ports",
+    "runtime-composes-inner-layers; inner-layers-never-depend-on-runtime",
+    "cross-repository-dependencies-require-versioned-contracts"
+  ],
+  "cross_cutting": [
+    "security-and-trust",
+    "reliability-and-bounds",
+    "compatibility-and-versioning",
+    "observability-and-provenance",
+    "accessibility-where-applicable",
+    "measured-performance"
+  ],
+  "guardrails": "Do not label SAMBU a complete native compiler, universal sandbox, operating system or unrestricted automation runtime. A declaration, preview or planned backend is not evidence of execution. Keep host process/device/network access behind explicit adapters and authorization.",
+  "status_note": "This map is an architecture contract, not proof that every mapped capability is implemented. Verify each claim against source, tests and target evidence."
+}
