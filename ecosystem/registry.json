@@ -352,8 +352,8 @@
       "from": "kloz-platform",
       "to": "co-lifecycle",
       "kind": "optional-platform-adapter",
-      "status": "adapter-ready",
-      "scope": "Application callback context may carry Kloz platform operations."
+      "status": "defined",
+      "scope": "Future application-owned context composition; the current CO platform header reports target facts but no direct Kloz adapter header is present."
     },
     {
       "from": "kloz-platform",
