@@ -459,6 +459,13 @@
       "kind": "read-only-diagnostic-evidence-adapter",
       "status": "defined",
       "scope": "Planned compatibility only; BlopScore remains design-only and has no live device integration."
+    },
+    {
+      "from": "co-lifecycle",
+      "to": "reapercripple-hardware",
+      "kind": "optional-lifecycle-adapter",
+      "status": "defined",
+      "scope": "Potential application-owned lifecycle composition; no direct ReaperCripple-to-CO adapter header is currently present."
     }
   ],
   "shared_contracts": {
