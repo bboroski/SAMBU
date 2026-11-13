@@ -170,6 +170,139 @@
         "sambu-module-manifest-v1",
         "public-repository-metadata"
       ]
+    },
+    {
+      "id": "jungelist-massive-coordinator",
+      "repository": "bboroski/Jungelist-Massive",
+      "role": "cross-repository-architecture-and-language-foundry-coordination",
+      "runtime": [
+        "Documentation-first architecture and roadmap coordination"
+      ],
+      "maturity": "bootstrap",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "cross-repository-roadmap-proposals-v1",
+        "federation-architecture-proposals-v1",
+        "language-foundry-research-specifications-v1"
+      ],
+      "consumes": [
+        "sambu-module-manifest-v1",
+        "versioned-adapter-descriptors",
+        "evidence-reports"
+      ]
+    },
+    {
+      "id": "luci-engineering-control-plane",
+      "repository": "bboroski/Luci",
+      "role": "developer-oriented-engineering-domain-control-plane",
+      "runtime": [
+        "Python >=3.10",
+        "Python standard library"
+      ],
+      "maturity": "experimental-foundation",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "luci-cli-v1",
+        "thirteen-domain-taxonomy-v1",
+        "ecosystem-reference-registry-v1",
+        "local-manifest-validation-v1",
+        "default-deny-policy-baseline-v1",
+        "duck-developer-ui-tokens-v1"
+      ],
+      "consumes": [
+        "sambu-module-manifest-v1",
+        "versioned-adapter-descriptors",
+        "evidence-reports"
+      ]
+    },
+    {
+      "id": "nun-kernel",
+      "repository": "bboroski/NUN",
+      "role": "early-x86_64-kernel-substrate-and-versioned-boot-memory-execution-contracts",
+      "runtime": [
+        "Freestanding C/C++ kernel targets",
+        "Host-side build and validation tooling"
+      ],
+      "maturity": "early-x86_64-kernel-bring-up",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "nun-kernel-image-v1",
+        "nun-boot-info-v1",
+        "nun-memory-map-contract-v1",
+        "nun-architecture-contracts-v1"
+      ],
+      "consumes": [
+        "kloz-platform-abi-v1",
+        "co-lifecycle-runtime-v1",
+        "saintsi-assurance-observation-v1",
+        "reapercripple-bootstrap-contract-v1",
+        "toolng-policy-contract-v1",
+        "sambu-module-manifest-v1",
+        "klipot-registry-v1"
+      ]
+    },
+    {
+      "id": "nunlauncher-admission",
+      "repository": "bboroski/NUNLauncher",
+      "role": "host-side-kernel-image-admission-and-pre-handoff-metadata-validation",
+      "runtime": [
+        "C11 host validator",
+        "Python host-side image manifest verification"
+      ],
+      "maturity": "pre-handoff-image-admission-unsigned",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "nun-image-admission-v1",
+        "nun-boot-metadata-validation-v1"
+      ],
+      "consumes": [
+        "nun-kernel-image-v1",
+        "nun-boot-info-v1"
+      ]
+    },
+    {
+      "id": "fragile-baby-e2k-qualification",
+      "repository": "bboroski/Fragile-Baby",
+      "role": "elbrus-e2k-architecture-and-platform-qualification-workstream",
+      "runtime": [
+        "Host-side Python evidence tooling",
+        "Elbrus/E2K target toolchain (not yet qualified)"
+      ],
+      "maturity": "architecture-proposal-target-evidence-pending",
+      "manifest": "sambu.module.json",
+      "provides": [
+        "e2k-platform-qualification-evidence-v1"
+      ],
+      "consumes": [
+        "exact-cpu-stepping-and-abi-profile",
+        "vendor-toolchain-and-target-evidence"
+      ]
+    },
+    {
+      "id": "blopscore-hardware-inspection",
+      "repository": "bboroski/BlopScore",
+      "role": "native-windows-hardware-inspection-application-design",
+      "runtime": [
+        "Windows 11 x64 target (implementation not verified)"
+      ],
+      "maturity": "design-only",
+      "manifest": "sambu.module.json",
+      "provides": [],
+      "consumes": [
+        "read-only-hardware-observation-contract-v1"
+      ]
+    },
+    {
+      "id": "nine-circ-unclassified",
+      "repository": "bboroski/9circ",
+      "role": "unclassified-project-pending-owner-scope-and-source-inventory",
+      "runtime": [
+        "unknown"
+      ],
+      "maturity": "unknown",
+      "manifest": "sambu.module.json",
+      "provides": [],
+      "consumes": []
     }
   ],
   "edges": [
@@ -219,8 +352,8 @@
       "from": "kloz-platform",
       "to": "co-lifecycle",
       "kind": "optional-platform-adapter",
-      "status": "adapter-ready",
-      "scope": "Application callback context may carry Kloz platform operations."
+      "status": "defined",
+      "scope": "Future application-owned context composition; the current CO platform header reports target facts but no direct Kloz adapter header is present."
     },
     {
       "from": "kloz-platform",
@@ -249,6 +382,90 @@
       "kind": "optional-health-observation",
       "status": "adapter-ready",
       "scope": "Observation informs policy; it never authorizes an actuator or reset."
+    },
+    {
+      "from": "sambu-core",
+      "to": "jungelist-massive-coordinator",
+      "kind": "federation-coordination-contract",
+      "status": "defined",
+      "scope": "Jungelist Massive coordinates cross-project proposals and language-foundry research; SAMBU retains authority over canonical module schema and registry semantics. No runtime dependency."
+    },
+    {
+      "from": "kloz-platform",
+      "to": "nun-kernel",
+      "kind": "submodule-platform-contract",
+      "status": "mirrored",
+      "scope": "Pinned source submodule; target-specific kernel integration remains subject to NUN build and target validation."
+    },
+    {
+      "from": "co-lifecycle",
+      "to": "nun-kernel",
+      "kind": "submodule-lifecycle-contract",
+      "status": "mirrored",
+      "scope": "Pinned source submodule; not an RTOS and not proof of linked runtime integration."
+    },
+    {
+      "from": "saintsi-assurance",
+      "to": "nun-kernel",
+      "kind": "submodule-observation-contract",
+      "status": "mirrored",
+      "scope": "Pinned source submodule; observation only and no watchdog actuation."
+    },
+    {
+      "from": "reapercripple-hardware",
+      "to": "nun-kernel",
+      "kind": "submodule-platform-evidence-contract",
+      "status": "mirrored",
+      "scope": "Pinned source submodule; board-specific use requires exact target evidence."
+    },
+    {
+      "from": "toolng-diagnostics",
+      "to": "nun-kernel",
+      "kind": "submodule-policy-contract",
+      "status": "mirrored",
+      "scope": "Policy semantics only; no desktop runtime or Python interpreter in the kernel image."
+    },
+    {
+      "from": "sambu-core",
+      "to": "nun-kernel",
+      "kind": "host-metadata-contract",
+      "status": "mirrored",
+      "scope": "Manifest and host tooling conventions only; no SAMBU Python runtime in the kernel image."
+    },
+    {
+      "from": "klipot-control-plane",
+      "to": "nun-kernel",
+      "kind": "metadata-projection-contract",
+      "status": "mirrored",
+      "scope": "Registry and operator documentation projection only; no browser runtime in the kernel image."
+    },
+    {
+      "from": "nun-kernel",
+      "to": "nunlauncher-admission",
+      "kind": "kernel-image-admission-contract",
+      "status": "adapter-ready",
+      "scope": "NUNLauncher validates NUN image metadata before handoff; it does not execute or authenticate the image."
+    },
+    {
+      "from": "sambu-core",
+      "to": "luci-engineering-control-plane",
+      "kind": "module-manifest-validation-contract",
+      "status": "implemented",
+      "scope": "Luci validates local SAMBU module metadata and policy references; no remote code execution."
+    },
+    {
+      "from": "toolng-diagnostics",
+      "to": "blopscore-hardware-inspection",
+      "kind": "read-only-diagnostic-evidence-adapter",
+      "status": "defined",
+      "scope": "Planned compatibility only; BlopScore remains design-only and has no live device integration."
+    },
+    {
+      "from": "co-lifecycle",
+      "to": "reapercripple-hardware",
+      "kind": "optional-lifecycle-adapter",
+      "status": "defined",
+      "scope": "Potential application-owned lifecycle composition; no direct ReaperCripple-to-CO adapter header is currently present."
     }
   ],
   "shared_contracts": {
